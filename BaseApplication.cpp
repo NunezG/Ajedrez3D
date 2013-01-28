@@ -16,7 +16,7 @@ This source file is part of the
 */
 #include "BaseApplication.h"
 
-
+TESTGIT
 //-------------------------------------------------------------------------------------
 BaseApplication::BaseApplication(void)
     : mRoot(0),
