@@ -47,6 +47,7 @@ protected:
     virtual void createScene(void);
     void creaCasillas(Ogre::SceneNode* nodoBase);
     void creaFichas(Ogre::SceneNode* nodoBase);
+    bool  FichaComestible(void);
 
 
 

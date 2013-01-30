@@ -16,7 +16,6 @@ This source file is part of the
 */
 #include "BaseApplication.h"
 
-TESTGIT OTRA VEZ MAS
 //-------------------------------------------------------------------------------------
 BaseApplication::BaseApplication(void)
     : mRoot(0),
@@ -25,22 +24,25 @@ BaseApplication::BaseApplication(void)
     mWindow(0),
     mResourcesCfg(Ogre::StringUtil::BLANK),
     mPluginsCfg(Ogre::StringUtil::BLANK),
-    mTrayMgr(0),
+   // mTrayMgr(0),
     //mCameraMan(0),
-    mDetailsPanel(0),
+  //  mOutputDebugPanel(0),
     mCursorWasVisible(false),
     mShutDown(false),
     mInputManager(0),
     mInputMan(0),
     mMouse(0),
-    mKeyboard(0)
+    mKeyboard(0),
+    mLastStatUpdateTime(0),
+    mCursor(0)
 {
+
 }
 
 //-------------------------------------------------------------------------------------
 BaseApplication::~BaseApplication(void)
 {
-    if (mTrayMgr) delete mTrayMgr;
+   // if (mTrayMgr) delete mTrayMgr;
     if (mInputMan) delete mInputMan;
 
     //Remove ourself as a Window listener
@@ -121,32 +123,32 @@ void BaseApplication::createFrameListener(void)
 
 
 
-    mTrayMgr = new OgreBites::SdkTrayManager("InterfaceName", mWindow, mMouse, this);
+  //  mTrayMgr = new OgreBites::SdkTrayManager("MiTrayManager", mWindow, mMouse, this);
 
-    mTrayMgr->showTrays();
+  //  mTrayMgr->showTrays();
     //mTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
     //mTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
    // mTrayMgr->hideCursor();
 
     // create a params panel for displaying sample details
-    Ogre::StringVector items;
-    items.push_back("cam.pX");
-    items.push_back("cam.pY");
-    items.push_back("cam.pZ");
-    items.push_back("");
-    items.push_back("cam.oW");
-    items.push_back("cam.oX");
-    items.push_back("cam.oY");
-    items.push_back("cam.oZ");
-    items.push_back("");
-    items.push_back("Filtering");
-    items.push_back("Poly Mode");
+ //   Ogre::StringVector items;
+ //   items.push_back("Línea 1:");
+/*    items.push_back("Línea 2:");
+    items.push_back("Línea 3:");
+    items.push_back("Línea 4:");
+    items.push_back("Línea 5:");
+    items.push_back("Línea 6:");
+    items.push_back("Línea 7:");
+    items.push_back("Línea 8:");
+    items.push_back("Línea 9:");
+    items.push_back("Línea 10:");
+    items.push_back("Línea 11:");
 
-    mDetailsPanel = mTrayMgr->createParamsPanel(OgreBites::TL_NONE, "DetailsPanel", 200, items);
-    mDetailsPanel->setParamValue(9, "Bilinear");
-    mDetailsPanel->setParamValue(10, "Solid");
-    mDetailsPanel->hide();
-
+    mOutputDebugPanel = mTrayMgr->createParamsPanel(OgreBites::TL_NONE, "DebugPanel", 600, items);
+    mOutputDebugPanel->setParamValue(9, "Bilinear");
+    mOutputDebugPanel->setParamValue(10, "Solid");
+    mOutputDebugPanel->hide();
+*/
     mRoot->addFrameListener(this);
 
     createOverlay();
@@ -224,6 +226,7 @@ void BaseApplication::go(void)
 bool BaseApplication::setup(void)
 {
     mRoot = new Ogre::Root(mPluginsCfg);
+    mTimer = Ogre::Root::getSingleton().getTimer();
 
     setupResources();
 
@@ -263,25 +266,96 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
 
-    mTrayMgr->frameRenderingQueued(evt);
-
-    if (!mTrayMgr->isDialogVisible())
-    {
+    // mTrayMgr->frameRenderingQueued(evt);
+    BaseApplication::statUpdate(evt);
+   // if (!mTrayMgr->isDialogVisible())
+ //   {
         mInputMan->frameRenderingQueued(evt);   // if dialog isn't up, then update the camera
-        if (mDetailsPanel->isVisible())   // if details panel is visible, then update its contents
+   //     if (mOutputDebugPanel->isVisible())   // if details panel is visible, then update its contents
+     //   {
+           //   mOutputDebugPanel->setParamValue(0, Ogre::StringConverter::toString(mCamera->getDerivedPosition().x));
+           //   mOutputDebugPanel->setParamValue(1, Ogre::StringConverter::toString(mCamera->getDerivedPosition().y));
+           //   mOutputDebugPanel->setParamValue(2, Ogre::StringConverter::toString(mCamera->getDerivedPosition().z));
+          //    mOutputDebugPanel->setParamValue(4, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().w));
+           //   mOutputDebugPanel->setParamValue(5, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().x));
+          //    mOutputDebugPanel->setParamValue(6, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().y));
+          //  mOutputDebugPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
+      //  }
+   // }
+
+    return true;
+}
+
+
+
+bool areFrameStatsVisible()
+{
+    return true;//mFpsLabel != 0;
+}
+
+
+/*-----------------------------------------------------------------------------
+| Process frame events. Updates frame statistics widget set and deletes
+| all widgets queued for destruction.
+-----------------------------------------------------------------------------*/
+bool BaseApplication::statUpdate(const Ogre::FrameEvent& evt)
+{
+
+
+    unsigned long currentTime = mTimer->getMilliseconds();
+    if (areFrameStatsVisible() && currentTime - mLastStatUpdateTime > 250)
+    {
+        Ogre::RenderTarget::FrameStats stats = mWindow->getStatistics();
+
+        mLastStatUpdateTime = currentTime;
+
+        Ogre::String s("FPS: ");
+        s += Ogre::StringConverter::toString((int)stats.lastFPS);
+
+        for (int i = s.length() - 5; i > 5; i -= 3) { s.insert(i, 1, ','); }
+       // mFpsLabel->setCaption(s);
+
+    /*    if (mStatsPanel->getOverlayElement()->isVisible())
         {
-            mDetailsPanel->setParamValue(0, Ogre::StringConverter::toString(mCamera->getDerivedPosition().x));
-            mDetailsPanel->setParamValue(1, Ogre::StringConverter::toString(mCamera->getDerivedPosition().y));
-            mDetailsPanel->setParamValue(2, Ogre::StringConverter::toString(mCamera->getDerivedPosition().z));
-            mDetailsPanel->setParamValue(4, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().w));
-            mDetailsPanel->setParamValue(5, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().x));
-            mDetailsPanel->setParamValue(6, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().y));
-          //  mDetailsPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
+            Ogre::StringVector values;
+            std::ostringstream oss;
+
+            oss.str("");
+            oss << std::fixed << std::setprecision(1) << stats.avgFPS;
+            Ogre::String str = oss.str();
+            for (int i = str.length() - 5; i > 0; i -= 3) { str.insert(i, 1, ','); }
+            values.push_back(str);
+
+            oss.str("");
+            oss << std::fixed << std::setprecision(1) << stats.bestFPS;
+            str = oss.str();
+            for (int i = str.length() - 5; i > 0; i -= 3) { str.insert(i, 1, ','); }
+            values.push_back(str);
+
+            oss.str("");
+            oss << std::fixed << std::setprecision(1) << stats.worstFPS;
+            str = oss.str();
+            for (int i = str.length() - 5; i > 0; i -= 3) { str.insert(i, 1, ','); }
+            values.push_back(str);
+
+            str = Ogre::StringConverter::toString(stats.triangleCount);
+            for (int i = str.length() - 3; i > 0; i -= 3) { str.insert(i, 1, ','); }
+            values.push_back(str);
+
+            str = Ogre::StringConverter::toString(stats.batchCount);
+            for (int i = str.length() - 3; i > 0; i -= 3) { str.insert(i, 1, ','); }
+            values.push_back(str);
+
+            mStatsPanel->setAllParamValues(values);
         }
+*/
     }
 
     return true;
 }
+
+
+
 //-------------------------------------------------------------------------------------
 bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 {
@@ -303,23 +377,24 @@ bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 
 bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 {
-    if (mTrayMgr->injectMouseMove(arg)) return true;
+    mCursor->setPosition(mMouse->getMouseState().X.abs, mMouse->getMouseState().Y.abs);
+   // if (mTrayMgr->injectMouseMove(arg)) return true;
     mInputMan->injectMouseMove(arg);
     return true;
 }
 
 bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    mTrayMgr->hideCursor();
-    if (mTrayMgr->injectMouseDown(arg, id)) return true;
+  //  mTrayMgr->hideCursor();
+   // if (mTrayMgr->injectMouseDown(arg, id)) return true;
    mInputMan->injectMouseDown(arg, id);
     return true;
 }
 
 bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    mTrayMgr->showCursor();
-   if (mTrayMgr->injectMouseUp(arg, id)) return true;
+  //  mTrayMgr->showCursor();
+   //if (mTrayMgr->injectMouseUp(arg, id)) return true;
    mInputMan->injectMouseUp(arg, id);
     return true;
 }
@@ -367,5 +442,8 @@ void BaseApplication::createOverlay() {
   mOverlayManager = Ogre::OverlayManager::getSingletonPtr();
   Ogre::Overlay *overlay = mOverlayManager->getByName("Info");
   overlay->show();
+  mCursor = (Ogre::OverlayContainer*)mOverlayManager->getOverlayElement("cursor");
+ // mCursor =  (Ogre::OverlayContainer*)mOverlayManager->createOverlayElementFromTemplate("cursor", "Panel", "Cursor");
+ // mCursor = mOverlayManager->getOverlayElement("cursor");
 }
 

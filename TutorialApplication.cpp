@@ -26,7 +26,6 @@ TutorialApplication::TutorialApplication(void)
       turnoNegras(0),
       textoOverlay("VACIO")
 {
-    std::cout << "CONTRUCTOR HIJO" << std::endl;
 }
 //-------------------------------------------------------------------------------------
 TutorialApplication::~TutorialApplication(void)
@@ -84,128 +83,162 @@ void TutorialApplication::creaFichas(Ogre::SceneNode* nodoBase){
     Ogre::Entity *mFicha;
     Ogre::SceneNode *mNodoFicha;
     std::stringstream saux;
-
+    const Ogre::String columnas = "ABCDEFGH";
+    Ogre::String nombreFicha;
 
 
     //CREA LAS PIEZAS DOBLES
     for (int i = 0; i < 4; ++i)
     {
+
+        std::cout  << " i = " << i  << " i/2 = " << i/2 << " i%2 = " << i%2 << std::endl;
+
         saux.str("");
         saux <<"(T)Torre"<< Ogre::StringConverter::toString(i);
-        mFicha = mSceneMgr->createEntity(saux.str(), "Torre.mesh");
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
-        if (i%2 != 0){
+        if (i%2 == 0){
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Torre.mesh");
+            std::cout  << "TORRE BLANCA" << std::endl;
+            mFicha->setQueryFlags(BLANCAS);
+            //       mNodoFicha->translate(0,0,-70*(i/2));
+            nombreFicha = columnas[7*(i/2)]+ Ogre::String("1");
+        }else{
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Torre.mesh");
+            std::cout  << "TORRE NEGRA" << std::endl;
+
             mFicha->setMaterialName("MaterialFichaNegra");
             mFicha->setQueryFlags(NEGRAS);
             mNodoFicha->yaw(Ogre::Degree(180));
-            mNodoFicha->translate(0,0,70*(i/2));
-        }else{
-
-            mFicha->setQueryFlags(BLANCAS);
-            mNodoFicha->translate(0,0,-70*(i/2));
+            mNodoFicha->translate(70,0,70);
+            nombreFicha = columnas[7*(i/2)]+ Ogre::String("8");
         }
+
         mNodoFicha->attachObject(mFicha);
-        nodoBase->addChild(mNodoFicha);
+
+
+        std::cout  << "AÑADE HIJO " << nombreFicha <<std::endl;
+        std::cout  << "NOMBRE CASILLA DONDE SE VA A COLOCAR: " <<   nodoBase->getChild(nombreFicha)->getName() <<  std::endl;
+
+        nodoBase->getChild(nombreFicha)->addChild(mNodoFicha);
 
         saux.str("");
         saux <<"(C)Caballo"<< Ogre::StringConverter::toString(i);
-
-        mFicha = mSceneMgr->createEntity( saux.str(), "Caballo.mesh");
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+        if (i%2 == 0){
 
-        if (i%2 != 0){
+            mFicha = mSceneMgr->createEntity("(B)"+ saux.str(), "Caballo.mesh");
+            mFicha->setQueryFlags(BLANCAS);
+            // mNodoFicha->translate(0,0,-10-50*(i/2));
+            nombreFicha = columnas[1+5*(i/2)]+ Ogre::String("1");
+        }else{
+
+            mFicha = mSceneMgr->createEntity("(N)"+ saux.str(), "Caballo.mesh");
             mFicha->setMaterialName("MaterialFichaNegra");
             mFicha->setQueryFlags(NEGRAS);
             mNodoFicha->yaw(Ogre::Degree(180));
-            mNodoFicha->translate(0,0,10+50*(i/2));
-        }else{
-
-            mFicha->setQueryFlags(BLANCAS);
-            mNodoFicha->translate(0,0,-10-50*(i/2));
+            mNodoFicha->translate(70,0,70);
+            nombreFicha = columnas[1+5*(i/2)]+ Ogre::String("8");
         }
         mNodoFicha->attachObject(mFicha);
-        nodoBase->addChild(mNodoFicha);
+        nodoBase->getChild(nombreFicha)->addChild(mNodoFicha);
 
         saux.str("");
         saux <<"(A)Alfil"<< Ogre::StringConverter::toString(i);
 
-        mFicha = mSceneMgr->createEntity(saux.str(), "Alfil.mesh");
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
 
-        if (i%2 != 0){
-            mFicha->setMaterialName("MaterialFichaNegra");
-            mFicha->setQueryFlags(NEGRAS);
-          //  mNodoFicha->yaw(Ogre::Degree(180));
-         //   mNodoFicha->translate(0,0,20+30*(i/2));
+        if (i%2 == 0){
+
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Alfil.mesh");
+
+            nombreFicha = columnas[2+3*(i/2)]+ Ogre::String("1");
+            mFicha->setQueryFlags(BLANCAS);
         }else{
 
-            mFicha->setQueryFlags(BLANCAS);
-           // mNodoFicha->translate(0,0,-20-30*(i/2));
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Alfil.mesh");
+
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mFicha->setQueryFlags(NEGRAS);
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
+            nombreFicha = columnas[2+3*(i/2)]+ Ogre::String("8");
         }
         mNodoFicha->attachObject(mFicha);
-        nodoBase-> getChild(i*10)->addChild(mNodoFicha);
+        nodoBase-> getChild(nombreFicha)->addChild(mNodoFicha);
     }
 
-
+    std::cout  << "CREA LOS PEONES "  <<std::endl;
     //CREA LOS PEONES
     for (int i = 0; i < 16; ++i)
     {
         saux.str("");
         saux <<"(P)Peon_"<< Ogre::StringConverter::toString(i);
-        mFicha = mSceneMgr->createEntity(saux.str(), "Peon.mesh");
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
 
+        if (i%2 == 0){
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Peon.mesh");
+            nombreFicha = columnas[i/2]+ Ogre::String("2");
+            mFicha->setQueryFlags(BLANCAS);
 
-        if (i%2 != 0){
+        }else {
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Peon.mesh");
             mFicha->setMaterialName("MaterialFichaNegra");
             mFicha->setQueryFlags(NEGRAS);
             mNodoFicha->yaw(Ogre::Degree(180));
-            mNodoFicha->translate(10,0,10*(i/2));
-        }else {
+            mNodoFicha->translate(70,0,70);
 
-            mFicha->setQueryFlags(BLANCAS);
-            mNodoFicha->translate(-10,0,-10*(i/2));
-
+            nombreFicha = columnas[i/2]+ Ogre::String("7");
         }
         mNodoFicha->attachObject(mFicha);
-        nodoBase->addChild(mNodoFicha);
+        nodoBase-> getChild(nombreFicha)->addChild(mNodoFicha);
     }
 
-
+    std::cout  << "CREA LAS PIEZAS UNICAS "  <<std::endl;
     //CREA LAS PIEZAS UNICAS
 
     for (int i = 0; i < 2; ++i)
     {
-        mFicha = mSceneMgr->createEntity("Reina"+Ogre::StringConverter::toString(i), "Reina.mesh");
-        mNodoFicha = mSceneMgr->createSceneNode("(N)Reina"+Ogre::StringConverter::toString(i));
-        if (i%2 != 0){
-            mFicha->setQueryFlags(BLANCAS);
-            mNodoFicha->translate(0,0,-40);
-        }else{
-            mFicha->setQueryFlags(NEGRAS);
-            mFicha->setMaterialName("MaterialFichaNegra");
-            mNodoFicha->yaw(Ogre::Degree(180));
-            mNodoFicha->translate(0,0, 30);
-        }
-
-        mNodoFicha->attachObject(mFicha);
-        nodoBase->addChild(mNodoFicha);
 
         saux.str("");
-        saux <<"(R)Rey_"<< Ogre::StringConverter::toString(i);
-        mFicha = mSceneMgr->createEntity(saux.str(), "Rey.mesh");
+        saux <<"(N)Reina"<< Ogre::StringConverter::toString(i);
+
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
-        if (i%2 != 0){
+        if (i%2 == 0){
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
             mFicha->setQueryFlags(BLANCAS);
-            mNodoFicha->translate(0,0,-30);
+            nombreFicha = columnas[3]+ Ogre::String("1");
         }else{
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Reina.mesh");
+            nombreFicha = columnas[3]+ Ogre::String("8");
+
             mFicha->setQueryFlags(NEGRAS);
             mFicha->setMaterialName("MaterialFichaNegra");
             mNodoFicha->yaw(Ogre::Degree(180));
-            mNodoFicha->translate(0,0,40);
+            mNodoFicha->translate(70,0,70);
+        }
+
+        mNodoFicha->attachObject(mFicha);
+        nodoBase-> getChild(nombreFicha)->addChild(mNodoFicha);
+
+        saux.str("");
+        saux <<"(R)Rey"<< Ogre::StringConverter::toString(i);
+
+        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+        if (i%2 != 0){
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Rey.mesh");
+            mFicha->setQueryFlags(BLANCAS);
+            nombreFicha = columnas[4]+ Ogre::String("1");
+        }else{
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Rey.mesh");
+            nombreFicha = columnas[4]+ Ogre::String("8");
+            mFicha->setQueryFlags(NEGRAS);
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
         }
         mNodoFicha->attachObject(mFicha);
-        nodoBase->addChild(mNodoFicha);
+        nodoBase-> getChild(nombreFicha)->addChild(mNodoFicha);
+
     }
 }
 
@@ -236,18 +269,23 @@ void TutorialApplication::creaCasillas(Ogre::SceneNode* nodoBase){
             }
         }
         saux.str("");
+        // if (i%2 == 0){
+        //       saux << "(B)" << columnas[contColumna] << Ogre::StringConverter::toString(contFila+1);
+        // }  else
         saux << columnas[contColumna] << Ogre::StringConverter::toString(contFila+1);
-        mCasilla = mSceneMgr->createEntity(saux.str(), "Casilla.mesh");
-        mCasilla->setQueryFlags(CASILLA);
 
 
         //SI ES IMPAR SE USA LA CASILLA NEGRA
         if (i%2 != 0){
+            mCasilla = mSceneMgr->createEntity("(N)"+saux.str(), "Casilla.mesh");
             mCasilla->setMaterialName("MaterialNegro");
-        }
+        }else mCasilla = mSceneMgr->createEntity("(B)"+saux.str(), "Casilla.mesh");
+        mCasilla->setQueryFlags(CASILLA);
+
         mNodoCasilla = mSceneMgr->createSceneNode(saux.str());
         mNodoCasilla->translate(-10*contFila,0,-10*contColumna);
         mNodoCasilla->attachObject(mCasilla);
+        std::cout  << "AÑADE CASILLA " << mCasilla->getName() << std::endl;
         nodoBase->addChild(mNodoCasilla);
 
         if (inversa) contFila--;
@@ -294,7 +332,7 @@ bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
     oe->setCaption(textoOverlay);
-    mDetailsPanel->setParamValue(7, textoOverlay);
+    //   mOutputDebugPanel->setParamValue(7, textoOverlay);
 
 
     return  BaseApplication::frameRenderingQueued(evt);
@@ -323,7 +361,7 @@ Ogre::Ray TutorialApplication::setRayQuery(int posx, int posy, Ogre::uint32 mask
 //-------------------------------------------------------------------------------------
 bool TutorialApplication::keyPressed( const OIS::KeyEvent &arg )
 {
-    if (mTrayMgr->isDialogVisible()) return true;   // don't process any more keys if dialog is up
+    // if (mTrayMgr->isDialogVisible()) return true;   // don't process any more keys if dialog is up
 
     if (arg.key == OIS::KC_ESCAPE)
     {
@@ -332,32 +370,17 @@ bool TutorialApplication::keyPressed( const OIS::KeyEvent &arg )
     }
 
 
-    if (arg.key == OIS::KC_F)   // toggle visibility of advanced frame stats
-    {
-        mTrayMgr->toggleAdvancedFrameStats();
-    }
 
 
-    else if (arg.key == OIS::KC_G)   // toggle visibility of even rarer debugging details
-    {
-        if (mDetailsPanel->getTrayLocation() == OgreBites::TL_NONE)
-        {
-            mTrayMgr->moveWidgetToTray(mDetailsPanel, OgreBites::TL_TOPLEFT, 0);
-            mDetailsPanel->show();
-        }
-        else
-        {
-            mTrayMgr->removeWidgetFromTray(mDetailsPanel);
-            mDetailsPanel->hide();
-        }
-    }
+
+    /*
     else if (arg.key == OIS::KC_T)   // cycle polygon rendering mode
     {
         Ogre::String newVal;
         Ogre::TextureFilterOptions tfo;
         unsigned int aniso;
 
-        switch (mDetailsPanel->getParamValue(9).asUTF8()[0])
+        switch (mOutputDebugPanel->getParamValue(9).asUTF8()[0])
         {
         case 'B':
             newVal = "Trilinear";
@@ -382,31 +405,11 @@ bool TutorialApplication::keyPressed( const OIS::KeyEvent &arg )
 
         Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
         Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
-        mDetailsPanel->setParamValue(9, newVal);
+        mOutputDebugPanel->setParamValue(9, newVal);
     }
-    else if (arg.key == OIS::KC_R)   // cycle polygon rendering mode
-    {
-        Ogre::String newVal;
-        Ogre::PolygonMode pm;
 
-        switch (mCamera->getPolygonMode())
-        {
-        case Ogre::PM_SOLID:
-            newVal = "Wireframe";
-            pm = Ogre::PM_WIREFRAME;
-            break;
-        case Ogre::PM_WIREFRAME:
-            newVal = "Points";
-            pm = Ogre::PM_POINTS;
-            break;
-        default:
-            newVal = "Solid";
-            pm = Ogre::PM_SOLID;
-        }
 
-        mCamera->setPolygonMode(pm);
-        mDetailsPanel->setParamValue(10, newVal);
-    }
+    */
     else if(arg.key == OIS::KC_F5)   // refresh all textures
     {
         Ogre::TextureManager::getSingleton().reloadAll();
@@ -449,94 +452,385 @@ bool TutorialApplication::mouseMoved( const OIS::MouseEvent &arg )
         it = result.begin();
 
         if (it != result.end()) {
+            Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
 
-            if (_nodoNuevo==NULL || it->movable->getParentSceneNode()->getName() != _nodoNuevo->getName()){
+            if (_nodoNuevo==NULL || nodoSobrevolado->getName() != _nodoNuevo->getName()){
 
-                //AÑADE EL NOMBRE A LA PANTALLA
-                textoOverlay = it->movable->getParentSceneNode()->getName();
-
-
-                bool autorizado;
                 if (_nodoNuevo!=NULL){
-                    autorizado= false;
                     _nodoNuevo->showBoundingBox(false);
+                    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
+                    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
+                    if (mNombreEntidad[1] == 'B'){
+                        mEntidadCasilla->setMaterialName("MaterialBlanco");
+                    }else mEntidadCasilla->setMaterialName("MaterialNegro");
+                    _nodoNuevo=NULL;
                 }
+                _nodoNuevo=nodoSobrevolado;
+                //  _nodoNuevo = it->movable->getParentSceneNode();
 
-                _nodoNuevo = it->movable->getParentSceneNode();
-                Ogre::Vector3 seleccionado = _selectedNode->getPosition();
-                Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
+                //*******ESTO HAY QUE CAMBIARLO********
 
-                int x = _nodoNuevo->getPosition().x-_selectedNode->getPosition().x;
-                int z = _nodoNuevo->getPosition().z-_selectedNode->getPosition().z;
+                Ogre::Vector3 seleccionado = _selectedNode->getParent()->getPosition();
+                Ogre::Vector3 nuevo = nodoSobrevolado->getPosition();
 
-/*
-                 std::cout << "posicion del nodo sobevolado 1: "<< nuevo <<std::endl;
-                 std::cout << "posicion del nodo seleccionadov 1: "<< seleccionado <<std::endl;
-                 std::cout <<"Diferencia: "<< diferencia <<std::endl;
-                 */
-                if (turnoNegras) {
 
-                    nuevo = -Ogre::Vector3(70,0,70)-_nodoNuevo->getPosition();
-                       seleccionado = -seleccionado;
-                     std::cout << "posicion del nodo SOBREVOLADO DESPUES de cambiar: "<< nuevo <<std::endl;
 
-               }
-                Ogre::Vector3 diferencia = nuevo-seleccionado;
+                //AÑADE EL NOMBRE AL OVERLAY
+                textoOverlay = nodoSobrevolado->getName();
 
-             const Ogre::String mNombreUsado =  _selectedNode->getName();
+                //  std::cout << "posicion del nodo sobevolado: "<< nuevo <<std::endl;
+                //    std::cout << "posicion del nodo seleccionado: "<< seleccionado <<std::endl;
+                Ogre::Vector3 diferencia= nuevo-seleccionado;
+                //    if (turnoNegras){
+                //          std::cout << "CAMBIA  seleccionado.x 1: " << seleccionado.x<< std::endl;
+                //        seleccionado.x = -70-seleccionado.x;
+                //         std::cout << "CAMBIA  seleccionado.x 2: " << seleccionado.x<< std::endl;
+                //          std::cout <<"Seleccionado negro: "<< seleccionado <<std::endl;
+                //       }
 
-                std::cout << "NOmbre NODO usado" << mNombreUsado << "diferencia" << diferencia<<std::endl;
 
+                //      std::cout <<"Diferencia: "<< diferencia <<std::endl;
+
+                const Ogre::String mNombreUsado =  _selectedNode->getName();
+
+                //      std::cout << "NOmbre NODO usado" << mNombreUsado << "diferencia" << diferencia<<std::endl;
+                bool autorizado= false;
+                const Ogre::String columnas = "ABCDEFGH";
                 switch (mNombreUsado[1]){
                 case 'R':
                     std::cout << "CASE REY" << std::endl;
                     if ((diferencia.x==10||diferencia.x==-10||diferencia.x==0) && (diferencia.z==10||diferencia.z==-10||diferencia.z==0)){
-                       std::cout << "ESTA AUTORIZADO!!!" << std::endl;
-                        _nodoNuevo->scale(0.5,0,0.5 );
+                        std::cout << "ESTA AUTORIZADO!!!" << std::endl;
                         autorizado= true;
                     }
 
                     break;
 
-                case 'N': if (diferencia.z==0||diferencia.x==0||diferencia.z-diferencia.x==0||diferencia.x-diferencia.z==0||diferencia.x+diferencia.z==0||diferencia.z+diferencia.x==0){
-                        std::cout << "ESTA AUTORIZADO!!!" << std::endl;
-                        _nodoNuevo->scale(0.5,0,0.5);
-                        autorizado= true;
-                    }
+                case 'N':
+
+
+                    autorizado= true;
+
+
+
+
+
+                    if (diferencia.z==0 && diferencia.x < 0 ){
+                        std::cout << "MOVIMIENTO A LA DERECHA " <<std::endl;
+                        //MOVIMIENTO A LA DERECHA
+                        for (int i = 0; i < -diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1) << std::endl;
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+
+                        }
+
+                    }else if (diferencia.z==0 && diferencia.x > 0 ){
+                        std::cout << "OVIMIENTO A LA IZQUIERDA " <<std::endl;
+                        //MOVIMIENTO A LA IZQUIERDA
+                        for (int i = 0; i < diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1) << std::endl;
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+
+                        }
+
+                    }  else if (diferencia.x==0 && diferencia.z < 0 ){
+                        std::cout << "MOVIMIENTO HACIA ARRIBA " <<std::endl;
+                        //MOVIMIENTO HACIA ARRIBA
+                        for (int i = 0; i < -diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)+i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1) << std::endl;
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)+i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+
+                        }
+
+                    }  else if (diferencia.x==0 && diferencia.z > 0 ){
+                        std::cout << "MOVIMIENTO HACIA ABAJO " <<std::endl;
+                        //MOVIMIENTO HACIA ABAJO
+                        for (int i = 0; i < -diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)-i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1) << std::endl;
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)-i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+
+                        }
+
+                    }else if (diferencia.z - diferencia.x == 0 && diferencia.z > 0){
+                        //LETRAS DESCENDENTES Y NUMEROS DESCENDENTES
+                        std::cout << "CASO 2: LETRAS DESCENDENTES Y NUMEROS DESCENDENTES: " <<std::endl;
+
+
+
+                        for (int i = 0; i < diferencia.z/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)-i))+1) << std::endl;
+
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)-i))+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+                        }
+
+
+
+
+
+                    }else if (diferencia.z + diferencia.x == 0 && diferencia.z > 0){
+                        //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES
+                        std::cout << "CASO 2: LETRAS DESCENDENTES Y NUMEROS ASCENDENTES: " <<std::endl;
+
+
+
+                        for (int i = 0; i < diferencia.z/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)+i))+1) << std::endl;
+
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)+i))+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+                        }
+
+
+
+
+                    }else if(diferencia.z + diferencia.x == 0 && diferencia.z < 0){
+                        //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES
+                        std::cout << "CASO 3: LETRAS ASCENDENTES Y NUMEROS DESCENDENTES: " <<std::endl;
+
+
+                        for (int i = 0; i < diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1) << std::endl;
+
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+                        }
+
+
+                    }else if(diferencia.z - diferencia.x == 0 && diferencia.z < 0){
+                        //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES
+                        std::cout << "CASO 3: LETRAS ASCENDENTES Y NUMEROS ASCENDENTES: " <<std::endl;
+
+
+                        for (int i = 0; i < diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1) << std::endl;
+
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+                        }
+
+
+
+                    }else autorizado= false;
+
+
                     break;
 
                 case 'A':
-                    if (diferencia.z-diferencia.x==0||diferencia.x-diferencia.z==0||diferencia.x+diferencia.z==0||diferencia.z+diferencia.x==0){
-                                            _nodoNuevo->scale(0.5,0,0.5);
-                                            autorizado= true;
-                                        }
+                    autorizado= true;
+                    std::cout << "diferencia: " << diferencia<<std::endl;
+
+                    std::cout << "posicion del nodo sobevolado: "<< nuevo <<std::endl;
+                    std::cout << "posicion del nodo seleccionado: "<< seleccionado <<std::endl;
+                    std::cout << "diferencia: "<< diferencia <<std::endl;
+
+                    //x = numeros(columnas) z = letras (lineas)
+                    if (diferencia.z - diferencia.x == 0 && diferencia.z > 0){
+                        //LETRAS DESCENDENTES Y NUMEROS DESCENDENTES
+                        std::cout << "CASO 2: LETRAS DESCENDENTES Y NUMEROS DESCENDENTES: " <<std::endl;
+
+
+
+                        for (int i = 0; i < diferencia.z/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)-i))+1) << std::endl;
+
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)-i))+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+                        }
+
+
+
+
+
+                    }else if (diferencia.z + diferencia.x == 0 && diferencia.z > 0){
+                        //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES
+                        std::cout << "CASO 2: LETRAS DESCENDENTES Y NUMEROS ASCENDENTES: " <<std::endl;
+
+
+
+                        for (int i = 0; i < diferencia.z/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)+i))+1) << std::endl;
+
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)+i))+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+                        }
+
+
+
+
+                    }else if(diferencia.z + diferencia.x == 0 && diferencia.z < 0){
+                        //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES
+                        std::cout << "CASO 3: LETRAS ASCENDENTES Y NUMEROS DESCENDENTES: " <<std::endl;
+
+
+                        for (int i = 0; i < diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1) << std::endl;
+
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+                        }
+
+
+                    }else if(diferencia.z - diferencia.x == 0 && diferencia.z < 0){
+                        //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES
+                        std::cout << "CASO 3: LETRAS ASCENDENTES Y NUMEROS ASCENDENTES: " <<std::endl;
+
+
+                        for (int i = 0; i < diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1) << std::endl;
+
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+                        }
+
+
+                    }else autorizado= false;
+
 
                     break;
 
                 case 'T':
-                    if (diferencia.z==0||diferencia.x==0){
-                                            _nodoNuevo->scale(0.5,0,0.5);
-                                            autorizado= true;
-                                        }
+                    autorizado= true;
+                    std::cout << "posicion del nodo sobevolado TORRE: "<< nuevo <<std::endl;
+                    std::cout << "posicion del nodo seleccionado TORRE: "<< seleccionado <<std::endl;
+                    std::cout << "diferencia TORRE: "<< diferencia <<std::endl;
+
+                    if (diferencia.z==0 && diferencia.x < 0 ){
+                        std::cout << "MOVIMIENTO A LA DERECHA " <<std::endl;
+                        //MOVIMIENTO A LA DERECHA
+                        for (int i = 0; i < -diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1) << std::endl;
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+
+                        }
+
+                    }else if (diferencia.z==0 && diferencia.x > 0 ){
+                        std::cout << "OVIMIENTO A LA IZQUIERDA " <<std::endl;
+                        //MOVIMIENTO A LA IZQUIERDA
+                        for (int i = 0; i < diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1) << std::endl;
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+
+                        }
+
+                    }  else if (diferencia.x==0 && diferencia.z < 0 ){
+                        std::cout << "MOVIMIENTO HACIA ARRIBA " <<std::endl;
+                        //MOVIMIENTO HACIA ARRIBA
+                        for (int i = 0; i < -diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)+i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1) << std::endl;
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)+i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+
+                        }
+
+                    }  else if (diferencia.x==0 && diferencia.z > 0 ){
+                        std::cout << "MOVIMIENTO HACIA ABAJO " <<std::endl;
+                        //MOVIMIENTO HACIA ABAJO
+                        for (int i = 0; i < -diferencia.x/10; i++){
+                            std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)-i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1) << std::endl;
+                            Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+                            Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)-i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1)));
+                            if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                autorizado= false;
+                                std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                            }else std::cout << "nodo vacío!!!" << std::endl;
+
+                        }
+
+                    }else autorizado= false;
+
 
                     break;
 
                 case 'C':
                     if (diferencia==Ogre::Vector3(-20,0,10) || diferencia==Ogre::Vector3(20,0,10) || diferencia==Ogre::Vector3(-20,0,-10) || diferencia==Ogre::Vector3(20,0,-10) || diferencia==Ogre::Vector3(10,0,20)
                             || diferencia==Ogre::Vector3(10,0,-20) || diferencia==Ogre::Vector3(-10,0,20) || diferencia==Ogre::Vector3(-10,0,-20)){
-                                            _nodoNuevo->scale(0.5,0,0.5);
-                                            autorizado= true;
-                                        }
+                        autorizado= true;
+                    }else autorizado= false;
 
                     break;
 
                 case 'P':
-                    std::cout << "ENTRA EN EL SWITCH DE PEON" << std::endl;
-                    if (diferencia==Ogre::Vector3(-10,0,0) || (diferencia==Ogre::Vector3(-20,0,0) && _selectedNode->getPosition().x == 0)){
-                        _nodoNuevo->scale(0.5,0,0.5);
-                        std::cout << "ESTA AUTORIZADO" << std::endl;
-                        autorizado= true;
+                    if (!turnoNegras && (diferencia==Ogre::Vector3(-10,0,0) || diferencia==Ogre::Vector3(-20,0,0) && seleccionado.x == -10 )){
+                        if(!nodoSobrevolado->getChildIterator().hasMoreElements()){
+                            autorizado= true;
+                        } else autorizado = FichaComestible();
+
+
+                    }else if (turnoNegras && (diferencia==Ogre::Vector3(10,0,0) || diferencia==Ogre::Vector3(20,0,0) && seleccionado.x == -60 )){
+                        if(!nodoSobrevolado->getChildIterator().hasMoreElements()){
+                            autorizado= true;
+                        } else autorizado = FichaComestible();
+
                     }
+
+
 
                     break;
 
@@ -545,19 +839,172 @@ bool TutorialApplication::mouseMoved( const OIS::MouseEvent &arg )
                     true;
 
                 }
-
                 if (autorizado){
-                    _nodoNuevo=it->movable->getParentSceneNode();
+                    std::cout << "ESTA AUTORIZADO!!!!!" << std::endl;
                     _nodoNuevo->showBoundingBox(true);
 
+                    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
+                    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
+                    if (mNombreEntidad[1] == 'B'){
+                        mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
+                    }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+
+
                 }
+                // } else{
+                //  std::cout << "CASILLA OCUPADA!!!!!!" << std::endl;
+                //Ogre::SceneNode *mNodoCasilla;
+
+
+                /*
+
+                   Ogre::Node::ChildNodeIterator iterator = nodoSobrevolado->getChildIterator();
+
+                           if(iterator.hasMoreElements()){
+                               Ogre::SceneNode* child = (Ogre::SceneNode *)iterator.getNext();
+                               std::cout << " NODO ENCONTRADO!!!!!! : "<< child->getName() << std::endl;
+                               Ogre::SceneNode::ObjectIterator oi = child->getAttachedObjectIterator();
+
+                               if(oi.hasMoreElements()){
+                                   Ogre::Entity* ent = (Ogre::Entity *)oi.getNext();
+
+
+                                   if(!turnoNegras && ent->getName()[1] == 'N'){
+                                       std::cout << "FICHA NEGRA ATACADA POR UNA BLANCA!!!!!!" << std::endl;
+
+                                       nodoSobrevolado->showBoundingBox(true);
+
+                                       Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
+                                       if (nodoSobrevolado->getAttachedObject(0)->getName()[1] == 'B'){
+                                           mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
+                                       }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+
+                                   }else if(turnoNegras && ent->getName()[1] == 'B'){
+                                       std::cout << "FICHA BLANCA ATACADA POR UNA NEGRA!!!!!!" << std::endl;
+
+                                       _nodoNuevo->showBoundingBox(true);
+
+                                       Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
+                                       if (nodoSobrevolado->getAttachedObject(0)->getName()[1] == 'B'){
+                                           mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
+                                       }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+
+                                   }
+
+                                   std::cout << "ENTIDAD DEL NODO ENCONTRADA!!!!!!" << std::endl;
+                                   std::cout << " NODO ENCONTRADO!!!!!! : "<< ent->getName() << std::endl;
+                               }
+                           }
+
+
+*/
+
+
+
+
+
+
+
+
 
             }
+
+
+            // }
         }
     }
 
     return BaseApplication::mouseMoved( arg );
 }
+
+/*
+Ogre::SceneNode mueveDerecha(int diferencia,nodoSobrevolado){
+
+
+    std::cout << "MOVIMIENTO A LA DERECHA " <<std::endl;
+    //MOVIMIENTO A LA DERECHA
+
+
+    for (int i = 0; i < -diferencia.x/10; i++){
+        std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1) << std::endl;
+        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(nodoSobrevolado->getParent());
+        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1)));
+        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+            //autorizado= false;
+            std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+        }else std::cout << "nodo vacío!!!" << std::endl;
+
+    }
+
+
+
+
+}
+*/
+bool TutorialApplication::FichaComestible(){
+
+    Ogre::Node::ChildNodeIterator iterator = _nodoNuevo->getChildIterator();
+
+    if(iterator.hasMoreElements()){
+        Ogre::SceneNode* child = (Ogre::SceneNode *)iterator.getNext();
+        Ogre::SceneNode::ObjectIterator oi = child->getAttachedObjectIterator();
+
+        if(oi.hasMoreElements()){
+            Ogre::Entity* ent = (Ogre::Entity *)oi.getNext();
+
+
+            if(!turnoNegras && ent->getName()[1] == 'N'){
+                std::cout << "FICHA NEGRA ATACADA POR UNA BLANCA!!!!!!" << std::endl;
+
+                _nodoNuevo->showBoundingBox(true);
+
+                Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
+                if (_nodoNuevo->getAttachedObject(0)->getName()[1] == 'B'){
+                    mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
+                }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+                return true;
+            }else if(turnoNegras && ent->getName()[1] == 'B'){
+                std::cout << "FICHA BLANCA ATACADA POR UNA NEGRA!!!!!!" << std::endl;
+
+                _nodoNuevo->showBoundingBox(true);
+
+                Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
+                if (_nodoNuevo->getAttachedObject(0)->getName()[1] == 'B'){
+                    mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
+                }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+                return true;
+            }
+
+            std::cout << "ENTIDAD DEL NODO ENCONTRADA!!!!!!" << std::endl;
+            std::cout << " NODO ENCONTRADO!!!!!! : "<< ent->getName() << std::endl;
+        }
+    }
+    return false;
+}
+
+/*
+
+void mueveFicha(){
+
+
+     if (diferencia.x==0 && diferencia.z > 0 ){
+
+                                for (int i = 0; i < -diferencia.x/10; i++){
+                                    std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)-i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1) << std::endl;
+                                    Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(it->movable->getParentSceneNode()->getParent());
+                                    Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)-i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1)));
+                                    if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
+                                        autorizado= false;
+                                        std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
+                                    }else std::cout << "nodo vacío!!!" << std::endl;
+
+                                }
+
+
+
+}
+*/
+
 
 
 bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
@@ -567,7 +1014,6 @@ bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseBu
     int posx = arg.state.X.abs;   // Posicion del puntero
     int posy = arg.state.Y.abs;   //  en pixeles.
     Ogre::uint32 mask;
-
     if (mbleft) {  // Boton izquierdo o derecho -------------
 
         if (turnoNegras) {
@@ -580,13 +1026,13 @@ bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseBu
             fichaSeleccionada = false;
         }
 
-    //    std::cout << "EMPIEZA RAYO" << std::endl;
+        //    std::cout << "EMPIEZA RAYO" << std::endl;
 
         Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
         Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
-  //      std::cout << "RESULTADO" << std::endl;
+        //      std::cout << "RESULTADO" << std::endl;
 
         if (it != result.end()) {
             /*    if (mbleft) {
@@ -603,7 +1049,7 @@ bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseBu
             }*/
             if (it->movable->getParentSceneNode()->getName().size()>2) {
 
-   //             std::cout << "HA DETECTADO UNA FICHA" << std::endl;
+                //             std::cout << "HA DETECTADO UNA FICHA" << std::endl;
                 _selectedNode = it->movable->getParentSceneNode();
                 _selectedNode->showBoundingBox(true);
                 fichaSeleccionada = true;
@@ -611,10 +1057,10 @@ bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseBu
         }
 
     } else if (mbright){
-        if (_selectedNode != NULL && _nodoNuevo!=NULL) {  // Si habia alguno seleccionado...
 
-            _selectedNode->showBoundingBox(false);
-            fichaSeleccionada = false;
+        if (_selectedNode != NULL && _nodoNuevo!=NULL && _nodoNuevo->getShowBoundingBox()) {  // Si habia alguno seleccionado...
+
+
 
             /*
 
@@ -647,7 +1093,7 @@ bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseBu
 
 
 
-     //       std::cout << "SALE DEL ITERADOR: "  << std::endl;
+            //       std::cout << "SALE DEL ITERADOR: "  << std::endl;
             /*
 
                 Ogre::SceneNode::ObjectIterator it2 = _nodoNuevo->getAttachedObjectIterator();
@@ -660,8 +1106,8 @@ bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseBu
 
 */
 
-            _nodoNuevo->showBoundingBox(true);
-    //        std::cout <<  _nodoNuevo->getName() << std::endl;
+            //   _nodoNuevo->showBoundingBox(true);
+            //        std::cout <<  _nodoNuevo->getName() << std::endl;
 
 
 
@@ -691,12 +1137,21 @@ bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseBu
                 vector = Ogre::Vector3(70,0,70)+_nodoNuevo->getPosition();
             }else vector =_nodoNuevo->getPosition();
             _selectedNode->getParent()->removeChild(_selectedNode);
-             _nodoNuevo->addChild(_selectedNode);
-         //   _selectedNode->setPosition(vector);
+            _nodoNuevo->addChild(_selectedNode);
+            //   _selectedNode->setPosition(vector);
             turnoNegras= !turnoNegras;
-    //        std::cout << "NUEVA POS"<< _selectedNode->getPosition() << std::endl;
+            //        std::cout << "NUEVA POS"<< _selectedNode->getPosition() << std::endl;
             //_selectedNode->translate(_nodoNuevo->getPosition(),_selectedNode->TS_WORLD);
-
+            _selectedNode->showBoundingBox(false);
+            _nodoNuevo->showBoundingBox(false);
+            Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
+            const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
+            if (mNombreEntidad[1] == 'B'){
+                mEntidadCasilla->setMaterialName("MaterialBlanco");
+            }else mEntidadCasilla->setMaterialName("MaterialNegro");
+            _nodoNuevo=NULL;
+            _selectedNode=NULL;
+            fichaSeleccionada = false;
 
 
 
@@ -730,19 +1185,19 @@ int TutorialApplication::traduceCoordenadas(Ogre::String coord){
     const Ogre::String columnas = "ABCDEFGH";
 
     Ogre::String nombrechungNodo = _nodoNuevo->getName();
-  //  std::cout << "nombreNodo"<<nombrechungNodo << std::endl;
-  //  std::cout << "PRIMERA CASILLA"<<nombrechungNodo[0] << std::endl;
- //   std::cout << "SEGUNDA CASILLA"<<nombrechungNodo[1] << std::endl;
+    //  std::cout << "nombreNodo"<<nombrechungNodo << std::endl;
+    //  std::cout << "PRIMERA CASILLA"<<nombrechungNodo[0] << std::endl;
+    //   std::cout << "SEGUNDA CASILLA"<<nombrechungNodo[1] << std::endl;
 
 
     Ogre::String::size_type loc = columnas.find(coord[0],0);
     if( loc != Ogre::String::npos ) {
-   //     std::cout << "LETRA ENCONTRADA EN POSICION: " << loc << std::endl;
+        //     std::cout << "LETRA ENCONTRADA EN POSICION: " << loc << std::endl;
 
         int t = 45;
 
     } else {
-  //      std::cout << "Didn't find Omega" << std::endl;
+        //      std::cout << "Didn't find Omega" << std::endl;
     }
 
 

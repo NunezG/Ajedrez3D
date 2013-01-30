@@ -33,7 +33,6 @@ This source file is part of the
 #include <OISMouse.h>
 
 #include <SdkTrays.h>
-#include <SdkCameraMan.h>
 
 #include "InputMan.h"
 
@@ -75,6 +74,7 @@ protected:
     //Unattach OIS before window shutdown (very important under Linux)
     virtual void windowClosed(Ogre::RenderWindow* rw);
 
+    bool statUpdate(const Ogre::FrameEvent& evt);
 
     void createOverlay();
 
@@ -86,10 +86,10 @@ protected:
     Ogre::String mPluginsCfg;
 
     // OgreBites
-    OgreBites::SdkTrayManager* mTrayMgr;
+   // OgreBites::SdkTrayManager* mTrayMgr;
    // OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
     InputMan::SdkCameraMan* mInputMan;
-    OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
+    OgreBites::ParamsPanel* mOutputDebugPanel;     // sample details panel
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
     bool mShutDown;
 
@@ -99,9 +99,10 @@ protected:
     OIS::Keyboard* mKeyboard;
     Ogre::OverlayManager* mOverlayManager;
 
+    Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
+    unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 
-
-
+Ogre::OverlayContainer* mCursor;      // cursor
 };
 
 #endif // #ifndef __BaseApplication_h_
