@@ -18,7 +18,8 @@ This source file is part of the
 #define __TutorialApplication_h_
 
 #include "BaseApplication.h"
-#include <boost/lexical_cast.hpp>
+#include "EscenaAjedrez.h"
+#include "Movimientos.h"
 #include <Ogre.h>
 
 
@@ -26,37 +27,42 @@ This source file is part of the
 class TutorialApplication : public BaseApplication
 {
 public:
-    TutorialApplication(void);
-    virtual ~TutorialApplication(void);
+    TutorialApplication(Ogre::SceneManager* mSceneMgr);
+    ~TutorialApplication(void);
     // Ogre::FrameListener
-    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 
     // OIS::KeyListener
-    virtual bool keyPressed( const OIS::KeyEvent &arg );
-    virtual bool keyReleased( const OIS::KeyEvent &arg );
+    bool keyPressed( const OIS::KeyEvent &arg );
+    bool keyReleased( const OIS::KeyEvent &arg );
     // OIS::MouseListener
-    virtual bool mouseMoved( const OIS::MouseEvent &arg );
-    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+    bool mouseMoved( const OIS::MouseEvent &arg );
+    bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+   bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
 
+    void createMainMenu(void);
+
+
+    void createGUI(void);
+    void createCamera(void);
 
 
 protected:
-    virtual void createScene(void);
-    void creaCasillas(Ogre::SceneNode* nodoBase);
-    void creaFichas(Ogre::SceneNode* nodoBase);
+
+
+    void createViewports(void);
+    void createScene(void); // Override me!
     bool  FichaComestible(void);
+
 
 
 
     int muevePeon(Ogre::String coord);
     int traduceCoordenadas(Ogre::String coord);
-    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
      Ogre::SceneNode *_selectedNode;
      Ogre::SceneNode *_nodoNuevo;
-    Ogre::RaySceneQuery *mRaySceneQuery;
     bool fichaSeleccionada;
     bool turnoNegras;
     Ogre::String textoOverlay;

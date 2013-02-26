@@ -29,7 +29,6 @@
 #define __SdkCameraMan_H2__
 
 #include "Ogre.h"
-#include <limits>
 
 #define CASILLA 1 << 0  // Mascara para el escenario
 #define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
@@ -100,7 +99,7 @@ namespace InputMan
                 mTarget = target;
                 if(target)
                 {
-                    setYawPitchDist(Ogre::Degree(0), Ogre::Degree(150), 115);
+                    setYawPitchDist(Ogre::Degree(0), Ogre::Degree(150), 125);
                     mCamera->setAutoTracking(true, mTarget);
                 }
                 else

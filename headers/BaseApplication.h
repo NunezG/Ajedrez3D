@@ -17,6 +17,17 @@ This source file is part of the
 #ifndef __BaseApplication_h_
 #define __BaseApplication_h_
 
+
+#include <OISEvents.h>
+#include <OISInputManager.h>
+#include <OISKeyboard.h>
+#include <OISMouse.h>
+
+#include "SdkTrays.h"
+
+
+
+
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
@@ -26,36 +37,32 @@ This source file is part of the
 #include <OgreRenderWindow.h>
 #include <OgreConfigFile.h>
 
-#include <OIS.h>
-#include <OISEvents.h>
-#include <OISInputManager.h>
-#include <OISKeyboard.h>
-#include <OISMouse.h>
 
-#include <SdkTrays.h>
 
 #include "InputMan.h"
+#include "CreacionJuego.h"
 
-class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
+class BaseApplication //: public CreacionJuego
 {
 public:
-    BaseApplication(void);
+    BaseApplication(Ogre::SceneManager* mSceneMgr);
     virtual ~BaseApplication(void);
-
-    virtual void go(void);
-
-protected:
-    virtual bool setup();
-    virtual bool configure(void);
-    virtual void chooseSceneManager(void);
-    virtual void createCamera(void);
-    virtual void createFrameListener(void);
+    bool setupJuego(void);
+    virtual void createCamera(void) = 0;
+    Ogre::SceneManager* mSceneMgr;
+    virtual void createViewports(void) = 0;
     virtual void createScene(void) = 0; // Override me!
-    virtual void destroyScene(void);
-    virtual void createViewports(void);
-    virtual void setupResources(void);
-    virtual void createResourceListener(void);
-    virtual void loadResources(void);
+protected:
+    Ogre::RaySceneQuery *mRaySceneQuery;
+
+    Ogre::RenderWindow* mWindow;
+
+    CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
+
+   // virtual void createScene(void) = 0; // Override me!
+    // virtual void createMainMenu(void) = 0; // Override me!
+  //  virtual void createViewports(void) = 0;
+
 
     // Ogre::FrameListener
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -68,41 +75,31 @@ protected:
     virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
-    // Ogre::WindowEventListener
-    //Adjust mouse clipping area
-    virtual void windowResized(Ogre::RenderWindow* rw);
-    //Unattach OIS before window shutdown (very important under Linux)
-    virtual void windowClosed(Ogre::RenderWindow* rw);
 
-    bool statUpdate(const Ogre::FrameEvent& evt);
 
     void createOverlay();
 
-    Ogre::Root *mRoot;
+    //CEGUI::Renderer* mGUIRenderer;
+
     Ogre::Camera* mCamera;
-    Ogre::SceneManager* mSceneMgr;
-    Ogre::RenderWindow* mWindow;
-    Ogre::String mResourcesCfg;
-    Ogre::String mPluginsCfg;
+
+    //Button* createButton(TrayLocation trayLoc, const Ogre::String& name, const Ogre::String& caption, Ogre::Real width = 0);
 
     // OgreBites
    // OgreBites::SdkTrayManager* mTrayMgr;
    // OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
     InputMan::SdkCameraMan* mInputMan;
-    OgreBites::ParamsPanel* mOutputDebugPanel;     // sample details panel
+  //  OgreBites::ParamsPanel* mOutputDebugPanel;     // sample details panel
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
-    bool mShutDown;
 
-    //OIS Input devices
-    OIS::InputManager* mInputManager;
-    OIS::Mouse*    mMouse;
-    OIS::Keyboard* mKeyboard;
     Ogre::OverlayManager* mOverlayManager;
 
-    Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
-    unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
-
 Ogre::OverlayContainer* mCursor;      // cursor
+
+
+// Ogre::RaySceneQuery *mRaySceneQuery;
+ Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
+
 };
 
 #endif // #ifndef __BaseApplication_h_

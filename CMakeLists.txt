@@ -31,14 +31,14 @@ if(UNIX)
 	  set(CMAKE_MODULE_PATH "/usr/local/lib/OGRE/cmake/;${CMAKE_MODULE_PATH}")
 	  set(OGRE_SAMPLES_INCLUDEPATH "/usr/local/share/OGRE/samples/Common/include/") # We could just *assume* that developers uses this basepath : /usr/local
 
-	elseif(EXISTS "/usr/lib/OGRE/cmake")
+	elseif(EXISTS "/usr/share/OGRE/cmake/modules")
 
-	  set(CMAKE_MODULE_PATH "/usr/lib/OGRE/cmake/;${CMAKE_MODULE_PATH}")
-	  set(OGRE_SAMPLES_INCLUDEPATH "/usr/share/OGRE/samples/Common/include/") # Otherwise, this one
+	  set(CMAKE_MODULE_PATH "/usr/share/OGRE/cmake/modules/;${CMAKE_MODULE_PATH}")
+          set(OGRE_SAMPLES_INCLUDEPATH "/usr/local/include/OGRE/") # Otherwise, this one
 
 	else ()
 	  message(SEND_ERROR "Failed to find module path.")
-	endif(EXISTS "/usr/local/lib/OGRE")
+        endif()
 endif(UNIX)
  
 if (CMAKE_BUILD_TYPE STREQUAL "")
@@ -94,30 +94,63 @@ if (NOT OGRE_BUILD_PLATFORM_IPHONE)
 	set(OGRE_LIBRARIES ${OGRE_LIBRARIES} ${Boost_LIBRARIES})
 endif()
  
+# NUEVA SECCIÓN
+
+#find_package(CEGUI REQUIRED)
+#if(NOT CEGUI_FOUND)
+#message(SEND_ERROR "Failed to find CEGUI.")
+#endif()
+
+#find_package(CEGUIOGRE REQUIRED)
+#if(NOT CEGUIOGRE_FOUND)
+#message(SEND_ERROR "Failed to find CEGUIOGRE.")
+#endif()
+
+# FIN NUEVA SECCIÓN
+
+
 set(HDRS
-	./BaseApplication.h
-	./TutorialApplication.h
-        ./InputMan.h
+        ./headers/BaseApplication.h
+        ./headers/TutorialApplication.h
+        ./headers/InputMan.h
+        ./headers/CEGUIFrameListener.h
+        ./headers/CreacionJuego.h
+        ./headers/MenuInicial.h
+        ./headers/EscenaAjedrez.h
+        ./headers/Inicio.h
+        ./headers/Movimientos.h
+
 
 )
  
 set(SRCS
-	./BaseApplication.cpp
-	./TutorialApplication.cpp
-
+        ./impl/BaseApplication.cpp
+        ./impl/TutorialApplication.cpp
+        ./impl/CEGUIFrameListener.cpp
+        ./impl/CreacionJuego.cpp
+        ./impl/MenuInicial.cpp
+        ./impl/EscenaAjedrez.cpp
+        ./impl/Inicio.cpp
+        ./impl/Movimientos.cpp
 )
  
 include_directories( ${OIS_INCLUDE_DIRS}
 	${OGRE_INCLUDE_DIRS}
 	${OGRE_SAMPLES_INCLUDEPATH}
+	#NUEVA SECCIÓN
+        ${CEGUI_INCLUDE_DIRS}
+        ${CEGUIOGRE_INCLUDE_DIRS}
+	# FIN NUEVA SECCIÓN
 )
  
 add_executable(OgreApp WIN32 ${HDRS} ${SRCS})
  
 set_target_properties(OgreApp PROPERTIES DEBUG_POSTFIX _d)
  
-target_link_libraries(OgreApp ${OGRE_LIBRARIES} ${OIS_LIBRARIES})
+# CAMBIA target_link_libraries(OgreApp ${OGRE_LIBRARIES} ${OIS_LIBRARIES})
+ target_link_libraries(OgreApp ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${CEGUI_LIBRARIES} ${CEGUIOGRE_LIBRARIES})
  
+
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dist/bin)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dist/media)
  
