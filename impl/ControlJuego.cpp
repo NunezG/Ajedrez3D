@@ -6,6 +6,9 @@ ControlJuego::ControlJuego(void) :
     BaseJuego()
 
 {
+    std::cout << "constructor control juego"<< std::endl;
+
+
 }
 //-------------------------------------------------------------------------------------
 ControlJuego::~ControlJuego(void)
@@ -17,7 +20,7 @@ ControlJuego::~ControlJuego(void)
 void ControlJuego::inicio(void){
 
 
-  Ventana& mFrameListener = Ventana::getCEGUISingleton();
+  //mFrameListener = Ventana::getCEGUISingleton();
    std::cout << "addFrameListener"<< std::endl;
 
     Ogre::Root::getSingletonPtr()->addFrameListener(this);
@@ -25,23 +28,17 @@ std::cout << "iniciaIO"<< std::endl;
 
 
 
-
-EscenaAjedrez EscAjedrez;
-
-std::cout << "createScene"<< std::endl;
-
-EscAjedrez.createScene(mSceneMgr);
-
+Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
     mFrameListener.EmpiezaCEGUI();
 
-    std::cout << "EscAjedrez"<< std::endl;
+
 
 
     std::cout << "MuestraMenu"<< std::endl;
 
 
-  //  mFrameListener.MuestraMenu();
+    mFrameListener.MuestraMenu();
 
     std::cout << "acaba MuestraMenu"<< std::endl;
 
@@ -81,20 +78,12 @@ bool ControlJuego::setupMenu(void)
 
 void ControlJuego::cambiaPantalla(){
 
-    //TutorialApplication ta;
-    tut= new TutorialApplication(mSceneMgr);
 
-    std::cout << "CAMBIA LA PANTALLAAAAAAAAAAAAAAAAAAAAAAz" << std::endl;
-
-    //  createViewports();
-
-    // Create the scene
-    //   createScene();
-
-    tut->setupJuego();
+ Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
 
-    tut->createScene();
+ mFrameListener.muestraAjedrez();
+
 
 }
 
@@ -108,10 +97,34 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
 
-    std::cout << "frameRenderingQueued " << std::endl;
+ //   std::cout << "frameRenderingQueued " << std::endl;
 
 
-Ventana& mFrameListener = Ventana::getCEGUISingleton();
+       //mFrameListener = Ventana::getCEGUISingleton();
+
+
+    Ventana& mFrameListener = Ventana::getCEGUISingleton();
+
+
+
+    //Need to capture/update each device
+    mFrameListener.capture();
+ //   std::cout << "mFrameListener33333333333333 " << std::endl;
+
+
+    mFrameListener.statUpdate(evt);
+
+     if(mFrameListener.mPantalla == 1){
+         if(mFrameListener.tut==NULL){
+             std::cout << "CAMBIA DE PANTALLA!!!!!!!!!!!" << std::endl;
+
+            cambiaPantalla();
+
+           }
+
+
+    }
+
 
 
 
@@ -135,19 +148,14 @@ Ventana& mFrameListener = Ventana::getCEGUISingleton();
 }
 
 
+   mFrameListener.frameRenderingQueued(evt);
 
 
-    //Need to capture/update each device
-    mFrameListener.capture();
-    std::cout << "mFrameListener33333333333333 " << std::endl;
-
-
-    mFrameListener.statUpdate(evt);
 
     return true;
 
 
-    //return  BaseApplication::frameRenderingQueued(evt);
+
 
 }
 

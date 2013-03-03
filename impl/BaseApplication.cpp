@@ -60,14 +60,18 @@ bool BaseApplication::setupJuego(void)
     std::cout << "set" << std::endl;
 
     std::cout << "setupJuego" << std::endl;
-createViewports();
 
 
 
     mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
+    std::cout << "setupJuego 112221 " << std::endl;
 
     createCamera();
+
+    std::cout << "setupJuego 11 " << std::endl;
+
+    createViewports();
 
     std::cout << "setupJuego 22 " << std::endl;
 
@@ -102,7 +106,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
 
- mInputMan->frameRenderingQueued(evt);   // if dialog isn't up, then update the camera
+   // if dialog isn't up, then update the camera
 
     // mTrayMgr->frameRenderingQueued(evt);
 
@@ -175,7 +179,9 @@ bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButton
 
     //  mTrayMgr->hideCursor();
     // if (mTrayMgr->injectMouseDown(arg, id)) return true;
-    // mInputMan->injectMouseDown(arg, id);
+     mInputMan->injectMouseDown(arg, id);
+     std::cout << "ACABA MOUSEPRESSED " << std::endl;
+
     return true;
 }
 
@@ -189,7 +195,7 @@ bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButto
     //  mTrayMgr->showCursor();
     //if (mTrayMgr->injectMouseUp(arg, id)) return true;
 
-    // mInputMan->injectMouseUp(arg, id);
+     mInputMan->injectMouseUp(arg, id);
     return true;
 }
 

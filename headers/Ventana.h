@@ -22,6 +22,10 @@
 #include <OgreConfigFile.h>
 
 #include "MenuInicio.h"
+#include "EscenaAjedrez.h"
+
+#include "TutorialApplication.h"
+#include "BaseApplication.h"
 
 class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener
 {
@@ -32,6 +36,10 @@ public:
     static Ventana& getCEGUISingleton();
 
 
+    Ventana(void);
+
+    Ogre::SceneManager* mSceneMgr;
+
     bool iniciaVentana();
 
     ~Ventana(void);
@@ -39,9 +47,10 @@ public:
 
     bool MuestraMenu();
 
+    int getFPS();
 
     bool EmpiezaCEGUI();
-   // EmpiezaCEGUI(Ogre::RenderWindow* mWindow);
+    // EmpiezaCEGUI(Ogre::RenderWindow* mWindow);
 
     //virtual ~Ventana(void);
 
@@ -55,19 +64,26 @@ public:
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
+    bool muestraAjedrez();
 
-  //  void iniciaCEGUI();
+
+    //  void iniciaCEGUI();
     bool statUpdate(const Ogre::FrameEvent& evt);
+
+
+    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 
     bool injectTimePulse(const Ogre::FrameEvent& evt);
 
     // CEGUI::System* mGUISystem;
     CEGUI::Window *sheet;
+  // InputMan::SdkCameraMan* mInputMan;
 
     CEGUI::System* sys;
-Ogre::Root* mRoot22;
-   // Ogre::Root *mRoot;
+    Ogre::Root* mRoot22;
+    // Ogre::Root *mRoot;
+    BaseApplication* tut;
 
     // Ogre::WindowEventListener
 
@@ -75,7 +91,7 @@ Ogre::Root* mRoot22;
     //Ogre::WindowEventListener
     void windowClosed(Ogre::RenderWindow* rw);
     void windowResized(Ogre::RenderWindow* rw);
-   // Ogre::RenderWindow* mWindow;
+    // Ogre::RenderWindow* mWindow;
     void iniciaIO(void);
     Ogre::RenderWindow* getVentana();
     void capture();
@@ -88,7 +104,6 @@ private:
     //Singleton;
     //static Ventana* miFrameListener;
     void operator=(const Ventana& frameListener ) ;
-    Ventana(void);
     Ventana(const Ventana& ventana);
 
     Ogre::RenderWindow* mWindow;
@@ -101,7 +116,7 @@ private:
 
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
-MenuInicio* menu;
+    MenuInicio* menu;
 
 
     //OIS Input devices

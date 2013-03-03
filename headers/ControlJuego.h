@@ -64,4 +64,4 @@ private:
 
 };
 
-#endif // #ifndef __TutorialApplication_h_
+#endif

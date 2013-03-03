@@ -5,15 +5,12 @@
 #include <OIS.h>
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-#include "EscenaAjedrez.h"
-#include "TutorialApplication.h"
 //#include "MenuInicio.h"
 
 
 #include "Ventana.h"
 
-#include "BaseApplication.h"
-//#include "TutorialApplication.h"
+
 //#include "MenuInicial.h"
 #include <OgreRoot.h>
 
@@ -28,14 +25,15 @@ public:
 
     void go(void);
 
+    Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
 
-    Ogre::SceneManager* mSceneMgr;
     virtual void inicio(void) = 0;
    // void creaTablero(void);
     virtual void cambiaPantalla() = 0;
 
+ //   Ventana& mFrameListener;
 
-
+Ventana* punteroVentana;
 
 protected:
     BaseJuego(void);
@@ -52,7 +50,7 @@ protected:
     void loadResources(void);
     bool setup();
     bool configuraGraficos(const char *desiredRenderer);
-    bool configureOpenGL(void);
+    bool configureOpenGL();
     bool configureOgre(void);
     void chooseSceneManager(void);
  //  void createOverlay();
@@ -66,7 +64,6 @@ protected:
     Ogre::Root *mRoot;
 
 
-    BaseApplication* tut;
     MenuInicio* menu;
 
     //OIS Input devices

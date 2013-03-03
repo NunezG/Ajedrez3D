@@ -8,28 +8,28 @@ Ventana::Ventana() :
     mMouse(0),
     mKeyboard(0),
     mPantalla(0),
-    sys(0)
+    sys(0),
+    mRoot(Ogre::Root::getSingletonPtr()),
+    mTimer(mRoot->getTimer()),
+    mSceneMgr(0),
+    tut(0)
+
 
 {
-   // Ventana* Ventana::miFrameListener = 0;// Inicializar el puntero
+    // Ventana* Ventana::miFrameListener = 0;// Inicializar el puntero
+    std::cout << "constructor ventana"<< std::endl;
 
+    //mTimer = mRoot->getTimer();
 }
 Ventana::~Ventana()
 {
-    std::cout << "DESTRUCTOR VENTANA"<< std::endl;
+    // Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
 
-   // Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
-    std::cout << "DESTRUCTOR VENTANA 111"<< std::endl;
-
-   // Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
-
-    std::cout << "DESTRUCTOR VENTANA 222"<< std::endl;
+    // Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
 
     Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
-    std::cout << "DESTRUCTOR VENTANA 333"<< std::endl;
 
     windowClosed(mWindow);
-    std::cout << "DESTRUCTOR VENTANA 444"<< std::endl;
 
 }
 
@@ -42,7 +42,7 @@ Ventana& Ventana::getCEGUISingleton()
 }
 
 Ogre::RenderWindow* Ventana::getVentana(){
-  //  Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
+    //  Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
 
     return mWindow;
 
@@ -52,11 +52,11 @@ Ogre::RenderWindow* Ventana::getVentana(){
 
 void Ventana::capture(){
 
-    std::cout << "capture" << std::endl;
+    //  std::cout << "capture" << std::endl;
     mMouse->capture();
 
 
-    std::cout << "capture 2" << std::endl;
+    //  std::cout << "capture 2" << std::endl;
 
     mKeyboard->capture();
 
@@ -75,14 +75,21 @@ bool Ventana::statUpdate(const Ogre::FrameEvent& evt)
 {
 
 
+
+
     unsigned long currentTime = mTimer->getMilliseconds();
+
+    //  std::cout << "currentTime:  "<< currentTime <<std::endl;
+
+
     if (areFrameStatsVisible() && currentTime - mLastStatUpdateTime > 250)
     {
+        //       std::cout << "entr aen el IF:  "<< currentTime <<std::endl;
 
 
-      //  Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
+        //  Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
 
-       // Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
+        // Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
 
         Ogre::RenderTarget::FrameStats stats = mWindow->getStatistics();
 
@@ -119,19 +126,19 @@ bool Ventana::statUpdate(const Ogre::FrameEvent& evt)
 //-------------------------------------------------------------------------------------
 void Ventana::iniciaIO(void)
 {
- std::cout << "iniciaIO "<<std::endl;
+    std::cout << "iniciaIO "<<std::endl;
     //   Ventana* mFrameListener;
 
 
     std::cout << "mWindow   "<<std::endl;
 
- //  mWindow = mRoot->getAutoCreatedWindow();
+    //  mWindow = mRoot->getAutoCreatedWindow();
 
     std::cout << "Initializing OIS  "<<std::endl;
 
     //  mFrameListener..empie
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OISpuntero ***");
- std::cout << "Initializing OIS222222222222  "<<std::endl;
+    std::cout << "Initializing OIS222222222222  "<<std::endl;
 
     OIS::ParamList pl;
     size_t windowHnd = 0;
@@ -142,7 +149,7 @@ void Ventana::iniciaIO(void)
 
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing mInputManager ***");
- std::cout << "Initializing mInputManager  "<<std::endl;
+    std::cout << "Initializing mInputManager  "<<std::endl;
 
     mInputManager = OIS::InputManager::createInputSystem( pl );
 
@@ -153,7 +160,7 @@ void Ventana::iniciaIO(void)
 
 
     //Set initial mouse clipping size
-        windowResized(mWindow);
+    windowResized(mWindow);
 
     //Register as a Window listener
     Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
@@ -204,8 +211,8 @@ void Ventana::iniciaIO(void)
 void Ventana::windowClosed(Ogre::RenderWindow* rw)
 {
 
-  // Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
-  //  Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
+    // Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
+    //  Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
 
     //Only close for window that created OIS (the main window in these demos)
     if( rw == mWindow )
@@ -250,7 +257,7 @@ void Ventana::windowResized(Ogre::RenderWindow* rw)
 
     ms.width = width;
     ms.height = height;
- std::cout << "test "<<std::endl;
+    std::cout << "test "<<std::endl;
     std::cout << "ms.width "<< ms.width <<std::endl;
     std::cout << "ms.height  "<< ms.height <<std::endl;
 
@@ -262,26 +269,26 @@ void Ventana::windowResized(Ogre::RenderWindow* rw)
 
 
 bool Ventana::iniciaVentana(){
-    mRoot = Ogre::Root::getSingletonPtr();
+    // mRoot = Ogre::Root::getSingletonPtr();
     mWindow = mRoot->initialise(true, "Ajedrez OpenGL");
     return true;
 }
 
 bool Ventana::EmpiezaCEGUI(/*Ogre::RenderWindow* mWindow*/)
 {
-std::cout << "EmpiezaCEGUI "<< std::endl;
-
-    mTimer = Ogre::Root::getSingleton().getTimer();
-
-  //  iniciaVentana();
+    std::cout << "EmpiezaCEGUI "<< std::endl;
 
 
-   // Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
 
-  //  Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
+    //  iniciaVentana();
 
 
-   // mWindow = mRoot->getAutoCreatedWindow();
+    // Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
+
+    //  Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
+
+
+    // mWindow = mRoot->getAutoCreatedWindow();
 
     // Bootstrap CEGUI::System with an OgreRenderer object that uses the
     // default Ogre rendering window as the default output surface, an Ogre based
@@ -317,8 +324,18 @@ std::cout << "EmpiezaCEGUI "<< std::endl;
 
     std::cout << "acaba createGUI " <<std::endl;
     //  std::cout << "EMPIEZA Ventana" << std::endl;
-    //  createGUI();
+    //createGUI();
     //  std::cout << "acaba createGUI" << std::endl;
+
+
+ //   std::cout << "nombre mRoot "<< <<std::endl;
+
+
+
+
+    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
+   // EscenaAjedrez EscAjedrez;
+   // EscAjedrez.createScene(mSceneMgr);
 
     return true;
 }
@@ -364,10 +381,19 @@ bool Ventana::MuestraMenu(){
 bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 {
 
-   // Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
-   // Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
+    // Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
+    // Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
 
     std::cout << "Ventana KEYPRESSED " << std::endl;
+
+
+    if(mPantalla == 1){
+
+
+        tut->keyPressed(evt);
+    }
+
+
 
     //  CEGUI::System *sys = CEGUI::System::getSingletonPtr();
     sys->injectKeyDown(evt.key);
@@ -377,7 +403,7 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
     if (evt.key == OIS::KC_ESCAPE)
     {
         std::cout << "PULSA ESCAPE"<< std::endl;
-       mShutDown = true;
+        mShutDown = true;
         return true;
     }else if (evt.key == OIS::KC_SYSRQ)   // take a screenshot
     {
@@ -392,8 +418,16 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 
 bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 {
-  //  Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
-  //  Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
+    //  Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
+    //  Ogre::RenderWindow* mWindow = mRoot->getAutoCreatedWindow();
+
+    if(mPantalla == 1){
+
+
+        tut->keyReleased(evt);
+    }
+
+
 
     sys->injectKeyUp(evt.key);
 
@@ -401,62 +435,137 @@ bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 
 
 
-
     return true;
 
 
 }
 
-bool Ventana::mouseMoved( const OIS::MouseEvent &arg )
+bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 {
     //mFrameListener->mouseMoved(arg,id);
 
 
+    if(mPantalla == 1){
 
-    sys->injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+
+        tut->mouseMoved(evt);
+    }
+
+
+    sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
     // Scroll wheel.
-    if (arg.state.Z.rel)
-        sys->injectMouseWheelChange(arg.state.Z.rel / 120.0f);
+    if (evt.state.Z.rel)
+        sys->injectMouseWheelChange(evt.state.Z.rel / 120.0f);
 
 
 
 
     return true;
+
+}
+
+int Ventana::getFPS(){
+    Ogre::RenderTarget::FrameStats stats = mWindow->getStatistics();
+    return ((int)stats.lastFPS);
+
+}
+
+
+
+//-------------------------------------------------------------------------------------
+bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
+{
+
+
+      if(mPantalla == 1){
+          tut->frameRenderingQueued(evt);
+      }
+
 
 }
 
 
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
-    std::cout << "Ventana MOUSEPRESSED"  << std::endl;
+
+    if(mPantalla == 1){
+
+
+        tut->mousePressed(evt, id);
+        std::cout << "ACABA MOUSEPRESSED DE VENTANA " << std::endl;
+
+       // mInputMan->injectMouseDown(evt, id);
+    }
+
+
+
+    std::cout << " MOUSEPRESSED en Ventana"  << std::endl;
 
     if(sys->injectMouseButtonDown(convertButton(id)))
     {
         return true;
     }else  std::cout << "NO HA SIDO PROCESADO " << std::endl;
+
+
+
     return true;
 }
+
+
+bool Ventana::muestraAjedrez()
+{
+
+    //    TutorialApplication ta;
+        tut= new TutorialApplication(mSceneMgr, mWindow);
+
+        std::cout << "CAMBIA LA PANTALLAAAAAAAAAAAAAAAAAAAAAAz" << std::endl;
+
+        //  createViewports();
+
+        // Create the scene
+        //   createScene();
+
+        tut->setupJuego();
+
+
+        tut->createScene();
+
+}
+
 
 bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
 
 
+
+
+    if(mPantalla == 1){
+
+
+        tut->mouseReleased(evt, id);
+    }
+
     std::cout << "mouseReleased de Ventana"  << std::endl;
     sys->injectMouseButtonUp(convertButton(id));
 
 
-    std::cout << "HA SIDO PROCESADO CORRECTAMENTE EN CEGUI " << std::endl;
+    //  std::cout << "HA SIDO PROCESADO CORRECTAMENTE EN CEGUI " << std::endl;
 
-    if(menu->salirPulsado){
-        std::cout << "BOTOTON SALIR PULSADO!! " << std::endl;
-        mShutDown = true;
-        std::cout << "setvisible!! " << std::endl;
+    if(mPantalla == 0){
+        if(menu->salirPulsado){
+            std::cout << "BOTOTON SALIR PULSADO!! " << std::endl;
+            mShutDown = true;
+            std::cout << "setvisible!! " << std::endl;
 
-       // mWindow->setVisible(false);
-    }else if (sys->getGUISheet()->isVisible()==true && menu->modoJuego == 1){
-        sys->getGUISheet()->setVisible(false);
-        mPantalla = 1;
+            // mWindow->setVisible(false);
+        }else if (sys->getGUISheet()->isVisible()==true && menu->modoJuego == 1){
+            sys->getGUISheet()->setVisible(false);
+            mPantalla = 1;
+        }
     }
+
+
+
 
     return true;
 }

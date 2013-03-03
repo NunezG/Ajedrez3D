@@ -2,13 +2,14 @@
 #include "../headers/TutorialApplication.h"
 
 //-------------------------------------------------------------------------------------
-TutorialApplication::TutorialApplication(Ogre::SceneManager* mSceneMgr)
+TutorialApplication::TutorialApplication(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow)
     : BaseApplication(mSceneMgr),
       _selectedNode(0),
       fichaSeleccionada(false),
       _nodoNuevo(0),
       turnoNegras(0),
-      textoOverlay("VACIO")
+      textoOverlay("VACIO"),
+      mWindow(mWindow)
 {
 }
 //-------------------------------------------------------------------------------------
@@ -27,7 +28,7 @@ TutorialApplication::~TutorialApplication(void)
 void TutorialApplication::createGUI(void){
 
 
-     std::cout << "CREATEGUI!!!!!!!!!!!!!! "<<std::endl;
+    std::cout << "CREATEGUI!!!!!!!!!!!!!! "<<std::endl;
 }
 
 
@@ -108,6 +109,8 @@ bool TutorialApplication::keyReleased( const OIS::KeyEvent &arg )
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createViewports(void)
 {
+    std::cout << "createViewports "<<std::endl;
+
     // Create one viewport, entire window
     Ogre::Viewport* vp = mWindow->addViewport(mCamera);
     vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
@@ -388,7 +391,7 @@ bool TutorialApplication::mouseMoved( const OIS::MouseEvent &arg ){
         }
     }
 
-   return BaseApplication::mouseMoved( arg );
+    return BaseApplication::mouseMoved( arg );
 
 
 }
@@ -479,6 +482,9 @@ void TutorialApplication::createCamera(void)
     mCamera->lookAt(Ogre::Vector3(0,0,0));
     mCamera->setNearClipDistance(5);
 
+    std::cout << "CREA LA CAMARA" << std::endl;
+
+
     mInputMan = new InputMan::SdkCameraMan(mCamera);   // create a default camera controller
     mInputMan->setTopSpeed(100);
 }
@@ -528,44 +534,26 @@ bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
     // Gestion del overlay ---------------------------------------------
-    Ogre::OverlayElement *oe;
+  //  Ogre::OverlayElement *oe;
 
 
 
-    Ogre::RenderTarget::FrameStats stats = mWindow->getStatistics();
 
-    Ogre::String s("FPS: ");
-    s += Ogre::StringConverter::toString((int)stats.lastFPS);
-
-
-
-   // mOverlayManager-> hasOverlayElement("objectInfo");
-   // oe = mOverlayManager->getOverlayElement("objectInfo");
-  //  oe->setCaption(textoOverlay);
+    // mOverlayManager-> hasOverlayElement("objectInfo");
+    // oe = mOverlayManager->getOverlayElement("objectInfo");
+    //  oe->setCaption(textoOverlay);
 
 
-  //  oe = mOverlayManager->getOverlayElement("fpsInfo");
- //   oe->setCaption(s);
+    //  oe = mOverlayManager->getOverlayElement("fpsInfo");
+    //   oe->setCaption(s);
 
     //   mOutputDebugPanel->setParamValue(7, textoOverlay);
 
 
 
+    mInputMan->frameRenderingQueued(evt);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-return true;
+    return true;
 
 
     //return  BaseApplication::frameRenderingQueued(evt);
@@ -584,34 +572,34 @@ bool TutorialApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseBu
 
     //std::cout << "MODO DE JUEGO : "<<mModoJuego << std::endl;
 
-   //if(mModoJuego==1){
-       bool mbleft = (id == OIS::MB_Left);
-       bool mbright = (id == OIS::MB_Right);
-       int posx = arg.state.X.abs;   // Posicion del puntero
-       int posy = arg.state.Y.abs;   //  en pixeles.
-       Ogre::uint32 mask;
-       if (mbleft) {  // Boton izquierdo o derecho -------------
-std::cout << "mbleft "<< turnoNegras<< std::endl;
-           if (turnoNegras) {
-               mask = NEGRAS;  // Podemos elegir todo
-           } else mask =BLANCAS;
+    //if(mModoJuego==1){
+    bool mbleft = (id == OIS::MB_Left);
+    bool mbright = (id == OIS::MB_Right);
+    int posx = arg.state.X.abs;   // Posicion del puntero
+    int posy = arg.state.Y.abs;   //  en pixeles.
+    Ogre::uint32 mask;
+    if (mbleft) {  // Boton izquierdo o derecho -------------
+        std::cout << "mbleft "<< turnoNegras<< std::endl;
+        if (turnoNegras) {
+            mask = NEGRAS;  // Podemos elegir todo
+        } else mask =BLANCAS;
 
-           if (_selectedNode != NULL) {  // Si habia alguno seleccionado...
+        if (_selectedNode != NULL) {  // Si habia alguno seleccionado...
 
-               _selectedNode->showBoundingBox(false);  _selectedNode = NULL;
-               fichaSeleccionada = false;
-           }
+            _selectedNode->showBoundingBox(false);  _selectedNode = NULL;
+            fichaSeleccionada = false;
+        }
 
-           //    std::cout << "EMPIEZA RAYO" << std::endl;
+        //    std::cout << "EMPIEZA RAYO" << std::endl;
 
-           Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
-           Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
-           Ogre::RaySceneQueryResult::iterator it;
-           it = result.begin();
-                std::cout << "RESULTADO" << std::endl;
+        Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
+        Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
+        Ogre::RaySceneQueryResult::iterator it;
+        it = result.begin();
+        std::cout << "RESULTADO" << std::endl;
 
-           if (it != result.end()) {
-               /*    if (mbleft) {
+        if (it != result.end()) {
+            /*    if (mbleft) {
                  if (it->movable->getParentSceneNode()->getName() == "Col_Suelo") {
                    Ogre::SceneNode *nodeaux = mSceneMgr->createSceneNode();
                    int i = rand()%2;   std::stringstream saux;
@@ -623,22 +611,22 @@ std::cout << "mbleft "<< turnoNegras<< std::endl;
                    mSceneMgr->getRootSceneNode()->addChild(nodeaux);
                }
            }*/
-               if (it->movable->getParentSceneNode()->getName().size()>2) {
+            if (it->movable->getParentSceneNode()->getName().size()>2) {
 
-                                std::cout << "HA DETECTADO UNA FICHA" << std::endl;
-                   _selectedNode = it->movable->getParentSceneNode();
-                   _selectedNode->showBoundingBox(true);
-                   fichaSeleccionada = true;
-               }
-           }
+                std::cout << "HA DETECTADO UNA FICHA" << std::endl;
+                _selectedNode = it->movable->getParentSceneNode();
+                _selectedNode->showBoundingBox(true);
+                fichaSeleccionada = true;
+            }
+        }
 
-       } else if (mbright){
+    } else if (mbright){
 
-           if (_selectedNode != NULL && _nodoNuevo!=NULL && _nodoNuevo->getShowBoundingBox()) {  // Si habia alguno seleccionado...
+        if (_selectedNode != NULL && _nodoNuevo!=NULL && _nodoNuevo->getShowBoundingBox()) {  // Si habia alguno seleccionado...
 
 
 
-               /*
+            /*
 
 
            std::cout << "EMPIEZA RAYO" << std::endl;
@@ -667,8 +655,8 @@ std::cout << "mbleft "<< turnoNegras<< std::endl;
 
            */
 
-               //       std::cout << "SALE DEL ITERADOR: "  << std::endl;
-               /*
+            //       std::cout << "SALE DEL ITERADOR: "  << std::endl;
+            /*
 
                Ogre::SceneNode::ObjectIterator it2 = _nodoNuevo->getAttachedObjectIterator();
                while (it2.hasMoreElements()){
@@ -680,67 +668,67 @@ std::cout << "mbleft "<< turnoNegras<< std::endl;
 
 */
 
-               //   _nodoNuevo->showBoundingBox(true);
-               //        std::cout <<  _nodoNuevo->getName() << std::endl;
+            //   _nodoNuevo->showBoundingBox(true);
+            //        std::cout <<  _nodoNuevo->getName() << std::endl;
 
 
-               //  Ogre::Node::TransformSpace relativeTo = Ogre::Node::TransformSpace.TS_WORLD;
+            //  Ogre::Node::TransformSpace relativeTo = Ogre::Node::TransformSpace.TS_WORLD;
 
-               int contFila = 0;
-               int contColumna = 0;
+            int contFila = 0;
+            int contColumna = 0;
 
-               // String nombreNodo;
+            // String nombreNodo;
 
-               //  _nodoNuevo->getName()[0];
+            //  _nodoNuevo->getName()[0];
 
-               // const std::basic_string miputostring=  _nodoNuevo->getName().c_str();
+            // const std::basic_string miputostring=  _nodoNuevo->getName().c_str();
 
-               Ogre::Vector3 vector;
+            Ogre::Vector3 vector;
 
-               if (turnoNegras){
-                   vector = Ogre::Vector3(70,0,70)+_nodoNuevo->getPosition();
-               }else vector =_nodoNuevo->getPosition();
-               _selectedNode->getParent()->removeChild(_selectedNode);
-               if (_nodoNuevo->getChildIterator().hasMoreElements()){
-                   _nodoNuevo->removeAllChildren();
-               }
-               _nodoNuevo->addChild(_selectedNode);
-               //   _selectedNode->setPosition(vector);
-               turnoNegras= !turnoNegras;
-               //        std::cout << "NUEVA POS"<< _selectedNode->getPosition() << std::endl;
-               //_selectedNode->translate(_nodoNuevo->getPosition(),_selectedNode->TS_WORLD);
-               _selectedNode->showBoundingBox(false);
-               _nodoNuevo->showBoundingBox(false);
-               Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
-               const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
-               if (mNombreEntidad[1] == 'B'){
-                   mEntidadCasilla->setMaterialName("MaterialBlanco");
-               }else mEntidadCasilla->setMaterialName("MaterialNegro");
-               _nodoNuevo=NULL;
-               _selectedNode=NULL;
-               fichaSeleccionada = false;
+            if (turnoNegras){
+                vector = Ogre::Vector3(70,0,70)+_nodoNuevo->getPosition();
+            }else vector =_nodoNuevo->getPosition();
+            _selectedNode->getParent()->removeChild(_selectedNode);
+            if (_nodoNuevo->getChildIterator().hasMoreElements()){
+                _nodoNuevo->removeAllChildren();
+            }
+            _nodoNuevo->addChild(_selectedNode);
+            //   _selectedNode->setPosition(vector);
+            turnoNegras= !turnoNegras;
+            //        std::cout << "NUEVA POS"<< _selectedNode->getPosition() << std::endl;
+            //_selectedNode->translate(_nodoNuevo->getPosition(),_selectedNode->TS_WORLD);
+            _selectedNode->showBoundingBox(false);
+            _nodoNuevo->showBoundingBox(false);
+            Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
+            const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
+            if (mNombreEntidad[1] == 'B'){
+                mEntidadCasilla->setMaterialName("MaterialBlanco");
+            }else mEntidadCasilla->setMaterialName("MaterialNegro");
+            _nodoNuevo=NULL;
+            _selectedNode=NULL;
+            fichaSeleccionada = false;
 
 
 
-               //  _selectedNode = NULL;
-           }
+            //  _selectedNode = NULL;
+        }
 
-           /*   std::cout << "Boton Derecho" << std::endl;
+        /*   std::cout << "Boton Derecho" << std::endl;
        mask = ~STAGE;   // Seleccionamos todo menos el escenario
        std::cout << "FIN Boton Derecho" << std::endl;
       */
 
 
 
-   //    }
+        //    }
 
 
 
 
-   }
+    }
 
 
-   return BaseApplication::mousePressed( arg , id);
+    return BaseApplication::mousePressed( arg , id);
 
 
 

@@ -27,7 +27,7 @@ This source file is part of the
 class TutorialApplication : public BaseApplication
 {
 public:
-    TutorialApplication(Ogre::SceneManager* mSceneMgr);
+    TutorialApplication(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
     ~TutorialApplication(void);
     // Ogre::FrameListener
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -58,6 +58,7 @@ protected:
 
 
 
+    Ogre::RenderWindow* mWindow;
 
     int muevePeon(Ogre::String coord);
     int traduceCoordenadas(Ogre::String coord);

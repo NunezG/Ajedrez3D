@@ -92,14 +92,12 @@ bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 {
 
-    std::cout << "BOTON ÇJUEGO TURNOS" << std::endl;
   // mModoJuego = 1;
     modoJuego = 1;
     // Close the Simple Window
-   std::cout << "BOTON ÇJUEGO TURNOS2" << std::endl;
 
 // fWnd->setVisible(false);
-      std::cout << "BOTON ÇJUEGO TURNOS3" << std::endl;
+      std::cout << "BOTON JUEGO TURNOS" << std::endl;
 
  //   CEGUI::System::getSingleton().removeAllEvents();
 

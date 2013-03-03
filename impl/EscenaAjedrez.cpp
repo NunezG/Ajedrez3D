@@ -15,7 +15,7 @@ EscenaAjedrez::~EscenaAjedrez(void)
 void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 {
 
-    std::cout  << "EMPIEZA LA ESCENA" << std::endl;
+    std::cout  << "EMPIEZA LA ESCENA: " << mSceneMgr->getName() <<std::endl;
 
     /*   mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
       mSceneMgr->setShadowColour(Ogre::ColourValue(0.5, 0.5, 0.5) );
@@ -49,17 +49,17 @@ void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 
     this->mSceneMgr = mSceneMgr;
      std::cout  << "tablero" << std::endl;
-    Ogre::Entity *entTablero = mSceneMgr->createEntity("test12", "Tablero.mesh");
+    Ogre::Entity *entTablero = this->mSceneMgr->createEntity("test12", "Tablero.mesh");
     entTablero->setQueryFlags(TABLERO);
 
 
-    Ogre::SceneNode *nodo1 = mSceneMgr->createSceneNode("NodoTablero");
+    Ogre::SceneNode *nodo1 = this->mSceneMgr->createSceneNode("NodoTablero");
 
     nodo1->attachObject(entTablero);
 
-    mSceneMgr->getRootSceneNode()->addChild(nodo1);
+    this->mSceneMgr->getRootSceneNode()->addChild(nodo1);
 
-    Ogre::SceneNode *nodo2 = mSceneMgr->createSceneNode("NodoCasillero");
+    Ogre::SceneNode *nodo2 = this->mSceneMgr->createSceneNode("NodoCasillero");
     creaCasillas(nodo2);
     creaFichas(nodo2);
     nodo1->addChild(nodo2);

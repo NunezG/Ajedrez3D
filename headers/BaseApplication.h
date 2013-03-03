@@ -69,11 +69,12 @@ public:
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
 
+    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
 
 protected:
     Ogre::RaySceneQuery *mRaySceneQuery;
 
-    Ogre::RenderWindow* mWindow;
 
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
@@ -81,9 +82,6 @@ protected:
     // virtual void createMainMenu(void) = 0; // Override me!
   //  virtual void createViewports(void) = 0;
 
-
-    // Ogre::FrameListener
-    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 
 
