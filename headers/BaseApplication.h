@@ -26,7 +26,8 @@ This source file is part of the
 #include "SdkTrays.h"
 
 
-
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 
 #include <OgreCamera.h>
 #include <OgreEntity.h>
@@ -40,7 +41,7 @@ This source file is part of the
 
 
 #include "InputMan.h"
-#include "CreacionJuego.h"
+//#include "CreacionJuego.h"
 
 class BaseApplication //: public CreacionJuego
 {
@@ -52,6 +53,23 @@ public:
     Ogre::SceneManager* mSceneMgr;
     virtual void createViewports(void) = 0;
     virtual void createScene(void) = 0; // Override me!
+
+
+
+
+
+
+
+    // OIS::KeyListener
+    virtual bool keyPressed( const OIS::KeyEvent &arg );
+    virtual bool keyReleased( const OIS::KeyEvent &arg );
+    // OIS::MouseListener
+    virtual bool mouseMoved( const OIS::MouseEvent &arg );
+    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+
+
 protected:
     Ogre::RaySceneQuery *mRaySceneQuery;
 
@@ -67,13 +85,6 @@ protected:
     // Ogre::FrameListener
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-    // OIS::KeyListener
-    virtual bool keyPressed( const OIS::KeyEvent &arg );
-    virtual bool keyReleased( const OIS::KeyEvent &arg );
-    // OIS::MouseListener
-    virtual bool mouseMoved( const OIS::MouseEvent &arg );
-    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
 
 

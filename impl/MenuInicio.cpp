@@ -2,7 +2,8 @@
 #include "../headers/MenuInicio.h"
 
 //-------------------------------------------------------------------------------------
-MenuInicio::MenuInicio(CEGUIFrameListener* mFrameListener): mFrameListener(mFrameListener)
+MenuInicio::MenuInicio() : salirPulsado(0),
+    modoJuego(0)
 {
 
 }
@@ -13,9 +14,7 @@ MenuInicio::~MenuInicio(void)
 }
 
 
-
-
-void MenuInicio::createGUI()
+CEGUI::FrameWindow* MenuInicio::createGUI()
 {
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro ***");
 
@@ -41,12 +40,9 @@ void MenuInicio::createGUI()
 
 
 
-
-    mFrameListener->sys->getGUISheet()->addChildWindow( fWnd );
-
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro 5***");
 
-    // mFrameListener. = new CEGUIFrameListener();
+    // mFrameListener. = new Ventana();
     std::cout << "createGUI"<<std::endl;
 
     //Quit button
@@ -68,8 +64,15 @@ void MenuInicio::createGUI()
     fWnd->addChildWindow(quitButton);
     fWnd->addChildWindow(mBotonJTurnos);
 
+
+    std::cout << "createGUI 3"<<std::endl;
+
+
+    return fWnd;
+
+
+
   // mFrameListener-> sys->renderGUI();
-std::cout << "createGUI 3"<<std::endl;
 }
 
 
@@ -81,7 +84,7 @@ bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 
     std::cout << "BOTON QUIT" << std::endl;
 
-     mFrameListener->mShutDown = true;
+     salirPulsado = true;
     return true;
 }
 
@@ -91,10 +94,10 @@ bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 
     std::cout << "BOTON ÇJUEGO TURNOS" << std::endl;
   // mModoJuego = 1;
-    mFrameListener->mPantalla = 1;
+    modoJuego = 1;
     // Close the Simple Window
    std::cout << "BOTON ÇJUEGO TURNOS2" << std::endl;
-    mFrameListener->sys->getGUISheet()->setVisible(false);
+
 // fWnd->setVisible(false);
       std::cout << "BOTON ÇJUEGO TURNOS3" << std::endl;
 

@@ -20,17 +20,20 @@ This source file is part of the
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <Ogre.h>
-#include "CEGUIFrameListener.h"
+//#include "Ventana.h"
 
 
 
 class MenuInicio
 {
 public:
-    MenuInicio(CEGUIFrameListener* mFrameListener);
+    MenuInicio();//Ventana* mFrameListener);
     ~MenuInicio(void);
 
-  virtual void createGUI(void);
+  virtual CEGUI::FrameWindow* createGUI(void);
+    int modoJuego;
+    bool salirPulsado;
+
 
 protected:
 
@@ -39,8 +42,7 @@ protected:
     bool botonJuegoTurnos(const CEGUI::EventArgs &e);
 
 
-    CEGUIFrameListener* mFrameListener;
-
+  //  Ventana* mFrameListener;
 
     CEGUI::Window *sheetWindow;
     CEGUI::Window *quitButton;

@@ -13,6 +13,7 @@ Inicio::Inicio(void)
 //-------------------------------------------------------------------------------------
 Inicio::~Inicio(void)
 {
+    std::cout << "destructor inicio"<< std::endl;
 
 
 }
@@ -46,8 +47,11 @@ int main(int argc, char *argv[])
         //  std::cout << "GO" << std::endl;
      //   cj.go();
 
-        MenuInicial mI;
-        mI.go();
+        ControlJuego& control = ControlJuego::getControlSingleton();
+        control.go();
+
+        std::cout << "acaba el inicio"<< std::endl;
+
        // TutorialApplication tut;
 
        //mI.createGUI();

@@ -113,12 +113,16 @@ set(HDRS
         ./headers/BaseApplication.h
         ./headers/TutorialApplication.h
         ./headers/InputMan.h
-        ./headers/CEGUIFrameListener.h
-        ./headers/CreacionJuego.h
-        ./headers/MenuInicial.h
+        ./headers/Ventana.h
+        #./headers/CreacionJuego.h
+       # ./headers/MenuInicial.h
         ./headers/EscenaAjedrez.h
         ./headers/Inicio.h
         ./headers/Movimientos.h
+
+        ./headers/BaseJuego.h
+        ./headers/ControlJuego.h
+        ./headers/MenuInicio.h
 
 
 )
@@ -126,12 +130,18 @@ set(HDRS
 set(SRCS
         ./impl/BaseApplication.cpp
         ./impl/TutorialApplication.cpp
-        ./impl/CEGUIFrameListener.cpp
-        ./impl/CreacionJuego.cpp
-        ./impl/MenuInicial.cpp
+        ./impl/Ventana.cpp
+       # ./impl/CreacionJuego.cpp
+       # ./impl/MenuInicial.cpp
         ./impl/EscenaAjedrez.cpp
         ./impl/Inicio.cpp
         ./impl/Movimientos.cpp
+
+        ./impl/BaseJuego.cpp
+        ./impl/ControlJuego.cpp
+        ./impl/MenuInicio.cpp
+
+
 )
  
 include_directories( ${OIS_INCLUDE_DIRS}

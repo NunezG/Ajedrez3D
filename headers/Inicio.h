@@ -2,8 +2,8 @@
 #define __Inicio_
 
 //#include "CreacionJuego.h"
-#include "MenuInicial.h"
-#include "TutorialApplication.h"
+#include "ControlJuego.h"
+//#include "TutorialApplication.h"
 
 
 

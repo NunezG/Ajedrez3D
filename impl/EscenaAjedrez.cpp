@@ -8,6 +8,7 @@ EscenaAjedrez::EscenaAjedrez(void)
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::~EscenaAjedrez(void)
 {
+
 }
 
 

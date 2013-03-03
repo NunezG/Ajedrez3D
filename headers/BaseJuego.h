@@ -7,19 +7,20 @@
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include "EscenaAjedrez.h"
 #include "TutorialApplication.h"
-#include "MenuInicio.h"
+//#include "MenuInicio.h"
 
 
-#include "CEGUIFrameListener.h"
+#include "Ventana.h"
 
 #include "BaseApplication.h"
 //#include "TutorialApplication.h"
 //#include "MenuInicial.h"
+#include <OgreRoot.h>
 
 
 
 
-class BaseJuego : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener
+class BaseJuego : public Ogre::FrameListener
 {
 public:
 
@@ -39,19 +40,17 @@ public:
 protected:
     BaseJuego(void);
 
-    Ogre::RenderWindow* mWindow;
     int mModoJuego;
     //Adjust mouse clipping area
-    void windowResized(Ogre::RenderWindow* rw);
 
-    virtual void createMainMenu(void) = 0; // Override me!
+
+   // virtual void createMainMenu(void) = 0; // Override me!
 
     void destroyScene(void);
     void setupResources(void);
     void createResourceListener(void);
     void loadResources(void);
     bool setup();
-    void iniciaIO(void);
     bool configuraGraficos(const char *desiredRenderer);
     bool configureOpenGL(void);
     bool configureOgre(void);
@@ -62,19 +61,20 @@ protected:
     //Adjust mouse clipping area
   //  virtual void windowResized(Ogre::RenderWindow* rw) = 0;
     //Unattach OIS before window shutdown (very important under Linux)
-    virtual void windowClosed(Ogre::RenderWindow* rw) = 0;
+  //  virtual void windowClosed(Ogre::RenderWindow* rw) = 0;
 
     Ogre::Root *mRoot;
-    //OIS Input devices
-    OIS::InputManager* mInputManager;
+
 
     BaseApplication* tut;
     MenuInicio* menu;
 
-    OIS::Mouse*    mMouse;
-    OIS::Keyboard* mKeyboard;
+    //OIS Input devices
+  //  OIS::InputManager* mInputManager;
+  //  OIS::Mouse*    mMouse;
+  //  OIS::Keyboard* mKeyboard;
 
-    CEGUIFrameListener* mFrameListener;
+   // Ventana mFrameListener;
  // CEGUI::OgreRenderer* mRenderer;
 
 
@@ -82,8 +82,7 @@ protected:
  //  InputMan::SdkCameraMan* mInputMan;
 
   //  Ogre::Camera* mCamera;
-    virtual bool statUpdate(const Ogre::FrameEvent& evt) = 0;
-    Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
+ //   virtual bool statUpdate(const Ogre::FrameEvent& evt) = 0;
 
 
 
@@ -110,4 +109,4 @@ private:
     Ogre::String mPluginsCfg;
 };
 
-#endif // #ifndef __TutorialApplication_h_
+#endif // #ifndef __BaseJuego_h_

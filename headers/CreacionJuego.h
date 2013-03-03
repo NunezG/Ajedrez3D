@@ -104,4 +104,4 @@ private:
     Ogre::String mPluginsCfg;
 };
 
-#endif // #ifndef __TutorialApplication_h_
+#endif // #ifndef __CreacionJuego_h_
