@@ -16,11 +16,22 @@ public:
 
     void createScene(Ogre::SceneManager*);
 
-protected:
+private:
     Ogre::SceneManager* mSceneMgr;
 
-    void creaFichas(Ogre::SceneNode* nodoBase);
-    void creaCasillas(Ogre::SceneNode* nodoBase);
+
+
+    void creaFichas();
+    void creaCasillas();
+
+    void creaPeones();
+    void creaNobleza();
+    void creaVasallos();
+
+
+    Ogre::String columnas;
+    Ogre::SceneNode* nodoTablero;
+    Ogre::SceneNode* nodoCasillero;
 };
 
 #endif

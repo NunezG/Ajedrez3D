@@ -2,15 +2,13 @@
 #include "../headers/EscenaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-EscenaAjedrez::EscenaAjedrez(void)
+EscenaAjedrez::EscenaAjedrez(void) : columnas("ABCDEFGH")
 {
 }
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::~EscenaAjedrez(void)
-{
-
+{    
 }
-
 
 void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 {
@@ -44,28 +42,34 @@ void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 */
 
     this->mSceneMgr = mSceneMgr;
-    std::cout  << "tablero" << std::endl;
     Ogre::Entity *entTablero = this->mSceneMgr->createEntity("test12", "Tablero.mesh");
     entTablero->setQueryFlags(TABLERO);
 
-    Ogre::SceneNode *nodo1 = this->mSceneMgr->createSceneNode("NodoTablero");
+    nodoTablero = this->mSceneMgr->createSceneNode("NodoTablero");
 
-    nodo1->attachObject(entTablero);
+    nodoTablero->attachObject(entTablero);
 
-    this->mSceneMgr->getRootSceneNode()->addChild(nodo1);
+    this->mSceneMgr->getRootSceneNode()->addChild(nodoTablero);
 
-    Ogre::SceneNode *nodo2 = this->mSceneMgr->createSceneNode("NodoCasillero");
-    creaCasillas(nodo2);
-    creaFichas(nodo2);
-    nodo1->addChild(nodo2);
+    nodoCasillero = this->mSceneMgr->createSceneNode("NodoCasillero");
+
+    creaCasillas();
+    creaFichas();
+
+    nodoTablero->addChild(nodoCasillero);
 }
 
-void EscenaAjedrez::creaFichas(Ogre::SceneNode* nodoBase)
-{
+void EscenaAjedrez::creaFichas()
+{ 
+    creaVasallos();
+    creaPeones();
+    creaNobleza();
+}
+
+void EscenaAjedrez::creaVasallos(){
     Ogre::Entity *mFicha;
     Ogre::SceneNode *mNodoFicha;
     std::stringstream saux;
-    const Ogre::String columnas = "ABCDEFGH";
     Ogre::String nombreFicha;
 
     //CREA LAS PIEZAS DOBLES
@@ -74,15 +78,16 @@ void EscenaAjedrez::creaFichas(Ogre::SceneNode* nodoBase)
         saux.str("");
         saux <<"(T)Torre"<< Ogre::StringConverter::toString(i);
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
-        if (i%2 == 0){
+        if (i%2 == 0)
+        {
             mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Torre.mesh");
-            //    std::cout  << "TORRE BLANCA" << std::endl;
             mFicha->setQueryFlags(BLANCAS);
             //       mNodoFicha->translate(0,0,-70*(i/2));
             nombreFicha = columnas[7*(i/2)]+ Ogre::String("1");
-        }else{
+        }
+        else
+        {
             mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Torre.mesh");
-            //    std::cout  << "TORRE NEGRA" << std::endl;
 
             mFicha->setMaterialName("MaterialFichaNegra");
             mFicha->setQueryFlags(NEGRAS);
@@ -93,23 +98,20 @@ void EscenaAjedrez::creaFichas(Ogre::SceneNode* nodoBase)
         mFicha->setCastShadows(true);
         mNodoFicha->attachObject(mFicha);
 
-
-        //   std::cout  << "AÑADE HIJO " << nombreFicha <<std::endl;
-        //   std::cout  << "NOMBRE CASILLA DONDE SE VA A COLOCAR: " <<   nodoBase->getChild(nombreFicha)->getName() <<  std::endl;
-
-        nodoBase->getChild(nombreFicha)->addChild(mNodoFicha);
+        nodoCasillero->getChild(nombreFicha)->addChild(mNodoFicha);
 
         saux.str("");
         saux <<"(C)Caballo"<< Ogre::StringConverter::toString(i);
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
-        if (i%2 == 0){
-
+        if (i%2 == 0)
+        {
             mFicha = mSceneMgr->createEntity("(B)"+ saux.str(), "Caballo.mesh");
             mFicha->setQueryFlags(BLANCAS);
             // mNodoFicha->translate(0,0,-10-50*(i/2));
             nombreFicha = columnas[1+5*(i/2)]+ Ogre::String("1");
-        }else{
-
+        }
+        else
+        {
             mFicha = mSceneMgr->createEntity("(N)"+ saux.str(), "Caballo.mesh");
             mFicha->setMaterialName("MaterialFichaNegra");
             mFicha->setQueryFlags(NEGRAS);
@@ -119,21 +121,22 @@ void EscenaAjedrez::creaFichas(Ogre::SceneNode* nodoBase)
         }
         mFicha->setCastShadows(true);
         mNodoFicha->attachObject(mFicha);
-        nodoBase->getChild(nombreFicha)->addChild(mNodoFicha);
+        nodoCasillero->getChild(nombreFicha)->addChild(mNodoFicha);
 
         saux.str("");
         saux <<"(A)Alfil"<< Ogre::StringConverter::toString(i);
 
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
 
-        if (i%2 == 0){
-
+        if (i%2 == 0)
+        {
             mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Alfil.mesh");
 
             nombreFicha = columnas[2+3*(i/2)]+ Ogre::String("1");
             mFicha->setQueryFlags(BLANCAS);
-        }else{
-
+        }
+        else
+        {
             mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Alfil.mesh");
 
             mFicha->setMaterialName("MaterialFichaNegra");
@@ -144,42 +147,21 @@ void EscenaAjedrez::creaFichas(Ogre::SceneNode* nodoBase)
         }
         mFicha->setCastShadows(true);
         mNodoFicha->attachObject(mFicha);
-        nodoBase-> getChild(nombreFicha)->addChild(mNodoFicha);
+        nodoCasillero-> getChild(nombreFicha)->addChild(mNodoFicha);
     }
+}
 
-    // std::cout  << "CREA LOS PEONES "  <<std::endl;
-    //CREA LOS PEONES
-    for (int i = 0; i < 16; ++i)
-    {
-        saux.str("");
-        saux <<"(P)Peon_"<< Ogre::StringConverter::toString(i);
-        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+void EscenaAjedrez::creaNobleza(){
 
-        if (i%2 == 0){
-            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Peon.mesh");
-            nombreFicha = columnas[i/2]+ Ogre::String("2");
-            mFicha->setQueryFlags(BLANCAS);
+    Ogre::Entity *mFicha;
+    Ogre::SceneNode *mNodoFicha;
+    std::stringstream saux;
+    Ogre::String nombreFicha;
 
-        }else {
-            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Peon.mesh");
-            mFicha->setMaterialName("MaterialFichaNegra");
-            mFicha->setQueryFlags(NEGRAS);
-            mNodoFicha->yaw(Ogre::Degree(180));
-            mNodoFicha->translate(70,0,70);
 
-            nombreFicha = columnas[i/2]+ Ogre::String("7");
-        }
-        mFicha->setCastShadows(true);
-        mNodoFicha->attachObject(mFicha);
-        nodoBase-> getChild(nombreFicha)->addChild(mNodoFicha);
-    }
-
-    //std::cout  << "CREA LAS PIEZAS UNICAS "  <<std::endl;
     //CREA LAS PIEZAS UNICAS
-
     for (int i = 0; i < 2; ++i)
     {
-
         saux.str("");
         saux <<"(N)Reina"<< Ogre::StringConverter::toString(i);
 
@@ -199,17 +181,20 @@ void EscenaAjedrez::creaFichas(Ogre::SceneNode* nodoBase)
         }
         mFicha->setCastShadows(true);
         mNodoFicha->attachObject(mFicha);
-        nodoBase-> getChild(nombreFicha)->addChild(mNodoFicha);
+        nodoCasillero-> getChild(nombreFicha)->addChild(mNodoFicha);
 
         saux.str("");
         saux <<"(R)Rey"<< Ogre::StringConverter::toString(i);
 
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
-        if (i%2 != 0){
+        if (i%2 != 0)
+        {
             mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Rey.mesh");
             mFicha->setQueryFlags(BLANCAS);
             nombreFicha = columnas[4]+ Ogre::String("1");
-        }else{
+        }
+        else
+        {
             mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Rey.mesh");
             nombreFicha = columnas[4]+ Ogre::String("8");
             mFicha->setQueryFlags(NEGRAS);
@@ -219,20 +204,59 @@ void EscenaAjedrez::creaFichas(Ogre::SceneNode* nodoBase)
         }
         mFicha->setCastShadows(true);
         mNodoFicha->attachObject(mFicha);
-        nodoBase-> getChild(nombreFicha)->addChild(mNodoFicha);
-
+        nodoCasillero-> getChild(nombreFicha)->addChild(mNodoFicha);
     }
+
+
+}
+
+void EscenaAjedrez::creaPeones(){
+
+    Ogre::Entity *mFicha;
+    Ogre::SceneNode *mNodoFicha;
+    std::stringstream saux;
+    Ogre::String nombreFicha;
+
+
+    //CREA LOS PEONES
+    for (int i = 0; i < 16; ++i)
+    {
+        saux.str("");
+        saux <<"(P)Peon_"<< Ogre::StringConverter::toString(i);
+        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+
+        if (i%2 == 0)
+        {
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Peon.mesh");
+            nombreFicha = columnas[i/2]+ Ogre::String("2");
+            mFicha->setQueryFlags(BLANCAS);
+        }
+        else
+        {
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Peon.mesh");
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mFicha->setQueryFlags(NEGRAS);
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
+
+            nombreFicha = columnas[i/2]+ Ogre::String("7");
+        }
+        mFicha->setCastShadows(true);
+        mNodoFicha->attachObject(mFicha);
+        nodoCasillero -> getChild(nombreFicha)->addChild(mNodoFicha);
+    }
+
+
 }
 
 
-void EscenaAjedrez::creaCasillas(Ogre::SceneNode* nodoBase)
-{
-
+void EscenaAjedrez::creaCasillas()
+{    
     Ogre::Entity *mCasilla;
     Ogre::SceneNode *mNodoCasilla;
     int contFila = 0;
     int contColumna = 0;
-    const char* columnas = "ABCDEFGH";
+    //const char* columnas = "ABCDEFGH";
     bool inversa = false;
     std::stringstream saux;
 
@@ -252,11 +276,7 @@ void EscenaAjedrez::creaCasillas(Ogre::SceneNode* nodoBase)
             }
         }
         saux.str("");
-        // if (i%2 == 0){
-        //       saux << "(B)" << columnas[contColumna] << Ogre::StringConverter::toString(contFila+1);
-        // }  else
         saux << columnas[contColumna] << Ogre::StringConverter::toString(contFila+1);
-
 
         //SI ES PAR SE USA LA CASILLA NEGRA
         if (i%2 == 0){
@@ -269,11 +289,9 @@ void EscenaAjedrez::creaCasillas(Ogre::SceneNode* nodoBase)
         mNodoCasilla->translate(-10*contFila,0,-10*contColumna);
         mNodoCasilla->attachObject(mCasilla);
         //std::cout  << "AÑADE CASILLA " << mCasilla->getName() << std::endl;
-        nodoBase->addChild(mNodoCasilla);
+        nodoCasillero->addChild(mNodoCasilla);
 
         if (inversa) contFila--;
         else contFila++;
     }
-
-
 }

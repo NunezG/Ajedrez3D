@@ -48,29 +48,19 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
             if (_nodoNuevo==NULL || nodoSobrevolado->getName() != _nodoNuevo->getName()){
 
                 if (_nodoNuevo!=NULL){
-                    _nodoNuevo->showBoundingBox(false);
-                    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
-                    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
-                    if (mNombreEntidad[1] == 'B'){
-                        mEntidadCasilla->setMaterialName("MaterialBlanco");
-                    }else mEntidadCasilla->setMaterialName("MaterialNegro");
+                    apagaCasilla(_nodoNuevo);
                     _nodoNuevo=NULL;
                 }
-
                 _nodoNuevo=nodoSobrevolado;
 
                 //Autoriza la casilla sobrevolada para mover ficha (no mira si la casilla está ocupada)
                 bool autorizado= true;
-                autorizado = Movimientos::autorizaCasilla(_selectedNode , _nodoNuevo, turnoNegras);
+                autorizado = Autorizaciones::autorizaCasilla(_selectedNode , _nodoNuevo, turnoNegras);
 
                 //Mira si la casilla está ocupada y por quién
-                if(autorizado
-                        && _nodoNuevo->getChildIterator().hasMoreElements()) autorizado = Movimientos::FichaComestible(nodoSobrevolado, turnoNegras);
-
-                if (autorizado)
-                {
-                    iluminaCasilla(_nodoNuevo);
-                }
+                if(autorizado)
+                    if  (_nodoNuevo->getChildIterator().hasMoreElements()) autorizado = Autorizaciones::FichaComestible(nodoSobrevolado, turnoNegras);
+                    else Autorizaciones::iluminaCasilla(_nodoNuevo);
             }
         }
     }
@@ -78,16 +68,15 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 }
 
 
-
-void VistaAjedrez::iluminaCasilla(Ogre::SceneNode* casilla){
-    casilla->showBoundingBox(true);
+void VistaAjedrez::apagaCasilla(Ogre::SceneNode* casilla)
+{
+    casilla->showBoundingBox(false);
     Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
     const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
     if (mNombreEntidad[1] == 'B'){
-        mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
-    }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+        mEntidadCasilla->setMaterialName("MaterialBlanco");
+    }else mEntidadCasilla->setMaterialName("MaterialNegro");
 }
-
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
@@ -103,25 +92,28 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
     int posx = arg.state.X.abs;   // Posicion del puntero
     int posy = arg.state.Y.abs;   //  en pixeles.
     Ogre::uint32 mask;
-    if (mbleft) {  // Boton izquierdo o derecho -------------
+    if (mbleft)
+    {  // Boton izquierdo o derecho -------------
         std::cout << "mbleft "<< turnoNegras<< std::endl;
-        if (turnoNegras) {
+        if (turnoNegras)
+        {
             mask = NEGRAS;  // Podemos elegir todo
         } else mask =BLANCAS;
 
-        if (_selectedNode != NULL) {  // Si habia alguno seleccionado...
+        if (_selectedNode != NULL)
+        {  // Si habia alguno seleccionado...
 
             _selectedNode->showBoundingBox(false);  _selectedNode = NULL;
             fichaSeleccionada = false;
         }
-
         //EMPIEZA RAYO
         Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
         Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
 
-        if (it != result.end()) {
+        if (it != result.end())
+        {
             if (it->movable->getParentSceneNode()->getName().size()>2)
             {
                 _selectedNode = it->movable->getParentSceneNode();
@@ -129,9 +121,9 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
                 fichaSeleccionada = true;
             }
         }
-
-    } else if (mbright){
-
+    } else if (mbright)
+    {
+        //COME LA FICHA
         if (_selectedNode != NULL && _nodoNuevo!=NULL && _nodoNuevo->getShowBoundingBox()) {  // Si habia alguno seleccionado...
 
             Ogre::Vector3 vector;
@@ -144,22 +136,17 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
                 _nodoNuevo->removeAllChildren();
             }
             _nodoNuevo->addChild(_selectedNode);
-
             turnoNegras= !turnoNegras;
-
             _selectedNode->showBoundingBox(false);
-            _nodoNuevo->showBoundingBox(false);
-            Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(_nodoNuevo->getAttachedObject(0));
-            const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
-            if (mNombreEntidad[1] == 'B'){
-                mEntidadCasilla->setMaterialName("MaterialBlanco");
-            }else mEntidadCasilla->setMaterialName("MaterialNegro");
+
+            apagaCasilla(_nodoNuevo);
+
             _nodoNuevo=NULL;
+
             _selectedNode=NULL;
             fichaSeleccionada = false;
         }
     }
-
     return BaseApplication::mousePressed( arg , id);
 }
 

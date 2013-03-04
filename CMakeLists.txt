@@ -118,7 +118,7 @@ set(HDRS
        # ./headers/MenuInicial.h
         ./headers/EscenaAjedrez.h
         ./headers/Inicio.h
-        ./headers/Movimientos.h
+        ./headers/Autorizaciones.h
 
         ./headers/BaseJuego.h
         ./headers/ControlJuego.h
@@ -137,7 +137,7 @@ set(SRCS
        # ./impl/MenuInicial.cpp
         ./impl/EscenaAjedrez.cpp
         ./impl/Inicio.cpp
-        ./impl/Movimientos.cpp
+        ./impl/Autorizaciones.cpp
 
         ./impl/BaseJuego.cpp
         ./impl/ControlJuego.cpp

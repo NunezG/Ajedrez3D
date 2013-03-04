@@ -1,22 +1,21 @@
-#ifndef __Movimientos_
-#define __Movimientos_
+#ifndef __Autorizaciones_
+#define __Autorizaciones_
 #include <Ogre.h>
 
-class Movimientos
+class Autorizaciones
 {
 public:
-    Movimientos(void);
-    virtual ~Movimientos(void);
+    Autorizaciones(void);
+    virtual ~Autorizaciones(void);
 
     static bool autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::SceneNode* nodoSobrevolado, bool turnoNegras);
     static bool FichaComestible(Ogre::SceneNode* nodoSobrevolado, bool turnoNegras);
+    static void iluminaCasilla(Ogre::SceneNode* casilla);
 
-protected:
-
+private:
     static bool autorizaRey(Ogre::Vector3 diferencia);
     static bool autorizaReina(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
-    static bool autorizaPeonNegro(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado, Ogre::Vector3 seleccionado);
-    static bool autorizaPeonBlanco(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado, Ogre::Vector3 seleccionado);
+    static bool autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado, Ogre::Vector3 seleccionado);
     static bool autorizaAlfil(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
     static bool autorizaTorre(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
     static bool autorizaCaballo(Ogre::Vector3 diferencia);
@@ -28,6 +27,8 @@ protected:
     static bool caminoDiagAbDer(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo);
 
     static bool verificaCamino(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo, int camino);
+
+
 
 };
 

@@ -2,7 +2,7 @@
 #define __VistaAjedrez_h_
 
 #include "BaseApplication.h"
-#include "Movimientos.h"
+#include "Autorizaciones.h"
 #include <Ogre.h>
 
 class VistaAjedrez : public BaseApplication
@@ -25,7 +25,7 @@ public:
 
 protected:
 
-    void iluminaCasilla(Ogre::SceneNode* casilla);
+    void apagaCasilla(Ogre::SceneNode* casilla);
 
     Ogre::SceneNode *_selectedNode;
     Ogre::SceneNode *_nodoNuevo;
