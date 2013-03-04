@@ -31,7 +31,8 @@ class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre:
 {
 public:
     //Singleton
-    static Ventana& getCEGUISingleton();
+    static Ventana* getCEGUISingletonPtr();
+
      ~Ventana(void);
 
     //Iniciación
@@ -43,27 +44,17 @@ public:
     bool MuestraMenu();
     bool muestraAjedrez();
 
-
     int getFPS();
 
-
     int pantallaActual();
-    Ogre::RenderWindow* getVentana();
-
-
-
-
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-
-
-    Ogre::SceneManager* mSceneMgr;
+    Ogre::RenderWindow* getVentana();
     bool mShutDown;
     int mPantalla;
 
 private:
-
 
     bool injectTimePulse(const Ogre::FrameEvent& evt);
     bool statUpdate(const Ogre::FrameEvent& evt);
@@ -74,8 +65,6 @@ private:
     void windowClosed(Ogre::RenderWindow* rw);
     void windowResized(Ogre::RenderWindow* rw);
 
-
-
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
     bool keyReleased( const OIS::KeyEvent &arg );
@@ -84,18 +73,14 @@ private:
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
-
-    CEGUI::Window *sheet;
-    CEGUI::System* sys;
-
     BaseApplication* tut;
-
 
     //Singleton;
     Ventana(void);
     void operator=(const Ventana& frameListener ) ;
     Ventana(const Ventana& ventana);
 
+    Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
     Ogre::Root* mRoot;
     Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
@@ -103,6 +88,8 @@ private:
     unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
+    CEGUI::Window *sheet;
+    CEGUI::System* sys;
 
     MenuInicio* menu;
 
@@ -110,5 +97,4 @@ private:
     OIS::InputManager* mInputManager;
     OIS::Mouse*    mMouse;
     OIS::Keyboard* mKeyboard;
-
 };

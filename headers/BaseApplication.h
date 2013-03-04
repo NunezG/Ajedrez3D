@@ -1,19 +1,3 @@
-/*
------------------------------------------------------------------------------
-Filename:    BaseApplication.h
------------------------------------------------------------------------------
-
-This source file is part of the
-   ___                 __    __ _ _    _ 
-  /___\__ _ _ __ ___  / / /\ \ (_) | _(_)
- //  // _` | '__/ _ \ \ \/  \/ / | |/ / |
-/ \_// (_| | | |  __/  \  /\  /| |   <| |
-\___/ \__, |_|  \___|   \/  \/ |_|_|\_\_|
-      |___/                              
-      Tutorial Framework
-      http://www.ogre3d.org/tikiwiki/
------------------------------------------------------------------------------
-*/
 #ifndef __BaseApplication_h_
 #define __BaseApplication_h_
 
@@ -24,7 +8,6 @@ This source file is part of the
 #include <OISMouse.h>
 
 #include "SdkTrays.h"
-
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
@@ -40,11 +23,10 @@ This source file is part of the
 
 #include "EscenaAjedrez.h"
 
-
 #include "InputMan.h"
 //#include "CreacionJuego.h"
 
-class BaseApplication //: public CreacionJuego
+class BaseApplication
 {
 public:
     BaseApplication(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
@@ -59,6 +41,7 @@ public:
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
 
 protected:
+
     Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
     Ogre::RaySceneQuery *mRaySceneQuery;
@@ -71,9 +54,9 @@ protected:
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
 
 private:
- virtual void createViewports(void);
- void createCamera(void);
- void createScene(void);
+    virtual void createViewports(void);
+    void createCamera(void);
+    void createScene(void);
 
 };
 

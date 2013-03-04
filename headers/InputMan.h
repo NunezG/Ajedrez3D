@@ -30,14 +30,8 @@
 
 #include "Ogre.h"
 
-#define CASILLA 1 << 0  // Mascara para el escenario
-#define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
-#define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
-#define TABLERO 1 << 3
-
 namespace InputMan
 {
-
 
 /*=============================================================================
     | Utility class for controlling the camera in samples.
@@ -174,7 +168,6 @@ public:
     {
 
 
-        std::cout << "frameRenderingQueued en INPUTMAN" << std::endl;
 
         //   if (mStyle == CS_FREELOOK)
         //  {

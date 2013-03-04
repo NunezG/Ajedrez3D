@@ -14,16 +14,12 @@ EscenaAjedrez::~EscenaAjedrez(void)
 
 void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 {
-
-    std::cout  << "EMPIEZA LA ESCENA: " << mSceneMgr->getName() <<std::endl;
-
     /*   mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
       mSceneMgr->setShadowColour(Ogre::ColourValue(0.5, 0.5, 0.5) );
       mSceneMgr->setAmbientLight(Ogre::ColourValue(0.9, 0.9, 0.9));
 
       mSceneMgr->setShadowTextureCount(2);
       mSceneMgr->setShadowTextureSize(512);
-
 
       Ogre::Light* light2 = mSceneMgr->createLight("Light2");
       light2->setPosition(65,35,55);
@@ -48,10 +44,9 @@ void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 */
 
     this->mSceneMgr = mSceneMgr;
-     std::cout  << "tablero" << std::endl;
+    std::cout  << "tablero" << std::endl;
     Ogre::Entity *entTablero = this->mSceneMgr->createEntity("test12", "Tablero.mesh");
     entTablero->setQueryFlags(TABLERO);
-
 
     Ogre::SceneNode *nodo1 = this->mSceneMgr->createSceneNode("NodoTablero");
 
@@ -63,49 +58,19 @@ void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
     creaCasillas(nodo2);
     creaFichas(nodo2);
     nodo1->addChild(nodo2);
-
-
-    std::cout  << "ACABA LA ESCENA" << std::endl;
-
-
-
-    // _sceneManager->getRootSceneNode()->attachObject(ent1);
-    //_sceneManager->getRootSceneNode()->attachObject(ent2);
-    //    _sceneManager->getRootSceneNode()->attachObject(ent3);
-    /*  _sceneManager->getRootSceneNode()->attachObject(ent4);
-  _sceneManager->getRootSceneNode()->attachObject(ent5);
-  _sceneManager->getRootSceneNode()->attachObject(ent6);
-  _sceneManager->getRootSceneNode()->attachObject(ent7);
-  _sceneManager->getRootSceneNode()->attachObject(ent8);
-  _sceneManager->getRootSceneNode()->attachObject(ent9);
-  _sceneManager->getRootSceneNode()->attachObject(ent10);
-  _sceneManager->getRootSceneNode()->attachObject(ent11);
-      _sceneManager->getRootSceneNode()->attachObject(ent12);
-      _sceneManager->getRootSceneNode()->attachObject(ent13);
-      _sceneManager->getRootSceneNode()->attachObject(ent14);
-*/
-
-
-
-
 }
 
 void EscenaAjedrez::creaFichas(Ogre::SceneNode* nodoBase)
 {
-
     Ogre::Entity *mFicha;
     Ogre::SceneNode *mNodoFicha;
     std::stringstream saux;
     const Ogre::String columnas = "ABCDEFGH";
     Ogre::String nombreFicha;
 
-
     //CREA LAS PIEZAS DOBLES
     for (int i = 0; i < 4; ++i)
     {
-
-        //  std::cout  << " i = " << i  << " i/2 = " << i/2 << " i%2 = " << i%2 << std::endl;
-
         saux.str("");
         saux <<"(T)Torre"<< Ogre::StringConverter::toString(i);
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());

@@ -13,7 +13,6 @@ MenuInicio::~MenuInicio(void)
 
 }
 
-
 CEGUI::FrameWindow* MenuInicio::createGUI()
 {
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro ***");
@@ -26,24 +25,13 @@ CEGUI::FrameWindow* MenuInicio::createGUI()
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro 3***");
 
+    // fWnd->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25f, 0 ), CEGUI::UDim( 0.25f, 0 ) ) );
 
-    // position a quarter of the way in from the top-left of parent.
-
-
-   // fWnd->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25f, 0 ), CEGUI::UDim( 0.25f, 0 ) ) );
-
-    // set size to be half the size of the parent
     fWnd->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
-
 
     //Ogre::LogManager::getSingletonPtr()->logMessage(  mFrameListener->sys->);
 
-
-
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro 5***");
-
-    // mFrameListener. = new Ventana();
-    std::cout << "createGUI"<<std::endl;
 
     //Quit button
     quitButton = wmgr.createWindow("TaharezLook/Button", "CEGUI/QuitButton");
@@ -64,51 +52,17 @@ CEGUI::FrameWindow* MenuInicio::createGUI()
     fWnd->addChildWindow(quitButton);
     fWnd->addChildWindow(mBotonJTurnos);
 
-
-    std::cout << "createGUI 3"<<std::endl;
-
-
     return fWnd;
-
-
-
-  // mFrameListener-> sys->renderGUI();
 }
-
-
-
-
 
 bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 {
-
-    std::cout << "BOTON QUIT" << std::endl;
-
-     salirPulsado = true;
+    salirPulsado = true;
     return true;
 }
-
 
 bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 {
-
-  // mModoJuego = 1;
     modoJuego = 1;
-    // Close the Simple Window
-
-// fWnd->setVisible(false);
-      std::cout << "BOTON JUEGO TURNOS" << std::endl;
-
- //   CEGUI::System::getSingleton().removeAllEvents();
-
-
-     //cambiaPantalla();
-
-      //creaTablero();
-
-
     return true;
 }
-
-
-

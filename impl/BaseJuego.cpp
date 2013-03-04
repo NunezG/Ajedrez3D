@@ -1,22 +1,17 @@
 #include "../headers/BaseJuego.h"
 
-
-
 //-------------------------------------------------------------------------------------
 BaseJuego::BaseJuego(void):
     mPluginsCfg("plugins.cfg"),
     mResourcesCfg("resources.cfg")
-
-
 {
-    std::cout << "constructor base juego"<< std::endl;
     mRoot =new Ogre::Root(mPluginsCfg);
+    mTimer = mRoot->getTimer();
+    punteroVentana = Ventana::getCEGUISingletonPtr();
 }
 //-------------------------------------------------------------------------------------
 BaseJuego::~BaseJuego(void)
 {
-    std::cout << "DESTRUCTOR BaseJuego "<< std::endl;
-
     //Remove ourself as a Window listener
     delete mRoot;
 }
@@ -26,19 +21,9 @@ BaseJuego::~BaseJuego(void)
 //-------------------------------------------------------------------------------------
 bool BaseJuego::configureOpenGL()
 {
-    // Show the configuration dialog and initialise the system
-    // You can skip this and use root.restoreConfig() to load configuration
-    // settings if you were sure there are valid ones saved in ogre.cfg
-    //if(mRoot->showConfigDialog())
-
-    Ventana& mFrameListener = Ventana::getCEGUISingleton();
-
-    // Ventana& mFrameListener = Ventana::getCEGUISingleton();
-
     if(configuraGraficos("OpenGL"))
     {
-        // Here we choose to let the system create a default rendering window by passing 'true'
-        mFrameListener.iniciaVentana();
+        punteroVentana->iniciaVentana();
 
         return true;
     }
@@ -48,10 +33,8 @@ bool BaseJuego::configureOpenGL()
     }
 }
 
-
 bool BaseJuego::configuraGraficos(const char *desiredRenderer)
 {
-    std::cout << "configuraGraficos: "<< std::endl;
     Ogre::RenderSystem *renderSystem;
     bool ok = false;
     Ogre::RenderSystemList renderers =
@@ -86,15 +69,11 @@ bool BaseJuego::configuraGraficos(const char *desiredRenderer)
         it != renderSystem->getConfigOptions().end(); it++)
     {
         std::pair<const std::basic_string<char>,Ogre::ConfigOption> CO = *it;
-        std::cout << "LAS OPCIONES: " <<CO.first<<" " <<CO.second.currentValue << std::endl;
-
 
     }
 
     renderSystem->setConfigOption("Full Screen", "No");
-
     renderSystem->setConfigOption("Video Mode", "1024 x 768");
-
 
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
         it != renderSystem->getConfigOptions().end(); it++)
@@ -103,52 +82,27 @@ bool BaseJuego::configuraGraficos(const char *desiredRenderer)
         std::cout << "LAS OPCIONES: " <<CO.first<<" " <<CO.second.currentValue << std::endl;
     }
     return true;
-
 }
-
 
 //-------------------------------------------------------------------------------------
 bool BaseJuego::configureOgre(void)
 {
-
-    // mResourcesCfg = "resources.cfg";
-    // mPluginsCfg = "plugins.cfg";
-
-    //   mRoot = new Ogre::Root(mPluginsCfg);
-
-    mTimer = Ogre::Root::getSingleton().getTimer();
-
-
     setupResources();
 
-    Ventana& mFrameListener = Ventana::getCEGUISingleton();
-
-    //  mFrameListener = new Ventana();
     bool carryOn = configureOpenGL();
     if (!carryOn) return false;
 
-
-    //  chooseSceneManager();
-    // Create any resource listeners (for loading screens)
-    createResourceListener();
     // Load resources
-    std::cout << "loadResources"<< std::endl;
     loadResources();
-    std::cout << "getCEGUISingleton"<< std::endl;
 
-
-    // Ventana& mFrameListener = Ventana::getCEGUISingleton();
-
-    mFrameListener.iniciaIO();
+    punteroVentana->iniciaIO();
 
     return true;
 }
 
-
 //-------------------------------------------------------------------------------------
 bool BaseJuego::setup(void)
 {
-
     return true;
 }
 
@@ -157,7 +111,6 @@ void BaseJuego::destroyScene(void)
     std::cout << "destroyScene"<< std::endl;
 
 }
-
 
 //-----------------------------------------------------------------------
 //CONFIGURACION PREVIA A LA INICIALIZACION DE GRAFICOS
@@ -186,48 +139,23 @@ void BaseJuego::setupResources(void)
         }
     }
 }
-//-------------------------------------------------------------------------------------
-void BaseJuego::createResourceListener(void)
-{
 
-}
 //-------------------------------------------------------------------------------------
 void BaseJuego::loadResources(void)
 {
-
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-
-
-
 }
-
 
 //-------------------------------------------------------------------------------------
 void BaseJuego::go(void)
 {
-    //#ifdef _DEBUG
-    //   mResourcesCfg = "resources_d.cfg";
-    //   mPluginsCfg = "plugins_d.cfg";
-    //#else
-    // mResourcesCfg = "resources.cfg";
-    // mPluginsCfg = "plugins.cfg";
-    //#endif
-
     if (!configureOgre())
         return;
 
-    // Create application object
-    //VistaAjedrez app;
-
     inicio();
-
-    //  MenuInicial mI = createGUI();
 
     mRoot->startRendering();
 
-    // clean up
+    // clean up (despues de ejeucion)
     destroyScene();
-    std::cout << "antes de acabar"<< std::endl;
-
-
 }

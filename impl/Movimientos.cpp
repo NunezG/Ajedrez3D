@@ -1,24 +1,17 @@
-
 #include "../headers/Movimientos.h"
 
-//-------------------------------------------------------------------------------------
 Movimientos::Movimientos(void)
 
 {
-
-
-
 }
-//-------------------------------------------------------------------------------------
+
 Movimientos::~Movimientos(void)
 {
-
 }
 
-
-
-bool Movimientos::FichaComestible(Ogre::SceneNode* nodoSobrevolado, bool turnoNegras){
-
+//-------------------------------------------------------------------------------------
+bool Movimientos::FichaComestible(Ogre::SceneNode* nodoSobrevolado, bool turnoNegras)
+{
     Ogre::Node::ChildNodeIterator iterator = nodoSobrevolado->getChildIterator();
 
     if(iterator.hasMoreElements()){
@@ -28,53 +21,38 @@ bool Movimientos::FichaComestible(Ogre::SceneNode* nodoSobrevolado, bool turnoNe
         if(oi.hasMoreElements()){
             Ogre::Entity* ent = (Ogre::Entity *)oi.getNext();
 
-
-            if(!turnoNegras && ent->getName()[1] == 'N'){
-                //  std::cout << "FICHA NEGRA ATACADA POR UNA BLANCA!!!!!!" << std::endl;
-
+            if(!turnoNegras && ent->getName()[1] == 'N')
+            {
                 nodoSobrevolado->showBoundingBox(true);
 
                 Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(nodoSobrevolado->getAttachedObject(0));
-                if (nodoSobrevolado->getAttachedObject(0)->getName()[1] == 'B'){
-                    mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
-                }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+                if (nodoSobrevolado->getAttachedObject(0)->getName()[1] == 'B') mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
+                else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
                 return true;
-            }else if(turnoNegras && ent->getName()[1] == 'B'){
-                // std::cout << "FICHA BLANCA ATACADA POR UNA NEGRA!!!!!!" << std::endl;
-
+            }else if(turnoNegras && ent->getName()[1] == 'B')
+            {
                 nodoSobrevolado->showBoundingBox(true);
 
                 Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(nodoSobrevolado->getAttachedObject(0));
-                if (nodoSobrevolado->getAttachedObject(0)->getName()[1] == 'B'){
-                    mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
-                }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+                if (nodoSobrevolado->getAttachedObject(0)->getName()[1] == 'B') mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
+                else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
                 return true;
             }
-
         }
     }
     return false;
 }
 
 
-bool Movimientos::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::SceneNode* nodoSobrevolado, bool turnoNegras){
 
 
-
+bool Movimientos::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::SceneNode* nodoSobrevolado, bool turnoNegras)
+{
     Ogre::Vector3 seleccionado = nodoSeleccionado->getParent()->getPosition();
     Ogre::Vector3 nuevo = nodoSobrevolado->getPosition();
 
-    //AÑADE EL NOMBRE DE LA CASILLA AL OVERLAY
-    //textoOverlay = nodoSobrevolado->getName();
-
     Ogre::Vector3 diferencia= nuevo-seleccionado;
     const Ogre::String mNombreUsado =  nodoSeleccionado->getName();
-
-
-    /*    std::cout << "posicion del nodo sobevolado: "<< nuevo <<std::endl;
-        std::cout << "posicion del nodo seleccionado: "<< seleccionado <<std::endl;
-        std::cout << "diferencia: "<< diferencia <<std::endl;
-*/
 
     switch (mNombreUsado[1]){
     case 'R': //REY SELECCIONADO
@@ -102,7 +80,7 @@ bool Movimientos::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::Scene
         if (!turnoNegras){
             return autorizaPeonBlanco(diferencia, nodoSobrevolado, seleccionado);
         }else{
-          return autorizaPeonNegro(diferencia, nodoSobrevolado, seleccionado);
+            return autorizaPeonNegro(diferencia, nodoSobrevolado, seleccionado);
         }
         break;
 
@@ -110,207 +88,117 @@ bool Movimientos::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::Scene
         return false;
         break;
     }
-
-
-
 }
 
-
-bool Movimientos::autorizaPeonNegro(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado, Ogre::Vector3 seleccionado){
-
-
+bool Movimientos::autorizaPeonNegro(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado, Ogre::Vector3 seleccionado)
+{
     if  (diferencia==Ogre::Vector3(10,0,0)
          || (diferencia==Ogre::Vector3(20,0,0)
-             && seleccionado.x == -60)){
-
-        //  std::cout << "AUTORIZA POR LA VIA HABITUAL!!!!!" << std::endl;
-
-        if (nodoSobrevolado->getChildIterator().hasMoreElements()){
-
-            //   std::cout << "ENCUENTRA UNA FICHA JUSTO DELANTE Y SE SUPONE QUE NO AUTORIZA" << std::endl;
-            return false;
-
-        }else return true;
+             && seleccionado.x == -60))
+    {
+        if (nodoSobrevolado->getChildIterator().hasMoreElements()) return false;
+        else return true;
 
     } else if (nodoSobrevolado->getChildIterator().hasMoreElements()
                && (diferencia==Ogre::Vector3(10,0,10)
-                   || diferencia==Ogre::Vector3(10,0,-10))){
-
-        // std::cout << "AUTORIZA POR LA VIA COMESTIBLE!!!!!" << std::endl;
-        return FichaComestible(nodoSobrevolado, true);
-
-    }else return false;
-
-
+                   || diferencia==Ogre::Vector3(10,0,-10))) return FichaComestible(nodoSobrevolado, true);
+    else return false;
 }
 
-
-bool Movimientos::autorizaPeonBlanco(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado, Ogre::Vector3 seleccionado){
-
+bool Movimientos::autorizaPeonBlanco(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado, Ogre::Vector3 seleccionado)
+{
     if (diferencia==Ogre::Vector3(-10,0,0)
             || (diferencia==Ogre::Vector3(-20,0,0)
-                && seleccionado.x == -10)){
-
-        // std::cout << "AUTORIZA POR LA VIA HABITUAL!!!!!" << std::endl;
-
-        if (nodoSobrevolado->getChildIterator().hasMoreElements()){
-
-            //  std::cout << "ENCUENTRA UNA FICHA JUSTO DELANTE Y SE SUPONE QUE NO AUTORIZA" << std::endl;
-            return false;
-
-        }else return true;
+                && seleccionado.x == -10))
+    {
+        if (nodoSobrevolado->getChildIterator().hasMoreElements()) return false;
+        else return true;
 
     } else if (nodoSobrevolado->getChildIterator().hasMoreElements()
                && (diferencia==Ogre::Vector3(-10,0,10)
-                   || diferencia==Ogre::Vector3(-10,0,-10))){
-
-        // std::cout << "AUTORIZA POR LA VIA COMESTIBLE!!!!!" << std::endl;
-        return FichaComestible(nodoSobrevolado, false);
-
-    }else return false;
-
-
-
+                   || diferencia==Ogre::Vector3(-10,0,-10))) return FichaComestible(nodoSobrevolado, false);
+    else return false;
 }
 
-bool Movimientos::autorizaAlfil(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado){
-
-
+bool Movimientos::autorizaAlfil(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado)
+{
     if (diferencia.z - diferencia.x == 0
             && diferencia.z > 0){
+        std::cout << "ARR IZQU "  << std::endl;
 
         //LETRAS DESCENDENTES Y NUMEROS DESCENDENTES
-        return caminoDiagArrIzq(diferencia, nodoSobrevolado);
+        return verificaCamino(diferencia, nodoSobrevolado, 5);
 
     }else if (diferencia.z + diferencia.x == 0
               && diferencia.z > 0){
+        std::cout << "ARRI DERECHA "  << std::endl;
 
-        //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES
-        return caminoDiagArrDer(diferencia, nodoSobrevolado);
-
-    }else if(diferencia.z + diferencia.x == 0
-             && diferencia.z < 0){
-
-        //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES
-        return caminoDiagAbIzq(diferencia, nodoSobrevolado);
-
-    }else if(diferencia.z - diferencia.x == 0
-             && diferencia.z < 0){
-
-        //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES
-        return caminoDiagAbDer(diferencia, nodoSobrevolado);
-
-    }else return false;
-
-
-}
-
-
-bool Movimientos::autorizaReina(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado){
-
-    if (diferencia.z==0
-            && diferencia.x < 0 ){
-
-        //MOVIMIENTO A LA DERECHA
-        return caminoDerecha(diferencia, nodoSobrevolado);
-
-    }else if (diferencia.z==0
-              && diferencia.x > 0 ){
-
-        //MOVIMIENTO A LA IZQUIERDA
-        return caminoIzquierda(diferencia, nodoSobrevolado);
-
-    }  else if (diferencia.x==0
-                && diferencia.z > 0 ){
-
-        //MOVIMIENTO ARRIBA
-        return caminoArriba(diferencia, nodoSobrevolado);
-
-    }  else if (diferencia.x==0
-                && diferencia.z < 0 ){
-
-        //MOVIMIENTO ABAJO
-        return caminoAbajo(diferencia, nodoSobrevolado);
-
-    }else  if (diferencia.z - diferencia.x == 0
-               && diferencia.z > 0){
-
-        //LETRAS DESCENDENTES Y NUMEROS DESCENDENTES
-        return caminoDiagArrIzq(diferencia, nodoSobrevolado);
-
-    }else if (diferencia.z + diferencia.x == 0
-              && diferencia.z > 0){
-
-        //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES
-        return caminoDiagArrDer(diferencia, nodoSobrevolado);
+        //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES (ARR DERECHA)
+        return verificaCamino(diferencia, nodoSobrevolado, 6);
 
     }else if(diferencia.z + diferencia.x == 0
              && diferencia.z < 0){
-
-        //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES
-        return caminoDiagAbIzq(diferencia, nodoSobrevolado);
+        //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES (ABAJO IZQUIERDA)
+        std::cout << "BAJO IZQUIERDA "  << std::endl;
+        return verificaCamino(diferencia, nodoSobrevolado, 7);
 
     }else if(diferencia.z - diferencia.x == 0
              && diferencia.z < 0){
+        std::cout << "BAJO DERECHA "  << std::endl;
 
-        //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES
-        return caminoDiagAbDer(diferencia, nodoSobrevolado);
+        //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES (ABAJO DERECHA)
+        return verificaCamino(diferencia, nodoSobrevolado, 8);
 
     }else return false;
-
-
 }
 
-bool Movimientos::autorizaRey(Ogre::Vector3 diferencia){
+bool Movimientos::autorizaReina(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado)
+{
+    if (autorizaAlfil(diferencia, nodoSobrevolado)) return true;
+    else return autorizaTorre(diferencia, nodoSobrevolado);
+}
 
+bool Movimientos::autorizaRey(Ogre::Vector3 diferencia)
+{
     if ((diferencia.x==10||diferencia.x==-10||diferencia.x==0)
-            && (diferencia.z==10||diferencia.z==-10||diferencia.z==0)){
-
+            && (diferencia.z==10||diferencia.z==-10||diferencia.z==0))
+    {
         return true;
 
     }else return false;
-
 }
 
-
-bool Movimientos::autorizaTorre(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado){
-
-
-
+bool Movimientos::autorizaTorre(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado)
+{
     if (diferencia.z==0
-            && diferencia.x < 0 ){
-
+            && diferencia.x < 0 )
+    {
         //MOVIMIENTO A LA DERECHA
-        return caminoDerecha(diferencia, nodoSobrevolado);
+        return verificaCamino(diferencia, nodoSobrevolado, 1);
 
     }else if (diferencia.z==0
-              && diferencia.x > 0 ){
-
+              && diferencia.x > 0 )
+    {
         //MOVIMIENTO A LA IZQUIERDA
-        return caminoIzquierda(diferencia, nodoSobrevolado);
+        return verificaCamino(diferencia, nodoSobrevolado, 2);
 
     }  else if (diferencia.x==0
-                && diferencia.z > 0 ){
-
+                && diferencia.z > 0 )
+    {
         //MOVIMIENTO ARRIBA
-        return caminoArriba(diferencia, nodoSobrevolado);
+        return verificaCamino(diferencia, nodoSobrevolado, 3);
 
     }  else if (diferencia.x==0
-                && diferencia.z < 0 ){
-
+                && diferencia.z < 0 )
+    {
         //MOVIMIENTO ABAJO
-        return caminoAbajo(diferencia, nodoSobrevolado);
+        return verificaCamino(diferencia, nodoSobrevolado, 4);
 
     }else return false;
-
-
 }
 
-
-
-bool Movimientos::autorizaCaballo(Ogre::Vector3 diferencia){
-
-
+bool Movimientos::autorizaCaballo(Ogre::Vector3 diferencia)
+{
     if (diferencia==Ogre::Vector3(-20,0,10)
             || diferencia==Ogre::Vector3(20,0,10)
             || diferencia==Ogre::Vector3(-20,0,-10)
@@ -318,226 +206,87 @@ bool Movimientos::autorizaCaballo(Ogre::Vector3 diferencia){
             || diferencia==Ogre::Vector3(10,0,20)
             || diferencia==Ogre::Vector3(10,0,-20)
             || diferencia==Ogre::Vector3(-10,0,20)
-            || diferencia==Ogre::Vector3(-10,0,-20)){
-        return true;
-    }else return false;
-
-
+            || diferencia==Ogre::Vector3(-10,0,-20)) return true;
+    else return false;
 }
 
 
+bool Movimientos::verificaCamino(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo, int camino)
+{
+    std::cout << "verificaCamino "  << std::endl;
+    Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
 
-
-
-
-
-
-
-bool Movimientos::caminoDerecha(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo){
+    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
     const Ogre::String columnas = "ABCDEFGH";
 
-    //  std::cout << "MOVIMIENTO A LA DERECHA DE CAMINODERECHA " <<std::endl;
-    //MOVIMIENTO A LA DERECHA
-    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-    for (int i = 1; i < -distancia.x/10; i++){
-        // std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1) << std::endl;
-        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1)));
-        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
-            //  std::cout << "HA ENCONTRADO UN NODO INTERMEDIO EN CAMINODERECHA!!!" << std::endl;
-            return false;
+    int colDestino = -(nuevo.z/10);
+    int filaDestino = -(nuevo.x/10)+1;
+    int numCasillasX = distancia.x/10;
+    int numCasillasZ = distancia.z/10;
+
+    int colZ, filaX, dist;
+
+    if (camino == 1)
+    {  //MOVIMIENTO A LA DERECHA
+        colZ = colDestino;
+        dist = -numCasillasX;
+    }
+    else if (camino == 2)
+    {  //MOVIMIENTO A LA IZQUIERDA
+        colZ = colDestino;
+        dist = numCasillasX;
+    }
+    else if (camino == 3)
+    {  //MOVIMIENTO HACIA ARRIBA
+        filaX = filaDestino;
+        dist = numCasillasZ;
+    }
+    else if (camino == 4)
+    { //MOVIMIENTO HACIA ABAJO
+        filaX = filaDestino;
+        dist = -numCasillasZ;
+    }
+    else if (camino == 5) dist = numCasillasZ; //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
+    else if (camino == 6) dist = numCasillasZ; //MOVIMIENTO DIAGONAL ARRIBA DERECHA
+    else if (camino == 7) dist = -numCasillasZ; //MOVIMIENTO DIAGONAL ABAJO IZQUIERDA
+    else if (camino == 8) dist = -numCasillasZ; //MOVIMIENTO DIAGONAL ABAJO DERECHA
+
+    std::cout << "dist "  << dist<<std::endl;
+
+    for (int i = 1; i < dist; i++)
+    {
+        if (camino == 1) filaX = filaDestino-i;  // DERECHA
+        else if (camino == 2) filaX = filaDestino+i; // IZQUIERDA
+        else if (camino == 3) colZ = colDestino+i; // MOVIMIENTO HACIA ARRIBA
+        else if (camino == 4) colZ = colDestino-i; // MOVIMIENTO HACIA ABAJO
+        else if (camino == 5)
+        { //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
+            colZ = colDestino+i;
+            filaX = filaDestino+i;
+        }
+        else if (camino == 6)
+        { //MOVIMIENTO DIAGONAL ARRIBA DERECHA
+            colZ = colDestino+i;
+            filaX = filaDestino-i;
+        }
+        else if (camino == 7) //MOVIMIENTO DIAGONAL ABAJO IZQUIERDA
+        {
+            colZ = colDestino-i;
+            filaX = filaDestino+i;
+        }
+        else if (camino == 8) //MOVIMIENTO DIAGONAL ABAJO DERECHA
+        {
+            colZ = colDestino-i;
+            filaX = filaDestino-i;
+            std::cout << "colZ "  << colZ<<std::endl;
+            std::cout << "filaX "  << filaX<<std::endl;
+            std::cout << "dist "  << dist<<std::endl;
+
+
 
         }
-        //else std::cout << "nodo vacío!!!" << std::endl;
-
+        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[colZ] + Ogre::StringConverter::toString(filaX)));
+        if (nodoTrayectoria->getChildIterator().hasMoreElements()) return false;
     }
-
     return true;
-
-
 }
-
-
-bool Movimientos::caminoIzquierda(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo){
-    const Ogre::String columnas = "ABCDEFGH";
-    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-
-    std::cout << "MOVIMIENTO A LA IZQUIERDA " <<std::endl;
-    //MOVIMIENTO A LA IZQUIERDA
-    for (int i = 1; i < distancia.x/10; i++){
-        std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1) << std::endl;
-        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1)));
-        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
-            std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
-            return false;
-        }
-        else std::cout << "nodo vacío!!!" << std::endl;
-
-    }
-
-    return true;
-
-
-}
-
-bool Movimientos::caminoArriba(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo){
-    const Ogre::String columnas = "ABCDEFGH";
-    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-
-    std::cout << "MOVIMIENTO HACIA ARRIBA " <<std::endl;
-    //MOVIMIENTO HACIA ARRIBA
-    for (int i = 1; i < distancia.z/10; i++){
-        std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)+i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1) << std::endl;
-        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)+i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1)));
-        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
-            std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
-            return false;
-
-        }
-        else std::cout << "nodo vacío!!!" << std::endl;
-
-    }
-
-    return true;
-
-
-}
-
-
-bool Movimientos::caminoAbajo(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo){
-    const Ogre::String columnas = "ABCDEFGH";
-    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-
-    std::cout << "MOVIMIENTO HACIA ABAJO " <<std::endl;
-    //MOVIMIENTO HACIA ABAJO
-    for (int i = 1; i < -distancia.z/10; i++){
-        std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-(nuevo.z/10)-i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1) << std::endl;
-        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-(nuevo.z/10)-i] + Ogre::StringConverter::toString(-(nuevo.x/10)+1)));
-        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
-            std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
-            return false;
-        }
-        else std::cout << "nodo vacío!!!" << std::endl;
-
-    }
-
-
-    return true;
-
-
-}
-
-
-
-
-
-bool Movimientos::caminoDiagArrIzq(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo){
-    const Ogre::String columnas = "ABCDEFGH";
-    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-
-
-    //LETRAS DESCENDENTES Y NUMEROS DESCENDENTES
-
-    for (int i = 1; i < distancia.z/10; i++){
-        // std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)-i))+1) << std::endl;
-
-        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)-i))+1)));
-        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
-
-            //  std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
-            return false;
-        }
-        //else std::cout << "nodo vacío!!!" << std::endl;
-    }
-
-
-
-    return true;
-
-
-}
-
-
-bool Movimientos::caminoDiagArrDer(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo){
-    const Ogre::String columnas = "ABCDEFGH";
-    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-
-    //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES
-    // std::cout << "CASO 2: LETRAS DESCENDENTES Y NUMEROS ASCENDENTES: " <<std::endl;
-
-    for (int i = 1; i < distancia.z/10; i++){
-        // std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)+i))+1) << std::endl;
-
-        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)-i)] + Ogre::StringConverter::toString(-(((nuevo.x/10)+i))+1)));
-        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
-
-            // std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
-            return false;
-        }
-        //else std::cout << "nodo vacío!!!" << std::endl;
-    }
-
-
-    return true;
-
-
-}
-
-
-bool Movimientos::caminoDiagAbIzq(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo){
-    const Ogre::String columnas = "ABCDEFGH";
-    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-
-    //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES
-    // std::cout << "CASO 3: LETRAS ASCENDENTES Y NUMEROS DESCENDENTES: " <<std::endl;
-
-
-    for (int i = 1; i < distancia.x/10; i++){
-        //std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1) << std::endl;
-
-        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)-i)+1)));
-        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
-            return false;
-            //  std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
-        }
-        //else std::cout << "nodo vacío!!!" << std::endl;
-    }
-
-    return true;
-
-
-}
-
-
-bool Movimientos::caminoDiagAbDer(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo){
-    const Ogre::String columnas = "ABCDEFGH";
-    Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-
-    //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES
-    std::cout << "CASO 3: LETRAS ASCENDENTES Y NUMEROS ASCENDENTES: " <<std::endl;
-
-
-    for (int i = 1; i < -distancia.x/10; i++){
-        std::cout << "NOMBRE CASILLA INTERMEDIA: " << columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1) << std::endl;
-
-        Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-        Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[-((nuevo.z/10)+i)] + Ogre::StringConverter::toString(-((nuevo.x/10)+i)+1)));
-        if   (nodoTrayectoria->getChildIterator().hasMoreElements()){
-            return false;
-            std::cout << "HA ENCONTRADO UN NODO INTERMEDIO!!!" << std::endl;
-        }
-        //else std::cout << "nodo vacío!!!" << std::endl;
-    }
-
-
-    return true;
-
-
-}
-

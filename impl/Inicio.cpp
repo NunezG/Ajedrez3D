@@ -1,30 +1,15 @@
 #include "../headers/Inicio.h"
 
-
-
 //-------------------------------------------------------------------------------------
 Inicio::Inicio(void)
-
-
 {
-
-
 }
 //-------------------------------------------------------------------------------------
 Inicio::~Inicio(void)
 {
-    std::cout << "destructor inicio"<< std::endl;
-
-
 }
 
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////7
-
+////////////////////////////////////////////////////////////////////////////////////////
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -42,19 +27,9 @@ int main(int argc, char *argv[])
 #endif
 {
     try {
-         std::cout << "EMPIEZA"<<std::endl;
-      //  CreacionJuego cj;
-        //  std::cout << "GO" << std::endl;
-     //   cj.go();
 
         ControlJuego& control = ControlJuego::getControlSingleton();
         control.go();
-
-        std::cout << "acaba el inicio"<< std::endl;
-
-       // VistaAjedrez tut;
-
-       //mI.createGUI();
 
     } catch( Ogre::Exception& e ) {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

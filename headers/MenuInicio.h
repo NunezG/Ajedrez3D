@@ -1,13 +1,9 @@
-
 #ifndef __MenuInicio_
 #define __MenuInicio_
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <Ogre.h>
-//#include "Ventana.h"
-
-
 
 class MenuInicio
 {
@@ -19,24 +15,15 @@ public:
     int modoJuego;
     bool salirPulsado;
 
-
 protected:
-
-
     bool botonSalir(const CEGUI::EventArgs    &e);
     bool botonJuegoTurnos(const CEGUI::EventArgs &e);
-
-
-  //  Ventana* mFrameListener;
 
     CEGUI::Window *sheetWindow;
     CEGUI::Window *quitButton;
     CEGUI::Window *mBotonJTurnos;
 
-
     CEGUI::FrameWindow* fWnd;
-
-
 };
 
 #endif
