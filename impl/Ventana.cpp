@@ -43,7 +43,6 @@ Ventana& Ventana::getCEGUISingleton()
 
 Ogre::RenderWindow* Ventana::getVentana(){
     //  Ogre::Root* mRoot = Ogre::Root::getSingletonPtr();
-
     return mWindow;
 
 }
@@ -328,14 +327,14 @@ bool Ventana::EmpiezaCEGUI(/*Ogre::RenderWindow* mWindow*/)
     //  std::cout << "acaba createGUI" << std::endl;
 
 
- //   std::cout << "nombre mRoot "<< <<std::endl;
+    //   std::cout << "nombre mRoot "<< <<std::endl;
 
 
 
 
     mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
-   // EscenaAjedrez EscAjedrez;
-   // EscAjedrez.createScene(mSceneMgr);
+    // EscenaAjedrez EscAjedrez;
+    // EscAjedrez.createScene(mSceneMgr);
 
     return true;
 }
@@ -357,6 +356,14 @@ bool Ventana::injectTimePulse(const Ogre::FrameEvent& evt)
 //}
 
 
+
+int Ventana::pantallaActual(){
+    if (tut==NULL){
+        return 0;
+
+    }else return 1;
+
+}
 
 
 bool Ventana::MuestraMenu(){
@@ -475,15 +482,48 @@ int Ventana::getFPS(){
 //-------------------------------------------------------------------------------------
 bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+    /*
+    if(mWindow->isClosed())
+        return false;
 
+    if(mFrameListener->mShutDown)
+        return false;
 
-      if(mPantalla == 1){
-          tut->frameRenderingQueued(evt);
-      }
+    */
+ //   std::cout << "frameRenderingQueued en framelistener" << std::endl;
+
+    injectTimePulse(evt);
+    capture();
+    statUpdate(evt);
+
+    if(mPantalla == 1 && tut != NULL){
+        std::cout << "frameRenderingQueued en framelistener TUTORIALAPP" << std::endl;
+
+        tut->frameRenderingQueued(evt);
+    }
 
 
 }
 
+bool Ventana::muestraAjedrez()
+{
+
+    //    VistaAjedrez ta;
+    tut= new VistaAjedrez(mSceneMgr, mWindow);
+
+    std::cout << "CAMBIA LA PANTALLAAAAAAAAAAAAAAAAAAAAAAz" << std::endl;
+
+    //  createViewports();
+
+    // Create the scene
+    //   createScene();
+
+    tut->setupJuego();
+
+
+
+
+}
 
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
@@ -494,7 +534,7 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
         tut->mousePressed(evt, id);
         std::cout << "ACABA MOUSEPRESSED DE VENTANA " << std::endl;
 
-       // mInputMan->injectMouseDown(evt, id);
+        // mInputMan->injectMouseDown(evt, id);
     }
 
 
@@ -503,6 +543,7 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 
     if(sys->injectMouseButtonDown(convertButton(id)))
     {
+         std::cout << " MOUSEPRESSED en PROCSADO SI O SI"  << std::endl;
         return true;
     }else  std::cout << "NO HA SIDO PROCESADO " << std::endl;
 
@@ -512,32 +553,10 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 }
 
 
-bool Ventana::muestraAjedrez()
-{
-
-    //    TutorialApplication ta;
-        tut= new TutorialApplication(mSceneMgr, mWindow);
-
-        std::cout << "CAMBIA LA PANTALLAAAAAAAAAAAAAAAAAAAAAAz" << std::endl;
-
-        //  createViewports();
-
-        // Create the scene
-        //   createScene();
-
-        tut->setupJuego();
-
-
-        tut->createScene();
-
-}
 
 
 bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
-
-
-
 
     if(mPantalla == 1){
 
@@ -559,13 +578,12 @@ bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 
             // mWindow->setVisible(false);
         }else if (sys->getGUISheet()->isVisible()==true && menu->modoJuego == 1){
+            std::cout << "CAMBIO PANTALLA" << std::endl;
+
             sys->getGUISheet()->setVisible(false);
             mPantalla = 1;
         }
     }
-
-
-
 
     return true;
 }
@@ -587,21 +605,3 @@ CEGUI::MouseButton Ventana::convertButton(OIS::MouseButtonID buttonID)
         return CEGUI::LeftButton;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

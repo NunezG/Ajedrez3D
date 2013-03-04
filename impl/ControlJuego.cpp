@@ -20,22 +20,20 @@ ControlJuego::~ControlJuego(void)
 void ControlJuego::inicio(void){
 
 
-  //mFrameListener = Ventana::getCEGUISingleton();
-   std::cout << "addFrameListener"<< std::endl;
+    //mFrameListener = Ventana::getCEGUISingleton();
+    std::cout << "addFrameListener"<< std::endl;
 
     Ogre::Root::getSingletonPtr()->addFrameListener(this);
-std::cout << "iniciaIO"<< std::endl;
+    std::cout << "iniciaIO"<< std::endl;
 
 
 
-Ventana& mFrameListener = Ventana::getCEGUISingleton();
+    Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
     mFrameListener.EmpiezaCEGUI();
 
 
 
-
-    std::cout << "MuestraMenu"<< std::endl;
 
 
     mFrameListener.MuestraMenu();
@@ -49,8 +47,8 @@ Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
 ControlJuego& ControlJuego::getControlSingleton()
 {
-static ControlJuego miControlJuego_;
-return miControlJuego_;
+    static ControlJuego miControlJuego_;
+    return miControlJuego_;
 }
 
 
@@ -62,9 +60,9 @@ bool ControlJuego::setupMenu(void)
 
     // Create the scene
 
-  //  createMainMenu();
+    //  createMainMenu();
 
-  //  createGUI();
+    //  createGUI();
 
 
 
@@ -73,20 +71,16 @@ bool ControlJuego::setupMenu(void)
 }
 
 
-
-
-
 void ControlJuego::cambiaPantalla(){
 
 
- Ventana& mFrameListener = Ventana::getCEGUISingleton();
+    Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
 
- mFrameListener.muestraAjedrez();
+    mFrameListener.muestraAjedrez();
 
 
 }
-
 
 
 
@@ -95,12 +89,10 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
 
+    //   std::cout << "frameRenderingQueued " << std::endl;
 
 
- //   std::cout << "frameRenderingQueued " << std::endl;
-
-
-       //mFrameListener = Ventana::getCEGUISingleton();
+    //mFrameListener = Ventana::getCEGUISingleton();
 
 
     Ventana& mFrameListener = Ventana::getCEGUISingleton();
@@ -108,24 +100,25 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
     //Need to capture/update each device
-    mFrameListener.capture();
- //   std::cout << "mFrameListener33333333333333 " << std::endl;
+
+    //   std::cout << "mFrameListener33333333333333 " << std::endl;
 
 
-    mFrameListener.statUpdate(evt);
 
-     if(mFrameListener.mPantalla == 1){
-         if(mFrameListener.tut==NULL){
-             std::cout << "CAMBIA DE PANTALLA!!!!!!!!!!!" << std::endl;
+    if(mFrameListener.mPantalla == 1){
+        std::cout << "PANTALLA 1" << std::endl;
+        if(mFrameListener.pantallaActual()==0){
+
+            std::cout << "CAMBIA DE PANTALLA!!!!!!!!!!!" << std::endl;
+
+            std::cout << "CAMBIA DE PANTALLA!!!!!!!!!!!" << std::endl;
 
             cambiaPantalla();
 
-           }
+        }
 
 
     }
-
-
 
 
     if(mFrameListener.getVentana()->isClosed()){
@@ -137,197 +130,32 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
 
 
-   if(!mFrameListener.getVentana()->isVisible()){
-       std::cout << "BOTON CERRAR PULSADO EN CERRADA!!!!!!!!!!!" << std::endl;
+    if(!mFrameListener.getVentana()->isVisible()){
+        std::cout << "BOTON CERRAR PULSADO EN CERRADA!!!!!!!!!!!" << std::endl;
         return false;
-}
+    }
 
-   if(mFrameListener.mShutDown){
-       std::cout << "BOTON CERRAR PULSADO A TRAVES DE mShutDown!!!!!!!!!!!" << std::endl;
+    if(mFrameListener.mShutDown){
+        std::cout << "BOTON CERRAR PULSADO A TRAVES DE mShutDown!!!!!!!!!!!" << std::endl;
         return false;
-}
+    }
 
 
-   mFrameListener.frameRenderingQueued(evt);
-
-
-
-    return true;
-
-
-
-
-}
-
-
-
-
-bool ControlJuego::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
-{
-    //  mTrayMgr->showCursor();
-    //if (mTrayMgr->injectMouseUp(arg, id)) return true;
-
- //   Ventana& mFrameListener = Ventana::getCEGUISingleton();
- //   mFrameListener.mouseReleased(arg,id);
-
-  //  if(mFrameListener.mPantalla==1)
- //   {
-   //     if(tut==NULL){
-   //         cambiaPantalla();
-
-   //     }
-
-    //    tut->mouseReleased(arg,id);
-
-
- //   }
-
-    // mInputMan->injectMouseUp(arg, id);
-    return true;
-}
-
-bool ControlJuego::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
-{
-    std::cout << "BaseJuego MOUSEPRESSED " << std::endl;
-
-
-    //Ventana& mFrameListener = Ventana::getCEGUISingleton();
-    // TutorialApplication* tut;
-
-  //  mFrameListener.mousePressed(arg,id);
-
-
-
-
-  //  if(mFrameListener.mPantalla==1)
-   // {
-  //      std::cout << "mPantalla 1 " << std::endl;
-
-   //     tut->mousePressed(arg, id);
-
-
-  //  }
-
-    //  mTrayMgr->hideCursor();
-    // if (mTrayMgr->injectMouseDown(arg, id)) return true;
-    // mInputMan->injectMouseDown(arg, id);
-    return true;
-}
-
-
-
-bool ControlJuego::mouseMoved( const OIS::MouseEvent &arg )
-{
-    std::cout << "mouseMoved en CONTROLJUEGO " << std::endl;
-
-
-   // Ventana& mFrameListener = Ventana::getCEGUISingleton();
-
-  //  mFrameListener.mouseMoved(arg);
-
- //   if(mFrameListener.mPantalla==1)
- //   {
-
-      //  tut->mouseMoved(arg);
-
- //   }
-
-    return true;
-
-}
-
-
-//-------------------------------------------------------------------------------------
-bool ControlJuego::keyPressed( const OIS::KeyEvent &arg )
-{
-
-   // Ventana& mFrameListener = Ventana::getCEGUISingleton();
-
- //   if(mFrameListener.mPantalla==1)
- //   {
-
-   //     tut->keyPressed(arg);
-
- //   }
-
- //   mFrameListener.keyPressed(arg);
-
-
+    mFrameListener.frameRenderingQueued(evt);
 
 
 
     return true;
-}
 
-bool ControlJuego::keyReleased( const OIS::KeyEvent &arg )
-{
 
-  //  Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
-  //  if(mFrameListener.mPantalla==1)
-  //  {
 
-   //     tut->keyReleased(arg);
-
-  //  }
-
-  //  mFrameListener.keyReleased(arg);
-
-    return true;
 }
 
 
 
 
 
-//void BaseJuego::creaTablero(void)
-//{
 
 
 
-//   EscenaAjedrez EscAjedrez;
-
-//  EscAjedrez.createScene(mSceneMgr);
-
-// TutorialApplication ta;
-
-
-
-//}
-
-//void BaseJuego::createGUI(void){
-
-
-
-//  if(mPantalla==0){
-
-//    TutorialApplication tut;
-
-
-
-//    }
-
-//}
-
-
-
-
-
-/* void BaseJuego::createOverlay() {
-     // OgreBites::Button *buton = mTrayMgr->createButton(OgreBites::TL_CENTER,"NOMBREBOTON","CAPTIONBONTON",250);
-     //mTrayMgr = new OgreBites::SdkTrayManager("InterfaceName", mWindow, mMouse, this);
-     //    mTrayMgr->showFrameStats(OgreBites::TL_TOPLEFT);
-     //   mTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
-
-
-     mOverlayManager = Ogre::OverlayManager::getSingletonPtr();
-     Ogre::Overlay *overlay = mOverlayManager->getByName("Info");
-     // Ogre::OverlayElement* cont = mOverlayManager->getOverlayElement("instrucciones");
-     // cont->setCaption("PRUEBA DE OVERLAY");
-     //overlay->show();
-     mCursor = (Ogre::OverlayContainer*)mOverlayManager->getOverlayElement("cursor");
-
-     // mCursor =  (Ogre::OverlayContainer*)mOverlayManager->createOverlayElementFromTemplate("cursor", "Panel", "Cursor");
-     // mCursor = mOverlayManager->getOverlayElement("cursor");
- }
-*/

@@ -3,7 +3,7 @@
 
 //#include "CreacionJuego.h"
 #include "ControlJuego.h"
-//#include "TutorialApplication.h"
+//#include "VistaAjedrez.h"
 
 
 
@@ -25,4 +25,4 @@ private:
 
 };
 
-#endif // #ifndef __TutorialApplication_h_
+#endif

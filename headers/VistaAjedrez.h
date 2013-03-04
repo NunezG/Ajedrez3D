@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------------------
-Filename:    TutorialApplication.h
+Filename:    VistaAjedrez.h
 -----------------------------------------------------------------------------
 
 This source file is part of the
@@ -14,21 +14,20 @@ This source file is part of the
       http://www.ogre3d.org/tikiwiki/
 -----------------------------------------------------------------------------
 */
-#ifndef __TutorialApplication_h_
-#define __TutorialApplication_h_
+#ifndef __VistaAjedrez_h_
+#define __VistaAjedrez_h_
 
 #include "BaseApplication.h"
-#include "EscenaAjedrez.h"
 #include "Movimientos.h"
 #include <Ogre.h>
 
 
 
-class TutorialApplication : public BaseApplication
+class VistaAjedrez : public BaseApplication
 {
 public:
-    TutorialApplication(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
-    ~TutorialApplication(void);
+    VistaAjedrez(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
+    ~VistaAjedrez(void);
     // Ogre::FrameListener
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
@@ -45,23 +44,14 @@ public:
     void createMainMenu(void);
 
 
-    void createGUI(void);
-    void createCamera(void);
-
-
 protected:
 
 
-    void createViewports(void);
-    void createScene(void); // Override me!
-    bool  FichaComestible(void);
 
 
 
-    Ogre::RenderWindow* mWindow;
 
     int muevePeon(Ogre::String coord);
-    int traduceCoordenadas(Ogre::String coord);
      Ogre::SceneNode *_selectedNode;
      Ogre::SceneNode *_nodoNuevo;
     bool fichaSeleccionada;
@@ -69,4 +59,4 @@ protected:
     Ogre::String textoOverlay;
 };
 
-#endif // #ifndef __TutorialApplication_h_
+#endif // #ifndef __VistaAjedrez_h_

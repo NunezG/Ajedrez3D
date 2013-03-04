@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
         std::cout << "acaba el inicio"<< std::endl;
 
-       // TutorialApplication tut;
+       // VistaAjedrez tut;
 
        //mI.createGUI();
 

@@ -24,37 +24,57 @@
 #include "MenuInicio.h"
 #include "EscenaAjedrez.h"
 
-#include "TutorialApplication.h"
+#include "VistaAjedrez.h"
 #include "BaseApplication.h"
 
 class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener
 {
 public:
-
-
     //Singleton
     static Ventana& getCEGUISingleton();
+     ~Ventana(void);
 
-
-    Ventana(void);
-
-    Ogre::SceneManager* mSceneMgr;
-
+    //Iniciación
     bool iniciaVentana();
+    void iniciaIO(void);
+    bool EmpiezaCEGUI();
 
-    ~Ventana(void);
-
-
+    //Pantallas
     bool MuestraMenu();
+    bool muestraAjedrez();
+
 
     int getFPS();
 
-    bool EmpiezaCEGUI();
-    // EmpiezaCEGUI(Ogre::RenderWindow* mWindow);
 
-    //virtual ~Ventana(void);
+    int pantallaActual();
+    Ogre::RenderWindow* getVentana();
 
-    //bool quit(const CEGUI::EventArgs &e);
+
+
+
+
+    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+
+
+    Ogre::SceneManager* mSceneMgr;
+    bool mShutDown;
+    int mPantalla;
+
+private:
+
+
+    bool injectTimePulse(const Ogre::FrameEvent& evt);
+    bool statUpdate(const Ogre::FrameEvent& evt);
+    void capture();
+
+    //Unattach OIS before window shutdown (very important under Linux)
+    //Ogre::WindowEventListener
+    void windowClosed(Ogre::RenderWindow* rw);
+    void windowResized(Ogre::RenderWindow* rw);
+
+
 
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
@@ -64,45 +84,15 @@ public:
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
-    bool muestraAjedrez();
 
-
-    //  void iniciaCEGUI();
-    bool statUpdate(const Ogre::FrameEvent& evt);
-
-
-    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-
-
-    bool injectTimePulse(const Ogre::FrameEvent& evt);
-
-    // CEGUI::System* mGUISystem;
     CEGUI::Window *sheet;
-  // InputMan::SdkCameraMan* mInputMan;
-
     CEGUI::System* sys;
-    Ogre::Root* mRoot22;
-    // Ogre::Root *mRoot;
+
     BaseApplication* tut;
 
-    // Ogre::WindowEventListener
-
-    //Unattach OIS before window shutdown (very important under Linux)
-    //Ogre::WindowEventListener
-    void windowClosed(Ogre::RenderWindow* rw);
-    void windowResized(Ogre::RenderWindow* rw);
-    // Ogre::RenderWindow* mWindow;
-    void iniciaIO(void);
-    Ogre::RenderWindow* getVentana();
-    void capture();
-
-
-    bool mShutDown;
-    int mPantalla;
-private:
 
     //Singleton;
-    //static Ventana* miFrameListener;
+    Ventana(void);
     void operator=(const Ventana& frameListener ) ;
     Ventana(const Ventana& ventana);
 
@@ -110,14 +100,11 @@ private:
     Ogre::Root* mRoot;
     Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
 
-
     unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
-
 
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
     MenuInicio* menu;
-
 
     //OIS Input devices
     OIS::InputManager* mInputManager;

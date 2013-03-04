@@ -18,24 +18,26 @@ This source file is part of the
 
 
 //-------------------------------------------------------------------------------------
-BaseApplication::BaseApplication(Ogre::SceneManager* mSceneMgr)
+BaseApplication::BaseApplication(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow)
     : //CreacionJuego(),
       mRaySceneQuery(0),
       mCamera(0),
       mInputMan(0),
-      mSceneMgr(mSceneMgr)
+      mSceneMgr(mSceneMgr),
+      mWindow(mWindow)
 
 
-      //mTrayMgr(0),
-      //mCameraMan(0),
-      //  mOutputDebugPanel(0),
+
+    //mTrayMgr(0),
+    //mCameraMan(0),
+    //  mOutputDebugPanel(0),
 
 
 
 
 {
 
-//this->mSceneMgr = mSceneMgr;
+    //this->mSceneMgr = mSceneMgr;
 
 }
 
@@ -79,16 +81,16 @@ bool BaseApplication::setupJuego(void)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
     std::cout << "setupJuego  33 " << std::endl;
 
+    createScene();
 
-
-     std::cout << "createscene44" << std::endl;
-
-
-
+    std::cout << "createscene44" << std::endl;
 
 
 
-//   createOverlay();
+
+
+
+    //   createOverlay();
 
 
 
@@ -99,34 +101,6 @@ bool BaseApplication::setupJuego(void)
 
 
 
-
-
-//-------------------------------------------------------------------------------------
-bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
-{
-
-
-   // if dialog isn't up, then update the camera
-
-    // mTrayMgr->frameRenderingQueued(evt);
-
-    // if (!mTrayMgr->isDialogVisible())
-    //   {
-
-    //     if (mOutputDebugPanel->isVisible())   // if details panel is visible, then update its contents
-    //   {
-    //   mOutputDebugPanel->setParamValue(0, Ogre::StringConverter::toString(mCamera->getDerivedPosition().x));
-    //   mOutputDebugPanel->setParamValue(1, Ogre::StringConverter::toString(mCamera->getDerivedPosition().y));
-    //   mOutputDebugPanel->setParamValue(2, Ogre::StringConverter::toString(mCamera->getDerivedPosition().z));
-    //    mOutputDebugPanel->setParamValue(4, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().w));
-    //   mOutputDebugPanel->setParamValue(5, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().x));
-    //    mOutputDebugPanel->setParamValue(6, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().y));
-    //  mOutputDebugPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
-    //  }
-    // }
-
-    return true;
-}
 
 
 
@@ -160,12 +134,9 @@ bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
     return true;
 
 
-
-
     // mCursor->setPosition(mMouse->getMouseState().X.abs, mMouse->getMouseState().Y.abs);
 
 
-    // if (mTrayMgr->injectMouseMove(arg)) return true;
 
     //  arg->consume();
     // return true;
@@ -175,12 +146,10 @@ bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButton
 {
     std::cout << "BASEAPPLICATION MOUSEPRESSED " << std::endl;
 
-
-
     //  mTrayMgr->hideCursor();
     // if (mTrayMgr->injectMouseDown(arg, id)) return true;
-     mInputMan->injectMouseDown(arg, id);
-     std::cout << "ACABA MOUSEPRESSED " << std::endl;
+    mInputMan->injectMouseDown(arg, id);
+    std::cout << "ACABA MOUSEPRESSED " << std::endl;
 
     return true;
 }
@@ -195,18 +164,9 @@ bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButto
     //  mTrayMgr->showCursor();
     //if (mTrayMgr->injectMouseUp(arg, id)) return true;
 
-     mInputMan->injectMouseUp(arg, id);
+    mInputMan->injectMouseUp(arg, id);
     return true;
 }
-
-
-
-
-
-
-
-
-
 
 
 Ogre::Ray BaseApplication::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)
@@ -215,9 +175,7 @@ Ogre::Ray BaseApplication::setRayQuery(int posx, int posy, Ogre::uint32 mask, Og
     Ogre::Ray rayMouse = mCamera->getCameraToViewportRay
             (posx/float(win->getWidth()), posy/float(win->getHeight()));
 
-
     mRaySceneQuery->setRay(rayMouse);
-
     mRaySceneQuery->setSortByDistance(true);
     mRaySceneQuery->setQueryMask(mask);
     return (rayMouse);
@@ -226,6 +184,48 @@ Ogre::Ray BaseApplication::setRayQuery(int posx, int posy, Ogre::uint32 mask, Og
 
 
 
+//-------------------------------------------------------------------------------------
+void BaseApplication::createViewports(void)
+{
+    std::cout << "createViewports "<<std::endl;
+
+    // Create one viewport, entire window
+    Ogre::Viewport* vp = mWindow->addViewport(mCamera);
+    vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+
+    // Alter the camera aspect ratio to match the viewport
+    mCamera->setAspectRatio(
+                Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+}
+
+
+//-------------------------------------------------------------------------------------
+void BaseApplication::createCamera(void)
+{
+    // Create the camera
+    mCamera = mSceneMgr->createCamera("PlayerCam");
+
+    // Position it at 500 in Z direction
+    mCamera->setPosition(Ogre::Vector3(-40,-40,150));
+    // Look back along -Z
+    mCamera->lookAt(Ogre::Vector3(0,0,0));
+    mCamera->setNearClipDistance(5);
+
+    std::cout << "CREA LA CAMARA" << std::endl;
+
+
+    mInputMan = new InputMan::SdkCameraMan(mCamera);   // create a default camera controller
+    mInputMan->setTopSpeed(100);
+}
+
+
+void BaseApplication::createScene(void)
+{
+    EscenaAjedrez EscAjedrez;
+
+    EscAjedrez.createScene(mSceneMgr);
+
+}
 
 
 /*Ogre::Ray BaseApplication::setRayQuery(int posx, int posy, uint32 mask) {

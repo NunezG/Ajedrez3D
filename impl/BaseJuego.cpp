@@ -4,26 +4,13 @@
 
 //-------------------------------------------------------------------------------------
 BaseJuego::BaseJuego(void):
-   // mWindow(0),
     mPluginsCfg("plugins.cfg"),
-    mModoJuego(1),
     mResourcesCfg("resources.cfg")
-   // mResourcesCfg(Ogre::StringUtil::BLANK),
-   // mPluginsCfg(Ogre::StringUtil::BLANK),
 
-
-
-  //mCursorWasVisible(false)
-
-  //mCursor(0)
-
-
-  //mRenderer(0)
 
 {
     std::cout << "constructor base juego"<< std::endl;
     mRoot =new Ogre::Root(mPluginsCfg);
-   // mFrameListener = Ventana::getCEGUISingleton();
 }
 //-------------------------------------------------------------------------------------
 BaseJuego::~BaseJuego(void)
@@ -44,9 +31,9 @@ bool BaseJuego::configureOpenGL()
     // settings if you were sure there are valid ones saved in ogre.cfg
     //if(mRoot->showConfigDialog())
 
-Ventana& mFrameListener = Ventana::getCEGUISingleton();
+    Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
-   // Ventana& mFrameListener = Ventana::getCEGUISingleton();
+    // Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
     if(configuraGraficos("OpenGL"))
     {
@@ -64,7 +51,7 @@ Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
 bool BaseJuego::configuraGraficos(const char *desiredRenderer)
 {
-std::cout << "configuraGraficos: "<< std::endl;
+    std::cout << "configuraGraficos: "<< std::endl;
     Ogre::RenderSystem *renderSystem;
     bool ok = false;
     Ogre::RenderSystemList renderers =
@@ -120,17 +107,12 @@ std::cout << "configuraGraficos: "<< std::endl;
 }
 
 
-
-
-
-
-
 //-------------------------------------------------------------------------------------
 bool BaseJuego::configureOgre(void)
 {
 
-   // mResourcesCfg = "resources.cfg";
-   // mPluginsCfg = "plugins.cfg";
+    // mResourcesCfg = "resources.cfg";
+    // mPluginsCfg = "plugins.cfg";
 
     //   mRoot = new Ogre::Root(mPluginsCfg);
 
@@ -139,28 +121,25 @@ bool BaseJuego::configureOgre(void)
 
     setupResources();
 
-   Ventana& mFrameListener = Ventana::getCEGUISingleton();
+    Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
-  //  mFrameListener = new Ventana();
+    //  mFrameListener = new Ventana();
     bool carryOn = configureOpenGL();
     if (!carryOn) return false;
 
 
-  //  chooseSceneManager();
+    //  chooseSceneManager();
     // Create any resource listeners (for loading screens)
     createResourceListener();
     // Load resources
- std::cout << "loadResources"<< std::endl;
+    std::cout << "loadResources"<< std::endl;
     loadResources();
     std::cout << "getCEGUISingleton"<< std::endl;
 
 
-   // Ventana& mFrameListener = Ventana::getCEGUISingleton();
+    // Ventana& mFrameListener = Ventana::getCEGUISingleton();
 
     mFrameListener.iniciaIO();
-
-
-
 
     return true;
 }
@@ -183,10 +162,6 @@ void BaseJuego::destroyScene(void)
 //-----------------------------------------------------------------------
 //CONFIGURACION PREVIA A LA INICIALIZACION DE GRAFICOS
 //-------------------------------------------------------------------------------------
-
-
-
-
 
 //-------------------------------------------------------------------------------------
 void BaseJuego::setupResources(void)
@@ -242,7 +217,7 @@ void BaseJuego::go(void)
         return;
 
     // Create application object
-    //TutorialApplication app;
+    //VistaAjedrez app;
 
     inicio();
 

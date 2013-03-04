@@ -38,6 +38,7 @@ This source file is part of the
 #include <OgreRenderWindow.h>
 #include <OgreConfigFile.h>
 
+#include "EscenaAjedrez.h"
 
 
 #include "InputMan.h"
@@ -46,68 +47,33 @@ This source file is part of the
 class BaseApplication //: public CreacionJuego
 {
 public:
-    BaseApplication(Ogre::SceneManager* mSceneMgr);
+    BaseApplication(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
     virtual ~BaseApplication(void);
     bool setupJuego(void);
-    virtual void createCamera(void) = 0;
-    Ogre::SceneManager* mSceneMgr;
-    virtual void createViewports(void) = 0;
-    virtual void createScene(void) = 0; // Override me!
 
-
-
-
-
-
-
-    // OIS::KeyListener
     virtual bool keyPressed( const OIS::KeyEvent &arg );
     virtual bool keyReleased( const OIS::KeyEvent &arg );
-    // OIS::MouseListener
     virtual bool mouseMoved( const OIS::MouseEvent &arg );
     virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-
-
-    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-
+    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
 
 protected:
+    Ogre::SceneManager* mSceneMgr;
+    Ogre::RenderWindow* mWindow;
     Ogre::RaySceneQuery *mRaySceneQuery;
-
-
-    CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
-
-   // virtual void createScene(void) = 0; // Override me!
-    // virtual void createMainMenu(void) = 0; // Override me!
-  //  virtual void createViewports(void) = 0;
-
-
-
-
-
-    void createOverlay();
-
-    //CEGUI::Renderer* mGUIRenderer;
-
     Ogre::Camera* mCamera;
-
-    //Button* createButton(TrayLocation trayLoc, const Ogre::String& name, const Ogre::String& caption, Ogre::Real width = 0);
-
-    // OgreBites
-   // OgreBites::SdkTrayManager* mTrayMgr;
-   // OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
-    InputMan::SdkCameraMan* mInputMan;
-  //  OgreBites::ParamsPanel* mOutputDebugPanel;     // sample details panel
-    bool mCursorWasVisible;                    // was cursor visible before dialog appeared
-
+    Ogre::OverlayContainer* mCursor;      // cursor
+    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
     Ogre::OverlayManager* mOverlayManager;
 
-Ogre::OverlayContainer* mCursor;      // cursor
+    InputMan::SdkCameraMan* mInputMan;
+    bool mCursorWasVisible;                    // was cursor visible before dialog appeared
 
-
-// Ogre::RaySceneQuery *mRaySceneQuery;
- Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
+private:
+ virtual void createViewports(void);
+ void createCamera(void);
+ void createScene(void);
 
 };
 

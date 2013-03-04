@@ -172,6 +172,10 @@ public:
 
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt)
     {
+
+
+        std::cout << "frameRenderingQueued en INPUTMAN" << std::endl;
+
         //   if (mStyle == CS_FREELOOK)
         //  {
         //   std::cout << "FRAME RENDERING QUEUE" << std::endl;
