@@ -1,15 +1,14 @@
-#ifndef __VistaAjedrez_h_
-#define __VistaAjedrez_h_
+#ifndef __VistaAjedrezSolo_h_
+#define __VistaAjedrezSolo_h_
 
-#include "BaseApplication.h"
-#include "Autorizaciones.h"
-#include <Ogre.h>
+#include "VistaAjedrez.h"
 
-class VistaAjedrez : public BaseApplication
+class VistaAjedrezSolo : public VistaAjedrez
 {
 public:
-    VistaAjedrez(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
-    ~VistaAjedrez(void);
+    VistaAjedrezSolo(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
+    ~VistaAjedrezSolo(void);
+
     // Ogre::FrameListener
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
@@ -21,15 +20,8 @@ public:
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
+private:
 
-protected:
-
-
-    Ogre::SceneNode *_selectedNode;
-
-
-    bool fichaSeleccionada;
-    Ogre::String textoOverlay;
 };
 
-#endif // #ifndef __VistaAjedrez_h_
+#endif // #ifndef __VistaAjedrezSolo_h_

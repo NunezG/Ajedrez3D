@@ -8,40 +8,16 @@ Autorizaciones::~Autorizaciones(void)
 {
 }
 
-//-------------------------------------------------------------------------------------
-bool Autorizaciones::FichaComestible(Ogre::SceneNode* nodoSobrevolado, bool turnoNegras)
-{
-    Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (nodoSobrevolado->getChild(0));
-    Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
-
-    if((!turnoNegras && ent->getName()[1] == 'N')
-            || (turnoNegras && ent->getName()[1] == 'B'))
-    {
-        iluminaCasilla(nodoSobrevolado);
-        return true;
-    }
-    return false;
-}
-
-void Autorizaciones::iluminaCasilla(Ogre::SceneNode* casilla){
-    casilla->showBoundingBox(true);
-    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
-    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
-    if (mNombreEntidad[1] == 'B')
-    {
-        mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
-    }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
-}
-
-
 bool Autorizaciones::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::SceneNode* nodoSobrevolado, bool turnoNegras)
 {
     Ogre::Vector3 seleccionado = nodoSeleccionado->getParent()->getPosition();
     Ogre::Vector3 nuevo = nodoSobrevolado->getPosition();
     Ogre::Vector3 diferencia= nuevo-seleccionado;
-    const Ogre::String mNombreUsado =  nodoSeleccionado->getName();
 
-    switch (mNombreUsado[1])
+    Ogre::Entity *mEntidadFicha = static_cast<Ogre::Entity*>(nodoSeleccionado->getAttachedObject(0));
+    Ogre::String mNombreUsado = mEntidadFicha->getName();
+
+    switch (mNombreUsado[4])
     {
     case 'R': //REY SELECCIONADO
         return autorizaRey(diferencia);
@@ -64,7 +40,8 @@ bool Autorizaciones::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::Sc
         break;
 
     case 'P': //PEON SELECCIONADO
-        if (turnoNegras)
+
+        if (mNombreUsado[1] == 'N')
         { //Invierte la coordenada X de los peones negros
             seleccionado.x = -(70 + seleccionado.x);
             diferencia.x = -diferencia.x;
@@ -84,12 +61,14 @@ bool Autorizaciones::autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode* nod
             || (diferencia==Ogre::Vector3(-20,0,0)
                 && seleccionado.x == -10))
     {
-        if (nodoSobrevolado->getChildIterator().hasMoreElements()) return false;
+        if (nodoSobrevolado->getChildIterator().hasMoreElements())
+            return false;
         else return true;
 
     } else if (nodoSobrevolado->getChildIterator().hasMoreElements()
                && (diferencia==Ogre::Vector3(-10,0,10)
-                   || diferencia==Ogre::Vector3(-10,0,-10))) return true;
+                   || diferencia==Ogre::Vector3(-10,0,-10)))
+        return true;
     else return false;
 }
 
@@ -116,7 +95,8 @@ bool Autorizaciones::autorizaAlfil(Ogre::Vector3 diferencia, Ogre::SceneNode* no
 
 bool Autorizaciones::autorizaReina(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado)
 {
-    if (autorizaAlfil(diferencia, nodoSobrevolado)) return true;
+    if (autorizaAlfil(diferencia, nodoSobrevolado))
+        return true;
     else return autorizaTorre(diferencia, nodoSobrevolado);
 }
 
@@ -158,7 +138,8 @@ bool Autorizaciones::autorizaCaballo(Ogre::Vector3 diferencia)
             || diferencia==Ogre::Vector3(10,0,20)
             || diferencia==Ogre::Vector3(10,0,-20)
             || diferencia==Ogre::Vector3(-10,0,20)
-            || diferencia==Ogre::Vector3(-10,0,-20)) return true;
+            || diferencia==Ogre::Vector3(-10,0,-20))
+        return true;
     else return false;
 }
 
@@ -229,7 +210,8 @@ bool Autorizaciones::verificaCamino(Ogre::Vector3 distancia, Ogre::SceneNode *_n
             filaX = filaDestino-i;
         }
         Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[colZ] + Ogre::StringConverter::toString(filaX)));
-        if (nodoTrayectoria->getChildIterator().hasMoreElements()) return false;
+        if (nodoTrayectoria->getChildIterator().hasMoreElements())
+            return false;
     }
     return true;
 }

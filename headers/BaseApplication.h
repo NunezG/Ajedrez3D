@@ -40,23 +40,33 @@ public:
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
 
+    bool turnoNegras;
+
 protected:
+    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
+
+    static void iluminaCasilla(Ogre::SceneNode* casilla);
+    void FichaComestible();
+    void apagaCasilla(Ogre::SceneNode* casilla);
+
 
     Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
     Ogre::RaySceneQuery *mRaySceneQuery;
     Ogre::Camera* mCamera;
     Ogre::OverlayContainer* mCursor;      // cursor
-    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
     Ogre::OverlayManager* mOverlayManager;
+    Ogre::SceneNode *_nodoNuevo;
 
     InputMan::SdkCameraMan* mInputMan;
+
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
 
 private:
     virtual void createViewports(void);
     void createCamera(void);
     void createScene(void);
+
 
 };
 

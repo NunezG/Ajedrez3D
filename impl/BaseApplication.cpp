@@ -24,7 +24,10 @@ BaseApplication::BaseApplication(Ogre::SceneManager* mSceneMgr, Ogre::RenderWind
       mCamera(0),
       mInputMan(0),
       mSceneMgr(mSceneMgr),
-      mWindow(mWindow)
+      mWindow(mWindow),
+      turnoNegras(0),
+      _nodoNuevo(0)
+
 {
 }
 
@@ -49,6 +52,42 @@ bool BaseApplication::setupJuego(void)
     createScene();
 
     return true;
+}
+
+
+void BaseApplication::apagaCasilla(Ogre::SceneNode* casilla)
+{
+    casilla->showBoundingBox(false);
+    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
+    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
+    if (mNombreEntidad[1] == 'B'){
+        mEntidadCasilla->setMaterialName("MaterialBlanco");
+    }else mEntidadCasilla->setMaterialName("MaterialNegro");
+}
+
+
+void BaseApplication::iluminaCasilla(Ogre::SceneNode* casilla){
+    casilla->showBoundingBox(true);
+    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
+    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
+    if (mNombreEntidad[1] == 'B')
+    {
+        mEntidadCasilla->setMaterialName("MaterialBlancoIluminado");
+    }else mEntidadCasilla->setMaterialName("MaterialNegroIluminado");
+}
+
+//-------------------------------------------------------------------------------------
+void BaseApplication::FichaComestible()
+{
+    //Mira si la casilla está ocupada y por quién
+    Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (_nodoNuevo->getChild(0));
+    Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
+
+    if((!turnoNegras && ent->getName()[1] == 'N')
+            || (turnoNegras && ent->getName()[1] == 'B'))
+    {
+        iluminaCasilla(_nodoNuevo);
+    }
 }
 
 Ogre::Ray BaseApplication::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)

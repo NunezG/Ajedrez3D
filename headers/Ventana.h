@@ -25,7 +25,8 @@
 #include "EscenaAjedrez.h"
 
 #include "VistaAjedrez.h"
-#include "BaseApplication.h"
+#include "VistaAjedrezSolo.h"
+
 
 class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener
 {
@@ -43,6 +44,8 @@ public:
     //Pantallas
     bool MuestraMenu();
     bool muestraAjedrez();
+    bool muestraAjedrezSolo();
+
 
     int getFPS();
 
@@ -53,6 +56,8 @@ public:
     Ogre::RenderWindow* getVentana();
     bool mShutDown;
     int mPantalla;
+
+    BaseApplication* tut;
 
 private:
 
@@ -73,7 +78,6 @@ private:
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
-    BaseApplication* tut;
 
     //Singleton;
     Ventana(void);

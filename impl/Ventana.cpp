@@ -179,7 +179,7 @@ bool Ventana::MuestraMenu(){
 
 bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 {   
-    if(mPantalla == 1){
+    if(mPantalla > 0){
         tut->keyPressed(evt);
     }
 
@@ -200,7 +200,7 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 
 bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 {
-    if(mPantalla == 1){
+    if(mPantalla > 0){
         tut->keyReleased(evt);
     }
 
@@ -211,15 +211,16 @@ bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 
 bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 {   
-    if(mPantalla == 1){
+   sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
+
+    if(mPantalla > 0)
+    {
         tut->mouseMoved(evt);
+
+        // Scroll wheel.
+        if (evt.state.Z.rel)
+            sys->injectMouseWheelChange(evt.state.Z.rel / 120.0f);
     }
-
-    sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
-    // Scroll wheel.
-    if (evt.state.Z.rel)
-        sys->injectMouseWheelChange(evt.state.Z.rel / 120.0f);
-
     return true;
 }
 
@@ -236,7 +237,7 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
     capture();
     statUpdate(evt);
 
-    if(mPantalla == 1 && tut != NULL)
+    if(mPantalla > 0 && tut != NULL)
     {
         tut->frameRenderingQueued(evt);
     }
@@ -248,9 +249,21 @@ bool Ventana::muestraAjedrez()
     tut->setupJuego();
 }
 
+
+bool Ventana::muestraAjedrezSolo()
+{
+    tut= new VistaAjedrezSolo(mSceneMgr, mWindow);
+    tut->setupJuego();
+}
+
+
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
-    if(mPantalla == 1){
+
+    std::cout << "mousePressed"<< std::endl;
+
+
+    if(mPantalla > 0){
         tut->mousePressed(evt, id);
     }
 
@@ -264,18 +277,24 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 
 bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
-    if(mPantalla == 1){
-        tut->mouseReleased(evt, id);
-    }
-
     sys->injectMouseButtonUp(convertButton(id));
 
-    if(mPantalla == 0)
+    if(mPantalla > 0)
+    {
+        tut->mouseReleased(evt, id);
+    }
+    else if(mPantalla == 0)
     {
         if(menu->salirPulsado) mShutDown = true;
-        else if (sys->getGUISheet()->isVisible()==true && menu->modoJuego == 1){
+        else if (sys->getGUISheet()->isVisible()==true && menu->modoJuego == 1)
+        {
             sys->getGUISheet()->setVisible(false);
             mPantalla = 1;
+        }
+        else if (sys->getGUISheet()->isVisible()==true && menu->modoJuego == 2)
+        {
+            sys->getGUISheet()->setVisible(false);
+            mPantalla = 2;
         }
     }
     return true;

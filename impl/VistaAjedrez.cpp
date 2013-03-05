@@ -6,8 +6,6 @@ VistaAjedrez::VistaAjedrez(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mW
     : BaseApplication(mSceneMgr, mWindow),
       _selectedNode(0),
       fichaSeleccionada(false),
-      _nodoNuevo(0),
-      turnoNegras(0),
       textoOverlay("VACIO")
 
 {
@@ -57,10 +55,10 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
                 bool autorizado= true;
                 autorizado = Autorizaciones::autorizaCasilla(_selectedNode , _nodoNuevo, turnoNegras);
 
-                //Mira si la casilla está ocupada y por quién
+
                 if(autorizado)
-                    if  (_nodoNuevo->getChildIterator().hasMoreElements()) autorizado = Autorizaciones::FichaComestible(nodoSobrevolado, turnoNegras);
-                    else Autorizaciones::iluminaCasilla(_nodoNuevo);
+                    if  (_nodoNuevo->getChildIterator().hasMoreElements()) FichaComestible();
+                    else iluminaCasilla(_nodoNuevo);
             }
         }
     }
@@ -68,15 +66,6 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 }
 
 
-void VistaAjedrez::apagaCasilla(Ogre::SceneNode* casilla)
-{
-    casilla->showBoundingBox(false);
-    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
-    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
-    if (mNombreEntidad[1] == 'B'){
-        mEntidadCasilla->setMaterialName("MaterialBlanco");
-    }else mEntidadCasilla->setMaterialName("MaterialNegro");
-}
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)

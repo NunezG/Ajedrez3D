@@ -9,10 +9,9 @@ public:
     virtual ~Autorizaciones(void);
 
     static bool autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::SceneNode* nodoSobrevolado, bool turnoNegras);
-    static bool FichaComestible(Ogre::SceneNode* nodoSobrevolado, bool turnoNegras);
-    static void iluminaCasilla(Ogre::SceneNode* casilla);
 
 private:
+
     static bool autorizaRey(Ogre::Vector3 diferencia);
     static bool autorizaReina(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
     static bool autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado, Ogre::Vector3 seleccionado);

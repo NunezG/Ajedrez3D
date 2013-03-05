@@ -112,6 +112,7 @@ endif()
 set(HDRS
         ./headers/BaseApplication.h
         ./headers/VistaAjedrez.h
+        ./headers/VistaAjedrezSolo.h
         ./headers/InputMan.h
         ./headers/Ventana.h
         #./headers/CreacionJuego.h
@@ -132,6 +133,7 @@ set(HDRS
 set(SRCS
         ./impl/BaseApplication.cpp
         ./impl/VistaAjedrez.cpp
+        ./impl/VistaAjedrezSolo.cpp
         ./impl/Ventana.cpp
        # ./impl/CreacionJuego.cpp
        # ./impl/MenuInicial.cpp

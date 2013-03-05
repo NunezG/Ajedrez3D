@@ -18,10 +18,13 @@ public:
 protected:
     bool botonSalir(const CEGUI::EventArgs    &e);
     bool botonJuegoTurnos(const CEGUI::EventArgs &e);
+    bool botonJuegoSolo(const CEGUI::EventArgs &e);
 
     CEGUI::Window *sheetWindow;
     CEGUI::Window *quitButton;
     CEGUI::Window *mBotonJTurnos;
+    CEGUI::Window *mBotonJSolo;
+
 
     CEGUI::FrameWindow* fWnd;
 };

@@ -21,6 +21,10 @@ private:
     ControlJuego(const ControlJuego& control);
     ControlJuego(void);
 
+    void calculaMovimiento();
+
+    bool esperaCalculo;
+
     //BUCLE PRINCIPAL
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 };
