@@ -32,10 +32,14 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
     if(punteroVentana->pantallaActual()== 0)
     {
-        if(punteroVentana->mPantalla == 1)
+         std::cout << "PANTALLA ACTUAL ES 0" << std::endl;
+
+        if(punteroVentana->mPantalla > 0){
+            std::cout << "CAMBIA DE PANTALLA " << std::endl;
+
             punteroVentana->muestraAjedrez();
-        else if (punteroVentana->mPantalla == 2)
-            punteroVentana->muestraAjedrezSolo();
+
+        }
     }
 
     if(punteroVentana->getVentana()->isClosed())
@@ -51,7 +55,7 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
     if(punteroVentana->mPantalla == 2)
-        if (punteroVentana->tut->turnoNegras && esperaCalculo == false)
+        if (punteroVentana->vista->turnoNegras && esperaCalculo == false)
         {
             calculaMovimiento();
             esperaCalculo==true;
@@ -66,6 +70,9 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 void ControlJuego::calculaMovimiento(){
     //INICIA LA IA PARA CALCULAR LA FICHA A MOVER
+
+
+
 
 
 

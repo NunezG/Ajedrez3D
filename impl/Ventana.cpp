@@ -10,7 +10,7 @@ Ventana::Ventana() :
     mRoot(Ogre::Root::getSingletonPtr()),
     mTimer(mRoot->getTimer()),
     mSceneMgr(0),
-    tut(0)
+    vista(0)
 {  
 }
 
@@ -163,7 +163,8 @@ bool Ventana::injectTimePulse(const Ogre::FrameEvent& evt)
 }
 
 int Ventana::pantallaActual(){
-    if (tut==NULL){
+    if (vista->esMenuInicio()){
+
         return 0;
 
     }else return 1;
@@ -172,15 +173,15 @@ int Ventana::pantallaActual(){
 
 bool Ventana::MuestraMenu(){
 
-    menu = new MenuInicio();
-    CEGUI::FrameWindow* fwdw = menu->createGUI();
-    sys->getGUISheet()->addChildWindow( fwdw );
+    vista = new MenuInicio();
+    vista->iniciaVista();
+
 }
 
 bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 {   
     if(mPantalla > 0){
-        tut->keyPressed(evt);
+        vista->keyPressed(evt);
     }
 
     sys->injectKeyDown(evt.key);
@@ -201,7 +202,7 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 {
     if(mPantalla > 0){
-        tut->keyReleased(evt);
+        vista->keyReleased(evt);
     }
 
     sys->injectKeyUp(evt.key);
@@ -211,11 +212,11 @@ bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 
 bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 {   
-   sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
+    sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
 
     if(mPantalla > 0)
     {
-        tut->mouseMoved(evt);
+        vista->mouseMoved(evt);
 
         // Scroll wheel.
         if (evt.state.Z.rel)
@@ -237,25 +238,31 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
     capture();
     statUpdate(evt);
 
-    if(mPantalla > 0 && tut != NULL)
+    if(mPantalla > 0 && vista != NULL)
     {
-        tut->frameRenderingQueued(evt);
+        vista->frameRenderingQueued(evt);
     }
 }
 
+
+//BaseApplication* Ventana::Create(Ogre::String type) {
+  //  if ( type == "JuegoPorTurnos" ) return new VistaAjedrez(mSceneMgr, mWindow);
+ //   if ( type == "JuegoEnSolitario" ) return new VistaAjedrezSolo(mSceneMgr, mWindow);
+  //  return NULL;
+//}
+
 bool Ventana::muestraAjedrez()
 {
-    tut= new VistaAjedrez(mSceneMgr, mWindow);
-    tut->setupJuego();
+    if (mPantalla==1)
+    {
+        vista= new VistaAjedrez(mSceneMgr, mWindow);
+    }
+    else if (mPantalla==2)
+    {
+        vista= new VistaAjedrezSolo(mSceneMgr, mWindow);
+    }
+    vista->iniciaVista();
 }
-
-
-bool Ventana::muestraAjedrezSolo()
-{
-    tut= new VistaAjedrezSolo(mSceneMgr, mWindow);
-    tut->setupJuego();
-}
-
 
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
@@ -264,7 +271,7 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 
 
     if(mPantalla > 0){
-        tut->mousePressed(evt, id);
+        vista->mousePressed(evt, id);
     }
 
     if(sys->injectMouseButtonDown(convertButton(id)))
@@ -281,18 +288,24 @@ bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 
     if(mPantalla > 0)
     {
-        tut->mouseReleased(evt, id);
+        vista->mouseReleased(evt, id);
     }
     else if(mPantalla == 0)
     {
-        if(menu->salirPulsado) mShutDown = true;
-        else if (sys->getGUISheet()->isVisible()==true && menu->modoJuego == 1)
+        std::cout << "MOUSE RELEASED EN PANTALLA = 0 " << std::endl;
+
+        if(vista->salir()) mShutDown = true;
+        else if (sys->getGUISheet()->isVisible()==true && vista->modoJuego == 1)
         {
+            std::cout << "PANTALLA 1 " << std::endl;
+
             sys->getGUISheet()->setVisible(false);
             mPantalla = 1;
         }
-        else if (sys->getGUISheet()->isVisible()==true && menu->modoJuego == 2)
+        else if (sys->getGUISheet()->isVisible()==true && vista->modoJuego == 2)
         {
+            std::cout << "PANTALLA 2 " << std::endl;
+
             sys->getGUISheet()->setVisible(false);
             mPantalla = 2;
         }

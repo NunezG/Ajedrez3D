@@ -1,3 +1,7 @@
+#ifndef __Modelo_
+#define __Modelo_
+
+
 class Modelo
 {
 public:
@@ -17,3 +21,5 @@ private:
     Modelo(const Modelo& miModelo);
 
 };
+
+#endif

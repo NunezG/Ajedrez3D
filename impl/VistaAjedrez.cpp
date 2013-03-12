@@ -3,7 +3,7 @@
 
 //-------------------------------------------------------------------------------------
 VistaAjedrez::VistaAjedrez(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow)
-    : BaseApplication(mSceneMgr, mWindow),
+    : BaseOgre(mSceneMgr, mWindow),
       _selectedNode(0),
       fichaSeleccionada(false),
       textoOverlay("VACIO")
@@ -18,12 +18,12 @@ VistaAjedrez::~VistaAjedrez(void)
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 {    
-    return BaseApplication::keyPressed( arg );
+    return BaseOgre::keyPressed( arg );
 }
 
 bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 { 
-    return BaseApplication::keyReleased( arg );
+    return BaseOgre::keyReleased( arg );
 }
 
 bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
@@ -62,10 +62,16 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
             }
         }
     }
-    return BaseApplication::mouseMoved( arg );
+    return BaseOgre::mouseMoved( arg );
 }
 
+bool VistaAjedrez::salir(){
+    //return salirPulsado;
+}
+bool VistaAjedrez::esMenuInicio(){
 
+    return false;
+}
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
@@ -112,34 +118,35 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         }
     } else if (mbright)
     {
-        //COME LA FICHA
-        if (_selectedNode != NULL && _nodoNuevo!=NULL && _nodoNuevo->getShowBoundingBox()) {  // Si habia alguno seleccionado...
+        //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
+        if (fichaSeleccionada && _nodoNuevo!=NULL && _nodoNuevo->getShowBoundingBox()) {
 
-            Ogre::Vector3 vector;
-
-            if (turnoNegras){
-                vector = Ogre::Vector3(70,0,70)+_nodoNuevo->getPosition();
-            }else vector =_nodoNuevo->getPosition();
+            //BORRA FICHA DE LA CASILLA ANTERIOR
             _selectedNode->getParent()->removeChild(_selectedNode);
+
+            //BORRA FICHA ENEMIGA DE LA CASILLA NUEVA
             if (_nodoNuevo->getChildIterator().hasMoreElements()){
                 _nodoNuevo->removeAllChildren();
             }
+
+            //AÑADE FICHA A LA CASILLA NUEVA
             _nodoNuevo->addChild(_selectedNode);
+
+            //CAMBIA TURNO
             turnoNegras= !turnoNegras;
+
+            //DESELECCIONA FICHA Y CASILLA
             _selectedNode->showBoundingBox(false);
-
             apagaCasilla(_nodoNuevo);
-
             _nodoNuevo=NULL;
-
             _selectedNode=NULL;
             fichaSeleccionada = false;
         }
     }
-    return BaseApplication::mousePressed( arg , id);
+    return BaseOgre::mousePressed( arg , id);
 }
 
 bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    return BaseApplication::mouseReleased( arg, id );
+    return BaseOgre::mouseReleased( arg, id );
 }

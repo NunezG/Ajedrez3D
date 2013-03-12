@@ -1,3 +1,7 @@
+#ifndef __Ventana_
+#define __Ventana_
+
+
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
@@ -22,7 +26,7 @@
 #include <OgreConfigFile.h>
 
 #include "MenuInicio.h"
-#include "EscenaAjedrez.h"
+//#include "EscenaAjedrez.h"
 
 #include "VistaAjedrez.h"
 #include "VistaAjedrezSolo.h"
@@ -57,7 +61,9 @@ public:
     bool mShutDown;
     int mPantalla;
 
-    BaseApplication* tut;
+    BaseVistas* vista;
+
+   // BaseApplication* Create(Ogre::String type);
 
 private:
 
@@ -95,10 +101,13 @@ private:
     CEGUI::Window *sheet;
     CEGUI::System* sys;
 
-    MenuInicio* menu;
+   // MenuInicio* menu;
 
     //OIS Input devices
     OIS::InputManager* mInputManager;
     OIS::Mouse*    mMouse;
     OIS::Keyboard* mKeyboard;
 };
+
+
+#endif

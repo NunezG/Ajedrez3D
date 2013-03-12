@@ -14,10 +14,13 @@
 #      http://www.ogre3d.org/tikiwiki/
 #-----------------------------------------------------------------------------
 #*/
+
+
 cmake_minimum_required(VERSION 2.6)
  
 project(OgreApp)
  
+
 if(WIN32)
 	set(CMAKE_MODULE_PATH "$ENV{OGRE_HOME}/CMake/;${CMAKE_MODULE_PATH}")
 	set(OGRE_SAMPLES_INCLUDEPATH
@@ -110,7 +113,7 @@ endif()
 
 
 set(HDRS
-        ./headers/BaseApplication.h
+        ./headers/BaseOgre.h
         ./headers/VistaAjedrez.h
         ./headers/VistaAjedrezSolo.h
         ./headers/InputMan.h
@@ -125,13 +128,14 @@ set(HDRS
         ./headers/ControlJuego.h
         ./headers/MenuInicio.h
         ./headers/Modelo.h
+        ./headers/BaseVistas.h
 
 
 
 )
  
 set(SRCS
-        ./impl/BaseApplication.cpp
+        ./impl/BaseOgre.cpp
         ./impl/VistaAjedrez.cpp
         ./impl/VistaAjedrezSolo.cpp
         ./impl/Ventana.cpp
@@ -145,6 +149,8 @@ set(SRCS
         ./impl/ControlJuego.cpp
         ./impl/MenuInicio.cpp
         ./impl/Modelo.cpp
+        ./impl/BaseVistas.cpp
+
 
 
 

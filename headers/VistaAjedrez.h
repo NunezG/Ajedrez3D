@@ -1,11 +1,11 @@
 #ifndef __VistaAjedrez_h_
 #define __VistaAjedrez_h_
 
-#include "BaseApplication.h"
+#include "BaseOgre.h"
 #include "Autorizaciones.h"
 #include <Ogre.h>
 
-class VistaAjedrez : public BaseApplication
+class VistaAjedrez : public BaseOgre
 {
 public:
     VistaAjedrez(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
@@ -21,7 +21,8 @@ public:
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
-
+    bool salir();
+    bool esMenuInicio();
 protected:
 
 

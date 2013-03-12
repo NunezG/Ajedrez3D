@@ -1,16 +1,16 @@
 #ifndef __BaseJuego_h_
 #define __BaseJuego_h_
 
-#include <Ogre.h>
-#include <OIS.h>
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+//#include <Ogre.h>
+//#include <OIS.h>
+//#include <CEGUI/CEGUI.h>
+//#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 //#include "MenuInicio.h"
 
 #include "Ventana.h"
 
 //#include "MenuInicial.h"
-#include <OgreRoot.h>
+//#include <OgreRoot.h>
 
 
 class BaseJuego : public Ogre::FrameListener

@@ -27,7 +27,7 @@ bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 {
     if(!turnoNegras)
     return VistaAjedrez::mouseMoved( arg );
-    else return BaseApplication::mouseMoved( arg );
+    else return BaseOgre::mouseMoved( arg );
 
 }
 
@@ -35,7 +35,7 @@ bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButto
 {      
     if(!turnoNegras)
     return VistaAjedrez::mousePressed( arg , id);
-    else return BaseApplication::mousePressed( arg, id );
+    else return BaseOgre::mousePressed( arg, id );
 }
 
 bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
@@ -43,7 +43,7 @@ bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButt
     if(!turnoNegras)
     return VistaAjedrez::mouseReleased( arg, id );
     else{
-         BaseApplication::mouseReleased( arg, id );
+         BaseOgre::mouseReleased( arg, id );
         // calculaMovimiento();
          return true;
     }

@@ -2,8 +2,7 @@
 #include "../headers/MenuInicio.h"
 
 //-------------------------------------------------------------------------------------
-MenuInicio::MenuInicio() : salirPulsado(0),
-    modoJuego(0)
+MenuInicio::MenuInicio() : salirPulsado(0)
 {
 
 }
@@ -13,7 +12,7 @@ MenuInicio::~MenuInicio(void)
 
 }
 
-CEGUI::FrameWindow* MenuInicio::createGUI()
+bool MenuInicio::iniciaVista()
 {
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro ***");
 
@@ -62,9 +61,48 @@ CEGUI::FrameWindow* MenuInicio::createGUI()
     fWnd->addChildWindow(mBotonJTurnos);
     fWnd->addChildWindow(mBotonJSolo);
 
+    CEGUI::System* sys = CEGUI::System::getSingletonPtr();
 
-    return fWnd;
+    sys->getGUISheet()->addChildWindow( fWnd );
+
+    return true;
 }
+
+bool MenuInicio::salir(){
+    return salirPulsado;
+}
+
+bool MenuInicio::esMenuInicio(){
+
+    return true;
+}
+
+
+bool MenuInicio::keyPressed( const OIS::KeyEvent &arg ) {
+
+}
+
+bool MenuInicio::keyReleased( const OIS::KeyEvent &arg ){
+
+}
+
+bool MenuInicio::mouseMoved( const OIS::MouseEvent &arg ){
+
+}
+
+bool MenuInicio::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
+
+}
+
+bool MenuInicio::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
+
+}
+
+bool MenuInicio::frameRenderingQueued(const Ogre::FrameEvent& evt){
+
+}
+
+
 
 bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 {
