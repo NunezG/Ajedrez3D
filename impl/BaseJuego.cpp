@@ -12,7 +12,6 @@ BaseJuego::BaseJuego(void):
 //-------------------------------------------------------------------------------------
 BaseJuego::~BaseJuego(void)
 {
-    //Remove ourself as a Window listener
     delete mRoot;
 }
 

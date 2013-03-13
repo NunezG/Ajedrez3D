@@ -1,6 +1,7 @@
 #ifndef __Modelo_
 #define __Modelo_
-
+#include <Ogre.h>
+#include "Tablero.h"
 
 class Modelo
 {
@@ -9,7 +10,13 @@ public:
     int getNumPantalla();
     ~Modelo(void);
 
+    bool creaFichas();
+
+    Tablero* tablero;
+
+
 private:  
+
     bool mShutDown;
     int mPantalla;
 
@@ -19,6 +26,11 @@ private:
     Modelo(void);
     void operator=(const Modelo& miModelo) ;
     Modelo(const Modelo& miModelo);
+
+    Ogre::String mResourcesCfg;
+    Ogre::String mPluginsCfg;
+    Ogre::Root *mRoot;
+    Ogre::SceneManager* mSceneMgr;
 
 };
 

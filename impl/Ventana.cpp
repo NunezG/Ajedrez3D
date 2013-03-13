@@ -154,6 +154,7 @@ bool Ventana::EmpiezaCEGUI()
 
     mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
 
+
     return true;
 }
 

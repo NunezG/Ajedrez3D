@@ -127,8 +127,19 @@ set(HDRS
         ./headers/BaseJuego.h
         ./headers/ControlJuego.h
         ./headers/MenuInicio.h
-        ./headers/Modelo.h
         ./headers/BaseVistas.h
+
+        # headers de modelo
+        ./headers/Modelo.h
+       ./headers/Tablero.h
+       ./headers/FichaRey.h
+       ./headers/FichaReina.h
+       ./headers/FichaPeon.h
+       ./headers/FichaAlfil.h
+       ./headers/FichaCaballo.h
+       ./headers/FichaTorre.h
+       ./headers/Ficha.h
+
 
 
 
@@ -151,8 +162,16 @@ set(SRCS
         ./impl/Modelo.cpp
         ./impl/BaseVistas.cpp
 
-
-
+        # implementaciones de modelo
+        ./headers/Modelo.h
+       ./impl/Tablero.cpp
+       ./impl/FichaRey.cpp
+       ./impl/FichaReina.cpp
+       ./impl/FichaPeon.cpp
+       ./impl/FichaAlfil.cpp
+       ./impl/FichaCaballo.cpp
+       ./impl/FichaTorre.cpp
+       ./impl/Ficha.cpp
 
 )
  
