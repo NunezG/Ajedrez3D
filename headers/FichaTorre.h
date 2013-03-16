@@ -3,7 +3,7 @@
 
 #include "Ficha.h"
 
-class FichaTorre : Ficha
+class FichaTorre : public Ficha
 {
 public:
 

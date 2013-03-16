@@ -135,6 +135,14 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
             //CAMBIA TURNO
             turnoNegras= !turnoNegras;
 
+            std::cout << "LLEGA BIEN A PITCH "<< std::endl;
+
+
+            mInputMan->cambiaTurno();
+
+          //  mCamera->moveRelative(Ogre::Degree(30));
+
+
             //DESELECCIONA FICHA Y CASILLA
             _selectedNode->showBoundingBox(false);
             apagaCasilla(_nodoNuevo);

@@ -22,6 +22,8 @@ public:
         , mGoingLeft(false)
         , mGoingRight(false)
         , mGoingDown(false)
+        , mCambiaTurno(false)
+        , rotaTurno(0)
     {
         setCamera(cam);
     }
@@ -54,7 +56,7 @@ public:
             mTarget = target;
             if(target)
             {
-                setYawPitchDist(Ogre::Degree(0), Ogre::Degree(150), 125);
+                setYawPitchDist(Ogre::Degree(90), Ogre::Degree(45), 110);
                 mCamera->setAutoTracking(true, mTarget);
             }
             else
@@ -103,8 +105,23 @@ public:
 
         if (mGoingLeft) accel -= mCamera->getRight();
 
+        if (rotaTurno > 0){
+            std::cout << "cambiaturnorota "<< accel<< std::endl;
+            std::cout << "accel "<< accel<< std::endl;
+
+            mCambiaTurno = false;
+           // accel += mCamera->getRight();
+            std::cout << "accel "<< accel<< std::endl;
+            rotaTurno = rotaTurno-2;
+            rotaCamara(2);
+        }
+
+        //accel.y == 0;
+
         if (accel.squaredLength() != 0)
         {
+            std::cout << "accel "<< accel<< std::endl;
+
             accel.normalise();
             mVelocity += accel  * mTopSpeed  * evt.timeSinceLastFrame * 10;
         }
@@ -119,9 +136,35 @@ public:
             mVelocity *= mTopSpeed;
         }
 
-        if (mVelocity != Ogre::Vector3::ZERO) mCamera->move(mVelocity * evt.timeSinceLastFrame);
+
+
+
+        if (mVelocity != Ogre::Vector3::ZERO) mCamera->moveRelative(Ogre::Vector3(mVelocity.z * evt.timeSinceLastFrame,0,0));//mCamera->move(mVelocity * evt.timeSinceLastFrame);
 
         return true;
+    }
+
+    virtual void cambiaTurno(){
+        std::cout << "cambiatur "<< std::endl;
+
+        rotaTurno = 180;
+
+
+    }
+
+    virtual void rotaCamara(int grados){
+        std::cout << "ROTA CAMARAAA "<< std::endl;
+
+
+        Ogre::Real dist = (mCamera->getPosition() - mTarget->_getDerivedPosition()).length();
+
+    mCamera->setPosition(mTarget->_getDerivedPosition());
+
+    mCamera->yaw(Ogre::Degree(grados));
+    // mCamera->pitch(Ogre::Degree(-evt.state.Y.rel * 0.025f));
+    mCamera->moveRelative(Ogre::Vector3(0, 0, dist));
+
+
     }
 
     /*-----------------------------------------------------------------------------
@@ -175,7 +218,7 @@ public:
         if (mOrbiting)   // yaw around the target, and pitch locally
         {
             mCamera->setPosition(mTarget->_getDerivedPosition());
-            mCamera->yaw(Ogre::Degree(-evt.state.X.rel * 0.025f));
+            mCamera->yaw(Ogre::Degree(-evt.state.X.rel * 0.08f));
             // mCamera->pitch(Ogre::Degree(-evt.state.Y.rel * 0.025f));
             mCamera->moveRelative(Ogre::Vector3(0, 0, dist));
 
@@ -229,6 +272,8 @@ protected:
     Ogre::Real mTopSpeed;
     Ogre::Vector3 mVelocity;
     bool mGoingLeft;
+    bool mCambiaTurno;
+    int rotaTurno;
     bool mGoingRight;
     bool mGoingUp;
     bool mGoingDown;

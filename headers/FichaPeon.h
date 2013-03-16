@@ -3,7 +3,7 @@
 
 #include "Ficha.h"
 
-class FichaPeon : Ficha
+class FichaPeon : public Ficha
 {
 public:
 

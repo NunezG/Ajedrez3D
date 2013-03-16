@@ -140,6 +140,8 @@ set(HDRS
        ./headers/FichaTorre.h
        ./headers/Ficha.h
 
+        ./headers/ModuloIA.h
+
 
 
 
@@ -172,6 +174,9 @@ set(SRCS
        ./impl/FichaCaballo.cpp
        ./impl/FichaTorre.cpp
        ./impl/Ficha.cpp
+
+        ./impl/ModuloIA.cpp
+
 
 )
  

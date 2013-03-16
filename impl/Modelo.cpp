@@ -35,7 +35,7 @@ int Modelo::getNumPantalla(){
 
 bool Modelo::creaFichas(){
 
-
+//tablero = Tablero.
     //entFicha = mSceneMgr->createEntity(nombre, nombre.append(".mesh");
 
 

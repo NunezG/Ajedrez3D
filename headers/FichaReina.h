@@ -1,11 +1,10 @@
 #ifndef __FichaReina_
 #define __FichaReina_
 
-#include "FichaTorre.h"
-#include "FichaAlfil.h"
+#include "Ficha.h"
 
 
-class FichaReina : Ficha
+class FichaReina : public Ficha
 {
 public:
 

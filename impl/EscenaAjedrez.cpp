@@ -12,7 +12,7 @@ EscenaAjedrez::~EscenaAjedrez(void)
 
 void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 {
-    /*   mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+       mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
       mSceneMgr->setShadowColour(Ogre::ColourValue(0.5, 0.5, 0.5) );
       mSceneMgr->setAmbientLight(Ogre::ColourValue(0.9, 0.9, 0.9));
 
@@ -29,7 +29,7 @@ void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
       light2->setSpotlightFalloff(0.1f);
       light2->setCastShadows(true);
 
-     */
+
     /*
       Ogre::Light* light = mSceneMgr->createLight("Light1");
       light->setPosition(20,15,-20);

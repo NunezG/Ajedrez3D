@@ -4,7 +4,7 @@
 #include "Ficha.h"
 
 
-class FichaCaballo : Ficha
+class FichaCaballo : public Ficha
 {
 public:
 

@@ -3,7 +3,7 @@
 
 #include "Ficha.h"
 
-class FichaRey : Ficha
+class FichaRey : public Ficha
 {
 public:
 
