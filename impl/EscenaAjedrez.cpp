@@ -54,22 +54,6 @@ void EscenaAjedrez::setNodoCasillaSobrevolada(Ogre::SceneNode* nodo)
     _nodoNuevo = nodo;
 }
 
-//-------------------------------------------------------------------------------------
-void EscenaAjedrez::FichaComestible()
-{
-
-   Ogre::SceneNode* child = casillaOcupada(_nodoNuevo);
-
-    //Mira si la casilla está ocupada y por quién
-   // Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (_nodoNuevo->getChild(0));
-    Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
-
-    if((!esTurnoNegras() && ent->getName()[1] == 'N')
-            || (esTurnoNegras() && ent->getName()[1] == 'B'))
-    {
-        iluminaCasilla(_nodoNuevo);
-    }
-}
 
 void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 {
@@ -133,6 +117,25 @@ void EscenaAjedrez::iluminaCasilla()
 
 
 }
+
+
+//-------------------------------------------------------------------------------------
+bool EscenaAjedrez::FichaComestible()
+{
+
+   Ogre::SceneNode* child = casillaOcupada(getNodoCasillaSobrevolada());
+
+    //Mira si la casilla está ocupada y por quién
+   // Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (_nodoNuevo->getChild(0));
+    Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
+
+    if((!esTurnoNegras() && ent->getName()[1] == 'N')
+            || (esTurnoNegras() && ent->getName()[1] == 'B'))
+    {
+        return true;
+    }
+}
+
 
 
 EscenaAjedrez* EscenaAjedrez::getSingletonPtr()

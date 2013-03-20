@@ -5,7 +5,7 @@
 #include "Autorizaciones.h"
 #include <Ogre.h>
 
-class VistaAjedrez : public BaseOgre
+class VistaAjedrez : public BaseVistas
 {
 public:
     VistaAjedrez( Ogre::RenderWindow* mWindow);
@@ -26,6 +26,9 @@ public:
     bool cambiaTurno();
 protected:
 
+
+EscenaAjedrez* escenaAjedrez;
+Ogre::RenderWindow* mWindow;
     Ogre::Degree rotaTurno;
 
 

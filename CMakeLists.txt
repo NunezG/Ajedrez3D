@@ -113,7 +113,7 @@ endif()
 
 
 set(HDRS
-        ./headers/BaseOgre.h
+        #./headers/BaseOgre.h
         ./headers/VistaAjedrez.h
         ./headers/VistaAjedrezSolo.h
         ./headers/InputMan.h
@@ -148,7 +148,7 @@ set(HDRS
 )
  
 set(SRCS
-        ./impl/BaseOgre.cpp
+       # ./impl/BaseOgre.cpp
         ./impl/VistaAjedrez.cpp
         ./impl/VistaAjedrezSolo.cpp
         ./impl/Ventana.cpp

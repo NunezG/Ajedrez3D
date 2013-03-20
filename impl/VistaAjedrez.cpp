@@ -2,14 +2,17 @@
 #include "../headers/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez( Ogre::RenderWindow* mWindow)
-    : BaseOgre(mWindow),
-      fichaSeleccionada(false),
+VistaAjedrez::VistaAjedrez( Ogre::RenderWindow* mWindow) :
+        fichaSeleccionada(false),
       textoOverlay("VACIO")
     , rotaTurno(0)
+    , mWindow(mWindow)
+
 
 
 {
+    escenaAjedrez = EscenaAjedrez::getSingletonPtr();
+
 }
 
 VistaAjedrez::~VistaAjedrez(void)
@@ -129,7 +132,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
                 if(autorizado)
                     if  (escenaAjedrez->getNodoCasillaSobrevolada()->getChildIterator().hasMoreElements()){
 
-                        if (FichaComestible()) escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+                        if (escenaAjedrez->FichaComestible()) escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
 
                     }
 

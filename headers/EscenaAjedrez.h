@@ -56,7 +56,6 @@ public:
     void cambiaTurno();
     bool esTurnoNegras();
 
-    void FichaComestible();
 
 
     Ogre::SceneNode* getNodoFichaSeleccionada();
@@ -64,6 +63,7 @@ public:
 
     void setNodoFichaSeleccionada(Ogre::SceneNode* nodo);
     void setNodoCasillaSobrevolada(Ogre::SceneNode* nodo);
+    bool FichaComestible();
 
 private:   
 

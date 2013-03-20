@@ -42,22 +42,23 @@ public:
 
 
 protected:
-    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
+  //  Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
 
-    bool FichaComestible();
 
 
-    EscenaAjedrez* escenaAjedrez;
-    Ogre::RenderWindow* mWindow;
+    //EscenaAjedrez* escenaAjedrez;
+  //  Ogre::RenderWindow* mWindow;
+
+
   //  Ogre::RaySceneQuery *mRaySceneQuery;
    // Ogre::Camera* mCamera;
-    Ogre::OverlayContainer* mCursor;      // cursor
-    Ogre::OverlayManager* mOverlayManager;
+  //  Ogre::OverlayContainer* mCursor;      // cursor
+  //  Ogre::OverlayManager* mOverlayManager;
 
    // InputMan::SdkCameraMan* mInputMan;
 
-    bool mCursorWasVisible;                    // was cursor visible before dialog appeared
+   // bool mCursorWasVisible;                    // was cursor visible before dialog appeared
 
 
 
