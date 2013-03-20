@@ -23,8 +23,10 @@ public:
 
     bool salir();
     bool esMenuInicio();
+    bool cambiaTurno();
 protected:
 
+    Ogre::Degree rotaTurno;
 
     Ogre::SceneNode *_selectedNode;
 

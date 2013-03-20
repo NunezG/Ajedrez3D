@@ -23,7 +23,6 @@
 
 #include "EscenaAjedrez.h"
 
-#include "InputMan.h"
 #include "BaseVistas.h"
 //#include "CreacionJuego.h"
 
@@ -34,11 +33,11 @@ public:
     virtual ~BaseOgre(void);
    // bool setupJuego(void);
 
-    virtual bool keyPressed( const OIS::KeyEvent &arg );
-    virtual bool keyReleased( const OIS::KeyEvent &arg );
-    virtual bool mouseMoved( const OIS::MouseEvent &arg );
-    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+  //  virtual bool keyPressed( const OIS::KeyEvent &arg );
+  //  virtual bool keyReleased( const OIS::KeyEvent &arg );
+   // virtual bool mouseMoved( const OIS::MouseEvent &arg );
+  //  virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+   // virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
 
     bool iniciaVista();
@@ -46,28 +45,28 @@ public:
 protected:
     Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
-    static void iluminaCasilla(Ogre::SceneNode* casilla);
+
     void FichaComestible();
-    void apagaCasilla(Ogre::SceneNode* casilla);
 
 
+    EscenaAjedrez* escenaAjedrez;
     Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
-    Ogre::RaySceneQuery *mRaySceneQuery;
-    Ogre::Camera* mCamera;
+  //  Ogre::RaySceneQuery *mRaySceneQuery;
+   // Ogre::Camera* mCamera;
     Ogre::OverlayContainer* mCursor;      // cursor
     Ogre::OverlayManager* mOverlayManager;
     Ogre::SceneNode *_nodoNuevo;
 
-    InputMan::SdkCameraMan* mInputMan;
+   // InputMan::SdkCameraMan* mInputMan;
 
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
 
 
 
 private:
-    virtual void createViewports(void);
-    void createCamera(void);
+   // virtual void createViewports(void);
+    //void createCamera(void);
     void createScene(void);
 
 

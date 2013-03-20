@@ -9,7 +9,7 @@
 #include "FichaPeon.h"
 
 
-
+// ESTE SERÁ EL NODO USADO EN LOS ÁRBOLES
 class Tablero
 {
 public:
@@ -17,7 +17,16 @@ public:
     Ficha* fichasNegras[16];
     Ficha* fichasBlancas[16];
 
+
+    Tablero(void);
+
+
+    int nivel;
 private:
+
+
+    Tablero* listaNodos[];
+
 
     Ogre::Entity *entTablero;
 
@@ -29,10 +38,6 @@ private:
 
     bool turnoNegras;
 
-    //Singleton;
-    Tablero(void);
-    void operator=(const Tablero& miTablero) ;
-    Tablero(const Tablero& miTablero);
     bool creaFichas();
 };
 

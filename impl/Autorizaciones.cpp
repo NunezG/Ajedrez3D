@@ -70,6 +70,7 @@ bool Autorizaciones::autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode* nod
                    || diferencia==Ogre::Vector3(-10,0,-10)))
         return true;
     else return false;
+
 }
 
 bool Autorizaciones::autorizaAlfil(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado)

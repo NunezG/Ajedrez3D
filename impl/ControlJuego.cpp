@@ -30,7 +30,7 @@ ControlJuego& ControlJuego::getControlSingleton()
 //-------------------------------------------------------------------------------------
 bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    if(punteroVentana->pantallaActual()== 0)
+    if(punteroVentana->pantallaActual() == 0)
     {
          std::cout << "PANTALLA ACTUAL ES 0" << std::endl;
 
@@ -38,6 +38,7 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
             std::cout << "CAMBIA DE PANTALLA " << std::endl;
 
             punteroVentana->muestraAjedrez();
+            std::cout << "FIN CAMBIO" << std::endl;
 
         }
     }
@@ -51,17 +52,24 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(punteroVentana->mShutDown)
         return false;
 
+    std::cout << "frameRenderingQueued de ventana" << std::endl;
+
+
     punteroVentana->frameRenderingQueued(evt);
 
+    std::cout << "frameRenderingQueued de 2222222" << std::endl;
 
     if(punteroVentana->mPantalla == 2)
+    {
+        std::cout << "punteroVentana->mPantalla = 2" << std::endl;
+
         if (punteroVentana->vista->turnoNegras && esperaCalculo == false)
         {
             calculaMovimiento();
             esperaCalculo==true;
         }
 
-
+}
 
 
     return true;

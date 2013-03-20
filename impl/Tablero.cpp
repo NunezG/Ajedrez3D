@@ -16,9 +16,6 @@ Tablero::~Tablero()
 }
 
 
-
-
-
 bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
 {
     // fichas = new Ficha**;
@@ -155,4 +152,29 @@ bool Tablero::creaFichas(){
 
 }
 
+/*
+board type
+    This type contains all information specific to the current state of the game, including layout of the board and current player.
 
+score type
+    This data type indicates piece advantage, strategic advantage, and possible wins. In most games, strategic advantage includes the number of moves available to each player with the goal of minimizing the opponent's mobility.
+
+neg_infinity and pos_infinity
+    The most extreme scores possible in the game, each most disadvantageous for one player in the game.
+
+generate_moves
+    This function takes the current board and generates a list of possible moves for the current player.
+
+apply_move
+    This function takes a board and a move, returning the board with all the updates required by the given move.
+
+null_move
+    If the chosen game allows or requires a player to forfeit moves in the case where no moves are available, this function takes the current board and returns it, after switching the current player.
+
+static_evaluation
+    This function takes the board as input and returns a score for the game.
+
+compare_scores
+    This function takes 2 scores to compare and a player, returning the score that is more advantageous for the given player. If scores are stored as simple integers, this function can be the standard < and > operators.
+
+*/

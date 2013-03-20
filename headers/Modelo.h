@@ -13,6 +13,8 @@ public:
     bool creaFichas();
 
     Tablero* tablero;
+    bool construyeArbol();
+    bool generaMovimientos();
 
 
 private:  

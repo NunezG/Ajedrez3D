@@ -213,16 +213,31 @@ bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 
 bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 {   
+    std::cout << "mouseMoved 1" << std::endl;
+
     sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
+
+    std::cout << "mouseMoved 2" << std::endl;
+
 
     if(mPantalla > 0)
     {
+
+        std::cout << "mouseMoved 33333" << std::endl;
+
         vista->mouseMoved(evt);
+
+
+        std::cout << "mouseMoved 44444" << std::endl;
 
         // Scroll wheel.
         if (evt.state.Z.rel)
             sys->injectMouseWheelChange(evt.state.Z.rel / 120.0f);
     }
+
+
+    std::cout << "FIN mouseMoved" << std::endl;
+
     return true;
 }
 
@@ -238,6 +253,9 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
     injectTimePulse(evt);
     capture();
     statUpdate(evt);
+
+    std::cout << "IF" << std::endl;
+
 
     if(mPantalla > 0 && vista != NULL)
     {

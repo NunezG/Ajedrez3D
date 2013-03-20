@@ -15,15 +15,12 @@ public:
     SdkCameraMan(Ogre::Camera* cam)
         : mCamera(0)
         , mTarget(0)
-        , mOrbiting(false)
         , mTopSpeed(150)
         , mVelocity(Ogre::Vector3::ZERO)
         , mGoingUp(false)
-        , mGoingLeft(false)
-        , mGoingRight(false)
+
         , mGoingDown(false)
-        , mCambiaTurno(false)
-        , rotaTurno(0)
+        // , mCambiaTurno(false)
     {
         setCamera(cam);
     }
@@ -71,6 +68,19 @@ public:
         return mTarget;
     }
 
+    virtual void distanciaCamara(int nuevaDistancia)
+    {
+
+        Ogre::Real dist = (mCamera->getPosition() - mTarget->_getDerivedPosition()).length();
+
+        // the further the camera is, the faster it moves
+        mCamera->moveRelative(Ogre::Vector3(0, 0, -nuevaDistancia * 0.0008f * dist));
+
+
+    }
+
+
+
     /*-----------------------------------------------------------------------------
         | Sets the spatial offset from the target. Only applies for orbit style.
         -----------------------------------------------------------------------------*/
@@ -96,185 +106,65 @@ public:
         return mTopSpeed;
     }
 
-    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt)
+    virtual bool rotaCamara(Ogre::Degree angulo)
     {
         // build our acceleration vector based on keyboard input composite
-        Ogre::Vector3 accel = Ogre::Vector3::ZERO;
+        // Ogre::Vector3 accel = Ogre::Vector3::ZERO;
 
-        if (mGoingRight) accel += mCamera->getRight();
+        //   if (mGoingRight) accel += mCamera->getRight();
 
-        if (mGoingLeft) accel -= mCamera->getRight();
+        //    if (mGoingLeft) accel -= mCamera->getRight();
 
-        if (rotaTurno > 0){
-            std::cout << "cambiaturnorota "<< accel<< std::endl;
-            std::cout << "accel "<< accel<< std::endl;
+        //   if (rotaTurno > Ogre::Real(0.0f))
+        //   {
+        //    std::cout << "cambiaturnorota "<< accel<< std::endl;
 
-            mCambiaTurno = false;
-           // accel += mCamera->getRight();
-            std::cout << "accel "<< accel<< std::endl;
-            rotaTurno = rotaTurno-2;
-            rotaCamara(2);
-        }
 
-        //accel.y == 0;
+        //  mCambiaTurno = false;
+        // accel += mCamera->getRight();
 
-        if (accel.squaredLength() != 0)
-        {
-            std::cout << "accel "<< accel<< std::endl;
+        //   accel -= mCamera->getRight();
 
-            accel.normalise();
-            mVelocity += accel  * mTopSpeed  * evt.timeSinceLastFrame * 10;
-        }
 
-        // if not accelerating, try to stop in a certain time
-        else mVelocity -= mVelocity * evt.timeSinceLastFrame * 10;
 
-        // keep camera velocity below top speed and above epsilon
-        if (mVelocity.squaredLength() > mTopSpeed * mTopSpeed)
-        {
-            mVelocity.normalise();
-            mVelocity *= mTopSpeed;
-        }
+        Ogre::Real dist = (mCamera->getPosition() - mTarget->_getDerivedPosition()).length();
+
+        //Mueve la camara a la posicion central
+        mCamera->setPosition(mTarget->_getDerivedPosition());
+        //ANGULO Ogre::Real(120.0f) * evt.timeSinceLastFrame
+
+
+        //Rota la camara
+
+        mCamera->yaw(-angulo);
 
 
 
 
-        if (mVelocity != Ogre::Vector3::ZERO) mCamera->moveRelative(Ogre::Vector3(mVelocity.z * evt.timeSinceLastFrame,0,0));//mCamera->move(mVelocity * evt.timeSinceLastFrame);
+        //Devuelve la camara a su posicion ¿z? original
+        // mCamera->pitch(Ogre::Degree(-evt.state.Y.rel * 0.025f));
+        mCamera->moveRelative(Ogre::Vector3(0, 0, dist));
+
+
+
+        //   }
+
+
+
 
         return true;
     }
 
-    virtual void cambiaTurno(){
-        std::cout << "cambiatur "<< std::endl;
-
-        rotaTurno = 180;
 
 
-    }
 
-    virtual void rotaCamara(int grados){
-        std::cout << "ROTA CAMARAAA "<< std::endl;
-
-
-        Ogre::Real dist = (mCamera->getPosition() - mTarget->_getDerivedPosition()).length();
-
-    mCamera->setPosition(mTarget->_getDerivedPosition());
-
-    mCamera->yaw(Ogre::Degree(grados));
-    // mCamera->pitch(Ogre::Degree(-evt.state.Y.rel * 0.025f));
-    mCamera->moveRelative(Ogre::Vector3(0, 0, dist));
-
-
-    }
-
-    /*-----------------------------------------------------------------------------
-        | Processes key presses for free-look style movement.
-        -----------------------------------------------------------------------------*/
-    virtual void injectKeyDown(const OIS::KeyEvent& evt)
-    {
-
-        if (evt.key == OIS::KC_A || evt.key == OIS::KC_LEFT)
-        {
-            mGoingLeft = true;
-            //   mCamera->moveRelative(Ogre::Vector3(-1,0,0));//yaw(Ogre::Degree(-1.25f));
-        }
-
-        if (evt.key == OIS::KC_D || evt.key == OIS::KC_RIGHT)
-        {
-            mGoingRight = true;
-
-            // mCamera->moveRelative(Ogre::Vector3(1,0,0));
-            // mCamera->pitch(Ogre::Degree(1.025f));
-        }
-    }
-
-    /*-----------------------------------------------------------------------------
-        | Processes key releases for free-look style movement.
-        -----------------------------------------------------------------------------*/
-    virtual void injectKeyUp(const OIS::KeyEvent& evt)
-    {
-        if (evt.key == OIS::KC_A || evt.key == OIS::KC_LEFT)
-        {
-            mGoingLeft = false;
-            // mCamera->yaw(Ogre::Degree(-10.25f));
-        }
-        if (evt.key == OIS::KC_D || evt.key == OIS::KC_RIGHT)
-        {
-            mGoingRight = false;
-            // mCamera->pitch(Ogre::Degree(10.025f));
-        }
-    }
-
-    /*-----------------------------------------------------------------------------
-        | Processes mouse movement differently for each style.
-        -----------------------------------------------------------------------------*/
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
-    virtual void injectMouseMove(const OIS::MultiTouchEvent& evt)
-#else
-    virtual void injectMouseMove(const OIS::MouseEvent& evt)
-#endif
-    {
-        Ogre::Real dist = (mCamera->getPosition() - mTarget->_getDerivedPosition()).length();
-        if (mOrbiting)   // yaw around the target, and pitch locally
-        {
-            mCamera->setPosition(mTarget->_getDerivedPosition());
-            mCamera->yaw(Ogre::Degree(-evt.state.X.rel * 0.08f));
-            // mCamera->pitch(Ogre::Degree(-evt.state.Y.rel * 0.025f));
-            mCamera->moveRelative(Ogre::Vector3(0, 0, dist));
-
-        }
-
-        else if (evt.state.Z.rel != 0)  // move the camera toward or away from the target
-        {
-            // the further the camera is, the faster it moves
-            mCamera->moveRelative(Ogre::Vector3(0, 0, -evt.state.Z.rel * 0.0008f * dist));
-        }
-    }
-
-    /*-----------------------------------------------------------------------------
-        | Processes mouse presses. Only applies for orbit style.
-        | Left button is for orbiting, and right button is for zooming.
-        -----------------------------------------------------------------------------*/
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
-    virtual void injectMouseDown(const OIS::MultiTouchEvent& evt)
-    {
-        mOrbiting = true;
-    }
-#else
-    virtual void injectMouseDown(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
-    {
-        if (id == OIS::MB_Middle){
-            mOrbiting = true;
-        }
-    }
-#endif
-
-    /*-----------------------------------------------------------------------------
-        | Processes mouse releases. Only applies for orbit style.
-        | Left button is for orbiting, and right button is for zooming.
-        -----------------------------------------------------------------------------*/
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
-    virtual void injectMouseUp(const OIS::MultiTouchEvent& evt)
-    {
-        if (id == OIS::MB_Middle) mOrbiting = false;
-    }
-#else
-    virtual void injectMouseUp(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
-    {
-        if (id == OIS::MB_Middle) mOrbiting = false;
-    }
-#endif
 
 protected:
     Ogre::Camera* mCamera;
     Ogre::SceneNode* mTarget;
-    bool mOrbiting;
     Ogre::Real mTopSpeed;
     Ogre::Vector3 mVelocity;
-    bool mGoingLeft;
-    bool mCambiaTurno;
-    int rotaTurno;
-    bool mGoingRight;
+
     bool mGoingUp;
     bool mGoingDown;
 };

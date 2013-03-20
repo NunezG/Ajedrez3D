@@ -2,44 +2,64 @@
 #include "../headers/EscenaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-EscenaAjedrez::EscenaAjedrez(void) : columnas("ABCDEFGH")
+EscenaAjedrez::EscenaAjedrez(void) :
+    columnas("ABCDEFGH"),
+   mRaySceneQuery(0),
+   mCamera(0),
+   mInputMan(0)
+   , mOrbiting(false)
+ , mGoingLeft(false)
+ , mGoingRight(false)
+
 {
 }
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::~EscenaAjedrez(void)
-{    
+{
+    mSceneMgr->destroyQuery(mRaySceneQuery);
+    if (mInputMan) delete mInputMan;
+
+}
+
+void EscenaAjedrez::setSceneManager(Ogre::SceneManager* sceneMgr)
+{
+    mSceneMgr = sceneMgr;
+
 }
 
 void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 {
-       mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
-      mSceneMgr->setShadowColour(Ogre::ColourValue(0.5, 0.5, 0.5) );
-      mSceneMgr->setAmbientLight(Ogre::ColourValue(0.9, 0.9, 0.9));
+    mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_MODULATIVE);
+    mSceneMgr->setShadowColour(Ogre::ColourValue(0.75, 0.75, 0.75) );
+    mSceneMgr->setAmbientLight(Ogre::ColourValue(0.55, 0.55, 0.55));
 
-      mSceneMgr->setShadowTextureCount(2);
-      mSceneMgr->setShadowTextureSize(512);
+    mSceneMgr->setShadowTextureCount(2);
+    mSceneMgr->setShadowTextureSize(1024);
 
-      Ogre::Light* light2 = mSceneMgr->createLight("Light2");
-      light2->setPosition(65,35,55);
-     // light2->setDiffuseColour(0.9,0.9,0.9);
-      light2->setType(Ogre::Light::LT_SPOTLIGHT);
-      light2->setDirection(Ogre::Vector3(-4,-1,-4));
-      light2->setSpotlightInnerAngle(Ogre::Degree(30.0f));
-      light2->setSpotlightOuterAngle(Ogre::Degree(60.0f));
-      light2->setSpotlightFalloff(0.1f);
-      light2->setCastShadows(true);
+    Ogre::Light* light2 = mSceneMgr->createLight("Light2");
+    light2->setPosition(600,5000,600);
+    //  light2->setDiffuseColour(0.1,0.1,0.1);
+    light2->setType(Ogre::Light::LT_POINT);
+    light2->setDirection(Ogre::Vector3(0,0,0));
+    //  light2->setSpotlightInnerAngle(Ogre::Degree(30.0f));
+    //light2->setSpotlightOuterAngle(Ogre::Degree(60.0f));
+    //light2->setSpotlightFalloff(1.0f);
+    light2->setCastShadows(true);
 
 
-    /*
-      Ogre::Light* light = mSceneMgr->createLight("Light1");
-      light->setPosition(20,15,-20);
-      light->setType(Ogre::Light::LT_SPOTLIGHT);
-      light->setDirection(Ogre::Vector3(1,-1,0));
-      light->setSpotlightInnerAngle(Ogre::Degree(25.0f));
-      light->setSpotlightOuterAngle(Ogre::Degree(60.0f));
-      light->setSpotlightFalloff(0.8f);
-      light->setCastShadows(true);
-*/
+
+
+
+    Ogre::Light* light = mSceneMgr->createLight("Light1");
+    light->setPosition(-600,5000,-600);
+    light->setType(Ogre::Light::LT_POINT);
+    light->setDirection(Ogre::Vector3(0,0,0));
+    // light2->setDiffuseColour(0.1,0.1,0.1);
+    // light->setSpotlightInnerAngle(Ogre::Degree(30.0f));
+    // light->setSpotlightOuterAngle(Ogre::Degree(60.0f));
+    // light->setSpotlightFalloff(1.0f);
+    light->setCastShadows(true);
+
 
     this->mSceneMgr = mSceneMgr;
     Ogre::Entity *entTablero = this->mSceneMgr->createEntity("test12", "Tablero.mesh");
@@ -66,6 +86,237 @@ void EscenaAjedrez::creaFichas()
     creaNobleza();
 }
 
+void EscenaAjedrez::iluminaCasilla()
+{
+
+
+}
+
+
+EscenaAjedrez* EscenaAjedrez::getSingletonPtr()
+{
+    static EscenaAjedrez miEscena;
+    static EscenaAjedrez* miEscenaPtr = &miEscena;
+    return miEscenaPtr;
+}
+
+
+
+void EscenaAjedrez::apagaCasilla(Ogre::SceneNode* casilla)
+{
+    std::cout << "APAGA CASILLA " << std::endl;
+
+    casilla->showBoundingBox(false);
+    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
+    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
+    if (mNombreEntidad[1] == 'B'){
+        std::cout << "BLANCA " << std::endl;
+
+        mEntidadCasilla->setMaterialName("MaterialCasillaBlanca");
+    }else mEntidadCasilla->setMaterialName("MaterialCasillaNegra");
+}
+
+
+void EscenaAjedrez::iluminaCasilla(Ogre::SceneNode* casilla){
+    casilla->showBoundingBox(true);
+    Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
+    const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
+    std::cout << "ILUMINA CASILLA " << std::endl;
+
+    if (mNombreEntidad[1] == 'B')
+    {
+        std::cout << "BLANCA " << std::endl;
+
+        mEntidadCasilla->setMaterialName("MaterialCasillaBlancaIlum");
+    }else mEntidadCasilla->setMaterialName("MaterialCasillaNegraIlum");
+}
+
+
+
+
+void EscenaAjedrez::mueveCamaraIzquierda(){
+
+mGoingLeft = true;
+
+
+
+}
+
+
+
+void EscenaAjedrez::mueveCamaraDerecha(){
+
+    mGoingRight = true;
+
+
+
+
+
+}
+
+void EscenaAjedrez::noMueveCamara(){
+mGoingRight = false;
+mGoingLeft = false;
+
+}
+
+
+
+void EscenaAjedrez::empezarModoCamara()
+{
+    std::cout  << "empezarModoCamara " << std::endl;
+
+//mInputMan->entrarModoCamara();
+
+mOrbiting = true;
+
+
+
+
+}
+
+
+
+
+void EscenaAjedrez::acabarModoCamara()
+{
+    std::cout  << "acabarModoCamara " << std::endl;
+
+  //mInputMan->salirModoCamara();
+    mOrbiting = false;
+
+
+}
+
+
+Ogre::Camera* EscenaAjedrez::createCamera(void){
+    // Create the camera
+    mCamera = mSceneMgr->createCamera("PlayerCam");
+
+
+    // Position it at 500 in Z direction
+    mCamera->setPosition(Ogre::Vector3(-40,-40,150));
+    // Look back along -Z
+    mCamera->lookAt(Ogre::Vector3(0,0,0));
+    mCamera->setNearClipDistance(5);
+
+
+
+    mInputMan = new InputMan::SdkCameraMan(mCamera);   // create a default camera controller
+    mInputMan->setTopSpeed(100);
+
+    return mCamera;
+}
+
+
+
+Ogre::RaySceneQuery* EscenaAjedrez::createRayQuery(void)
+{
+    // Create the camera
+    mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
+    return mRaySceneQuery;
+}
+
+//-------------------------------------------------------------------------------------
+void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
+{
+    mWindow = window;
+    // Create one viewport, entire window
+    Ogre::Viewport* vp = mWindow->addViewport(mCamera);
+    vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+
+    // Alter the camera aspect ratio to match the viewport
+    mCamera->setAspectRatio(
+                Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+}
+
+
+//-------------------------------------------------------------------------------------
+Ogre::SceneNode* EscenaAjedrez::casillaOcupada(Ogre::SceneNode* nodoCasilla)
+{
+    //Mira si la casilla está ocupada y por quién
+    Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (nodoCasilla->getChild(0));
+    // Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
+
+    if(child->getAttachedObject(0) != NULL){
+        return child;
+
+    }
+
+}
+
+
+Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char mascara){
+
+    Ogre::uint32 mask;
+
+    switch (mascara)
+    {
+
+
+    case 'C':
+        mask = CASILLA;
+        break;
+
+
+    case 'N':
+        mask =  NEGRAS;
+        break;
+
+
+    case 'B':
+        mask = BLANCAS;
+        break;
+
+    default:
+        mask = TABLERO;
+
+        break;
+
+    }
+
+    Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
+
+    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
+    return result;
+}
+
+
+
+
+
+Ogre::Ray EscenaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)
+{
+    Ogre::Ray rayMouse = mCamera->getCameraToViewportRay
+            (posx/float(win->getWidth()), posy/float(win->getHeight()));
+
+    mRaySceneQuery->setRay(rayMouse);
+    mRaySceneQuery->setSortByDistance(true);
+    mRaySceneQuery->setQueryMask(mask);
+    return (rayMouse);
+}
+
+
+
+void EscenaAjedrez::promocionaPeon(Ogre::SceneNode* nodoFicha)
+{
+    Ogre::Entity *entidadFicha;
+
+    std::stringstream saux;
+
+    saux.str("");
+    saux <<"(N)Reina 3";
+
+    //    nodo = mSceneMgr->createSceneNode(saux.str());
+
+    nodoFicha->detachAllObjects();
+
+    entidadFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
+
+    nodoFicha->attachObject(entidadFicha);
+
+}
+
 void EscenaAjedrez::creaVasallos(){
     Ogre::Entity *mFicha;
     Ogre::SceneNode *mNodoFicha;
@@ -82,6 +333,8 @@ void EscenaAjedrez::creaVasallos(){
         {
             mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Torre.mesh");
             mFicha->setQueryFlags(BLANCAS);
+            // mFicha->setMaterialName("MaterialFichaBlanca");
+
             //       mNodoFicha->translate(0,0,-70*(i/2));
             nombreFicha = columnas[7*(i/2)]+ Ogre::String("1");
         }
@@ -281,7 +534,7 @@ void EscenaAjedrez::creaCasillas()
         //SI ES PAR SE USA LA CASILLA NEGRA
         if (i%2 == 0){
             mCasilla = mSceneMgr->createEntity("(N)"+saux.str(), "Casilla.mesh");
-            mCasilla->setMaterialName("MaterialNegro");
+            mCasilla->setMaterialName("MaterialCasillaNegra");
         }else mCasilla = mSceneMgr->createEntity("(B)"+saux.str(), "Casilla.mesh");
         mCasilla->setQueryFlags(CASILLA);
 

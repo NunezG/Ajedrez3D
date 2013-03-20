@@ -33,6 +33,41 @@ int Modelo::getNumPantalla(){
 
 }
 
+bool Modelo::construyeArbol(){
+
+    Tablero* nodoPadre = new Tablero();
+
+ //   nivel = 0;
+
+    for (int i = 0; i<10; i++){
+
+       for (int i = 0; i<10; i++){
+     //   nodoPadre.nodoNuevo() = new Tablero();
+      //  nodoPadre.nodoDer = new Tablero();
+
+        //corta la recursividad
+
+       // nodoPadre.nodoIzq.construyeArbol();
+      //  nodoPadre.nodoDer.construyeArbol();
+
+    //    nivel++;
+       }
+    }
+
+}
+
+    bool Modelo::generaMovimientos(){
+
+
+//Recorre las fichas en juego y genera tableros con todos los movimientos posibles
+
+
+
+
+
+
+    }
+
 bool Modelo::creaFichas(){
 
 //tablero = Tablero.
