@@ -174,7 +174,6 @@ int Ventana::pantallaActual(){
 bool Ventana::MuestraMenu(){
 
     vista = new MenuInicio();
-
 }
 
 bool Ventana::keyPressed(const OIS::KeyEvent& evt)

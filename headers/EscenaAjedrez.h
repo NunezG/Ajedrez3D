@@ -59,9 +59,6 @@ public:
     void FichaComestible();
 
 
-    Ogre::SceneNode *_selectedNode;
-    Ogre::SceneNode *_nodoNuevo;
-
     Ogre::SceneNode* getNodoFichaSeleccionada();
     Ogre::SceneNode* getNodoCasillaSobrevolada();
 
@@ -71,6 +68,9 @@ public:
 private:   
 
 
+
+    Ogre::SceneNode *_selectedNode;
+    Ogre::SceneNode *_nodoNuevo;
 
      bool turnoNegras;
 

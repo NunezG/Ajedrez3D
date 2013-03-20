@@ -127,7 +127,11 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 
 
                 if(autorizado)
-                    if  (escenaAjedrez->getNodoCasillaSobrevolada()->getChildIterator().hasMoreElements()) FichaComestible();
+                    if  (escenaAjedrez->getNodoCasillaSobrevolada()->getChildIterator().hasMoreElements()){
+
+                        if (FichaComestible()) escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+
+                    }
 
                     else escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
             }

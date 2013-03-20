@@ -21,7 +21,9 @@ void ControlJuego::inicio(void){
 
     punteroVentana->EmpiezaCEGUI();
     punteroVentana->MuestraMenu();
-    iniciaModeloAjedrez();
+
+   //punteroVentana->iniciaVista();
+   // iniciaModeloAjedrez();
 
 
 }
@@ -117,6 +119,9 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 
     return true;
 }
+
+
+
 
 
 void ControlJuego::createScene(void)

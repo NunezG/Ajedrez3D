@@ -45,7 +45,7 @@ protected:
     Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
 
-    void FichaComestible();
+    bool FichaComestible();
 
 
     EscenaAjedrez* escenaAjedrez;

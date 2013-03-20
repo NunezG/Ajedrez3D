@@ -32,7 +32,7 @@ BaseOgre::~BaseOgre(void)
 }
 
 //-------------------------------------------------------------------------------------
-void BaseOgre::FichaComestible()
+bool BaseOgre::FichaComestible()
 {
 
    Ogre::SceneNode* child = escenaAjedrez->casillaOcupada(escenaAjedrez->getNodoCasillaSobrevolada());
@@ -44,6 +44,6 @@ void BaseOgre::FichaComestible()
     if((!escenaAjedrez->esTurnoNegras() && ent->getName()[1] == 'N')
             || (escenaAjedrez->esTurnoNegras() && ent->getName()[1] == 'B'))
     {
-        escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+        return true;
     }
 }
