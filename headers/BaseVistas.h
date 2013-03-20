@@ -15,12 +15,10 @@ public:
     BaseVistas(void);
     ~BaseVistas(void);
 
-    bool turnoNegras;
 
     int modoJuego;
 
     virtual bool salir() = 0;
-    virtual bool iniciaVista() = 0;
 
     virtual bool keyPressed( const OIS::KeyEvent &arg ) = 0;
     virtual bool keyReleased( const OIS::KeyEvent &arg ) = 0;

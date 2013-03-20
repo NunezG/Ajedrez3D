@@ -130,6 +130,26 @@ bool Autorizaciones::autorizaTorre(Ogre::Vector3 diferencia, Ogre::SceneNode* no
     else return false;
 }
 
+/*
+
+//-------------------------------------------------------------------------------------
+void Autorizaciones::FichaComestible()
+{
+
+   Ogre::SceneNode* child = casillaOcupada(getNodoCasillaSobrevolada());
+
+    //Mira si la casilla está ocupada y por quién
+   // Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (_nodoNuevo->getChild(0));
+    Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
+
+    if((!escenaAjedrez->esTurnoNegras() && ent->getName()[1] == 'N')
+            || (escenaAjedrez->esTurnoNegras() && ent->getName()[1] == 'B'))
+    {
+        escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+    }
+}
+*/
+
 bool Autorizaciones::autorizaCaballo(Ogre::Vector3 diferencia)
 {
     if (diferencia==Ogre::Vector3(-20,0,10)

@@ -40,20 +40,47 @@ public:
     void mueveCamaraIzquierda();
     void mueveCamaraDerecha();
 
+    bool vaIzquierda();
+    bool vaDerecha();
+
     void noMueveCamara();
 
+    bool esModoCamara();
 
     void empezarModoCamara();
     void acabarModoCamara();
-    InputMan::SdkCameraMan* mInputMan;
-    bool mOrbiting;
 
+    void DistanciaCamara(int distanciaRelativa);
+
+    void rotacionCamara(Ogre::Degree angulo);
+    void cambiaTurno();
+    bool esTurnoNegras();
+
+    void FichaComestible();
+
+
+    Ogre::SceneNode *_selectedNode;
+    Ogre::SceneNode *_nodoNuevo;
+
+    Ogre::SceneNode* getNodoFichaSeleccionada();
+    Ogre::SceneNode* getNodoCasillaSobrevolada();
+
+    void setNodoFichaSeleccionada(Ogre::SceneNode* nodo);
+    void setNodoCasillaSobrevolada(Ogre::SceneNode* nodo);
+
+private:   
+
+
+
+     bool turnoNegras;
+
+    InputMan::SdkCameraMan* mInputMan;
 
     bool mGoingLeft;
   //  bool mCambiaTurno;
     bool mGoingRight;
-private:   
 
+    bool mOrbiting;
 
 
     Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);

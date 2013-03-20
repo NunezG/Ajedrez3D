@@ -29,7 +29,7 @@
 class BaseOgre: public BaseVistas
 {
 public:
-    BaseOgre(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
+    BaseOgre(Ogre::RenderWindow* mWindow);
     virtual ~BaseOgre(void);
    // bool setupJuego(void);
 
@@ -40,7 +40,6 @@ public:
    // virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
 
-    bool iniciaVista();
 
 protected:
     Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
@@ -50,13 +49,11 @@ protected:
 
 
     EscenaAjedrez* escenaAjedrez;
-    Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
   //  Ogre::RaySceneQuery *mRaySceneQuery;
    // Ogre::Camera* mCamera;
     Ogre::OverlayContainer* mCursor;      // cursor
     Ogre::OverlayManager* mOverlayManager;
-    Ogre::SceneNode *_nodoNuevo;
 
    // InputMan::SdkCameraMan* mInputMan;
 
@@ -67,7 +64,6 @@ protected:
 private:
    // virtual void createViewports(void);
     //void createCamera(void);
-    void createScene(void);
 
 
 };

@@ -8,7 +8,7 @@
 class VistaAjedrez : public BaseOgre
 {
 public:
-    VistaAjedrez(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
+    VistaAjedrez( Ogre::RenderWindow* mWindow);
     ~VistaAjedrez(void);
     // Ogre::FrameListener
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -28,7 +28,6 @@ protected:
 
     Ogre::Degree rotaTurno;
 
-    Ogre::SceneNode *_selectedNode;
 
 
     bool fichaSeleccionada;

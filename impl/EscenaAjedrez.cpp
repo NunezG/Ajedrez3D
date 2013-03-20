@@ -4,12 +4,16 @@
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::EscenaAjedrez(void) :
     columnas("ABCDEFGH"),
-   mRaySceneQuery(0),
-   mCamera(0),
-   mInputMan(0)
-   , mOrbiting(false)
- , mGoingLeft(false)
- , mGoingRight(false)
+    mRaySceneQuery(0),
+    mCamera(0),
+    mInputMan(0)
+  , mOrbiting(false)
+  , mGoingLeft(false)
+  , mGoingRight(false)
+  , turnoNegras(0)
+  ,  _nodoNuevo(0)
+ , _selectedNode(0)
+
 
 {
 }
@@ -25,6 +29,46 @@ void EscenaAjedrez::setSceneManager(Ogre::SceneManager* sceneMgr)
 {
     mSceneMgr = sceneMgr;
 
+}
+
+
+
+Ogre::SceneNode* EscenaAjedrez::getNodoFichaSeleccionada(){
+    return _selectedNode;
+
+}
+
+Ogre::SceneNode* EscenaAjedrez::getNodoCasillaSobrevolada(){
+
+    return _nodoNuevo;
+}
+
+
+void EscenaAjedrez::setNodoFichaSeleccionada(Ogre::SceneNode* nodo)
+{
+    _selectedNode = nodo;
+
+}
+void EscenaAjedrez::setNodoCasillaSobrevolada(Ogre::SceneNode* nodo)
+{
+    _nodoNuevo = nodo;
+}
+
+//-------------------------------------------------------------------------------------
+void EscenaAjedrez::FichaComestible()
+{
+
+   Ogre::SceneNode* child = casillaOcupada(_nodoNuevo);
+
+    //Mira si la casilla está ocupada y por quién
+   // Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (_nodoNuevo->getChild(0));
+    Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
+
+    if((!esTurnoNegras() && ent->getName()[1] == 'N')
+            || (esTurnoNegras() && ent->getName()[1] == 'B'))
+    {
+        iluminaCasilla(_nodoNuevo);
+    }
 }
 
 void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
@@ -45,8 +89,6 @@ void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
     //light2->setSpotlightOuterAngle(Ogre::Degree(60.0f));
     //light2->setSpotlightFalloff(1.0f);
     light2->setCastShadows(true);
-
-
 
 
 
@@ -80,7 +122,7 @@ void EscenaAjedrez::createScene(Ogre::SceneManager* mSceneMgr)
 }
 
 void EscenaAjedrez::creaFichas()
-{ 
+{
     creaVasallos();
     creaPeones();
     creaNobleza();
@@ -136,7 +178,7 @@ void EscenaAjedrez::iluminaCasilla(Ogre::SceneNode* casilla){
 
 void EscenaAjedrez::mueveCamaraIzquierda(){
 
-mGoingLeft = true;
+    mGoingLeft = true;
 
 
 
@@ -155,8 +197,8 @@ void EscenaAjedrez::mueveCamaraDerecha(){
 }
 
 void EscenaAjedrez::noMueveCamara(){
-mGoingRight = false;
-mGoingLeft = false;
+    mGoingRight = false;
+    mGoingLeft = false;
 
 }
 
@@ -166,23 +208,62 @@ void EscenaAjedrez::empezarModoCamara()
 {
     std::cout  << "empezarModoCamara " << std::endl;
 
-//mInputMan->entrarModoCamara();
+    //mInputMan->entrarModoCamara();
 
-mOrbiting = true;
+    mOrbiting = true;
 
 
 
 
 }
+void EscenaAjedrez::DistanciaCamara(int distanciaRelativa)
+{
+
+    mInputMan->distanciaCamara(distanciaRelativa);
 
 
+}
 
+bool EscenaAjedrez::esTurnoNegras(){
+    return turnoNegras;
+
+}
+
+void EscenaAjedrez::cambiaTurno(){
+    //CAMBIA TURNO
+    turnoNegras= !turnoNegras;
+}
+
+void EscenaAjedrez::rotacionCamara(Ogre::Degree angulo)
+{
+
+    mInputMan->rotaCamara(angulo);
+
+
+}
+
+bool EscenaAjedrez::vaIzquierda(){
+
+   return mGoingLeft;
+}
+
+bool EscenaAjedrez::vaDerecha(){
+  return mGoingRight;
+
+
+}
+
+bool EscenaAjedrez::esModoCamara()
+{
+    return mOrbiting;
+
+}
 
 void EscenaAjedrez::acabarModoCamara()
 {
     std::cout  << "acabarModoCamara " << std::endl;
 
-  //mInputMan->salirModoCamara();
+    //mInputMan->salirModoCamara();
     mOrbiting = false;
 
 
@@ -504,7 +585,7 @@ void EscenaAjedrez::creaPeones(){
 
 
 void EscenaAjedrez::creaCasillas()
-{    
+{
     Ogre::Entity *mCasilla;
     Ogre::SceneNode *mNodoCasilla;
     int contFila = 0;

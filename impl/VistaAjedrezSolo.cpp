@@ -2,8 +2,8 @@
 #include "../headers/VistaAjedrezSolo.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrezSolo::VistaAjedrezSolo(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow)
-    : VistaAjedrez(mSceneMgr, mWindow)
+VistaAjedrezSolo::VistaAjedrezSolo( Ogre::RenderWindow* mWindow)
+    : VistaAjedrez(mWindow)
 
 {
 }
@@ -25,7 +25,7 @@ bool VistaAjedrezSolo::keyReleased( const OIS::KeyEvent &arg )
 
 bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 {
-    if(!turnoNegras)
+    if(!escenaAjedrez->esTurnoNegras())
     return VistaAjedrez::mouseMoved( arg );
     //else mInputMan->injectMouseMove(arg);
     return true;
@@ -33,7 +33,7 @@ bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 
 bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {      
-    if(!turnoNegras)
+    if(!escenaAjedrez->esTurnoNegras())
     return VistaAjedrez::mousePressed( arg , id);
     //else mInputMan->injectMouseDown(arg, id);
      return true;
@@ -42,7 +42,7 @@ bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButto
 
 bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    if(!turnoNegras)
+    if(!escenaAjedrez->esTurnoNegras())
     return VistaAjedrez::mouseReleased( arg, id );
     else{
       //  mInputMan->injectMouseUp(arg, id);

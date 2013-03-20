@@ -14,16 +14,24 @@ public:
     static ControlJuego& getControlSingleton();
 
     void inicio(void);
-
+    bool iniciaModeloAjedrez();
+    bool iniciaModelo();
 private:
     //Singleton
     void operator=(const ControlJuego& controlJuego ) ;
     ControlJuego(const ControlJuego& control);
     ControlJuego(void);
 
+
+    EscenaAjedrez* escenaAjedrez;
+
+    Ogre::SceneManager* mSceneMgr;
+
     void calculaMovimiento();
 
     bool esperaCalculo;
+
+    void createScene(void);
 
     //BUCLE PRINCIPAL
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);

@@ -18,7 +18,6 @@ public:
         , mTopSpeed(150)
         , mVelocity(Ogre::Vector3::ZERO)
         , mGoingUp(false)
-
         , mGoingDown(false)
         // , mCambiaTurno(false)
     {

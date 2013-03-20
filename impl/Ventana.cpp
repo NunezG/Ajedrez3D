@@ -152,7 +152,6 @@ bool Ventana::EmpiezaCEGUI()
     sys->renderGUI();
     Ogre::LogManager::getSingletonPtr()->logMessage("*** ACABA GUI***");
 
-    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
 
 
     return true;
@@ -175,7 +174,6 @@ int Ventana::pantallaActual(){
 bool Ventana::MuestraMenu(){
 
     vista = new MenuInicio();
-    vista->iniciaVista();
 
 }
 
@@ -270,17 +268,16 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
   //  return NULL;
 //}
 
-bool Ventana::muestraAjedrez()
+bool Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 {
     if (mPantalla==1)
     {
-        vista= new VistaAjedrez(mSceneMgr, mWindow);
+        vista= new VistaAjedrez(mWindow);
     }
     else if (mPantalla==2)
     {
-        vista= new VistaAjedrezSolo(mSceneMgr, mWindow);
+        vista= new VistaAjedrezSolo(mWindow);
     }
-    vista->iniciaVista();
 }
 
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)

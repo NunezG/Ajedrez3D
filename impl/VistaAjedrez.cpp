@@ -2,9 +2,8 @@
 #include "../headers/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow)
-    : BaseOgre(mSceneMgr, mWindow),
-      _selectedNode(0),
+VistaAjedrez::VistaAjedrez( Ogre::RenderWindow* mWindow)
+    : BaseOgre(mWindow),
       fichaSeleccionada(false),
       textoOverlay("VACIO")
     , rotaTurno(0)
@@ -22,8 +21,8 @@ bool VistaAjedrez::cambiaTurno(){
     std::cout << "cambiatur "<< std::endl;
 
     rotaTurno = Ogre::Real(180.0f);
-
-
+    escenaAjedrez->cambiaTurno();
+    //mediaVuelta();
 }
 
 //-------------------------------------------------------------------------------------
@@ -81,10 +80,10 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 
 
 
-    if (escenaAjedrez->mOrbiting)   // yaw around the target, and pitch locally
+    if (escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
     {
 
-        escenaAjedrez->mInputMan->rotaCamara(Ogre::Degree(arg.state.X.rel)); // con grados?
+        escenaAjedrez->rotacionCamara(Ogre::Degree(arg.state.X.rel)); // con grados?
 
 
     }
@@ -114,22 +113,23 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         if (it != result.end()) {
             Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
 
-            if (_nodoNuevo==NULL || nodoSobrevolado->getName() != _nodoNuevo->getName()){
+            if (escenaAjedrez->getNodoCasillaSobrevolada()==NULL || nodoSobrevolado->getName() != escenaAjedrez->getNodoCasillaSobrevolada() -> getName()){
 
-                if (_nodoNuevo!=NULL){
-                    escenaAjedrez->apagaCasilla(_nodoNuevo);
-                    _nodoNuevo=NULL;
+                if (escenaAjedrez->getNodoCasillaSobrevolada()!=NULL){
+                    escenaAjedrez->apagaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+                    escenaAjedrez->setNodoCasillaSobrevolada(NULL);
                 }
-                _nodoNuevo=nodoSobrevolado;
+                escenaAjedrez->setNodoCasillaSobrevolada(nodoSobrevolado);
 
                 //Autoriza la casilla sobrevolada para mover ficha (no mira si la casilla está ocupada)
                 bool autorizado= true;
-                autorizado = Autorizaciones::autorizaCasilla(_selectedNode , _nodoNuevo, turnoNegras);
+                autorizado = Autorizaciones::autorizaCasilla(escenaAjedrez->getNodoFichaSeleccionada() , escenaAjedrez->getNodoCasillaSobrevolada(), escenaAjedrez->esTurnoNegras());
 
 
                 if(autorizado)
-                    if  (_nodoNuevo->getChildIterator().hasMoreElements()) FichaComestible();
-                    else escenaAjedrez->iluminaCasilla(_nodoNuevo);
+                    if  (escenaAjedrez->getNodoCasillaSobrevolada()->getChildIterator().hasMoreElements()) FichaComestible();
+
+                    else escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
             }
         }
     }
@@ -141,7 +141,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
     {
         // the further the camera is, the faster it moves
-        escenaAjedrez->mInputMan->distanciaCamara(arg.state.Z.rel);
+        escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
     }
 
 
@@ -173,12 +173,14 @@ bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
     //    std::cout << "cambiaturnorota "<< accel<< std::endl;
 
 
-    if(escenaAjedrez->mGoingLeft){
-        escenaAjedrez->mInputMan->rotaCamara(Ogre::Degree(1));
+
+    //ROTACION MIENTRAS SE PULSEN LAS FLECHAS
+    if(escenaAjedrez->vaIzquierda()){
+        escenaAjedrez->rotacionCamara(Ogre::Degree(1));
     }
 
-    if(escenaAjedrez->mGoingRight){
-        escenaAjedrez->mInputMan->rotaCamara(Ogre::Degree( -1));
+    if(escenaAjedrez->vaDerecha()){
+        escenaAjedrez->rotacionCamara(Ogre::Degree(-1));
 
     }
 
@@ -200,12 +202,12 @@ bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
         //Rota la camara
         if (rot > rotaTurno){
 
-            escenaAjedrez->mInputMan->rotaCamara(rotaTurno);
+            escenaAjedrez->rotacionCamara(rotaTurno);
             rotaTurno = Ogre::Real(0.0f);
 
 
         }else {
-            escenaAjedrez->mInputMan->rotaCamara(rot);
+            escenaAjedrez->rotacionCamara(rot);
             rotaTurno = rotaTurno - rot;
         }
 
@@ -244,16 +246,16 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
     char mask;
     if (mbleft)
     {  // Boton izquierdo o derecho -------------
-        std::cout << "mbleft "<< turnoNegras<< std::endl;
-        if (turnoNegras)
+        //std::cout << "mbleft "<< turnoNegras<< std::endl;
+        if (escenaAjedrez->esTurnoNegras())
         {
             mask = 'N';  // Podemos elegir todo
         } else mask ='B';
 
-        if (_selectedNode != NULL)
+        if (escenaAjedrez->getNodoFichaSeleccionada() != NULL)
         {  // Si habia alguno seleccionado...
 
-            _selectedNode->showBoundingBox(false);  _selectedNode = NULL;
+            escenaAjedrez->getNodoFichaSeleccionada()->showBoundingBox(false);  escenaAjedrez->setNodoFichaSeleccionada(NULL);
             fichaSeleccionada = false;
         }
         //EMPIEZA RAYO
@@ -266,42 +268,39 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         {
             if (it->movable->getParentSceneNode()->getName().size()>2)
             {
-                _selectedNode = it->movable->getParentSceneNode();
-                _selectedNode->showBoundingBox(true);
+                escenaAjedrez->setNodoFichaSeleccionada(it->movable->getParentSceneNode());
+                escenaAjedrez->getNodoFichaSeleccionada()->showBoundingBox(true);
                 fichaSeleccionada = true;
             }
         }
     } else if (mbright)
     {
         //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
-        if (fichaSeleccionada && _nodoNuevo!=NULL && _nodoNuevo->getShowBoundingBox())
+        if (fichaSeleccionada && escenaAjedrez->getNodoCasillaSobrevolada()!=NULL && escenaAjedrez->getNodoCasillaSobrevolada()->getShowBoundingBox())
         {
             //BORRA FICHA DE LA CASILLA ANTERIOR
-            _selectedNode->getParent()->removeChild(_selectedNode);
+            escenaAjedrez->getNodoFichaSeleccionada()->getParent()->removeChild(escenaAjedrez->getNodoFichaSeleccionada());
 
             //BORRA FICHA ENEMIGA DE LA CASILLA NUEVA
-            if (_nodoNuevo->getChildIterator().hasMoreElements())
+            if (escenaAjedrez->getNodoCasillaSobrevolada()->getChildIterator().hasMoreElements())
             {
-                _nodoNuevo->removeAllChildren();
+                escenaAjedrez->getNodoCasillaSobrevolada()->removeAllChildren();
             }
 
             //AÑADE FICHA A LA CASILLA NUEVA
-            _nodoNuevo->addChild(_selectedNode);
+            escenaAjedrez->getNodoCasillaSobrevolada()->addChild(escenaAjedrez->getNodoFichaSeleccionada());
 
             //PROMOCION DE PEON
-            std::cout << "_nodoNuevo->getName() "<< _nodoNuevo->getName()<< std::endl;
+          //  std::cout << "_nodoNuevo->getName() "<< _nodoNuevo->getName()<< std::endl;
 
 
-            if(_nodoNuevo->getName()[1] == '8'){
+            if(escenaAjedrez->getNodoCasillaSobrevolada()->getName()[1] == '8'){
 
-                escenaAjedrez->promocionaPeon(_selectedNode);
+                escenaAjedrez->promocionaPeon(escenaAjedrez->getNodoFichaSeleccionada());
             }
 
 
-            //CAMBIA TURNO
-            turnoNegras= !turnoNegras;
 
-            std::cout << "LLEGA BIEN A PITCH "<< std::endl;
 
 
             cambiaTurno();
@@ -310,10 +309,10 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
 
 
             //DESELECCIONA FICHA Y CASILLA
-            _selectedNode->showBoundingBox(false);
-            escenaAjedrez->apagaCasilla(_nodoNuevo);
-            _nodoNuevo=NULL;
-            _selectedNode=NULL;
+            escenaAjedrez->getNodoFichaSeleccionada()->showBoundingBox(false);
+            escenaAjedrez->apagaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+            escenaAjedrez->setNodoCasillaSobrevolada(NULL);
+            escenaAjedrez->setNodoFichaSeleccionada(NULL);
             fichaSeleccionada = false;
         }
     }else {

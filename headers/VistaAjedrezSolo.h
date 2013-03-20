@@ -6,7 +6,7 @@
 class VistaAjedrezSolo : public VistaAjedrez
 {
 public:
-    VistaAjedrezSolo(Ogre::SceneManager* mSceneMgr, Ogre::RenderWindow* mWindow);
+    VistaAjedrezSolo(Ogre::RenderWindow* mWindow);
     ~VistaAjedrezSolo(void);
 
     // Ogre::FrameListener

@@ -18,6 +18,7 @@ public:
 
 
 private:  
+    int modoJuego;
 
     bool mShutDown;
     int mPantalla;
