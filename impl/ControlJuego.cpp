@@ -16,6 +16,8 @@ ControlJuego::~ControlJuego(void)
 
 void ControlJuego::inicio(void){
 
+    modelo->construyeMenu();
+
     Ogre::Root::getSingletonPtr()->addFrameListener(this);
     mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
 
@@ -61,12 +63,10 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(punteroVentana->mShutDown)
         return false;
 
-    std::cout << "frameRenderingQueued de ventana" << std::endl;
 
 
     punteroVentana->frameRenderingQueued(evt);
 
-    std::cout << "frameRenderingQueued de 2222222" << std::endl;
 
     if(punteroVentana->mPantalla == 2)
     {
@@ -74,7 +74,7 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
 
-        if (escenaAjedrez->esTurnoNegras() && esperaCalculo == false)
+        if (modelo->escena->esTurnoNegras() && esperaCalculo == false)
         {
             calculaMovimiento();
             esperaCalculo==true;
@@ -94,21 +94,24 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 
     std::cout << "INICIA VISTA 1 " << std::endl;
 
-    escenaAjedrez = EscenaAjedrez::getSingletonPtr();
+    modelo->construyeAjedrez();
+
+
+    //escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     std::cout << "INICIA VISTA 2 " << std::endl;
 
-    escenaAjedrez->setSceneManager(mSceneMgr);
+    modelo->escena->setSceneManager(mSceneMgr);
 
-    escenaAjedrez->createRayQuery();
+    modelo->escena->createRayQuery();
     std::cout << "INICIA VISTA 3 " << std::endl;
 
-    escenaAjedrez->createCamera();
+    modelo->escena->createCamera();
    // mInputMan = new InputMan::SdkCameraMan(escenaAjedrez->createCamera());   // create a default camera controller
     //mInputMan->setTopSpeed(100);
 
     std::cout << "INICIA VISTA 4 " << std::endl;
 
-    escenaAjedrez->createViewports(punteroVentana->getVentana());
+    modelo->escena->createViewports(punteroVentana->getVentana());
     std::cout << "INICIA VISTA 5 " << std::endl;
 
     // Set default mipmap level (NB some APIs ignore this)
@@ -126,7 +129,7 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 
 void ControlJuego::createScene(void)
 {
-    escenaAjedrez->createScene(mSceneMgr);
+    modelo->escena->createScene();
 }
 
 

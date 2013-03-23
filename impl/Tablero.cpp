@@ -2,7 +2,9 @@
 
 
 
-Tablero::Tablero()
+Tablero::Tablero() :
+    columnas("ABCDEFGH")
+
 
 
 
@@ -95,19 +97,104 @@ bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
 
 }
 
-bool Tablero::creaFichas(){
+
+bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr){
+
+    mSceneMgr = sceneMgr;
+
+    Ogre::Entity *entTablero = mSceneMgr->createEntity("test12", "Tablero.mesh");
+    entTablero->setQueryFlags(TABLERO);
+
+    nodoTablero = mSceneMgr->createSceneNode("NodoTablero");
+
+    nodoTablero->attachObject(entTablero);
+
+    mSceneMgr->getRootSceneNode()->addChild(nodoTablero);
+
+    nodoCasillero = mSceneMgr->createSceneNode("NodoCasillero");
+
+
+    nodoTablero->addChild(nodoCasillero);
+
+    creaCasillas();
+
+
+
+}
+
+
+
+
+void Tablero::creaCasillas()
+{
+    Ogre::Entity *mCasilla;
+    Ogre::SceneNode *mNodoCasilla;
+    int contFila = 0;
+    int contColumna = 0;
+    //const char* columnas = "ABCDEFGH";
+    bool inversa = false;
+    std::stringstream saux;
+
+    for (int i = 0; i < 64; ++i)
+    {
+        if (inversa){
+            if (contFila < 0){
+                contColumna++;
+                contFila = 0;
+                inversa = !inversa;
+            }
+        }else{
+            if (contFila == 8){
+                contColumna++;
+                contFila = 7;
+                inversa = !inversa;
+            }
+        }
+        saux.str("");
+        saux << columnas[contColumna] << Ogre::StringConverter::toString(contFila+1);
+
+        //SI ES PAR SE USA LA CASILLA NEGRA
+        if (i%2 == 0){
+            mCasilla = mSceneMgr->createEntity("(N)"+saux.str(), "Casilla.mesh");
+            mCasilla->setMaterialName("MaterialCasillaNegra");
+        }else mCasilla = mSceneMgr->createEntity("(B)"+saux.str(), "Casilla.mesh");
+        mCasilla->setQueryFlags(CASILLA);
+
+        mNodoCasilla = mSceneMgr->createSceneNode(saux.str());
+        mNodoCasilla->translate(-10*contFila,0,-10*contColumna);
+        mNodoCasilla->attachObject(mCasilla);
+        //std::cout  << "AÑADE CASILLA " << mCasilla->getName() << std::endl;
+        nodoCasillero->addChild(mNodoCasilla);
+
+        if (inversa) contFila--;
+        else contFila++;
+    }
+}
+
+
+bool Tablero::creaFichasAjedrez(Ogre::SceneManager* mSceneMgr){
+
+
+
+
+
+
+    creaFichas();
 
     fichasNegras[0] = new FichaReina(true);
     casillas[5][7] = 0;
+
+
+
     fichasBlancas[0]= new FichaReina(false);
-     casillas[5][0] = 1;
+    casillas[5][0] = 1;
+
+
     fichasNegras[1] = new FichaRey(true);
+
     fichasBlancas[1] = new FichaRey(false);
 
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     //CREA LAS PIEZAS DOBLES
     for (int i = 2; i < 4; ++i)
@@ -126,7 +213,6 @@ bool Tablero::creaFichas(){
 
     }
 
-
     //CREA LOS PEONES
     for (int i = 10; i < 18; ++i)
     {
@@ -134,23 +220,213 @@ bool Tablero::creaFichas(){
         fichasBlancas[i] = new FichaPeon(false);
     }
 
-
-
-
-
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     //Ficha* fichaRey = new FichaReina();
 
-
-
     //tablero = Tablero.
     //entFicha = mSceneMgr->createEntity(nombre, nombre.append(".mesh");
 
 
+   // return nodoTablero;
+
 }
+
+
+
+void Tablero::creaFichas()
+{
+    creaVasallos();
+    creaPeones();
+    creaNobleza();
+}
+
+void Tablero::creaVasallos(){
+    Ogre::Entity *mFicha;
+    Ogre::SceneNode *mNodoFicha;
+    std::stringstream saux;
+    Ogre::String nombreFicha;
+
+    //CREA LAS PIEZAS DOBLES
+    for (int i = 0; i < 4; ++i)
+    {
+        saux.str("");
+        saux <<"(T)Torre"<< Ogre::StringConverter::toString(i);
+        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+        if (i%2 == 0)
+        {
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Torre.mesh");
+            mFicha->setQueryFlags(BLANCAS);
+            // mFicha->setMaterialName("MaterialFichaBlanca");
+
+            //       mNodoFicha->translate(0,0,-70*(i/2));
+            nombreFicha = columnas[7*(i/2)]+ Ogre::String("1");
+        }
+        else
+        {
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Torre.mesh");
+
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mFicha->setQueryFlags(NEGRAS);
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
+            nombreFicha = columnas[7*(i/2)]+ Ogre::String("8");
+        }
+        mFicha->setCastShadows(true);
+        mNodoFicha->attachObject(mFicha);
+
+        nodoCasillero->getChild(nombreFicha)->addChild(mNodoFicha);
+
+        saux.str("");
+        saux <<"(C)Caballo"<< Ogre::StringConverter::toString(i);
+        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+        if (i%2 == 0)
+        {
+            mFicha = mSceneMgr->createEntity("(B)"+ saux.str(), "Caballo.mesh");
+            mFicha->setQueryFlags(BLANCAS);
+            // mNodoFicha->translate(0,0,-10-50*(i/2));
+            nombreFicha = columnas[1+5*(i/2)]+ Ogre::String("1");
+        }
+        else
+        {
+            mFicha = mSceneMgr->createEntity("(N)"+ saux.str(), "Caballo.mesh");
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mFicha->setQueryFlags(NEGRAS);
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
+            nombreFicha = columnas[1+5*(i/2)]+ Ogre::String("8");
+        }
+        mFicha->setCastShadows(true);
+        mNodoFicha->attachObject(mFicha);
+        nodoCasillero->getChild(nombreFicha)->addChild(mNodoFicha);
+
+        saux.str("");
+        saux <<"(A)Alfil"<< Ogre::StringConverter::toString(i);
+
+        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+
+        if (i%2 == 0)
+        {
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Alfil.mesh");
+
+            nombreFicha = columnas[2+3*(i/2)]+ Ogre::String("1");
+            mFicha->setQueryFlags(BLANCAS);
+        }
+        else
+        {
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Alfil.mesh");
+
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mFicha->setQueryFlags(NEGRAS);
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
+            nombreFicha = columnas[2+3*(i/2)]+ Ogre::String("8");
+        }
+        mFicha->setCastShadows(true);
+        mNodoFicha->attachObject(mFicha);
+        nodoCasillero-> getChild(nombreFicha)->addChild(mNodoFicha);
+    }
+}
+
+void Tablero::creaNobleza(){
+
+    Ogre::Entity *mFicha;
+    Ogre::SceneNode *mNodoFicha;
+    std::stringstream saux;
+    Ogre::String nombreFicha;
+
+
+    //CREA LAS PIEZAS UNICAS
+    for (int i = 0; i < 2; ++i)
+    {
+        saux.str("");
+        saux <<"(N)Reina"<< Ogre::StringConverter::toString(i);
+
+        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+        if (i%2 == 0){
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
+            mFicha->setQueryFlags(BLANCAS);
+            nombreFicha = columnas[3]+ Ogre::String("1");
+        }else{
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Reina.mesh");
+            nombreFicha = columnas[3]+ Ogre::String("8");
+
+            mFicha->setQueryFlags(NEGRAS);
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
+        }
+        mFicha->setCastShadows(true);
+        mNodoFicha->attachObject(mFicha);
+        nodoCasillero-> getChild(nombreFicha)->addChild(mNodoFicha);
+
+        saux.str("");
+        saux <<"(R)Rey"<< Ogre::StringConverter::toString(i);
+
+        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+        if (i%2 != 0)
+        {
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Rey.mesh");
+            mFicha->setQueryFlags(BLANCAS);
+            nombreFicha = columnas[4]+ Ogre::String("1");
+        }
+        else
+        {
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Rey.mesh");
+            nombreFicha = columnas[4]+ Ogre::String("8");
+            mFicha->setQueryFlags(NEGRAS);
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
+        }
+        mFicha->setCastShadows(true);
+        mNodoFicha->attachObject(mFicha);
+        nodoCasillero-> getChild(nombreFicha)->addChild(mNodoFicha);
+    }
+
+
+}
+
+void Tablero::creaPeones(){
+
+    Ogre::Entity *mFicha;
+    Ogre::SceneNode *mNodoFicha;
+    std::stringstream saux;
+    Ogre::String nombreFicha;
+
+
+    //CREA LOS PEONES
+    for (int i = 0; i < 16; ++i)
+    {
+        saux.str("");
+        saux <<"(P)Peon_"<< Ogre::StringConverter::toString(i);
+        mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+
+        if (i%2 == 0)
+        {
+            mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Peon.mesh");
+            nombreFicha = columnas[i/2]+ Ogre::String("2");
+            mFicha->setQueryFlags(BLANCAS);
+        }
+        else
+        {
+            mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Peon.mesh");
+            mFicha->setMaterialName("MaterialFichaNegra");
+            mFicha->setQueryFlags(NEGRAS);
+            mNodoFicha->yaw(Ogre::Degree(180));
+            mNodoFicha->translate(70,0,70);
+
+            nombreFicha = columnas[i/2]+ Ogre::String("7");
+        }
+        mFicha->setCastShadows(true);
+        mNodoFicha->attachObject(mFicha);
+        nodoCasillero -> getChild(nombreFicha)->addChild(mNodoFicha);
+    }
+
+
+}
+
 
 /*
 board type

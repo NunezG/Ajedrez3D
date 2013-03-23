@@ -143,6 +143,14 @@ set(HDRS
         ./headers/ModuloIA.h
 
 
+        ./headers/Jugador.h
+        ./headers/JugadorHumano.h
+        ./headers/JugadorArtificial.h
+        ./headers/ModeloMenu.h
+
+
+
+
 
 
 )
@@ -176,6 +184,14 @@ set(SRCS
        ./impl/Ficha.cpp
 
         ./impl/ModuloIA.cpp
+
+       ./impl/Jugador.cpp
+       ./impl/JugadorHumano.cpp
+       ./impl/ModeloMenu.cpp
+
+
+
+
 
 
 )

@@ -9,6 +9,12 @@
 #include "FichaPeon.h"
 
 
+#define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
+#define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
+#define TABLERO 1 << 3
+#define CASILLA 1 << 0  // Mascara para el escenario
+
+
 // ESTE SERÁ EL NODO USADO EN LOS ÁRBOLES
 class Tablero
 {
@@ -20,9 +26,21 @@ public:
 
     Tablero(void);
 
+    bool creaFichasAjedrez(Ogre::SceneManager* sceneMgr);
 
     int nivel;
+
+
+    bool creaTableroYCasillas(Ogre::SceneManager* mSceneMgr);
+    Ogre::SceneNode* nodoCasillero;
+    void creaCasillas();
+
+    Ogre::String columnas;
+
+    Ogre::SceneManager* mSceneMgr;
+
 private:
+    Ogre::SceneNode* nodoTablero;
 
 
     Tablero* listaNodos[];
@@ -32,13 +50,16 @@ private:
 
     bool verificaCamino(int inicial[2], int final[2], int camino);
 
+    void creaFichas();
 
+    void creaPeones();
+    void creaNobleza();
+    void creaVasallos();
 
     int casillas[8][8];
 
     bool turnoNegras;
 
-    bool creaFichas();
 };
 
 #endif

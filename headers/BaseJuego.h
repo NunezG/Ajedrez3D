@@ -37,6 +37,7 @@ protected:
     void chooseSceneManager(void);
 
     Ogre::Root *mRoot;
+    Modelo* modelo;
 
     //BUCLE PRINCIPAL
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;

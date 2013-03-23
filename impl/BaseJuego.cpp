@@ -8,6 +8,7 @@ BaseJuego::BaseJuego(void):
     mRoot =new Ogre::Root(mPluginsCfg);
     mTimer = mRoot->getTimer();
     punteroVentana = Ventana::getCEGUISingletonPtr();
+    modelo = Modelo::getSingletonPtr();
 }
 //-------------------------------------------------------------------------------------
 BaseJuego::~BaseJuego(void)

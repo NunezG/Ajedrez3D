@@ -10,8 +10,8 @@ Modelo::Modelo() :
 
 {
 
-mRoot =new Ogre::Root(mPluginsCfg);
-mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
+//mRoot =new Ogre::Root(mPluginsCfg);
+//mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
 
 }
 Modelo::~Modelo()
@@ -33,45 +33,29 @@ int Modelo::getNumPantalla(){
 
 }
 
-bool Modelo::construyeArbol(){
 
-    Tablero* nodoPadre = new Tablero();
+void Modelo::construyeMenu(){
+menu = ModeloMenu::getSingletonPtr();
 
- //   nivel = 0;
 
-    for (int i = 0; i<10; i++){
-
-       for (int i = 0; i<10; i++){
-     //   nodoPadre.nodoNuevo() = new Tablero();
-      //  nodoPadre.nodoDer = new Tablero();
-
-        //corta la recursividad
-
-       // nodoPadre.nodoIzq.construyeArbol();
-      //  nodoPadre.nodoDer.construyeArbol();
-
-    //    nivel++;
-       }
-    }
 
 }
 
-    bool Modelo::generaMovimientos(){
 
 
-//Recorre las fichas en juego y genera tableros con todos los movimientos posibles
-
-
-
-
-
-
-    }
-
-bool Modelo::creaFichas(){
-
-//tablero = Tablero.
-    //entFicha = mSceneMgr->createEntity(nombre, nombre.append(".mesh");
+void Modelo::construyeAjedrez(){
+    escena = EscenaAjedrez::getSingletonPtr();
 
 
 }
+
+
+
+Modelo* Modelo::getSingletonPtr()
+{
+    static Modelo miModelo;
+    static Modelo* miModeloPtr = &miModelo;
+    return miModeloPtr;
+}
+
+

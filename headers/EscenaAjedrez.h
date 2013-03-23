@@ -3,11 +3,9 @@
 
 #include <Ogre.h>
 #include "InputMan.h"
+#include "Tablero.h"
 
-#define CASILLA 1 << 0  // Mascara para el escenario
-#define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
-#define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
-#define TABLERO 1 << 3
+
 
 class  EscenaAjedrez
 {
@@ -18,13 +16,12 @@ public:
     static EscenaAjedrez* getSingletonPtr();
 
 
-    void createScene(Ogre::SceneManager*);
+    void createScene();
 
     void promocionaPeon(Ogre::SceneNode* nodoFicha);
 
    // void createCamera(void);
 
-    void iluminaCasilla();
     Ogre::Camera* createCamera(void);
     void createViewports(Ogre::RenderWindow* window);
     Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
@@ -65,9 +62,18 @@ public:
     void setNodoCasillaSobrevolada(Ogre::SceneNode* nodo);
     bool FichaComestible();
 
+    Ogre::String columnas;
+
+
+
+    bool construyeArbol();
+        bool generaMovimientos();
+       // bool creaFichas();
+
+
 private:   
 
-
+        void creaIluminacion();
 
     Ogre::SceneNode *_selectedNode;
     Ogre::SceneNode *_nodoNuevo;
@@ -98,18 +104,11 @@ private:
 
     Ogre::Camera* mCamera;
 
-    void creaFichas();
-    void creaCasillas();
-
-    void creaPeones();
-    void creaNobleza();
-    void creaVasallos();
+    //void creaFichas();
 
 
+    Tablero* tablero;
 
-    Ogre::String columnas;
-    Ogre::SceneNode* nodoTablero;
-    Ogre::SceneNode* nodoCasillero;
 };
 
 #endif

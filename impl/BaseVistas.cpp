@@ -5,6 +5,7 @@ BaseVistas::BaseVistas() :
 
 
 {  
+    modelo = Modelo::getSingletonPtr();
 }
 
 BaseVistas::~BaseVistas()

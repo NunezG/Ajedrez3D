@@ -6,8 +6,7 @@
 class Ficha
 {
 public:
-    ~Ficha(void);
-    Ficha(bool esNegra);
+
 
     virtual bool mueveFicha() = 0;
     virtual bool autorizaFicha(int diferencia[2]) = 0;
@@ -17,6 +16,11 @@ public:
     virtual bool setCasilla(int fila, int col);
 
 protected:
+
+
+    ~Ficha(void);
+    Ficha(bool esNegra);
+
 
     virtual bool creaEntidad(Ogre::String nombre);
 

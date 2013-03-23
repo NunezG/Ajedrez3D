@@ -1,34 +1,49 @@
 #ifndef __Modelo_
 #define __Modelo_
 #include <Ogre.h>
-#include "Tablero.h"
+#include "EscenaAjedrez.h"
+#include "ModeloMenu.h"
+
 
 class Modelo
 {
 public:
     bool getApagar();
     int getNumPantalla();
+
+    EscenaAjedrez* escena;
+    ModeloMenu* menu;
+
+    int modoJuego;
+    void construyeAjedrez();
+    void construyeMenu();
+
+    //Singleton
+    static Modelo* getSingletonPtr();
+
+
+
     ~Modelo(void);
 
-    bool creaFichas();
 
-    Tablero* tablero;
-    bool construyeArbol();
-    bool generaMovimientos();
+protected:
 
 
 private:  
-    int modoJuego;
 
-    bool mShutDown;
-    int mPantalla;
 
-    unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 
     //Singleton;
     Modelo(void);
     void operator=(const Modelo& miModelo) ;
     Modelo(const Modelo& miModelo);
+
+
+
+    bool mShutDown;
+    int mPantalla;
+
+    unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 
     Ogre::String mResourcesCfg;
     Ogre::String mPluginsCfg;

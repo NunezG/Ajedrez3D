@@ -134,9 +134,10 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 
                         if (escenaAjedrez->FichaComestible()) escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
 
-                    }
+                    } else{ escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+                        std::cout << "ES COMESTIBLE" << std::endl;
 
-                    else escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+                    }
             }
         }
     }

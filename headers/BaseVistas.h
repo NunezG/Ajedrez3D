@@ -7,6 +7,7 @@
 #include <OISMouse.h>
 
 #include <OgreRenderWindow.h>
+#include "Modelo.h"
 
 
 class BaseVistas
@@ -17,6 +18,9 @@ public:
 
 
     int modoJuego;
+
+    Modelo* modelo;
+
 
     virtual bool salir() = 0;
 

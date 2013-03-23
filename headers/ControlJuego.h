@@ -3,6 +3,8 @@
 
 #include <CEGUI/CEGUISystem.h>
 #include "BaseJuego.h"
+#include "Modelo.h"
+
 
 class  ControlJuego : public BaseJuego
 {
@@ -12,6 +14,7 @@ public:
 
     //Singleton
     static ControlJuego& getControlSingleton();
+
 
     void inicio(void);
     bool iniciaModeloAjedrez();
@@ -23,7 +26,8 @@ private:
     ControlJuego(void);
 
 
-    EscenaAjedrez* escenaAjedrez;
+
+  //  EscenaAjedrez* escenaAjedrez;
 
     Ogre::SceneManager* mSceneMgr;
 
