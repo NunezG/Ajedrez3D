@@ -5,8 +5,6 @@
 #include "InputMan.h"
 #include "Tablero.h"
 
-
-
 class  EscenaAjedrez
 {
 public:
@@ -15,12 +13,11 @@ public:
     //Singleton
     static EscenaAjedrez* getSingletonPtr();
 
-
     void createScene();
 
     void promocionaPeon(Ogre::SceneNode* nodoFicha);
 
-   // void createCamera(void);
+    // void createCamera(void);
 
     Ogre::Camera* createCamera(void);
     void createViewports(Ogre::RenderWindow* window);
@@ -53,8 +50,6 @@ public:
     void cambiaTurno();
     bool esTurnoNegras();
 
-
-
     Ogre::SceneNode* getNodoFichaSeleccionada();
     Ogre::SceneNode* getNodoCasillaSobrevolada();
 
@@ -64,30 +59,23 @@ public:
 
     Ogre::String columnas;
 
-
-
-    bool construyeArbol();
-        bool generaMovimientos();
-       // bool creaFichas();
-
-
+    // bool creaFichas();
 private:   
 
-        void creaIluminacion();
+    void creaIluminacion();
 
     Ogre::SceneNode *_selectedNode;
     Ogre::SceneNode *_nodoNuevo;
 
-     bool turnoNegras;
+    bool turnoNegras;
 
     InputMan::SdkCameraMan* mInputMan;
 
     bool mGoingLeft;
-  //  bool mCambiaTurno;
+    //  bool mCambiaTurno;
     bool mGoingRight;
 
     bool mOrbiting;
-
 
     Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
@@ -95,7 +83,6 @@ private:
     EscenaAjedrez(void);
     void operator=(const EscenaAjedrez& escena ) ;
     EscenaAjedrez(const EscenaAjedrez& escena);
-
 
     Ogre::RenderWindow* mWindow;
 
@@ -106,9 +93,7 @@ private:
 
     //void creaFichas();
 
-
     Tablero* tablero;
-
 };
 
 #endif

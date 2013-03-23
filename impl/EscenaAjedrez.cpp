@@ -13,9 +13,6 @@ EscenaAjedrez::EscenaAjedrez(void) :
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , columnas("ABCDEFGH")
-
-
-
 {
 }
 //-------------------------------------------------------------------------------------
@@ -31,7 +28,6 @@ void EscenaAjedrez::setSceneManager(Ogre::SceneManager* sceneMgr)
     mSceneMgr = sceneMgr;
 
 }
-
 
 
 Ogre::SceneNode* EscenaAjedrez::getNodoFichaSeleccionada(){
@@ -56,9 +52,8 @@ void EscenaAjedrez::setNodoCasillaSobrevolada(Ogre::SceneNode* nodo)
 }
 
 
-void EscenaAjedrez::creaIluminacion(){
-
-
+void EscenaAjedrez::creaIluminacion()
+{
     mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_MODULATIVE);
     mSceneMgr->setShadowColour(Ogre::ColourValue(0.75, 0.75, 0.75) );
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.55, 0.55, 0.55));
@@ -76,8 +71,6 @@ void EscenaAjedrez::creaIluminacion(){
     //light2->setSpotlightFalloff(1.0f);
     light2->setCastShadows(true);
 
-
-
     Ogre::Light* light = mSceneMgr->createLight("Light1");
     light->setPosition(-600,5000,-600);
     light->setType(Ogre::Light::LT_POINT);
@@ -87,61 +80,20 @@ void EscenaAjedrez::creaIluminacion(){
     // light->setSpotlightOuterAngle(Ogre::Degree(60.0f));
     // light->setSpotlightFalloff(1.0f);
     light->setCastShadows(true);
-
-
-
 }
-
-
 
 void EscenaAjedrez::createScene()
 {
-   // mSceneMgr = sceneMgr;
+    // mSceneMgr = sceneMgr;
 
     tablero = new Tablero();
 
-
     tablero->creaTableroYCasillas(mSceneMgr);
-
 
     tablero->creaFichasAjedrez(mSceneMgr);
 
-
-
-
     creaIluminacion();
-
 }
-
-
-
-
-
-bool EscenaAjedrez::construyeArbol(){
-
-    Tablero* nodoPadre = new Tablero();
-
-    //   nivel = 0;
-
-    for (int i = 0; i<10; i++){
-
-        for (int i = 0; i<10; i++){
-            //   nodoPadre.nodoNuevo() = new Tablero();
-            //  nodoPadre.nodoDer = new Tablero();
-
-            //corta la recursividad
-
-            // nodoPadre.nodoIzq.construyeArbol();
-            //  nodoPadre.nodoDer.construyeArbol();
-
-            //    nivel++;
-        }
-    }
-
-
-
-}
-
 
 
 //-------------------------------------------------------------------------------------
@@ -164,16 +116,12 @@ bool EscenaAjedrez::FichaComestible()
     return false;
 }
 
-
-
 EscenaAjedrez* EscenaAjedrez::getSingletonPtr()
 {
     static EscenaAjedrez miEscena;
     static EscenaAjedrez* miEscenaPtr = &miEscena;
     return miEscenaPtr;
 }
-
-
 
 void EscenaAjedrez::apagaCasilla(Ogre::SceneNode* casilla)
 {
@@ -189,7 +137,6 @@ void EscenaAjedrez::apagaCasilla(Ogre::SceneNode* casilla)
     }else mEntidadCasilla->setMaterialName("MaterialCasillaNegra");
 }
 
-
 void EscenaAjedrez::iluminaCasilla(Ogre::SceneNode* casilla){
     casilla->showBoundingBox(true);
     Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
@@ -204,60 +151,37 @@ void EscenaAjedrez::iluminaCasilla(Ogre::SceneNode* casilla){
     }else mEntidadCasilla->setMaterialName("MaterialCasillaNegraIlum");
 }
 
-
-
-
-void EscenaAjedrez::mueveCamaraIzquierda(){
-
+void EscenaAjedrez::mueveCamaraIzquierda()
+{
     mGoingLeft = true;
-
-
-
 }
 
 
 
-void EscenaAjedrez::mueveCamaraDerecha(){
-
+void EscenaAjedrez::mueveCamaraDerecha()
+{
     mGoingRight = true;
-
-
-
-
-
 }
 
-void EscenaAjedrez::noMueveCamara(){
+void EscenaAjedrez::noMueveCamara()
+{
     mGoingRight = false;
     mGoingLeft = false;
-
 }
-
-
 
 void EscenaAjedrez::empezarModoCamara()
 {
-    std::cout  << "empezarModoCamara " << std::endl;
-
     //mInputMan->entrarModoCamara();
-
     mOrbiting = true;
-
-
-
-
 }
+
 void EscenaAjedrez::DistanciaCamara(int distanciaRelativa)
 {
-
     mInputMan->distanciaCamara(distanciaRelativa);
-
-
 }
 
 bool EscenaAjedrez::esTurnoNegras(){
     return turnoNegras;
-
 }
 
 void EscenaAjedrez::cambiaTurno(){
@@ -267,10 +191,7 @@ void EscenaAjedrez::cambiaTurno(){
 
 void EscenaAjedrez::rotacionCamara(Ogre::Degree angulo)
 {
-
     mInputMan->rotaCamara(angulo);
-
-
 }
 
 bool EscenaAjedrez::vaIzquierda(){
@@ -280,31 +201,23 @@ bool EscenaAjedrez::vaIzquierda(){
 
 bool EscenaAjedrez::vaDerecha(){
     return mGoingRight;
-
-
 }
 
 bool EscenaAjedrez::esModoCamara()
 {
     return mOrbiting;
-
 }
 
 void EscenaAjedrez::acabarModoCamara()
 {
     std::cout  << "acabarModoCamara " << std::endl;
-
     //mInputMan->salirModoCamara();
     mOrbiting = false;
-
-
 }
-
 
 Ogre::Camera* EscenaAjedrez::createCamera(void){
     // Create the camera
     mCamera = mSceneMgr->createCamera("PlayerCam");
-
 
     // Position it at 500 in Z direction
     mCamera->setPosition(Ogre::Vector3(-40,-40,150));
@@ -312,15 +225,11 @@ Ogre::Camera* EscenaAjedrez::createCamera(void){
     mCamera->lookAt(Ogre::Vector3(0,0,0));
     mCamera->setNearClipDistance(5);
 
-
-
     mInputMan = new InputMan::SdkCameraMan(mCamera);   // create a default camera controller
     mInputMan->setTopSpeed(100);
 
     return mCamera;
 }
-
-
 
 Ogre::RaySceneQuery* EscenaAjedrez::createRayQuery(void)
 {
@@ -342,7 +251,6 @@ void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
                 Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 
-
 //-------------------------------------------------------------------------------------
 Ogre::SceneNode* EscenaAjedrez::casillaOcupada(Ogre::SceneNode* nodoCasilla)
 {
@@ -350,13 +258,11 @@ Ogre::SceneNode* EscenaAjedrez::casillaOcupada(Ogre::SceneNode* nodoCasilla)
     Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (nodoCasilla->getChild(0));
     // Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
 
-    if(child->getAttachedObject(0) != NULL){
+    if(child->getAttachedObject(0) != NULL)
+    {
         return child;
-
     }
-
 }
-
 
 Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char mascara){
 
@@ -364,7 +270,6 @@ Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char ma
 
     switch (mascara)
     {
-
 
     case 'C':
         mask = CASILLA;
@@ -384,7 +289,6 @@ Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char ma
         mask = TABLERO;
 
         break;
-
     }
 
     Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
@@ -392,10 +296,6 @@ Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char ma
     Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
     return result;
 }
-
-
-
-
 
 Ogre::Ray EscenaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)
 {
@@ -407,8 +307,6 @@ Ogre::Ray EscenaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre
     mRaySceneQuery->setQueryMask(mask);
     return (rayMouse);
 }
-
-
 
 void EscenaAjedrez::promocionaPeon(Ogre::SceneNode* nodoFicha)
 {
@@ -426,23 +324,6 @@ void EscenaAjedrez::promocionaPeon(Ogre::SceneNode* nodoFicha)
     entidadFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
 
     nodoFicha->attachObject(entidadFicha);
-
-}
-
-
-
-
-
-bool EscenaAjedrez::generaMovimientos(){
-
-
-    //Recorre las fichas en juego y genera tableros con todos los movimientos posibles
-
-
-
-
-
-
 }
 
 //bool EscenaAjedrez::creaFichas(){
@@ -454,6 +335,4 @@ bool EscenaAjedrez::generaMovimientos(){
 
 //tablero = Tablero.
 //entFicha = mSceneMgr->createEntity(nombre, nombre.append(".mesh");
-
-
 //}

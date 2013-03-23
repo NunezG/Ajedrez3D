@@ -12,6 +12,12 @@ public:
 
 
 private:
+
+
+
+    bool construyeArbol();
+        bool generaMovimientos();
+
     //Singleton;
     ModuloIA(void);
     void operator=(const ModuloIA& frameListener ) ;

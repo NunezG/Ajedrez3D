@@ -52,7 +52,7 @@ public:
             mTarget = target;
             if(target)
             {
-                setYawPitchDist(Ogre::Degree(90), Ogre::Degree(45), 110);
+                setYawPitchDist(Ogre::Degree(90), Ogre::Degree(50), 110);
                 mCamera->setAutoTracking(true, mTarget);
             }
             else
@@ -69,16 +69,11 @@ public:
 
     virtual void distanciaCamara(int nuevaDistancia)
     {
-
         Ogre::Real dist = (mCamera->getPosition() - mTarget->_getDerivedPosition()).length();
 
         // the further the camera is, the faster it moves
         mCamera->moveRelative(Ogre::Vector3(0, 0, -nuevaDistancia * 0.0008f * dist));
-
-
     }
-
-
 
     /*-----------------------------------------------------------------------------
         | Sets the spatial offset from the target. Only applies for orbit style.
@@ -147,16 +142,8 @@ public:
 
 
         //   }
-
-
-
-
         return true;
     }
-
-
-
-
 
 protected:
     Ogre::Camera* mCamera;
