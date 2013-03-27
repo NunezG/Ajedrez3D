@@ -114,41 +114,60 @@ endif()
 
 set(HDRS
         #./headers/BaseOgre.h
-        ./headers/VistaAjedrez.h
-        ./headers/VistaAjedrezSolo.h
-        ./headers/InputMan.h
-        ./headers/Ventana.h
+
         #./headers/CreacionJuego.h
        # ./headers/MenuInicial.h
-        ./headers/EscenaAjedrez.h
-        ./headers/Inicio.h
-        ./headers/Autorizaciones.h
+        ./headers/Control/Inicio.h
 
-        ./headers/BaseJuego.h
-        ./headers/ControlJuego.h
-        ./headers/MenuInicio.h
-        ./headers/BaseVistas.h
+        ./headers/Control/BaseJuego.h
+        ./headers/Control/ControlJuego.h
+
+
+
+        ./headers/Vistas/Ventana.h
+        ./headers/Vistas/VistaAjedrez.h
+        ./headers/Vistas/VistaAjedrezSolo.h
+        ./headers/Vistas/MenuInicio.h
+        ./headers/Vistas/BaseVistas.h
+
+
+
 
         # headers de modelo
-        ./headers/Modelo.h
-       ./headers/Tablero.h
-       ./headers/FichaRey.h
-       ./headers/FichaReina.h
-       ./headers/FichaPeon.h
-       ./headers/FichaAlfil.h
-       ./headers/FichaCaballo.h
-       ./headers/FichaTorre.h
-       ./headers/Ficha.h
+
+
+        ./headers/Modelo/InputMan.h
+
+        ./headers/Modelo/EscenaAjedrez.h
+
+
+        ./headers/Modelo/Autorizaciones.h
+
+        ./headers/Modelo/Modelo.h
+       ./headers/Modelo/Tablero.h
+       ./headers/Modelo/FichaRey.h
+       ./headers/Modelo/FichaReina.h
+       ./headers/Modelo/FichaPeon.h
+       ./headers/Modelo/FichaAlfil.h
+       ./headers/Modelo/FichaCaballo.h
+       ./headers/Modelo/FichaTorre.h
+       ./headers/Modelo/Ficha.h
+
+
+
+        ./headers/Modelo/ObjetoOgre.h
+
+        ./headers/Modelo/Casilla.h
+
+        ./headers/Modelo/Jugador.h
+        ./headers/Modelo/JugadorHumano.h
+        ./headers/Modelo/JugadorArtificial.h
+        ./headers/Modelo/ModeloMenu.h
+
+
+
 
         ./headers/ModuloIA.h
-
-
-        ./headers/Jugador.h
-        ./headers/JugadorHumano.h
-        ./headers/JugadorArtificial.h
-        ./headers/ModeloMenu.h
-
-
 
 
 
@@ -156,40 +175,62 @@ set(HDRS
 )
  
 set(SRCS
+
+        #CONTROL
+        ./impl/Control/Inicio.cpp
+
+        ./impl/Control/BaseJuego.cpp
+        ./impl/Control/ControlJuego.cpp
+
+
+        # VISTAS
        # ./impl/BaseOgre.cpp
-        ./impl/VistaAjedrez.cpp
-        ./impl/VistaAjedrezSolo.cpp
-        ./impl/Ventana.cpp
+        ./impl/Vistas/VistaAjedrez.cpp
+        ./impl/Vistas/VistaAjedrezSolo.cpp
+        ./impl/Vistas/Ventana.cpp
+        ./impl/Vistas/MenuInicio.cpp
+        ./impl/Vistas/BaseVistas.cpp
+
+
        # ./impl/CreacionJuego.cpp
        # ./impl/MenuInicial.cpp
-        ./impl/EscenaAjedrez.cpp
-        ./impl/Inicio.cpp
-        ./impl/Autorizaciones.cpp
 
-        ./impl/BaseJuego.cpp
-        ./impl/ControlJuego.cpp
-        ./impl/MenuInicio.cpp
-        ./impl/Modelo.cpp
-        ./impl/BaseVistas.cpp
+
+
+
 
         # implementaciones de modelo
-        ./headers/Modelo.h
-       ./impl/Tablero.cpp
-       ./impl/FichaRey.cpp
-       ./impl/FichaReina.cpp
-       ./impl/FichaPeon.cpp
-       ./impl/FichaAlfil.cpp
-       ./impl/FichaCaballo.cpp
-       ./impl/FichaTorre.cpp
-       ./impl/Ficha.cpp
+      #  ./imps/Modelo.h
+
+        ./impl/Modelo/EscenaAjedrez.cpp
+
+        ./impl/Modelo/Autorizaciones.cpp
+
+        ./impl/Modelo/Modelo.cpp
+
+       ./impl/Modelo/Tablero.cpp
+       ./impl/Modelo/FichaRey.cpp
+       ./impl/Modelo/FichaReina.cpp
+       ./impl/Modelo/FichaPeon.cpp
+       ./impl/Modelo/FichaAlfil.cpp
+       ./impl/Modelo/FichaCaballo.cpp
+       ./impl/Modelo/FichaTorre.cpp
+       ./impl/Modelo/Ficha.cpp
+
+
+        ./impl/Modelo/ObjetoOgre.cpp
+
+
+       ./impl/Modelo/Jugador.cpp
+       ./impl/Modelo/JugadorHumano.cpp
+       ./impl/Modelo/JugadorArtificial.cpp
+
+       ./impl/Modelo/Casilla.cpp
+
+       ./impl/Modelo/ModeloMenu.cpp
+
 
         ./impl/ModuloIA.cpp
-
-       ./impl/Jugador.cpp
-       ./impl/JugadorHumano.cpp
-       ./impl/ModeloMenu.cpp
-
-
 
 
 
