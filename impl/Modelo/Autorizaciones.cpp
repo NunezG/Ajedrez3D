@@ -17,6 +17,10 @@ bool Autorizaciones::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::Sc
     Ogre::Entity *mEntidadFicha = static_cast<Ogre::Entity*>(nodoSeleccionado->getAttachedObject(0));
     Ogre::String mNombreUsado = mEntidadFicha->getName();
 
+  //  std::cout  << "PRUEBA DE AUTORIZACIONES CON CLASES "<< std::endl;
+
+    //std::cout  <<purebaCasilla->fichaAsociada->Tipo << std::endl;
+
     switch (mNombreUsado[4])
     {
     case 'R': //REY SELECCIONADO

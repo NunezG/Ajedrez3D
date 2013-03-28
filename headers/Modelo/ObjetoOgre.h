@@ -15,7 +15,7 @@ class ObjetoOgre
 public:
     ~ObjetoOgre(void);
 
-    ObjetoOgre(void);
+    ObjetoOgre(Ogre::SceneManager* sceneMgr, Ogre::String nombre);
 
 
     virtual bool setEntidad(Ogre::Entity* entidad);
@@ -25,16 +25,19 @@ public:
     virtual Ogre::SceneNode* getNodoOgre();
 
 
-    virtual bool creaEntidad(Ogre::String nombre);
+    virtual bool creaModelo3D(Ogre::String nombre);
 
     virtual bool NuevoObjetoDeOgre();
 
 
 private:
 
+    Ogre::SceneManager* mSceneMgr;
 
-    Ogre::Entity* entFicha;
+
+    Ogre::Entity* entidad;
     Ogre::SceneNode* nodoEscena;
+
     Ogre::uint32 tipoObjeto;
     Ogre::String nombreEntidad;
     Ogre::String nombreNodo;

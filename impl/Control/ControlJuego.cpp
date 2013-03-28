@@ -24,8 +24,8 @@ void ControlJuego::inicio(void){
     punteroVentana->EmpiezaCEGUI();
     punteroVentana->MuestraMenu();
 
-   //punteroVentana->iniciaVista();
-   // iniciaModeloAjedrez();
+    //punteroVentana->iniciaVista();
+    // iniciaModeloAjedrez();
 
 
 }
@@ -39,48 +39,54 @@ ControlJuego& ControlJuego::getControlSingleton()
 //-------------------------------------------------------------------------------------
 bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    if(punteroVentana->pantallaActual() == 0)
+    if(punteroVentana -> pantallaActual() == 0)
     {
-         std::cout << "PANTALLA ACTUAL ES 0" << std::endl;
+        std::cout << "PANTALLA ACTUAL ES 0" << std::endl;
 
-        if(punteroVentana->mPantalla > 0){
+        if(punteroVentana -> mPantalla > 0){
             std::cout << "CAMBIA DE PANTALLA " << std::endl;
 
             punteroVentana->muestraAjedrez(/*escenaAjedrez*/);
             std::cout << "FIN CAMBIO" << std::endl;
             iniciaModeloAjedrez();
 
-
         }
-    }
-
-    if(punteroVentana->getVentana()->isClosed())
-        return false;
-
-    if(!punteroVentana->getVentana()->isVisible())
-        return false;
-
-    if(punteroVentana->mShutDown)
-        return false;
-
-
-
-    punteroVentana->frameRenderingQueued(evt);
-
-
-    if(punteroVentana->mPantalla == 2)
+    }  else if(punteroVentana -> mPantalla == 2)
     {
-        std::cout << "punteroVentana->mPantalla = 2" << std::endl;
+        std::cout << "PANTALLA JUEGO CONTRA IA" << std::endl;
 
+        std::cout << "MODELO: " << std::endl;
+
+
+        std::cout << modelo->escena->esTurnoNegras() << std::endl;
+
+
+        std::cout << "ESPERACALCULO: " << std::endl;
+        std::cout  <<esperaCalculo << std::endl;
 
 
         if (modelo->escena->esTurnoNegras() && esperaCalculo == false)
         {
+            punteroVentana->capturaRaton = false;
+
             calculaMovimiento();
             esperaCalculo==true;
         }
+    }
 
-}
+
+    if(punteroVentana -> getVentana()->isClosed())
+        return false;
+
+    if(!punteroVentana -> getVentana()->isVisible())
+        return false;
+
+    if(punteroVentana -> mShutDown)
+        return false;
+
+    punteroVentana->frameRenderingQueued(evt);
+
+    //jugador.mueveFicha();
 
 
     return true;
@@ -90,7 +96,7 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 //------------------------------------------------------------------------------------
 bool ControlJuego::iniciaModeloAjedrez(void)
 {
-   // mR-aySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
+    // mR-aySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
     std::cout << "INICIA VISTA 1 " << std::endl;
 
@@ -106,7 +112,7 @@ bool ControlJuego::iniciaModeloAjedrez(void)
     std::cout << "INICIA VISTA 3 " << std::endl;
 
     modelo->escena->createCamera();
-   // mInputMan = new InputMan::SdkCameraMan(escenaAjedrez->createCamera());   // create a default camera controller
+    // mInputMan = new InputMan::SdkCameraMan(escenaAjedrez->createCamera());   // create a default camera controller
     //mInputMan->setTopSpeed(100);
 
     std::cout << "INICIA VISTA 4 " << std::endl;
@@ -140,9 +146,27 @@ bool ControlJuego::iniciaModelo(){
 }
 
 void ControlJuego::calculaMovimiento(){
+
+    std::cout << "CALCULA MOVIMIENTO" << std::endl;
+
+
+
+
+
+    ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
+
+    modulo->construyeArbol(modelo->escena->traduceTablero());
+
+    std::cout << "ACABA DE TRADUCR TABLERO" << std::endl;
+
+
     //INICIA LA IA PARA CALCULAR LA FICHA A MOVER
 
+//PRIMERO HAZLO CON EL TABLERO Y LUEGO TE OCUPAS DE LAS FICHAS
+    //EMPEZAMOS POR TODOS LOS MOVIMIENTOS DE TODOS LOS PEONES
+//ModuloIA modulo;
 
+   // modelo->escena->tablero->movimientosPeon();
 
 
 

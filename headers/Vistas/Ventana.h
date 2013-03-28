@@ -65,6 +65,9 @@ public:
 
    // BaseApplication* Create(Ogre::String type);
 
+
+    bool capturaRaton;
+
 private:
 
     bool injectTimePulse(const Ogre::FrameEvent& evt);

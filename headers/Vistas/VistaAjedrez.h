@@ -6,7 +6,7 @@
 
 #include "BaseVistas.h"
 
-#include "../Autorizaciones.h"
+#include "../Modelo/Autorizaciones.h"
 #include <Ogre.h>
 
 class VistaAjedrez : public BaseVistas

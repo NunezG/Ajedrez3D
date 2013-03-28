@@ -9,7 +9,7 @@ EscenaAjedrez::EscenaAjedrez(void) :
   , mOrbiting(false)
   , mGoingLeft(false)
   , mGoingRight(false)
-  , turnoNegras(0)
+  , turnoNegras(false)
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , columnas("ABCDEFGH")
@@ -181,6 +181,10 @@ void EscenaAjedrez::DistanciaCamara(int distanciaRelativa)
 }
 
 bool EscenaAjedrez::esTurnoNegras(){
+    std::cout << "ES TURNO NEGRAS: " << std::endl;
+    std::cout <<turnoNegras << std::endl;
+    std::cout << "PASA " << std::endl;
+
     return turnoNegras;
 }
 
@@ -308,6 +312,9 @@ Ogre::Ray EscenaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre
     return (rayMouse);
 }
 
+
+
+
 void EscenaAjedrez::promocionaPeon(Ogre::SceneNode* nodoFicha)
 {
     Ogre::Entity *entidadFicha;
@@ -325,6 +332,145 @@ void EscenaAjedrez::promocionaPeon(Ogre::SceneNode* nodoFicha)
 
     nodoFicha->attachObject(entidadFicha);
 }
+
+
+int* EscenaAjedrez::traduceTablero()
+{
+
+    int *casillas = new int[64];
+    int numCasilla = 0;
+    std::cout  <<" traducTablero 1 " << std::endl;
+
+    std::cout  <<" nombre tablero " << std::endl;
+
+    // std::cout  <<    tablero->nodoTablero->getName() << std::endl;
+
+
+    std::cout  <<" nombre casillero " << std::endl;
+
+
+
+
+    Ogre::SceneNode* nodoTest = tablero->nodoCasillero;
+
+    std::cout  <<    nodoTest->getName() << std::endl;
+
+
+    std::cout  <<" traducTablero  2" << std::endl;
+
+    // Ogre::Node::ChildNodeIterator iterator = _nodoNuevo->getChildIterator();
+    Ogre::Node::ChildNodeIterator iterator = nodoTest->getChildIterator();
+
+
+    std::cout  <<iterator.hasMoreElements() << std::endl;
+
+
+
+    std::cout  <<" ITERADOR " << std::endl;
+
+
+    while (iterator.hasMoreElements()){
+
+        std::cout  <<" ENCUETNRA ELEMENTO " << std::endl;
+
+
+        Ogre::SceneNode* nodoCasillaTemporal = static_cast<Ogre::SceneNode*>(iterator.getNext());
+
+        std::cout  <<   nodoCasillaTemporal->getName() << std::endl;
+        std::cout  <<   nodoCasillaTemporal->getPosition() << std::endl;
+
+        int numeroCasilla = (-nodoCasillaTemporal->getPosition().x/10)*8+(-nodoCasillaTemporal->getPosition().z/10);
+
+        if (nodoCasillaTemporal->getChildIterator().hasMoreElements()){
+
+            Ogre::SceneNode* nodoFichaTemporal =  static_cast<Ogre::SceneNode*>(nodoCasillaTemporal->getChild(0));
+            std::cout  << "ENCUENTRA FICHA EN LA CASILLA: " << std::endl;
+            std::cout  << nodoFichaTemporal->getName() << std::endl;
+            Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
+            std::cout  << "TIPO FICHA: " << std::endl;
+            std::cout  << entidadFichaTemporal->getName()[4] << std::endl;
+
+            if (entidadFichaTemporal->getName()[1] == 'N'){
+                casillas[numeroCasilla] = -traduceFicha(entidadFichaTemporal->getName()[4]);
+
+            }else  casillas[numeroCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
+
+
+
+
+          //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
+
+        }else casillas[numeroCasilla] = 0;
+        // casillas[numCasilla] = 0;
+        numCasilla++;
+
+    }
+
+
+    for(int i=0; i<8;i++){
+        std::cout  <<(i*8)<<"    " << (i*8)+1<<"    " << (i*8)+2<<"    "<<(i*8)+3<<"    "<<(i*8)+4<<"    "<<(i*8)+5<<"    "<<(i*8)+6<<"    "<<(i*8)+7<<std::endl;
+    }
+
+    std::cout  <<"EL RESULTADO: " << std::endl;
+
+
+    for(int i=0; i<8;i++){
+
+
+        std::cout  <<casillas[i*8]<<"    " << casillas[(i*8)+1]<<"    " << casillas[(i*8)+2]<<"    "<<casillas[(i*8)+3]<<"    "<<casillas[(i*8)+4]<<"    "<<casillas[(i*8)+5]<<"    "<<casillas[(i*8)+6]<<"    "<<casillas[(i*8)+7]<<std::endl;
+
+
+    }
+
+    // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
+
+
+
+    return casillas;
+
+
+
+
+
+}
+
+
+
+short EscenaAjedrez::traduceFicha(char tipoFicha)
+{
+    switch (tipoFicha)
+    {
+    case 'P':
+    {
+        return 1;
+    }
+    case 'C':
+    {
+        return 2;
+    }
+    case 'A':
+    {
+        return 3;
+    }
+    case 'T':
+    {
+        return 4;
+    }
+    case 'D':
+    {
+        return 5;
+    }
+    case 'R':
+    {
+        return 6;
+    }
+    default:
+    {
+        return 0;
+    }
+    }
+}
+
 
 //bool EscenaAjedrez::creaFichas(){
 

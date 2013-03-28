@@ -46,6 +46,7 @@ public:
 
 
 
+    Ogre::String Tipo;
 
     virtual bool mueveFicha() = 0;
     virtual bool autorizaFicha(int diferencia[2]) = 0;
@@ -80,7 +81,6 @@ protected:
    //  Stack<byte> ValidMoves; // lista de movimientos válidos
 
 
-    Ogre::String Tipo;
     bool esNegra;
 
     bool muerta;

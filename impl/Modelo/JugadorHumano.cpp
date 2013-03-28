@@ -20,6 +20,6 @@ JugadorHumano::~JugadorHumano()
 
 void JugadorHumano::mueveFicha(){
 
-
+//punteroVentana.capture();
 
 }

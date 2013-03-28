@@ -7,7 +7,7 @@
 //#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 //#include "MenuInicio.h"
 
-#include "../Ventana.h"
+#include "../Vistas/Ventana.h"
 
 //#include "MenuInicial.h"
 //#include <OgreRoot.h>

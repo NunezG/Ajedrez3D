@@ -7,7 +7,7 @@
 #include "FichaReina.h"
 #include "FichaRey.h"
 #include "FichaPeon.h"
-
+#include "Casilla.h"
 
 #define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
 #define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
@@ -19,7 +19,7 @@
 
 
 
-struct Casilla{
+struct testCasilla{
     Ogre::String posicion;
     Ficha* fichaAsociada;
 
@@ -29,7 +29,7 @@ struct Casilla{
 
 struct TableroPrueba{
 
-
+    std::vector<TableroPrueba> vectorMov;
 
      bool BlackCheck;
      bool BlackMate;
@@ -39,6 +39,7 @@ struct TableroPrueba{
 
      int Score;
     Casilla* casillas[64];
+    int* casillasInt;
 
 
     Ficha* fichasNegras[16];
@@ -57,9 +58,6 @@ public:
 
 
 
-
-
-
     ~Tablero(void);
     Ficha* fichasNegras[16];
     Ficha* fichasBlancas[16];
@@ -72,7 +70,9 @@ public:
     int nivel;
 
 
-    bool creaTableroYCasillas(Ogre::SceneManager* mSceneMgr);
+    bool creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
+    Ogre::SceneNode* nodoTablero;
+
     Ogre::SceneNode* nodoCasillero;
     void creaCasillas();
 
@@ -86,7 +86,6 @@ private:
 
 
 
-    Ogre::SceneNode* nodoTablero;
 
 
     Tablero* listaNodos[];
@@ -105,6 +104,7 @@ private:
     int casillas[8][8];
 
     bool turnoNegras;
+
 
 };
 

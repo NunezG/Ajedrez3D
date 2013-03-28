@@ -7,7 +7,7 @@
 #include <OISMouse.h>
 
 #include <OgreRenderWindow.h>
-#include "../Modelo.h"
+#include "../Modelo/Modelo.h"
 
 
 class BaseVistas

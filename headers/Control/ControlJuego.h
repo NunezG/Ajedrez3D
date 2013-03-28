@@ -3,7 +3,9 @@
 
 #include <CEGUI/CEGUISystem.h>
 #include "BaseJuego.h"
-#include "../Modelo.h"
+#include "../Modelo/Modelo.h"
+#include "../ModuloIA.h"
+
 
 
 class  ControlJuego : public BaseJuego

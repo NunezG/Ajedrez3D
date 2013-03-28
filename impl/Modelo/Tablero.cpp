@@ -101,9 +101,15 @@ bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
 bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr){
 
     mSceneMgr = sceneMgr;
-
     Ogre::Entity *entTablero = mSceneMgr->createEntity("test12", "Tablero.mesh");
     entTablero->setQueryFlags(TABLERO);
+
+    objetoOgreAsociado = new ObjetoOgre(mSceneMgr, "Tablero");
+
+    objetoOgreAsociado->creaModelo3D("Tablero");
+
+
+
 
     nodoTablero = mSceneMgr->createSceneNode("NodoTablero");
 
@@ -151,7 +157,7 @@ void Tablero::creaCasillas()
             }
         }
         saux.str("");
-        saux << columnas[contColumna] << Ogre::StringConverter::toString(contFila+1);
+        saux << columnas[contColumna] << Ogre::StringConverter::toString( contFila + 1 );
 
         //SI ES PAR SE USA LA CASILLA NEGRA
         if (i%2 == 0){
@@ -159,6 +165,11 @@ void Tablero::creaCasillas()
             mCasilla->setMaterialName("MaterialCasillaNegra");
         }else mCasilla = mSceneMgr->createEntity("(B)"+saux.str(), "Casilla.mesh");
         mCasilla->setQueryFlags(CASILLA);
+
+        ObjetoOgre* objeto = new ObjetoOgre( mSceneMgr, "Casilla" + saux.str() );
+
+        objeto->creaModelo3D("Casilla");
+
 
         mNodoCasilla = mSceneMgr->createSceneNode(saux.str());
         mNodoCasilla->translate(-10*contFila,0,-10*contColumna);
@@ -251,8 +262,15 @@ void Tablero::creaVasallos(){
     //CREA LAS PIEZAS DOBLES
     for (int i = 0; i < 4; ++i)
     {
+
+
+
         saux.str("");
         saux <<"(T)Torre"<< Ogre::StringConverter::toString(i);
+
+        ObjetoOgre* objeto = new ObjetoOgre(mSceneMgr, saux.str());
+        objeto->creaModelo3D("Torre");
+
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
         if (i%2 == 0)
         {
@@ -280,6 +298,13 @@ void Tablero::creaVasallos(){
 
         saux.str("");
         saux <<"(C)Caballo"<< Ogre::StringConverter::toString(i);
+
+
+
+        objeto = new ObjetoOgre(mSceneMgr, saux.str());
+        objeto->creaModelo3D("Caballo");
+
+
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
         if (i%2 == 0)
         {
@@ -305,6 +330,9 @@ void Tablero::creaVasallos(){
         saux <<"(A)Alfil"<< Ogre::StringConverter::toString(i);
 
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
+
+        objeto = new ObjetoOgre(mSceneMgr, saux.str());
+        objeto->creaModelo3D("Alfil");
 
         if (i%2 == 0)
         {
@@ -343,6 +371,12 @@ void Tablero::creaNobleza(){
         saux.str("");
         saux <<"(D)Reina"<< Ogre::StringConverter::toString(i);
 
+
+
+        ObjetoOgre* objeto = new ObjetoOgre(mSceneMgr, saux.str());
+        objeto->creaModelo3D("Reina");
+
+
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
         if (i%2 == 0){
             mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
@@ -363,6 +397,11 @@ void Tablero::creaNobleza(){
 
         saux.str("");
         saux <<"(R)Rey"<< Ogre::StringConverter::toString(i);
+
+
+        objeto = new ObjetoOgre(mSceneMgr, saux.str());
+        objeto->creaModelo3D("Rey");
+
 
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
         if (i%2 != 0)
@@ -403,6 +442,11 @@ void Tablero::creaPeones(){
         saux <<"(P)Peon_"<< Ogre::StringConverter::toString(i);
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
 
+
+        ObjetoOgre* objeto = new ObjetoOgre(mSceneMgr, saux.str());
+        objeto->creaModelo3D("Peon");
+
+
         if (i%2 == 0)
         {
             mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Peon.mesh");
@@ -426,6 +470,9 @@ void Tablero::creaPeones(){
 
 
 }
+
+
+
 
 
 /*

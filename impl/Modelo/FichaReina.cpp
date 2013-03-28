@@ -29,6 +29,7 @@ bool FichaReina::mueveFicha(){
 
 
 
+
 }
 
 bool FichaReina::autorizaFicha(int diferencia[2]){

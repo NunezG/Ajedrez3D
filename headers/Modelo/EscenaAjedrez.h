@@ -1,6 +1,23 @@
 #ifndef __EscenaAjedrez_
 #define __EscenaAjedrez_
 
+
+
+
+
+#include <OgreCamera.h>
+#include <OgreEntity.h>
+#include <OgreLogManager.h>
+#include <OgreRoot.h>
+#include <OgreViewport.h>
+#include <OgreSceneManager.h>
+#include <OgreRenderWindow.h>
+#include <OgreConfigFile.h>
+
+
+
+
+
 #include <Ogre.h>
 #include "InputMan.h"
 #include "Tablero.h"
@@ -60,6 +77,11 @@ public:
     Ogre::String columnas;
 
     // bool creaFichas();
+    Tablero* tablero;
+
+    int* traduceTablero();
+
+
 private:   
 
     void creaIluminacion();
@@ -91,9 +113,11 @@ private:
 
     Ogre::Camera* mCamera;
 
+    short traduceFicha(char tipoFicha);
+
+
     //void creaFichas();
 
-    Tablero* tablero;
 };
 
 #endif

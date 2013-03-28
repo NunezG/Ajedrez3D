@@ -1,6 +1,7 @@
 #ifndef __Autorizaciones_
 #define __Autorizaciones_
 #include <Ogre.h>
+#include "Tablero.h"
 
 class Autorizaciones
 {

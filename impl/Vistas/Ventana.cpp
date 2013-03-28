@@ -10,7 +10,8 @@ Ventana::Ventana() :
     mRoot(Ogre::Root::getSingletonPtr()),
     mTimer(mRoot->getTimer()),
     mSceneMgr(0),
-    vista(0)
+    vista(0),
+    capturaRaton(true)
 {  
 }
 
@@ -34,7 +35,6 @@ Ogre::RenderWindow* Ventana::getVentana(){
 void Ventana::capture(){
     //Need to capture/update each device
     mMouse->capture();
-    mKeyboard->capture();
 }
 
 bool areFrameStatsVisible()
@@ -248,7 +248,11 @@ int Ventana::getFPS()
 bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
     injectTimePulse(evt);
+    mKeyboard->capture();
+
+    if (capturaRaton){
     capture();
+    }
     statUpdate(evt);
 
     std::cout << "IF" << std::endl;
@@ -269,11 +273,11 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 {
-    if (mPantalla==1)
+    if (mPantalla == 1)
     {
         vista= new VistaAjedrez(mWindow);
     }
-    else if (mPantalla==2)
+    else if (mPantalla == 2)
     {
         vista= new VistaAjedrezSolo(mWindow);
     }
