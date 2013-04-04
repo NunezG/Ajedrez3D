@@ -15,7 +15,7 @@ private:
 
     static bool autorizaRey(Ogre::Vector3 diferencia);
     static bool autorizaReina(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
-    static bool autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado, Ogre::Vector3 seleccionado);
+    static bool autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado, Ogre::Vector3 seleccionado, bool turnoNegras);
     static bool autorizaAlfil(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
     static bool autorizaTorre(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
     static bool autorizaCaballo(Ogre::Vector3 diferencia);

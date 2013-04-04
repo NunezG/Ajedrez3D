@@ -41,7 +41,7 @@ bool MenuInicio::iniciaVista()
 
     Ogre::LogManager::getSingletonPtr()->logMessage("***sigue**");
     modelo->menu->creaBoton(CEGUI::Event::Subscriber(&MenuInicio::botonJuegoTurnos, this),"Jugar por turnos");
-    modelo->menu->creaBoton(CEGUI::Event::Subscriber(&MenuInicio::botonJuegoSolo, this), "Jugar contra la IA");
+    modelo->menu->creaBoton(CEGUI::Event::Subscriber(&MenuInicio::botonJuegoSolo, this), "Jugar contra su puta madre");
 
 /*
     //Boton Jugar por turnos

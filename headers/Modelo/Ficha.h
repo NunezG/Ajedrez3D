@@ -14,13 +14,13 @@ enum ColorFicha
 
 enum tipoFicha
 {
-    Rey,
-    Reina,
+    Vacio,
     Peon,
-    Alfil,
     Caballo,
+    Alfil,
     Torre,
-    Ninguno
+    Reina,
+    Rey
 };
 
 

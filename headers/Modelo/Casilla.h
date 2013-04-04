@@ -5,6 +5,16 @@
 
 class Casilla
 {
+
+
+    //struct testCasilla{
+      //  Ogre::String posicion;
+       // Ficha* fichaAsociada;
+
+
+    //};
+
+
 public:
 
 

@@ -17,9 +17,11 @@ bool Autorizaciones::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::Sc
     Ogre::Entity *mEntidadFicha = static_cast<Ogre::Entity*>(nodoSeleccionado->getAttachedObject(0));
     Ogre::String mNombreUsado = mEntidadFicha->getName();
 
-  //  std::cout  << "PRUEBA DE AUTORIZACIONES CON CLASES "<< std::endl;
+    //  std::cout  << "PRUEBA DE AUTORIZACIONES CON CLASES "<< std::endl;
 
     //std::cout  <<purebaCasilla->fichaAsociada->Tipo << std::endl;
+
+
 
     switch (mNombreUsado[4])
     {
@@ -50,7 +52,7 @@ bool Autorizaciones::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::Sc
             seleccionado.x = -(70 + seleccionado.x);
             diferencia.x = -diferencia.x;
         }
-        return autorizaPeon(diferencia, nodoSobrevolado, seleccionado);
+        return autorizaPeon(diferencia, nodoSobrevolado, seleccionado, turnoNegras);
         break;
 
     default:
@@ -59,19 +61,36 @@ bool Autorizaciones::autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::Sc
     }
 }
 
-bool Autorizaciones::autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado, Ogre::Vector3 seleccionado)
+bool Autorizaciones::autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode* nodoSobrevolado, Ogre::Vector3 seleccionado, bool turnoNegras)
 {
-    if (diferencia==Ogre::Vector3(-10,0,0)
-            || (diferencia==Ogre::Vector3(-20,0,0)
-                && seleccionado.x == -10))
+    bool salto = false;
+
+    if (diferencia==Ogre::Vector3(-20,0,0)
+            && seleccionado.x == -10)  salto = true;
+
+    if (diferencia==Ogre::Vector3(-10,0,0))
     {
+
+
         if (nodoSobrevolado->getChildIterator().hasMoreElements())
             return false;
         else return true;
 
-    } else if (nodoSobrevolado->getChildIterator().hasMoreElements()
-               && (diferencia==Ogre::Vector3(-10,0,10)
-                   || diferencia==Ogre::Vector3(-10,0,-10)))
+    }else if(salto)
+    {
+
+
+            std::cout  << "SALTA DOS CASILLAS"<< std::endl;
+
+
+            if(!turnoNegras)return verificaCamino(diferencia, nodoSobrevolado, 1);
+            else return verificaCamino(diferencia, nodoSobrevolado, 2);
+
+
+
+    }   else if (nodoSobrevolado->getChildIterator().hasMoreElements()
+                 && (diferencia==Ogre::Vector3(-10,0,10)
+                     || diferencia==Ogre::Vector3(-10,0,-10)))
         return true;
     else return false;
 

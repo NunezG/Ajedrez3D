@@ -13,6 +13,7 @@ EscenaAjedrez::EscenaAjedrez(void) :
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , columnas("ABCDEFGH")
+  , peonesPromocionados(0)
 {
 }
 //-------------------------------------------------------------------------------------
@@ -96,6 +97,8 @@ void EscenaAjedrez::createScene()
 }
 
 
+
+
 //-------------------------------------------------------------------------------------
 bool EscenaAjedrez::FichaComestible()
 {
@@ -109,7 +112,6 @@ bool EscenaAjedrez::FichaComestible()
     if((!esTurnoNegras() && ent->getName()[1] == 'N')
             || (esTurnoNegras() && ent->getName()[1] == 'B'))
     {
-        std::cout << "ES COMESTIBLE" << std::endl;
 
         return true;
     }
@@ -125,13 +127,11 @@ EscenaAjedrez* EscenaAjedrez::getSingletonPtr()
 
 void EscenaAjedrez::apagaCasilla(Ogre::SceneNode* casilla)
 {
-    std::cout << "APAGA CASILLA " << std::endl;
 
     casilla->showBoundingBox(false);
     Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
     const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
     if (mNombreEntidad[1] == 'B'){
-        std::cout << "BLANCA " << std::endl;
 
         mEntidadCasilla->setMaterialName("MaterialCasillaBlanca");
     }else mEntidadCasilla->setMaterialName("MaterialCasillaNegra");
@@ -141,11 +141,9 @@ void EscenaAjedrez::iluminaCasilla(Ogre::SceneNode* casilla){
     casilla->showBoundingBox(true);
     Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
     const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
-    std::cout << "ILUMINA CASILLA " << std::endl;
 
     if (mNombreEntidad[1] == 'B')
     {
-        std::cout << "BLANCA " << std::endl;
 
         mEntidadCasilla->setMaterialName("MaterialCasillaBlancaIlum");
     }else mEntidadCasilla->setMaterialName("MaterialCasillaNegraIlum");
@@ -181,15 +179,26 @@ void EscenaAjedrez::DistanciaCamara(int distanciaRelativa)
 }
 
 bool EscenaAjedrez::esTurnoNegras(){
-    std::cout << "ES TURNO NEGRAS: " << std::endl;
-    std::cout <<turnoNegras << std::endl;
-    std::cout << "PASA " << std::endl;
-
     return turnoNegras;
 }
 
 void EscenaAjedrez::cambiaTurno(){
     //CAMBIA TURNO
+
+
+    if(getNodoFichaSeleccionada()->getName()[7] != 'P'
+            && (getNodoFichaSeleccionada()->getName()[1] == 'P'
+                && ((!esTurnoNegras()
+                     && getNodoCasillaSobrevolada()->getName()[1] == '8')
+                    || (esTurnoNegras()
+                        && getNodoCasillaSobrevolada()->getName()[1] == '1' ))))
+    {
+
+        promocionaPeon(getNodoFichaSeleccionada());
+    }
+
+
+
     turnoNegras= !turnoNegras;
 }
 
@@ -322,73 +331,175 @@ void EscenaAjedrez::promocionaPeon(Ogre::SceneNode* nodoFicha)
     std::stringstream saux;
 
     saux.str("");
-    saux <<"(N)Reina 3";
+    saux << "(D)(PR)Reina_" << peonesPromocionados;
 
     //    nodo = mSceneMgr->createSceneNode(saux.str());
 
     nodoFicha->detachAllObjects();
 
-    entidadFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
+    // entidadFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
+
+    if (!turnoNegras)
+    {
+        entidadFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
+        entidadFicha->setQueryFlags(BLANCAS);
+    }else
+    {
+        entidadFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Reina.mesh");
+        entidadFicha->setQueryFlags(NEGRAS);
+        entidadFicha->setMaterialName("MaterialFichaNegra");
+        //mNodoFicha->yaw(Ogre::Degree(180));
+        //  mNodoFicha->translate(70,0,70);
+    }
+    entidadFicha->setCastShadows(true);
 
     nodoFicha->attachObject(entidadFicha);
+    peonesPromocionados++;
+}
+
+int* EscenaAjedrez::mueveIA(int origen, int destino)
+{
+
+    std::cout  << "MUEVE IA " << std::endl;
+
+    /*
+    int colOrigen = tableroElegido->movimiento[0]/12;
+
+    int filaOrigen = tableroElegido->movimiento[0]%12;
+
+    int colDestino = tableroElegido->movimiento[1]/12;
+
+    int filaDestino = tableroElegido->movimiento[1]%12;
+
+
+*/
+
+    int columanOrigen = (origen%12)-2;
+    int filaOrigen =   (origen/12)-1;
+
+
+    int columanDestino = (destino%12)-2;
+    int filaDestino =   (destino/12)-1;
+
+
+
+
+    std::stringstream origenBaseOcho;
+
+    char letra = tablero->columnas[columanOrigen];
+
+
+    std::cout  << "letra: "<< letra << std::endl;
+
+    origenBaseOcho.str("");
+    origenBaseOcho<< letra ;
+
+    origenBaseOcho<< filaOrigen;
+
+    // char columna = ;
+
+
+    char letraDestino = tablero->columnas[columanDestino];
+
+    std::cout  << "letraDestino: "<< letraDestino << std::endl;
+
+
+    std::stringstream destinoBaseOcho;
+
+    destinoBaseOcho.str("");
+
+    destinoBaseOcho <<letraDestino;
+    destinoBaseOcho<<filaDestino;
+
+    std::cout  << "columanOrigen "<< columanOrigen << std::endl;
+
+    std::cout  << "filaOrigen " << filaOrigen << std::endl;
+
+
+
+    std::cout  << "origenBaseOcho "<< origenBaseOcho.str() << std::endl;
+    std::cout  << "destinoBaseOcho "<< destinoBaseOcho.str() << std::endl;
+
+
+    actualizaTablero(origenBaseOcho.str(), destinoBaseOcho.str());
+
+
+
 }
 
 
+
+int* EscenaAjedrez::actualizaTablero(Ogre::String casillaOrigen,Ogre::String casillaDestino)
+{
+    Ogre::SceneNode* nodoCasillas = tablero->nodoCasillero;
+
+    std::cout  << "actualizaTablero  : "<< casillaOrigen<< std::endl;
+    std::cout  << "actualizaTablero  : "<< casillaDestino<< std::endl;
+
+    Ogre::SceneNode* nodoCasillaTemporal = static_cast<Ogre::SceneNode*>(nodoCasillas->getChild(casillaOrigen));
+    std::cout  << "nodoCasillaTemporal  : "<< nodoCasillaTemporal->getName()<< std::endl;
+
+    if (nodoCasillaTemporal->getChildIterator().hasMoreElements())
+    {
+        std::cout  << "actualizaTablero3333333333333333 " << std::endl;
+
+        Ogre::SceneNode* nodoFichaTemporal =  static_cast<Ogre::SceneNode*>(nodoCasillaTemporal->getChild(0));
+
+        // Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
+
+        std::cout  << "actualizaTablero 4444444444444444444" << std::endl;
+
+        nodoCasillaTemporal->removeAllChildren();
+
+        // columna = tablero->columnas[casillaDestino[0]];
+
+        nodoCasillaTemporal = static_cast<Ogre::SceneNode*>(nodoCasillas->getChild(casillaDestino));
+
+        std::cout  << "actualizaTablero 5555555555555555555555555555555555555555" << std::endl;
+
+        nodoCasillaTemporal->removeAllChildren();
+
+        nodoCasillaTemporal->addChild(nodoFichaTemporal);
+
+        //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
+
+        //  nodoCasillas
+        //tableroElegido->casillasInt;
+
+        setNodoCasillaSobrevolada(nodoCasillaTemporal);
+
+        setNodoFichaSeleccionada(nodoFichaTemporal);
+        cambiaTurno();
+
+    }
+}
+
 int* EscenaAjedrez::traduceTablero()
 {
-
     int *casillas = new int[64];
     int numCasilla = 0;
-    std::cout  <<" traducTablero 1 " << std::endl;
-
-    std::cout  <<" nombre tablero " << std::endl;
-
-    // std::cout  <<    tablero->nodoTablero->getName() << std::endl;
-
-
-    std::cout  <<" nombre casillero " << std::endl;
-
-
-
 
     Ogre::SceneNode* nodoTest = tablero->nodoCasillero;
-
-    std::cout  <<    nodoTest->getName() << std::endl;
-
-
-    std::cout  <<" traducTablero  2" << std::endl;
 
     // Ogre::Node::ChildNodeIterator iterator = _nodoNuevo->getChildIterator();
     Ogre::Node::ChildNodeIterator iterator = nodoTest->getChildIterator();
 
 
-    std::cout  <<iterator.hasMoreElements() << std::endl;
-
-
-
-    std::cout  <<" ITERADOR " << std::endl;
-
-
     while (iterator.hasMoreElements()){
-
-        std::cout  <<" ENCUETNRA ELEMENTO " << std::endl;
-
 
         Ogre::SceneNode* nodoCasillaTemporal = static_cast<Ogre::SceneNode*>(iterator.getNext());
 
-        std::cout  <<   nodoCasillaTemporal->getName() << std::endl;
-        std::cout  <<   nodoCasillaTemporal->getPosition() << std::endl;
+        int filaTemp = -nodoCasillaTemporal->getPosition().x/10;
 
-        int numeroCasilla = (-nodoCasillaTemporal->getPosition().x/10)*8+(-nodoCasillaTemporal->getPosition().z/10);
+        int columnaTemp = -nodoCasillaTemporal->getPosition().z/10;
 
-        if (nodoCasillaTemporal->getChildIterator().hasMoreElements()){
+        int numeroCasilla = filaTemp*8+columnaTemp;
 
+        if (nodoCasillaTemporal->getChildIterator().hasMoreElements())
+        {
             Ogre::SceneNode* nodoFichaTemporal =  static_cast<Ogre::SceneNode*>(nodoCasillaTemporal->getChild(0));
-            std::cout  << "ENCUENTRA FICHA EN LA CASILLA: " << std::endl;
-            std::cout  << nodoFichaTemporal->getName() << std::endl;
+
             Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
-            std::cout  << "TIPO FICHA: " << std::endl;
-            std::cout  << entidadFichaTemporal->getName()[4] << std::endl;
 
             if (entidadFichaTemporal->getName()[1] == 'N'){
                 casillas[numeroCasilla] = -traduceFicha(entidadFichaTemporal->getName()[4]);
@@ -398,7 +509,7 @@ int* EscenaAjedrez::traduceTablero()
 
 
 
-          //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
+            //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
 
         }else casillas[numeroCasilla] = 0;
         // casillas[numCasilla] = 0;
@@ -406,12 +517,6 @@ int* EscenaAjedrez::traduceTablero()
 
     }
 
-
-    for(int i=0; i<8;i++){
-        std::cout  <<(i*8)<<"    " << (i*8)+1<<"    " << (i*8)+2<<"    "<<(i*8)+3<<"    "<<(i*8)+4<<"    "<<(i*8)+5<<"    "<<(i*8)+6<<"    "<<(i*8)+7<<std::endl;
-    }
-
-    std::cout  <<"EL RESULTADO: " << std::endl;
 
 
     for(int i=0; i<8;i++){

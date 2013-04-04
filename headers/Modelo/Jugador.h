@@ -10,7 +10,7 @@ public:
     ~Jugador(void);
     Jugador();
 
-    TableroPrueba tableroInicial;
+   // TableroPrueba tableroInicial;
 
 protected:
 

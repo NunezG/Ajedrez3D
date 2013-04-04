@@ -18,84 +18,8 @@ Tablero::~Tablero()
 }
 
 
-bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
-{
-    // fichas = new Ficha**;
-
-    //Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-
-    // Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-
-    // const String columnas = "ABCDEFGH";
-
-    int colDestino = -(final[1]/10);
-    int filaDestino = -(final[0]/10)+1;
-    int numCasillasX = diferencia[0]/10;
-    int numCasillasZ = diferencia[1]/10;
-
-    int colZ, filaX, dist;
-
-    if (camino == 1)  //MOVIMIENTO A LA DERECHA
-    {
-        colZ = colDestino;
-        dist = -numCasillasX;
-    }
-    else if (camino == 2) //MOVIMIENTO A LA IZQUIERDA
-    {
-        colZ = colDestino;
-        dist = numCasillasX;
-    }
-    else if (camino == 3) //MOVIMIENTO HACIA ARRIBA
-    {
-        filaX = filaDestino;
-        dist = numCasillasZ;
-    }
-    else if (camino == 4) //MOVIMIENTO HACIA ABAJO
-    {
-        filaX = filaDestino;
-        dist = -numCasillasZ;
-    }
-    else if (camino == 5) dist = numCasillasZ; //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
-    else if (camino == 6) dist = numCasillasZ; //MOVIMIENTO DIAGONAL ARRIBA DERECHA
-    else if (camino == 7) dist = -numCasillasZ; //MOVIMIENTO DIAGONAL ABAJO IZQUIERDA
-    else if (camino == 8) dist = -numCasillasZ; //MOVIMIENTO DIAGONAL ABAJO DERECHA
-
-    for (int i = 1; i < dist; i++)
-    {
-        if (camino == 1) filaX = filaDestino-i;  // DERECHA
-        else if (camino == 2) filaX = filaDestino+i; // IZQUIERDA
-        else if (camino == 3) colZ = colDestino+i; // MOVIMIENTO HACIA ARRIBA
-        else if (camino == 4) colZ = colDestino-i; // MOVIMIENTO HACIA ABAJO
-        else if (camino == 5)
-        { //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
-            colZ = colDestino+i;
-            filaX = filaDestino+i;
-        }
-        else if (camino == 6)
-        { //MOVIMIENTO DIAGONAL ARRIBA DERECHA
-            colZ = colDestino+i;
-            filaX = filaDestino-i;
-        }
-        else if (camino == 7) //MOVIMIENTO DIAGONAL ABAJO IZQUIERDA
-        {
-            colZ = colDestino-i;
-            filaX = filaDestino+i;
-        }
-        else if (camino == 8) //MOVIMIENTO DIAGONAL ABAJO DERECHA
-        {
-            colZ = colDestino-i;
-            filaX = filaDestino-i;
-        }
-
-        // Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[colZ] + Ogre::StringConverter::toString(filaX)));
-        if (casillas[colZ][filaX] > 0)
-            return false;
-    }
-    return true;
 
 
-
-}
 
 
 bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr){
@@ -141,44 +65,54 @@ void Tablero::creaCasillas()
     bool inversa = false;
     std::stringstream saux;
 
+
+    for (int i = 0; i < 8; ++i)
+    {
+
+        for (int y = 0; y < 8; ++y)
+        {
+
+
+        }
+
+    }
+
     for (int i = 0; i < 64; ++i)
     {
-        if (inversa){
-            if (contFila < 0){
-                contColumna++;
-                contFila = 0;
-                inversa = !inversa;
-            }
-        }else{
-            if (contFila == 8){
-                contColumna++;
-                contFila = 7;
-                inversa = !inversa;
-            }
+        if (contColumna == 8)
+        {
+            contFila++;
+            contColumna = 0;
+
         }
         saux.str("");
         saux << columnas[contColumna] << Ogre::StringConverter::toString( contFila + 1 );
 
-        //SI ES PAR SE USA LA CASILLA NEGRA
-        if (i%2 == 0){
+        //SI ES COLUMNA PAR Y FILA IMPAR: CASILLA NEGRA
+        if ((i%2 == 0
+             && contFila % 2 != 0)
+                ||(i%2 != 0
+                   && contFila % 2 == 0) )
+        {
             mCasilla = mSceneMgr->createEntity("(N)"+saux.str(), "Casilla.mesh");
             mCasilla->setMaterialName("MaterialCasillaNegra");
-        }else mCasilla = mSceneMgr->createEntity("(B)"+saux.str(), "Casilla.mesh");
+        } else mCasilla = mSceneMgr->createEntity("(B)"+saux.str(), "Casilla.mesh");
+
         mCasilla->setQueryFlags(CASILLA);
 
         ObjetoOgre* objeto = new ObjetoOgre( mSceneMgr, "Casilla" + saux.str() );
 
         objeto->creaModelo3D("Casilla");
 
-
         mNodoCasilla = mSceneMgr->createSceneNode(saux.str());
         mNodoCasilla->translate(-10*contFila,0,-10*contColumna);
         mNodoCasilla->attachObject(mCasilla);
         //std::cout  << "AÑADE CASILLA " << mCasilla->getName() << std::endl;
+
         nodoCasillero->addChild(mNodoCasilla);
 
-        if (inversa) contFila--;
-        else contFila++;
+
+        contColumna++;
     }
 }
 
@@ -240,7 +174,7 @@ bool Tablero::creaFichasAjedrez(Ogre::SceneManager* mSceneMgr){
     //entFicha = mSceneMgr->createEntity(nombre, nombre.append(".mesh");
 
 
-   // return nodoTablero;
+    // return nodoTablero;
 
 }
 
@@ -378,11 +312,13 @@ void Tablero::creaNobleza(){
 
 
         mNodoFicha = mSceneMgr->createSceneNode(saux.str());
-        if (i%2 == 0){
+        if (i%2 == 0)
+        {
             mFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
             mFicha->setQueryFlags(BLANCAS);
             nombreFicha = columnas[3]+ Ogre::String("1");
-        }else{
+        }else
+        {
             mFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Reina.mesh");
             nombreFicha = columnas[3]+ Ogre::String("8");
 
@@ -467,6 +403,89 @@ void Tablero::creaPeones(){
         mNodoFicha->attachObject(mFicha);
         nodoCasillero -> getChild(nombreFicha)->addChild(mNodoFicha);
     }
+
+
+}
+
+
+
+
+
+bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
+{
+    // fichas = new Ficha**;
+
+    //Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
+
+    // Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
+
+    // const String columnas = "ABCDEFGH";
+
+    int colDestino = -(final[1]/10);
+    int filaDestino = -(final[0]/10)+1;
+    int numCasillasX = diferencia[0]/10;
+    int numCasillasZ = diferencia[1]/10;
+
+    int colZ, filaX, dist;
+
+    if (camino == 1)  //MOVIMIENTO A LA DERECHA
+    {
+        colZ = colDestino;
+        dist = -numCasillasX;
+    }
+    else if (camino == 2) //MOVIMIENTO A LA IZQUIERDA
+    {
+        colZ = colDestino;
+        dist = numCasillasX;
+    }
+    else if (camino == 3) //MOVIMIENTO HACIA ARRIBA
+    {
+        filaX = filaDestino;
+        dist = numCasillasZ;
+    }
+    else if (camino == 4) //MOVIMIENTO HACIA ABAJO
+    {
+        filaX = filaDestino;
+        dist = -numCasillasZ;
+    }
+    else if (camino == 5) dist = numCasillasZ; //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
+    else if (camino == 6) dist = numCasillasZ; //MOVIMIENTO DIAGONAL ARRIBA DERECHA
+    else if (camino == 7) dist = -numCasillasZ; //MOVIMIENTO DIAGONAL ABAJO IZQUIERDA
+    else if (camino == 8) dist = -numCasillasZ; //MOVIMIENTO DIAGONAL ABAJO DERECHA
+
+    for (int i = 1; i < dist; i++)
+    {
+        if (camino == 1) filaX = filaDestino-i;  // DERECHA
+        else if (camino == 2) filaX = filaDestino+i; // IZQUIERDA
+        else if (camino == 3) colZ = colDestino+i; // MOVIMIENTO HACIA ARRIBA
+        else if (camino == 4) colZ = colDestino-i; // MOVIMIENTO HACIA ABAJO
+        else if (camino == 5)
+        { //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
+            colZ = colDestino+i;
+            filaX = filaDestino+i;
+        }
+        else if (camino == 6)
+        { //MOVIMIENTO DIAGONAL ARRIBA DERECHA
+            colZ = colDestino+i;
+            filaX = filaDestino-i;
+        }
+        else if (camino == 7) //MOVIMIENTO DIAGONAL ABAJO IZQUIERDA
+        {
+            colZ = colDestino-i;
+            filaX = filaDestino+i;
+        }
+        else if (camino == 8) //MOVIMIENTO DIAGONAL ABAJO DERECHA
+        {
+            colZ = colDestino-i;
+            filaX = filaDestino-i;
+        }
+
+        // Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[colZ] + Ogre::StringConverter::toString(filaX)));
+        if (casillas[colZ][filaX] > 0)
+            return false;
+    }
+    return true;
+
 
 
 }

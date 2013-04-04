@@ -41,8 +41,6 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
     if(punteroVentana -> pantallaActual() == 0)
     {
-        std::cout << "PANTALLA ACTUAL ES 0" << std::endl;
-
         if(punteroVentana -> mPantalla > 0){
             std::cout << "CAMBIA DE PANTALLA " << std::endl;
 
@@ -53,16 +51,6 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }  else if(punteroVentana -> mPantalla == 2)
     {
-        std::cout << "PANTALLA JUEGO CONTRA IA" << std::endl;
-
-        std::cout << "MODELO: " << std::endl;
-
-
-        std::cout << modelo->escena->esTurnoNegras() << std::endl;
-
-
-        std::cout << "ESPERACALCULO: " << std::endl;
-        std::cout  <<esperaCalculo << std::endl;
 
 
         if (modelo->escena->esTurnoNegras() && esperaCalculo == false)
@@ -70,8 +58,9 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
             punteroVentana->capturaRaton = false;
 
             calculaMovimiento();
-            esperaCalculo==true;
-        }
+            //  esperaCalculo=true;
+        }else punteroVentana->capturaRaton = true;
+
     }
 
 
@@ -150,23 +139,63 @@ void ControlJuego::calculaMovimiento(){
     std::cout << "CALCULA MOVIMIENTO" << std::endl;
 
 
-
-
-
     ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
 
+
+
+    //¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡PASALO A VITA AJEDREZ SOLO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     modulo->construyeArbol(modelo->escena->traduceTablero());
 
-    std::cout << "ACABA DE TRADUCR TABLERO" << std::endl;
+
+
+    std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
+    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
+    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
+
+
+    modelo->escena->mueveIA(modulo->tableroElegido->movimiento[0],modulo->tableroElegido->movimiento[1]);
+
+    std::cout  << "DELETE TABLEROELEGIDO EN COTROL: "<<  std::endl;
+
+
+    modulo->tableroElegido = NULL;
+
+
+    std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
+
+
+    delete modulo->tableroPadre;
+
+
+    std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
+    modulo->tableroPadre = NULL;
+
+    modulo = NULL;
+
+
+    //   std::cout   << "BORRA TABLERO " << std::endl;
+
+
+    //  delete modulo->tableroElegido;
+
+
+    //   std::cout  << "NULLEA TABLERO " << std::endl;
+
+
+    //  modulo->tableroElegido = NULL;
+
+    //modulo->ejecutaMovimiento(mod);
+
+
 
 
     //INICIA LA IA PARA CALCULAR LA FICHA A MOVER
 
-//PRIMERO HAZLO CON EL TABLERO Y LUEGO TE OCUPAS DE LAS FICHAS
+    //PRIMERO HAZLO CON EL TABLERO Y LUEGO TE OCUPAS DE LAS FICHAS
     //EMPEZAMOS POR TODOS LOS MOVIMIENTOS DE TODOS LOS PEONES
-//ModuloIA modulo;
+    //ModuloIA modulo;
 
-   // modelo->escena->tablero->movimientosPeon();
+    // modelo->escena->tablero->movimientosPeon();
 
 
 

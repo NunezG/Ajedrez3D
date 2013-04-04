@@ -1,6 +1,11 @@
 #ifndef __Tablero_
 #define __Tablero_
 
+#include <vector>
+#include <string>
+#include <iostream>
+
+
 #include "FichaAlfil.h"
 #include "FichaCaballo.h"
 #include "FichaTorre.h"
@@ -9,46 +14,21 @@
 #include "FichaPeon.h"
 #include "Casilla.h"
 
-#define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
-#define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
-#define TABLERO 1 << 3
-#define CASILLA 1 << 0  // Mascara para el escenario
 
 
 
-
-
-
-struct testCasilla{
-    Ogre::String posicion;
-    Ficha* fichaAsociada;
-
+enum enColummas{
+    COL_A,
+    COL_B,
+    COL_C,
+    COL_D,
+    COL_E,
+    COL_F,
+    COL_G,
+    COL_H
 
 };
 
-
-struct TableroPrueba{
-
-    std::vector<TableroPrueba> vectorMov;
-
-     bool BlackCheck;
-     bool BlackMate;
-     bool WhiteCheck;
-     bool WhiteMate;
-     bool StaleMate;
-
-     int Score;
-    Casilla* casillas[64];
-    int* casillasInt;
-
-
-    Ficha* fichasNegras[16];
-    Ficha* fichasBlancas[16];
-   // int casillas[8][8];
-    TableroPrueba* tableroHermano;
-    TableroPrueba* tableroHijo;
-
-};
 
 
 // ESTE SERÁ EL NODO USADO EN LOS ÁRBOLES
@@ -56,34 +36,55 @@ class Tablero
 {
 public:
 
-
-
     ~Tablero(void);
-    Ficha* fichasNegras[16];
-    Ficha* fichasBlancas[16];
-
 
     Tablero(void);
-
-    bool creaFichasAjedrez(Ogre::SceneManager* sceneMgr);
 
     int nivel;
 
 
+    std::string columnas;
+
+   Ogre::SceneManager* mSceneMgr;
+
+
+
+
+    bool creaFichasAjedrez(Ogre::SceneManager* sceneMgr);
+
     bool creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
-    Ogre::SceneNode* nodoTablero;
 
     Ogre::SceneNode* nodoCasillero;
-    void creaCasillas();
 
-    Ogre::String columnas;
 
-    Ogre::SceneManager* mSceneMgr;
+
 
 private:
 
+
+
+    Ficha* fichasNegras[16];
+    Ficha* fichasBlancas[16];
+
+    int casillas[8][8];
+
+    void creaCasillas();
+
+
+    Ogre::SceneNode* nodoTablero;
+
+
+
     ObjetoOgre* objetoOgreAsociado;
 
+
+
+    void creaFichas();
+
+    void creaPeones();
+    void creaNobleza();
+    void creaVasallos();
+    //void creaFichas();
 
 
 
@@ -91,21 +92,12 @@ private:
     Tablero* listaNodos[];
 
 
-    Ogre::Entity *entTablero;
-
     bool verificaCamino(int inicial[2], int final[2], int camino);
 
-    void creaFichas();
 
-    void creaPeones();
-    void creaNobleza();
-    void creaVasallos();
 
-    int casillas[8][8];
 
     bool turnoNegras;
-
-
 };
 
 #endif

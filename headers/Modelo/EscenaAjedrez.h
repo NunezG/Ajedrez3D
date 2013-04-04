@@ -15,16 +15,30 @@
 #include <OgreConfigFile.h>
 
 
-
-
-
 #include <Ogre.h>
 #include "InputMan.h"
 #include "Tablero.h"
 
+
+
+
+#define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
+#define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
+#define TABLERO 1 << 3
+#define CASILLA 1 << 0  // Mascara para el escenario
+
+
 class  EscenaAjedrez
 {
 public:
+
+
+    int peonesPromocionados;
+
+    int* actualizaTablero(Ogre::String casillaOrigen,Ogre::String casillaDestino);
+
+    int* mueveIA(int origen, int destino);
+
     ~EscenaAjedrez(void);
 
     //Singleton
@@ -76,13 +90,17 @@ public:
 
     Ogre::String columnas;
 
-    // bool creaFichas();
     Tablero* tablero;
 
     int* traduceTablero();
 
 
 private:   
+
+
+
+    //Ogre::Entity *entTablero;
+
 
     void creaIluminacion();
 
@@ -116,7 +134,6 @@ private:
     short traduceFicha(char tipoFicha);
 
 
-    //void creaFichas();
 
 };
 
