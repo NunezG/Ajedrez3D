@@ -9,7 +9,7 @@ class FichaAlfil : public Ficha
 public:
 
     ~FichaAlfil(void);
-    FichaAlfil(bool esNegra);
+    FichaAlfil(std::string nombre);
 
 
 protected:

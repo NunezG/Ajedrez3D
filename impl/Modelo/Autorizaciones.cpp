@@ -79,12 +79,11 @@ bool Autorizaciones::autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode* nod
     }else if(salto)
     {
 
-
-            std::cout  << "SALTA DOS CASILLAS"<< std::endl;
-
+//HAY QUE CAMBIAR COSAS PARA IMPLEMENTAR EL COMER AL PASO
+            std::cout  << "SALTA DOS CASILLAS: "<<  nodoSobrevolado->getName() << "diferencia; "<<diferencia<<std::endl;
 
             if(!turnoNegras)return verificaCamino(diferencia, nodoSobrevolado, 1);
-            else return verificaCamino(diferencia, nodoSobrevolado, 2);
+            else return verificaCamino(-diferencia, nodoSobrevolado, 2);
 
 
 

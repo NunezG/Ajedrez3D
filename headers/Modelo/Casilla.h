@@ -3,7 +3,17 @@
 
 #include <Ogre.h>
 
-class Casilla
+#include "ObjetoOgre.h"
+
+
+struct posicion{
+    int Fila;
+    int Columna;
+
+};
+
+
+class Casilla : public ObjetoOgre
 {
 
 
@@ -17,10 +27,18 @@ class Casilla
 
 public:
 
+    posicion posCasilla;
 
+
+
+    bool esNegra;
     ~Casilla(void);
-    Casilla(void);
+    Casilla(std::string nombre);
 
+
+    void trasladarAPunto();
+
+    void setPosicion(int posFila, int posCol);
 
 protected:
 

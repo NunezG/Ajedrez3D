@@ -8,7 +8,7 @@ class FichaPeon : public Ficha
 public:
 
     ~FichaPeon(void);
-    FichaPeon(bool esNegra);
+    FichaPeon(std::string nombre);
 
 private:  
 

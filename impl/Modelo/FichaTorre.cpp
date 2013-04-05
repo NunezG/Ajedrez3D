@@ -2,8 +2,8 @@
 
 
 
-FichaTorre::FichaTorre(bool esNegra) :
-    Ficha(esNegra)
+FichaTorre::FichaTorre( std::string nombre) :
+    Ficha("Torre"+nombre)
 
 
 

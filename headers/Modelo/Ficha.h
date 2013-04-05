@@ -39,11 +39,12 @@ struct ListaPosiciones{
     int posicion[2];
 };
 
-class Ficha
+class Ficha : public ObjetoOgre
 {
 public:
 
 
+    void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
 
 
     Ogre::String Tipo;
@@ -63,7 +64,7 @@ protected:
 
 
     ~Ficha(void);
-    Ficha(bool esNegra);
+    Ficha(std::string nombre);
 
 
 

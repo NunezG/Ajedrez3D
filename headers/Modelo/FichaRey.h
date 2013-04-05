@@ -8,7 +8,7 @@ class FichaRey : public Ficha
 public:
 
     ~FichaRey(void);
-    FichaRey(bool esNegra);
+    FichaRey(std::string nombre);
 
 protected:
 

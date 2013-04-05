@@ -22,10 +22,9 @@
 
 
 
-#define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
-#define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
-#define TABLERO 1 << 3
-#define CASILLA 1 << 0  // Mascara para el escenario
+
+//#define TABLERO 1 << 3
+//#define CASILLA 1 << 0  // Mascara para el escenario
 
 
 class  EscenaAjedrez
@@ -46,7 +45,7 @@ public:
 
     void createScene();
 
-    void promocionaPeon(Ogre::SceneNode* nodoFicha);
+    void promocionaPeon(Ficha* nodoFicha);
 
     // void createCamera(void);
 
@@ -55,10 +54,10 @@ public:
     Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
     Ogre::RaySceneQuery* createRayQuery(void);
 
-    void iluminaCasilla(Ogre::SceneNode* casilla);
-    void apagaCasilla(Ogre::SceneNode* casilla);
+    void iluminaCasilla(Casilla* casilla);
+    void apagaCasilla(Casilla* casilla);
 
-    Ogre::SceneNode* casillaOcupada(Ogre::SceneNode* nodoCasilla);
+    Casilla* casillaOcupada(Casilla* nodoCasilla);
 
     void setSceneManager(Ogre::SceneManager* sceneMgr);
 
@@ -81,11 +80,11 @@ public:
     void cambiaTurno();
     bool esTurnoNegras();
 
-    Ogre::SceneNode* getNodoFichaSeleccionada();
-    Ogre::SceneNode* getNodoCasillaSobrevolada();
+    Ficha* getNodoFichaSeleccionada();
+    Casilla* getNodoCasillaSobrevolada();
 
-    void setNodoFichaSeleccionada(Ogre::SceneNode* nodo);
-    void setNodoCasillaSobrevolada(Ogre::SceneNode* nodo);
+    void setNodoFichaSeleccionada(Ficha* nodo);
+    void setNodoCasillaSobrevolada(Casilla* nodo);
     bool FichaComestible();
 
     Ogre::String columnas;
@@ -104,8 +103,8 @@ private:
 
     void creaIluminacion();
 
-    Ogre::SceneNode *_selectedNode;
-    Ogre::SceneNode *_nodoNuevo;
+    Ficha *_selectedNode;
+    Casilla *_nodoNuevo;
 
     bool turnoNegras;
 

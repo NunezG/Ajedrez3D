@@ -9,7 +9,7 @@ class FichaCaballo : public Ficha
 public:
 
     ~FichaCaballo(void);
-    FichaCaballo(bool esNegra);
+    FichaCaballo(std::string nombre);
 
 private:  
     bool mueveFicha();

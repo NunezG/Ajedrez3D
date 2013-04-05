@@ -2,8 +2,8 @@
 
 
 
-FichaAlfil::FichaAlfil(bool esNegra) :
-    Ficha(esNegra)
+FichaAlfil::FichaAlfil(std::string nombre) :
+    Ficha("Alfil"+nombre)
 
    // ,casilla(0)
 

@@ -2,9 +2,10 @@
 
 
 
-Ficha::Ficha(bool esNegra) :
+Ficha::Ficha(std::string nombre) :
     esNegra(0),
-    muerta(0)
+    muerta(0),
+    ObjetoOgre(nombre)
     // ,casilla(0)
 
 
@@ -79,6 +80,15 @@ short Ficha::CalculatePieceValue(tipoFicha pieceType)
                 return 0;
             }
     }
+}
+
+
+void Ficha::creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask)
+{
+
+    if (mask == NEGRAS) esNegra = true;
+    else if (mask == BLANCAS )esNegra = false;
+    ObjetoOgre::creaModelo3D(sceneMgr, nombreMalla, mask);
 }
 
 

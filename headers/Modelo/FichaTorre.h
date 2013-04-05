@@ -8,7 +8,7 @@ class FichaTorre : public Ficha
 public:
 
     ~FichaTorre(void);
-    FichaTorre(bool esNegra);
+    FichaTorre(std::string nombre);
 
 protected:
     bool mueveFicha();

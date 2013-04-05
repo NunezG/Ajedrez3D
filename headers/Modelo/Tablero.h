@@ -5,7 +5,6 @@
 #include <string>
 #include <iostream>
 
-
 #include "FichaAlfil.h"
 #include "FichaCaballo.h"
 #include "FichaTorre.h"
@@ -13,9 +12,6 @@
 #include "FichaRey.h"
 #include "FichaPeon.h"
 #include "Casilla.h"
-
-
-
 
 enum enColummas{
     COL_A,
@@ -29,10 +25,8 @@ enum enColummas{
 
 };
 
-
-
 // ESTE SERÁ EL NODO USADO EN LOS ÁRBOLES
-class Tablero
+class Tablero: public ObjetoOgre
 {
 public:
 
@@ -42,13 +36,9 @@ public:
 
     int nivel;
 
-
     std::string columnas;
 
    Ogre::SceneManager* mSceneMgr;
-
-
-
 
     bool creaFichasAjedrez(Ogre::SceneManager* sceneMgr);
 
@@ -56,12 +46,7 @@ public:
 
     Ogre::SceneNode* nodoCasillero;
 
-
-
-
 private:
-
-
 
     Ficha* fichasNegras[16];
     Ficha* fichasBlancas[16];
@@ -70,32 +55,19 @@ private:
 
     void creaCasillas();
 
-
     Ogre::SceneNode* nodoTablero;
 
+   // ObjetoOgre* objetoOgreAsociado;
 
-
-    ObjetoOgre* objetoOgreAsociado;
-
-
-
-    void creaFichas();
 
     void creaPeones();
     void creaNobleza();
     void creaVasallos();
     //void creaFichas();
 
-
-
-
     Tablero* listaNodos[];
 
-
     bool verificaCamino(int inicial[2], int final[2], int camino);
-
-
-
 
     bool turnoNegras;
 };

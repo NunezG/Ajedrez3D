@@ -2,8 +2,8 @@
 
 
 
-FichaRey::FichaRey(bool esNegra) :
-    Ficha(esNegra)
+FichaRey::FichaRey(std::string nombre) :
+    Ficha("Rey"+nombre)
 
 
 

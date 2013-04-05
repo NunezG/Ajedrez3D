@@ -9,7 +9,7 @@ class FichaReina : public Ficha
 public:
 
     ~FichaReina(void);
-    FichaReina(bool esNegra);
+    FichaReina(std::string nombre);
 
     bool mueveFicha();
     bool autorizaFicha(int diferencia[2]);

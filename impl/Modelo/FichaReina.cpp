@@ -2,9 +2,9 @@
 
 
 
-FichaReina::FichaReina(bool esNegra) :
+FichaReina::FichaReina(std::string nombre) :
    // FichaAlfil(esNegra),
-    Ficha(esNegra)
+    Ficha("Reina"+nombre)
 
 
 

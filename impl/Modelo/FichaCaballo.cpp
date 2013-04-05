@@ -2,8 +2,8 @@
 
 
 
-FichaCaballo::FichaCaballo(bool esNegra) :
-    Ficha(esNegra)
+FichaCaballo::FichaCaballo(std::string nombre) :
+    Ficha("Caballo"+nombre)
 
 
 

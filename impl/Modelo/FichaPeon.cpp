@@ -2,12 +2,14 @@
 
 
 
-FichaPeon::FichaPeon(bool esNegra) :
-    Ficha(esNegra)
+FichaPeon::FichaPeon(std::string nombre) :
+    Ficha("Peon_"+nombre)
 
 
 
 {
+
+
     //creaEntidad("Peon");
 
 }
