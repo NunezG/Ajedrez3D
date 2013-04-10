@@ -101,7 +101,6 @@ bool ControlJuego::iniciaModeloAjedrez(void)
     std::cout << "INICIA VISTA 3 " << std::endl;
 
     modelo->escena->createCamera();
-    // mInputMan = new InputMan::SdkCameraMan(escenaAjedrez->createCamera());   // create a default camera controller
     //mInputMan->setTopSpeed(100);
 
     std::cout << "INICIA VISTA 4 " << std::endl;

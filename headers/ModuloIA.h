@@ -85,7 +85,7 @@ private:
 
    // std::vector<TableroPrueba> vectorTableros;
 
-    int alphaBeta(TableroPrueba* table, int alpha, int beta,const int depthleft );
+    int alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthleft );
 
     TableroPrueba* siguienteMovimiento(TableroPrueba *newkey);
 

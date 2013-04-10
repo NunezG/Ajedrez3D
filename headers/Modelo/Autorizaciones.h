@@ -9,16 +9,19 @@ public:
     Autorizaciones(void);
     virtual ~Autorizaciones(void);
 
-    static bool autorizaCasilla(Ogre::SceneNode* nodoSeleccionado, Ogre::SceneNode* nodoSobrevolado, bool turnoNegras);
+    static bool autorizaCasilla(Tablero* miTablero, Casilla* nodoSeleccionado, Casilla* nodoSobrevolado, bool turnoNegras);
 
 private:
 
-    static bool autorizaRey(Ogre::Vector3 diferencia);
-    static bool autorizaReina(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
-    static bool autorizaPeon(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado, Ogre::Vector3 seleccionado, bool turnoNegras);
-    static bool autorizaAlfil(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
-    static bool autorizaTorre(Ogre::Vector3 diferencia, Ogre::SceneNode *nodoSobrevolado);
-    static bool autorizaCaballo(Ogre::Vector3 diferencia);
+
+
+    //Tablero* elTablero;
+    static bool autorizaRey(posicion diferencia, posicion nodoSobrevolado, Tablero* miTablero, bool turnoNegras);
+    static bool autorizaReina(posicion diferencia, posicion nodoSobrevolado,Tablero* miTablero);
+    static bool autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado, posicion seleccionado, bool turnoNegras,Tablero* miTablero);
+    static bool autorizaAlfil(posicion diferencia, posicion nodoSobrevolado, Tablero* elTablero);
+    static bool autorizaTorre(posicion diferencia, posicion nodoSobrevolado, Tablero* elTablero);
+    static bool autorizaCaballo(posicion diferencia);
 
    // static bool caminoAbajo(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo);
     //static bool caminoDiagArrIzq(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo);
@@ -26,7 +29,7 @@ private:
     //static bool caminoDiagArrDer(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo);
     //static bool caminoDiagAbDer(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo);
 
-    static bool verificaCamino(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo, int camino);
+    static bool verificaCamino(int distancia, posicion _nodoNuevo, int camino, Tablero* elTablero);
 
 
 

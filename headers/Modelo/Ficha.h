@@ -47,7 +47,7 @@ public:
     void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
 
 
-    Ogre::String Tipo;
+    tipoFicha tipo_Ficha;
 
     virtual bool mueveFicha() = 0;
     virtual bool autorizaFicha(int diferencia[2]) = 0;
@@ -59,12 +59,21 @@ public:
   //  virtual Ogre::SceneNode* getNodoOgre();
 
     virtual bool setCasilla(int fila, int col);
+    bool esNegra;
+
+
+    bool salto;
+    ~Ficha(void);
+
+    //constructor de copia
+    Ficha(  const Ficha& fichaOriginal, std::string nombre, tipoFicha tipo);
+
+
 
 protected:
 
 
-    ~Ficha(void);
-    Ficha(std::string nombre);
+    Ficha(std::string nombre, tipoFicha tipo);
 
 
 
@@ -82,7 +91,6 @@ protected:
    //  Stack<byte> ValidMoves; // lista de movimientos válidos
 
 
-    bool esNegra;
 
     bool muerta;
 

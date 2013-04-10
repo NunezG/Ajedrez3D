@@ -10,7 +10,6 @@ Modelo::Modelo() :
 
 {
 
-//mRoot =new Ogre::Root(mPluginsCfg);
 //mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
 
 }

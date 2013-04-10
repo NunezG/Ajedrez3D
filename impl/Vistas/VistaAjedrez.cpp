@@ -24,10 +24,6 @@ bool VistaAjedrez::cambiaTurno(){
     std::cout << "cambiatur "<< std::endl;
 
 
-    //TIENES QUE CAMBIAR LAS CASILLAS SELECCIONADA Y LA SOBREVOLADA
-
-
-
     rotaTurno = Ogre::Real(180.0f);
     escenaAjedrez->cambiaTurno();
     //mediaVuelta();
@@ -115,24 +111,37 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
 
-        if (it != result.end()) {
+        if (it != result.end())
+        {
             Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
 
-            if (escenaAjedrez->getNodoCasillaSobrevolada()==NULL || nodoSobrevolado->getName() != escenaAjedrez->getNodoCasillaSobrevolada() -> getName()){
+            Casilla* casillaSobrevolada = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo(nodoSobrevolado->getName()));
+
+            if (escenaAjedrez->getNodoCasillaSobrevolada()==NULL || casillaSobrevolada->getNombre() != escenaAjedrez->getNodoCasillaSobrevolada() -> getNombre())
+            {
+
+                std::cout << "IF" << std::endl;
+
 
                 if (escenaAjedrez->getNodoCasillaSobrevolada()!=NULL){
                     escenaAjedrez->apagaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
                     escenaAjedrez->setNodoCasillaSobrevolada(NULL);
                 }
-                escenaAjedrez->setNodoCasillaSobrevolada(nodoSobrevolado);
+                escenaAjedrez->setNodoCasillaSobrevolada(casillaSobrevolada);
 
                 //Autoriza la casilla sobrevolada para mover ficha (no mira si la casilla está ocupada)
                 bool autorizado= true;
-                autorizado = Autorizaciones::autorizaCasilla(escenaAjedrez->getNodoFichaSeleccionada() , escenaAjedrez->getNodoCasillaSobrevolada(), escenaAjedrez->esTurnoNegras());
+                autorizado = Autorizaciones::autorizaCasilla(escenaAjedrez->tablero, escenaAjedrez->getNodoFichaSeleccionada() , escenaAjedrez->getNodoCasillaSobrevolada(), escenaAjedrez->esTurnoNegras());
+
+                std::cout << "autorizado: "<<autorizado << std::endl;
 
 
                 if(autorizado)
-                    if  (escenaAjedrez->getNodoCasillaSobrevolada()->getChildIterator().hasMoreElements()){
+                {
+
+                    if  (escenaAjedrez->getNodoCasillaSobrevolada()->sinHijos() != true)
+                    {
+
 
                         if (escenaAjedrez->FichaComestible()) escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
 
@@ -140,13 +149,10 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
                         std::cout << "ES COMESTIBLE" << std::endl;
 
                     }
+                }
             }
         }
     }
-
-
-
-
 
     else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
     {
@@ -180,8 +186,6 @@ bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
     //   if (rotaTurno > Ogre::Real(0.0f))
     //   {
     //    std::cout << "cambiaturnorota "<< accel<< std::endl;
-
-
 
     //ROTACION MIENTRAS SE PULSEN LAS FLECHAS
     if(escenaAjedrez->vaIzquierda()){
@@ -223,23 +227,9 @@ bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
         //Devuelve la camara a su posicion ¿z? original
         // mCamera->pitch(Ogre::Degree(-evt.state.Y.rel * 0.025f));
 
-
-
-
         //  std::cout << "Ogre::Real(120.0f) * evt.timeSinceLastFrame "<< Ogre::Real(120.0f) * evt.timeSinceLastFrame<< std::endl;
 
-
     }
-
-
-
-
-
-
-
-
-
-
 
     //mInputMan->rotaCamara(evt);
     return true;
@@ -247,6 +237,13 @@ bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {  
+
+    //!!!!!!!!!!!!!!!!!!!BUSCA EN EL VECTOR DE HIJOS DEL TABLERO EL QUE COINCIDA EN EL NOMBRE (O TAMBIEN LA POSICION?)
+    //
+    //
+    //
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     bool mbleft = (id == OIS::MB_Left);
     bool mbright = (id == OIS::MB_Right);
     int posx = arg.state.X.abs;   // Posicion del puntero
@@ -255,65 +252,222 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
     if (mbleft)
     {  // Boton izquierdo o derecho -------------
         //std::cout << "mbleft "<< turnoNegras<< std::endl;
-        if (escenaAjedrez->esTurnoNegras())
-        {
-            mask = 'N';  // Podemos elegir todo
-        } else mask ='B';
+        // if (escenaAjedrez->esTurnoNegras())
+        //   {
+        //        mask = 'N';  // Podemos elegir todo
+        // } else mask ='B';
+
+        mask = 'C';
+
+        std::cout  << "mpouse1" << std::endl;
 
         if (escenaAjedrez->getNodoFichaSeleccionada() != NULL)
         {  // Si habia alguno seleccionado...
 
-            escenaAjedrez->getNodoFichaSeleccionada()->showBoundingBox(false);  escenaAjedrez->setNodoFichaSeleccionada(NULL);
+            std::cout  << "fichasel" << std::endl;
+            Ficha* ficha = static_cast<Ficha*>(escenaAjedrez->getNodoFichaSeleccionada()->getHijo(0));
+            ficha->getNodoOgre()->showBoundingBox(false);
+            escenaAjedrez->setNodoFichaSeleccionada(NULL);
             fichaSeleccionada = false;
         }
+
+        std::cout  << "mpouse2" << std::endl;
+
         //EMPIEZA RAYO
         //Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
         Ogre::RaySceneQueryResult &result =escenaAjedrez->executeRay(posx,posy,mask);//mRaySceneQuery->execute();
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
+        std::cout  << "mpouse3" << std::endl;
+
 
         if (it != result.end())
         {
-            if (it->movable->getParentSceneNode()->getName().size()>2)
+            std::cout  << "mpouse31121: "<< it->movable->getParentSceneNode()->getName()<< std::endl;
+
+
+            std::cout  << "mpouse31121: "<< it->movable->getName()<< std::endl;
+
+
+
+            Casilla* casilla = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo(it->movable->getParentSceneNode()->getName()));
+
+            std::cout  << "mpouse31: "<< casilla->getNombre() << std::endl;
+
+
+
+            if (casilla != NULL && !casilla->sinHijos())
             {
-                escenaAjedrez->setNodoFichaSeleccionada(it->movable->getParentSceneNode());
-                escenaAjedrez->getNodoFichaSeleccionada()->showBoundingBox(true);
-                fichaSeleccionada = true;
+
+                Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
+
+                std::cout  << "tiene hijos" << std::endl;
+
+
+                if ((escenaAjedrez->esTurnoNegras()
+                     && ficha->esNegra)
+                        || (!escenaAjedrez->esTurnoNegras() && !ficha->esNegra)){
+
+
+                    escenaAjedrez->setNodoFichaSeleccionada(casilla);
+                    ficha->getNodoOgre()->showBoundingBox(true);
+                    fichaSeleccionada = true;
+                }
+
             }
         }
+        std::cout  << "fin mousepressed" << std::endl;
+
     } else if (mbright)
     {
         //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
-        if (fichaSeleccionada && escenaAjedrez->getNodoCasillaSobrevolada()!=NULL && escenaAjedrez->getNodoCasillaSobrevolada()->getShowBoundingBox())
+        if (fichaSeleccionada && escenaAjedrez->getNodoCasillaSobrevolada()!=NULL && escenaAjedrez->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
         {
 
 
 
-            //BORRA FICHA DE LA CASILLA ANTERIOR
-            escenaAjedrez->getNodoFichaSeleccionada()->getParent()->removeChild(escenaAjedrez->getNodoFichaSeleccionada());
 
-            //BORRA FICHA ENEMIGA DE LA CASILLA NUEVA
-            if (escenaAjedrez->getNodoCasillaSobrevolada()->getChildIterator().hasMoreElements())
+
+            //Recupera ficha
+            Ficha* ficha = static_cast<Ficha*>(escenaAjedrez->getNodoFichaSeleccionada()->getHijo(0));
+
+
+
+            std::cout  << "antes:" << escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila<<std::endl;
+
+            escenaAjedrez->actualizaTablero(escenaAjedrez->getNodoFichaSeleccionada()->getPosicion(), escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion());
+
+            std::cout  << "borra" << std::endl;
+
+
+
+            std::cout  << "desp:" << escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila<<std::endl;
+
+
+
+
+
+
+
+            std::cout  << "MIRA SI SALTA: " <<ficha->getNombre()<< std::endl;
+
+            if (ficha->tipo_Ficha ==Rey)
             {
-                escenaAjedrez->getNodoCasillaSobrevolada()->removeAllChildren();
+
+
+                std::cout  << "en rey" << std::endl;
+
+                int difCol = escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna - escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Columna;
+                // if (difCol<0 ) difCol = -difCol;
+
+                int fila =escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Fila;
+
+
+                if (difCol == 2){
+                    Casilla* casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8)+7));
+                    Ficha* fichaTorre = static_cast<Ficha*>(casillaTorre->getHijo(0));
+                    casillaTorre->eliminaHijo(0);
+
+                    casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8) +escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna-1));
+                    casillaTorre->agregaHijo(fichaTorre);
+                }
+
+                if (difCol == -2){
+                    //Casilla* casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8)));
+
+                    Casilla* casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo(fila*8));
+                    Ficha* fichaTorre = static_cast<Ficha*>(casillaTorre->getHijo(0));
+                    casillaTorre->eliminaHijo(0);
+
+                    casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8) +escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna+1));
+                    casillaTorre->agregaHijo(fichaTorre);
+                }
+
+
+
+
+
             }
 
-            //AÑADE FICHA A LA CASILLA NUEVA
-            escenaAjedrez->getNodoCasillaSobrevolada()->addChild(escenaAjedrez->getNodoFichaSeleccionada());
+            std::cout  << "MIRA SI peon " << std::endl;
+
+
+            if (ficha->tipo_Ficha ==Peon)
+            {
+
+                std::cout  << "dif" << std::endl;
+
+
+
+                std::cout  << "dif:" << escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Fila<< std::endl;
+
+                std::cout  << "dif:" << escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila<< std::endl;
+
+
+                int dif = escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Fila - escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila;
+
+                std::cout  << "dif:" << dif<< std::endl;
+
+
+
+                int difCol = escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna - escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Columna;
+                std::cout  << "difcol: " << difCol<<std::endl;
+
+                if (dif < 0 ) dif = -dif;
+                if (difCol<0 ) difCol = -difCol;
+
+
+                if( dif == 2) ficha -> salto = true;
+
+                if( dif == 1 && difCol == 1)
+                {
+
+                    int fila =escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila;
+                    int columna =escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna;
+
+                    Casilla* casillaAux = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8)+columna));
+
+                    if (!casillaAux->sinHijos())
+                    {
+                        Ficha* fichaAux = static_cast<Ficha*>(casillaAux->getHijo(0));
+                        if (fichaAux->salto) casillaAux->eliminaHijo(0);
+
+                    }
+
+
+
+
+
+                }
+
+            }
+
+            std::cout  << "acaba de mirar " << std::endl;
+
+
+            //escenaAjedrez->getNodoFichaSeleccionada()->getParent()->removeChild(escenaAjedrez->getNodoFichaSeleccionada());
+
+
 
             //PROMOCION DE PEON
             //  std::cout << "_nodoNuevo->getName() "<< _nodoNuevo->getName()<< std::endl;
 
-            cambiaTurno();
 
             //  mCamera->moveRelative(Ogre::Degree(30));
 
+            std::cout  << "fincambia " << std::endl;
+
             //DESELECCIONA FICHA Y CASILLA
-            escenaAjedrez->getNodoFichaSeleccionada()->showBoundingBox(false);
-            escenaAjedrez->apagaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
-            escenaAjedrez->setNodoCasillaSobrevolada(NULL);
-            escenaAjedrez->setNodoFichaSeleccionada(NULL);
+            ficha->getNodoOgre()->showBoundingBox(false);
+            std::cout  << "apagado " << std::endl;
+
+            std::cout  << "nulleado " << std::endl;
+
             fichaSeleccionada = false;
+
+            cambiaTurno();
+            std::cout  << "acaba " << std::endl;
+
         }
     }else {
         escenaAjedrez->empezarModoCamara();

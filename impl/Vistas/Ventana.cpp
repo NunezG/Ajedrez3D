@@ -260,8 +260,8 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
 //BaseApplication* Ventana::Create(Ogre::String type) {
-  //  if ( type == "JuegoPorTurnos" ) return new VistaAjedrez(mSceneMgr, mWindow);
- //   if ( type == "JuegoEnSolitario" ) return new VistaAjedrezSolo(mSceneMgr, mWindow);
+  //  if ( type == "JuegoPorTurnos" ) return  VistaAjedrez(mSceneMgr, mWindow);
+ //   if ( type == "JuegoEnSolitario" ) return  VistaAjedrezSolo(mSceneMgr, mWindow);
   //  return NULL;
 //}
 

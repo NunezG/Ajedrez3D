@@ -16,6 +16,7 @@ bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
 {
     mSceneMgr = sceneMgr;
     creaModelo3D(mSceneMgr, "Tablero", TABLERO);
+
     mSceneMgr->getRootSceneNode()->addChild(getNodoOgre());
     creaCasillas();
 }
@@ -33,9 +34,14 @@ void Tablero::creaCasillas()
         {
             contFila++;
             contColumna = 0;
+            std::cout  <<"/"<< std::endl;
+
         }
         saux.str("");
         saux  << Ogre::StringConverter::toString( contFila + 1 )<<  columnas[contColumna];
+        std::cout  <<(contFila*8)+contColumna<< std::ends;
+
+
 
         objeto = new Casilla(saux.str());
         objeto->creaModelo3D(mSceneMgr, "Casilla", CASILLA);
@@ -46,6 +52,7 @@ void Tablero::creaCasillas()
                 ||(i%2 != 0
                    && contFila % 2 == 0) )
         {
+            objeto->esNegra = true;
             objeto->cambiaMaterial("MaterialCasillaNegra");
         }
         objeto->setPosicion(contFila, contColumna);
@@ -69,7 +76,7 @@ void Tablero::creaVasallos()
     //Ogre::String posCasilla;
     int posCasilla;
 
-    ObjetoOgre* objeto;
+    Ficha* objeto;
 
     //CREA LAS PIEZAS DOBLES
     for (int i = 0; i < 4; ++i)
@@ -153,14 +160,14 @@ void Tablero::creaNobleza()
 {
     std::stringstream saux;
     int posCasilla;
-    ObjetoOgre* objeto;
+    Ficha* objeto;
 
     //CREA LAS PIEZAS UNICAS
     for (int i = 0; i < 2; ++i)
     {
         saux.str("");
         saux <<"(D)Reina"<< Ogre::StringConverter::toString(i);
-        objeto = new FichaTorre(saux.str());
+        objeto = new FichaReina(saux.str());
 
         if (i%2 == 0)
         {
@@ -179,7 +186,7 @@ void Tablero::creaNobleza()
         saux.str("");
         saux <<"(R)Rey"<< Ogre::StringConverter::toString(i);
 
-        objeto = new FichaTorre(saux.str());
+        objeto = new FichaRey(saux.str());
         if (i%2 != 0)
         {
             objeto->creaModelo3D(mSceneMgr,"Rey",BLANCAS);
@@ -202,7 +209,7 @@ void Tablero::creaPeones()
     std::stringstream saux;
     int posCasilla;
 
-    ObjetoOgre* objeto;
+    Ficha* objeto;
 
     //CREA LOS PEONES
     for (int i = 0; i < 16; ++i)
@@ -230,7 +237,6 @@ void Tablero::creaPeones()
 
 bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
 {
-    // fichas = new Ficha**;
     //Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
     // Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
     // const String columnas = "ABCDEFGH";

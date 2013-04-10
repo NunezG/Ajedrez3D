@@ -4,7 +4,7 @@
 
 FichaReina::FichaReina(std::string nombre) :
    // FichaAlfil(esNegra),
-    Ficha("Reina"+nombre)
+    Ficha("D_"+nombre, Reina)
 
 
 
@@ -31,6 +31,19 @@ bool FichaReina::mueveFicha(){
 
 
 }
+
+
+FichaReina::FichaReina( const Ficha& fichaOriginal, std::string nombre):
+    Ficha(fichaOriginal, "D_"+nombre, Reina)
+
+{
+
+
+    std::cout  <<"COPIA ESNEGRA: "<< esNegra<< std::endl;
+
+
+}
+
 
 bool FichaReina::autorizaFicha(int diferencia[2]){
 

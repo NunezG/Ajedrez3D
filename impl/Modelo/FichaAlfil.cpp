@@ -3,7 +3,7 @@
 
 
 FichaAlfil::FichaAlfil(std::string nombre) :
-    Ficha("Alfil"+nombre)
+    Ficha("A_"+nombre, Alfil)
 
    // ,casilla(0)
 

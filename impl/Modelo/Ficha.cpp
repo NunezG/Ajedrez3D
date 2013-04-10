@@ -2,10 +2,12 @@
 
 
 
-Ficha::Ficha(std::string nombre) :
+Ficha::Ficha(std::string nombre, tipoFicha tipo) :
     esNegra(0),
     muerta(0),
-    ObjetoOgre(nombre)
+    tipo_Ficha(tipo),
+    ObjetoOgre(nombre),
+    salto(false)
     // ,casilla(0)
 
 
@@ -32,7 +34,25 @@ Ficha::~Ficha()
 {
 
 
+
 }
+
+
+Ficha::Ficha( const Ficha& fichaOriginal, std::string nombre, tipoFicha tipo ):
+    esNegra(fichaOriginal.esNegra),
+    muerta(0),
+    tipo_Ficha(tipo),
+    ObjetoOgre(nombre),
+    salto(false)
+{
+
+
+  //  tipo_Ficha = fichaOriginal
+
+
+
+}
+
 
 bool Ficha::setCasilla(int fila, int col)
 {
@@ -88,6 +108,8 @@ void Ficha::creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla,
 
     if (mask == NEGRAS) esNegra = true;
     else if (mask == BLANCAS )esNegra = false;
+
+
     ObjetoOgre::creaModelo3D(sceneMgr, nombreMalla, mask);
 }
 

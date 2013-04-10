@@ -27,9 +27,8 @@ class Casilla : public ObjetoOgre
 
 public:
 
-    posicion posCasilla;
 
-
+    posicion getPosicion();
 
     bool esNegra;
     ~Casilla(void);
@@ -42,6 +41,7 @@ public:
 
 protected:
 
+    posicion posCasilla;
 
 
 

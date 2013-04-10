@@ -3,7 +3,7 @@
 
 
 FichaCaballo::FichaCaballo(std::string nombre) :
-    Ficha("Caballo"+nombre)
+    Ficha("C_"+nombre, Caballo)
 
 
 

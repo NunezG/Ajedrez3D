@@ -73,7 +73,7 @@ bool BaseJuego::configuraGraficos(const char *desiredRenderer)
     }
 
     renderSystem->setConfigOption("Full Screen", "No");
-    renderSystem->setConfigOption("Video Mode", "1920 x 1080");
+    renderSystem->setConfigOption("Video Mode", "800 x 600");
 
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
         it != renderSystem->getConfigOptions().end(); it++)

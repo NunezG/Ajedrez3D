@@ -25,6 +25,14 @@ Casilla::~Casilla()
 
 }
 
+posicion Casilla::getPosicion(){
+    return posCasilla;
+
+}
+
+
+
+
 
 
 void Casilla::setPosicion(int posFila, int posCol){
@@ -45,9 +53,8 @@ void Casilla::trasladarAPunto(){
 
 
 
-    std::cout  << "TRASLADA A LETRA: "<< pos0<<" Y NUMERO: "<<pos1<< std::endl;
 
 
-    nodoEscena->translate(-10*pos1,0,-10*pos0);
+    getNodoOgre()->translate(-10*pos1,0,-10*pos0);
 
 }

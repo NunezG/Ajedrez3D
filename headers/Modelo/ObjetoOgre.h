@@ -2,7 +2,7 @@
 #define __ObjetoOgre_
 #include <Ogre.h>
 
-#define FICHA 1 << 4
+//#define FICHA 1 << 4
 #define TABLERO 1 << 3
 #define CASILLA 1 << 0  // Mascara para el escenario
 #define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
@@ -30,6 +30,14 @@ public:
 
     ObjetoOgre* getHijo(int numero);
 
+    int numeroHijos();
+
+    bool eliminaHijo(ObjetoOgre* hijo);
+    bool eliminaHijo(int hijo);
+
+
+    bool sinHijos();
+
 
     void cambiaMaterial(std::string material);
 
@@ -37,10 +45,10 @@ public:
 
     void trasladar(int x, int z);
 
-    Ogre::Entity* entidad;
-    Ogre::SceneNode* nodoEscena;
 
-    Ogre::SceneManager* mSceneMgr;
+
+
+    std::string getNombre();
 
         // bool NuevoObjetoDeOgre(void);
 
@@ -48,7 +56,6 @@ protected:
 
 
 
-    std::vector<ObjetoOgre*> vectorHijos;
 
   //  std::vector<Ogre::SceneNode*> vectorHijos;
 
@@ -59,10 +66,18 @@ protected:
     //Ogre::String nombreEntidad;
    // Ogre::String nombreNodo;
 
-    std::string nombreObjeto;
 
 
 private:
+
+    std::vector<ObjetoOgre*> vectorHijos;
+
+    std::string nombreObjeto;
+
+    Ogre::Entity* entidad;
+    Ogre::SceneNode* nodoEscena;
+
+    Ogre::SceneManager* mSceneMgr;
 };
 
 #endif

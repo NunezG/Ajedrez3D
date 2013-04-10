@@ -34,7 +34,7 @@ public:
 
     int peonesPromocionados;
 
-    int* actualizaTablero(Ogre::String casillaOrigen,Ogre::String casillaDestino);
+    int* actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
 
     int* mueveIA(int origen, int destino);
 
@@ -45,7 +45,7 @@ public:
 
     void createScene();
 
-    void promocionaPeon(Ficha* nodoFicha);
+    FichaReina* promocionaPeon(Ficha* nodoFicha);
 
     // void createCamera(void);
 
@@ -80,14 +80,17 @@ public:
     void cambiaTurno();
     bool esTurnoNegras();
 
-    Ficha* getNodoFichaSeleccionada();
+    Casilla* getNodoFichaSeleccionada();
     Casilla* getNodoCasillaSobrevolada();
 
-    void setNodoFichaSeleccionada(Ficha* nodo);
+    void setNodoFichaSeleccionada(Casilla* nodo);
     void setNodoCasillaSobrevolada(Casilla* nodo);
     bool FichaComestible();
 
     Ogre::String columnas;
+
+    //std::vector<Tablero*> HistorialMovimientos;
+
 
     Tablero* tablero;
 
@@ -103,8 +106,8 @@ private:
 
     void creaIluminacion();
 
-    Ficha *_selectedNode;
-    Casilla *_nodoNuevo;
+    Casilla* _selectedNode;
+    Casilla* _nodoNuevo;
 
     bool turnoNegras;
 
@@ -130,7 +133,7 @@ private:
 
     Ogre::Camera* mCamera;
 
-    short traduceFicha(char tipoFicha);
+    short traduceFicha(tipoFicha tipo);
 
 
 

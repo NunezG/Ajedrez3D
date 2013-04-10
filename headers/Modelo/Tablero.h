@@ -44,9 +44,15 @@ public:
 
     bool creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
 
-    Ogre::SceneNode* nodoCasillero;
+    //Ogre::SceneNode* nodoCasillero;
 
 private:
+     bool jaqueNegras;
+     bool mateNegras;
+     bool jaqueBlancas;
+     bool mateBlancas;
+     bool ahogado;
+
 
     Ficha* fichasNegras[16];
     Ficha* fichasBlancas[16];

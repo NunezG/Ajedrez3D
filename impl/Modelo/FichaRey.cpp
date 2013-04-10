@@ -3,7 +3,7 @@
 
 
 FichaRey::FichaRey(std::string nombre) :
-    Ficha("Rey"+nombre)
+    Ficha("R_"+nombre, Rey)
 
 
 

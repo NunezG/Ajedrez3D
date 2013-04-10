@@ -2,7 +2,6 @@
 
 ModuloIA::ModuloIA()
 {
-    //  tableroElegido = new TableroPrueba();
 
 }
 
@@ -48,11 +47,6 @@ bool ModuloIA::construyeArbol(int* listaCasillas){
     std::cout << "CONSTRUYE ARBOL" << std::endl;
 
     //  tablero->Score = 2;
-
-    //tablero->casillasInt = new int[144];
-
-
-
 
 
     //AÑADE LOS BORDES
@@ -148,26 +142,6 @@ bool ModuloIA::construyeArbol(int* listaCasillas){
     }
 
 
-    //casillaCambiada
-
-    //  Tablero* nodoPadre = new Tablero();
-
-    //   nivel = 0;
-
-    // for (int i = 0; i<10; i++){
-
-    //      for (int i = 0; i<10; i++){
-    //   nodoPadre.nodoNuevo() = new Tablero();
-    //  nodoPadre.nodoDer = new Tablero();
-
-    //corta la recursividad
-
-    // nodoPadre.nodoIzq.construyeArbol();
-    //  nodoPadre.nodoDer.construyeArbol();
-
-    //    nivel++;
-    //     }
-    //   }
 }
 
 void ModuloIA::insert_helper( TableroPrueba **root, TableroPrueba *newkey,const int profundidad ) {
@@ -188,18 +162,20 @@ TableroPrueba* ModuloIA::siguienteMovimiento(TableroPrueba *newkey){
 
 }
 
-void ModuloIA::insert( TableroPrueba* newKey  ) {
+void ModuloIA::insert( TableroPrueba* newKey  )
+{
     //insert_helper( &tablero, newKey,4 );
     //  alphaBeta(tablero,100, -100, 1);
 }
 
-int ModuloIA::alphaBeta(TableroPrueba* table, int alpha, int beta,const int depthleft ) {
+int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthleft )
+{
 
     // std::cout << "!!!!!!!!!!!!!!!!!!ALPHA-BETA turno: "<<table->turnoN << std::endl;
     //  std::cout << "!!!!!!!!!!!!!!!!!!NIIVEL: "<< depthleft<< std::endl;
 
     int score;
-    if( depthleft == 0 )
+    if( depthleft == 0)
     {
         //   std::cout << "EVALUA LA HEURISTICA "<< std::endl;
         //CALCULA LA HEURISTICA
@@ -216,13 +192,6 @@ int ModuloIA::alphaBeta(TableroPrueba* table, int alpha, int beta,const int dept
 
     //  std::cout << "mira el vector"<< std::endl;
 
-
-    //  if (table->vectorMov != NULL) std::cout << "TAMAÑO DEL VECTOR(se supone vacio): "<<  table->vectorMov->size()<< std::endl;
-
-
-    //   table->vectorMov = new std::vector<TableroPrueba*>();
-
-    //  if (table->vectorMov != NULL) std::cout << "TAMAÑO DEL VECTOR DESPUES(se supone vacio): "<<  table->vectorMov->size()<< std::endl;
 
     generaMovimientos(table);
     // if (table->vectorMov != NULL) std::cout << "TAMAÑO DEL VECTOR DESPUES de todo(lleno): "<<  table->vectorMov->size()<< std::endl;
@@ -247,7 +216,7 @@ int ModuloIA::alphaBeta(TableroPrueba* table, int alpha, int beta,const int dept
             table->Score =  score;
 
             // table->Score = score;
-           //         std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE:"<< score <<" BETA:" << beta << std::endl;
+            //         std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE:"<< score <<" BETA:" << beta << std::endl;
             //DEJA DE CALCULAR HEURISTICAS
             //  table->Score = score;
             return beta;   //  fail hard beta-cutoff
@@ -255,7 +224,7 @@ int ModuloIA::alphaBeta(TableroPrueba* table, int alpha, int beta,const int dept
         }
         if( score > alpha )
         {
-        //    std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa:"<< score <<" ALFA:" << alpha << std::endl;
+            //    std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa:"<< score <<" ALFA:" << alpha << std::endl;
 
             table->Score = score;
 
@@ -350,30 +319,12 @@ short ModuloIA::valorFicha(const tipoF tipo)
 
 
 
-//TableroPrueba* ModuloIA::nuevoTablero(TableroPrueba* miTablero){
-
-
-
-//  miTablero->vectorMov =  new std::vector<TableroPrueba*>;
-
-
-
-
-//}
-
-
 
 void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
     // TableroPrueba nuevoTablero;
     //  std::cout << "!!!!!!!!!!!!!!!!!!GENERA MOVI!!!!!!!!!!!!!!!!!!!" << std::endl;
 
     //BUSCA EN EL TABLERO LAS FICHAS Y SEGUN SU TIPO VA GENERANDO LOS MOVIMIENTOS
-
-    // miTablero->vectorMov =  new std::vector<TableroPrueba*>;
-
-
-
-
 
     int rey = 6;
     int reina = 5;
@@ -403,9 +354,8 @@ void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
             {
 
                 //ENCUENTRA REY BLANCO
-                //TableroPrueba* nuevo = new TableroPrueba(*miTablero);
-                // nuevo->casillasInt = miTablero->casillasInt;
-     //           mueveRey(miTablero, (i*12)+y);
+
+                mueveRey(miTablero, (i*12)+y);
 
             }
 
@@ -414,9 +364,8 @@ void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
             {
 
                 //ENCUENTRA REY BLANCO
-                //TableroPrueba* nuevo = new TableroPrueba(*miTablero);
-                // nuevo->casillasInt = miTablero->casillasInt;
-      //          mueveReina(miTablero, (i*12)+y);
+
+                mueveReina(miTablero, (i*12)+y);
 
             }
 
@@ -425,9 +374,8 @@ void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
             {
 
                 //ENCUENTRA REY BLANCO
-                //TableroPrueba* nuevo = new TableroPrueba(*miTablero);
-                // nuevo->casillasInt = miTablero->casillasInt;
-     //           mueveTorre(miTablero, (i*12)+y);
+
+                mueveTorre(miTablero, (i*12)+y);
 
             }
 
@@ -437,9 +385,8 @@ void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
 
 
                 //ENCUENTRA REY BLANCO
-                //TableroPrueba* nuevo = new TableroPrueba(*miTablero);
-                // nuevo->casillasInt = miTablero->casillasInt;
-         //       mueveAlfil(miTablero, (i*12)+y);
+
+                mueveAlfil(miTablero, (i*12)+y);
 
             }
 
@@ -448,9 +395,8 @@ void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
             {
 
                 //ENCUENTRA REY BLANCO
-                //TableroPrueba* nuevo = new TableroPrueba(*miTablero);
-                // nuevo->casillasInt = miTablero->casillasInt;
-       //         mueveCaballo(miTablero, (i*12)+y);
+
+                mueveCaballo(miTablero, (i*12)+y);
 
             }
 
@@ -461,8 +407,7 @@ void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
 
 
                 //ENCUENTRA REY BLANCO
-                //TableroPrueba* nuevo = new TableroPrueba(*miTablero);
-                // nuevo->casillasInt = miTablero->casillasInt;
+
                 muevePeon(miTablero, (i*12)+y);
                 //   std::cout << "!!!!!!!!!!!!!!!!!!ACABA MUEVE PEON!!!!!!!!!!!!!!!!!!!" << std::endl;
 
@@ -475,71 +420,6 @@ void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
 
 
     //  std::cout << "!!!!!!!!!!!!!!!!!!ACABA MOVI!!!!!!!!!!!!!!!!!!!" << std::endl;
-
-
-    //EMPIEZA A CREAR HIJOS POR CADA MOVIMIENTO
-
-    //REY
-
-    //Primer nodo hijo
-    //  TableroPrueba* //nuevo = tablero->tableroHijo;
-    //        nuevo ;//= new TableroPrueba(miTablero);
-
-    // mueveficha(nuevo, casillaAntes, casillaDespues);
-
-    //  miTablero->vectorMov.push_back(&nuevo);
-
-    //Los otros nodos hijo
-
-
-
-
-    //  for (int nivel = 0; nivel < 8; nivel++){
-    // nuevo = nuevo->tableroHermano;
-
-
-
-    //
-    //   mueveficha(nuevo, casillaAntes, casillaDespues);
-
-
-
-    //   }
-
-
-    //REINA
-
-
-
-
-    //ALFIL
-
-
-
-    //CABALLO
-
-
-
-    //TORRE
-
-
-
-    //PEON
-
-
-
-
-    //AÑADE LOS MOVIMIENTOS AL VECTOR
-
-
-    //   vectorTableros.push_back();
-    //   vectorTableros.push_back(20);
-    //  vectorTableros.push_back(30);
-
-    //Recorre las fichas en juego y genera tableros con todos los movimientos posibles
-
-
-    // return miTablero->vectorMov;
 
 
 
@@ -642,50 +522,93 @@ bool ModuloIA::mueveReina(TableroPrueba* miTablero, int casilla)
 
 void ModuloIA::muevePeon(TableroPrueba* miTablero, int casilla)
 {
-    //  std::cout << "!!!!!!!!!!!INICIO!!!!!!!!!!" << std::endl;
-    //  TableroPrueba* TableroMovido;
-    //   TableroMovido = new TableroPrueba(*miTablero);
-
     int nuevaCasilla;
-
-    bool pasa = false;
+    int casillaCome;
+    int casillaComeSec;
 
     if (miTablero->turnoN)
     {
         //  std::cout << "!!!!!!!!!!!TURNO NEGRAS!!!!!!!!!!" << std::endl;
 
         nuevaCasilla = casilla-12;
+        casillaCome = casilla-11;
+        casillaComeSec= casilla-13;
         //  std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
         // std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
 
-        if(miTablero->casillasInt[nuevaCasilla] >= 0)
+        if(miTablero->casillasInt[nuevaCasilla] == 0)
         {
-            pasa = true;
+            if (nuevaCasilla > 122){
+                //        miTablero->casillasInt[nuevaCasilla] = 0;
+                //        peonEnemigo == true;
+
+                miTablero->casillasInt[casilla] = -5;
+            }
+
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        }
+
+        //   nuevaCasilla = casilla+1;
+        //    bool peonEnemigo = false;
+
+        if (/*peonEnemigo ||*/ miTablero->casillasInt[casillaCome] > 0)
+        {
+
+            if (casillaCome > 122){
+                //        miTablero->casillasInt[nuevaCasilla] = 0;
+                //        peonEnemigo == true;
+
+                miTablero->casillasInt[casilla] = -5;
+            }
+
+            aplicaMovimiento(*miTablero, casilla, casillaCome);
+        }
+
+        if (miTablero->casillasInt[casillaComeSec] > 0)
+        {
+
+            if (casillaComeSec > 122){
+                //        miTablero->casillasInt[nuevaCasilla] = 0;
+                //        peonEnemigo == true;
+
+                miTablero->casillasInt[casilla] = -5;
+            }
+            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
         }
     }else
     {
-        //   std::cout << "!!!!!!!!!!!TURNO BLANCAS!!!!!!!!!!" << std::endl;
         nuevaCasilla = casilla+12;
-        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+        casillaCome = casilla+11;
+        casillaComeSec= casilla+13;
+
+        //   std::cout << "!!!!!!!!!!!TURNO BLANCAS!!!!!!!!!!" << std::endl;
+        if (miTablero->casillasInt[nuevaCasilla] == 0)
+        {
+            if (nuevaCasilla < 36){
+                miTablero->casillasInt[casilla] = 5;
+            }
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        }
         //   std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
         //   std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
+
+        if (miTablero->casillasInt[casillaCome] < 0)
+        {
+
+            if (casillaCome < 36){
+                miTablero->casillasInt[casilla] = 5;
+            }
+            aplicaMovimiento(*miTablero, casilla, casillaCome);
+        }
+
+        if (miTablero->casillasInt[casillaComeSec] < 0)
+        {
+            if (casillaComeSec < 36){
+                miTablero->casillasInt[casilla] = 5;
+            }
+            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+        }
     }
-
-    if (pasa)
-    {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-        //  TableroMovido->fichaMovida = "PEON!!!!";
-
-        //   std::cout << "!!!!!!!!!!!!!!!!!!TABLERO DE PEON!!!!!!!!!!!!!!!!!!!" << std::endl;
-
-
-        //        miTablero->vectorMov->push_back(TableroMovido);
-
-    }
-    // std::cout << "!!!!DELETEA!!!!!!!!!!!!!!!" << std::endl;
-
-    //  delete TableroMovido;
 
     // std::cout << "!!!!FIN!!!!!!!!!!!!!!!: "  <<std::endl;
 
@@ -977,27 +900,15 @@ bool ModuloIA::mueveCaballo(TableroPrueba* miTablero, int casilla)
 
 bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 {
-    //   std::cout << "!!!!!!!!!MUEVE REY!!!!!!!!!!!!!" << miTablero->turnoN   << std::endl;
-
-
-    // Row = (int)(position / 8)
-
-    //  Column = position % 8
-
-    // TableroPrueba* TableroMovido = new TableroPrueba(*miTablero);
-    //TableroMovido->casillasInt = new int[144];
-    //*TableroMovido->casillasInt[144] = *miTablero->casillasInt[144];
-
-    //  TableroMovido-> movimiento[0];
-
-    //  TableroMovido-> movimiento[1];
-
     int nuevaCasilla;
 
     nuevaCasilla = casilla-1;
 
 
     bool pasa = false;
+
+
+
 
     if (miTablero->turnoN)
     {
@@ -1006,28 +917,73 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
     if (pasa){
 
-        //TableroMovido->fichaMovida = "REY!!!!";
 
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
 
-        //  miTablero->numeroHijos++;
-
-        //   std::cout << "!!!!!!!!!!!!!!!!!!TABLERO 1!!!!!!!!!!!!!!!!!!!" << std::endl;
-
-        // miTablero->vectorMov->push_back(TableroMovido);
 
     }
 
-    // delete TableroMovido;
+    if (casilla < 36)
+    {
+        //ENROQUE CORTO
+        bool torre = false;
+        nuevaCasilla = casilla-3;
 
-    // std::cout << "!!!!!!!!!!!!!!!! OTRO  TableroMovido;!!!!!!!!!!!!!!" << std::endl;
+        pasa = false;
+        if (miTablero->turnoN)
+        {
+            torre = miTablero->casillasInt[nuevaCasilla] == -4 ;
+        }else  torre = miTablero->casillasInt[nuevaCasilla] == 4;
+
+        if (torre && miTablero->casillasInt[casilla-2] == 0&& miTablero->casillasInt[casilla-1] == 0)
+        {
+
+            nuevaCasilla = casilla-2;
+
+            miTablero->casillasInt[casilla-3] = 0;
+
+            if (miTablero->turnoN)
+                miTablero->casillasInt[casilla-1] = -4;
+            else
+                miTablero->casillasInt[casilla-1] = 4;
+
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+        }
+    }
+
+    if (casilla > 122)
+    {
+        //ENROQUE LARGO
+        bool torre = false;
+        nuevaCasilla = casilla+4;
+
+        pasa = false;
+        if (miTablero->turnoN)
+        {
+            torre = miTablero->casillasInt[nuevaCasilla] == -4 ;
+        }else  torre = miTablero->casillasInt[nuevaCasilla] == 4;
+
+        if (torre && miTablero->casillasInt[casilla+2] == 0 && miTablero->casillasInt[casilla+1] == 0 && miTablero->casillasInt[casilla+3] == 0)
+        {
+
+            nuevaCasilla = casilla+2;
+
+            miTablero->casillasInt[casilla+4] = 0;
+
+            if (miTablero->turnoN)
+                miTablero->casillasInt[casilla+1] = -4;
+            else
+                miTablero->casillasInt[casilla+1] = 4;
+
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+        }
 
 
-    //  TableroPrueba tp = TableroPrueba(*miTablero);
 
-    //  TableroMovido = new TableroPrueba(*miTablero);
-    //TableroMovido->casillasInt = new int[144];
-    //*TableroMovido->casillasInt[144] = *miTablero->casillasInt[144];
+    }
+
 
 
     nuevaCasilla = casilla+1;
@@ -1045,26 +1001,7 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
 
 
-        //  std::cout << "!!!!!!!!!!!!!!!!!!TABLERO 2!!!!!!!!!!!!!!!!!!!" << std::endl;
-
-
-        //miTablero->numeroHijos++;
-
-
-
-        //  miTablero->vectorMov->push_back(TableroMovido);
-
     }
-
-    //   std::cout << "!!!!!!!!!!!!!!!!  SEGUNDO TAB;!!!!!!!!!!!!!!" << std::endl;
-
-
-    // delete [] TableroMovido;
-
-
-    //  TableroMovido = new TableroPrueba(*miTablero);
-    //TableroMovido->casillasInt = new int[144];
-    //*TableroMovido->casillasInt[144] = *miTablero->casillasInt[144];
 
 
     nuevaCasilla = casilla-12;
@@ -1077,30 +1014,11 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
     if (pasa){
 
-        //  TableroMovido->fichaMovida = "REY!!!!";
 
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
 
-
-
-        //  std::cout << "!!!!!!!!!!!!!!!!!!TABLERO 3!!!!!!!!!!!!!!!!!!!" << std::endl;
-
-        //  miTablero->numeroHijos++;
-
-
-
-        //  miTablero->vectorMov->push_back(TableroMovido);
-
-
     }
 
-    //  std::cout << "!!!!!!!!!!!!!!!!  TERCER TAB;!!!!!!!!!!!!!!" << std::endl;
-
-    // delete [] TableroMovido;
-
-    //    TableroMovido = new TableroPrueba(*miTablero);
-    //TableroMovido->casillasInt = new int[144];
-    //*TableroMovido->casillasInt[144] = *miTablero->casillasInt[144];
 
     nuevaCasilla = casilla+12;
 
@@ -1121,25 +1039,7 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
 
 
-        //   std::cout << "!!!!!!!!!!!!!!!!!!TABLERO 4!!!!!!!!!!!!!!!!!!!" << std::endl;
-
-        //  miTablero->numeroHijos++;
-
-
-        //  miTablero->vectorMov->push_back(TableroMovido);
-
-
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    //  delete [] TableroMovido;
-
-    //TableroMovido = new TableroPrueba(*miTablero);
-    //TableroMovido->casillasInt = new int[144];
-    //*TableroMovido->casillasInt[144] = *miTablero->casillasInt[144];
-
-
 
 
     nuevaCasilla = casilla+13;
@@ -1160,22 +1060,8 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
 
 
-        //   std::cout << "!!!!!!!!!!!!!!!!!!TABLERO 5!!!!!!!!!!!!!!!!!!!" << std::endl;
-
-        //  miTablero->numeroHijos++;
-
-
-        //    miTablero->vectorMov->push_back(TableroMovido);
-
 
     }
-
-    //  delete [] TableroMovido;
-
-
-    // TableroMovido = new TableroPrueba(*miTablero);
-    //TableroMovido->casillasInt = new int[144];
-    //*TableroMovido->casillasInt[144] = *miTablero->casillasInt[144];
 
     nuevaCasilla = casilla+11;
 
@@ -1187,28 +1073,15 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
     if (pasa)
     {
 
-        //   TableroMovido->fichaMovida = "REY!!!!";
 
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
 
 
 
 
-        //  std::cout << "!!!!!!!!!!!!!!!!!!TABLERO 6!!!!!!!!!!!!!!!!!!!" << std::endl;
-        //   miTablero->numeroHijos++;
-
-
-
-        //   miTablero->vectorMov->push_back(TableroMovido);
-
-
     }
 
-    //  delete [] TableroMovido;
 
-    //  TableroMovido = new TableroPrueba(*miTablero);
-    //TableroMovido->casillasInt = new int[144];
-    //*TableroMovido->casillasInt[144] = *miTablero->casillasInt[144];
 
     nuevaCasilla = casilla-13;
     pasa = false;
@@ -1226,23 +1099,9 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
 
 
-
-        //std::cout << "!!!!!!!!!!!!!!!!!!TABLERO 7!!!!!!!!!!!!!!!!!!!" << std::endl;
-
-        //  miTablero->numeroHijos++;
-
-
-        //   miTablero->vectorMov->push_back(TableroMovido);
-
-
     }
 
-    //   delete [] TableroMovido;
 
-
-    //   TableroMovido = new TableroPrueba(*miTablero);
-    //TableroMovido->casillasInt = new int[144];
-    //*TableroMovido->casillasInt[144] = *miTablero->casillasInt[144];
 
     nuevaCasilla = casilla-11;
     pasa = false;
@@ -1261,27 +1120,7 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
 
 
-        //  std::cout << "!!!!!!!!!!!!!!!!!!TABLERO 8!!!!!!!!!!!!!!!!!!!" << std::endl;
-        //   miTablero->numeroHijos++;
-
-
-        //  miTablero->vectorMov->push_back(TableroMovido);
-
-
     }
-
-    // std::cout << "!!!!!!!!!!!!!!!! DELETE ULTIMO TAB!!!!!!!!!!!!!!" << std::endl;
-
-    //  delete [] TableroMovido;
-
-
-    // aplicaMovimiento(miTablero, casilla, casilla-1);
-    //  aplicaMovimiento(miTablero, casilla, casilla-8);
-    //  aplicaMovimiento(miTablero, casilla, casilla+8);
-
-
-
-
 
 
 
@@ -1295,18 +1134,10 @@ void ModuloIA::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, int cas
     if(miTablero.casillasInt[casDestino] != 99)
     {
 
-        //  std::cout << "!!!!!!!!!!!!aplicaMovimiento!!!!!!!!!!!" << std::endl;
 
 
         TableroPrueba* TableroMovido = new TableroPrueba(miTablero);
 
-        //if( miTablero.vectorMov == NULL){
-        //  std::cout << "!!!!!!EL VECTOR ES NULL Y SE CREA NUEVO!!!!!" << std::endl;
-
-        //miTablero.vectorMov = new std::vector<TableroPrueba*>;
-
-
-        //}else  std::cout << "!!!!!!EL VECTOR NO ES NULL!!!!: " << miTablero.vectorMov->size()<<std::endl;
 
 
 

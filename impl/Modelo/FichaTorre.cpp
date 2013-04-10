@@ -3,8 +3,7 @@
 
 
 FichaTorre::FichaTorre( std::string nombre) :
-    Ficha("Torre"+nombre)
-
+    Ficha("T_"+nombre, Torre)
 
 
 
@@ -20,8 +19,6 @@ FichaTorre::~FichaTorre()
 
 
 bool FichaTorre::mueveFicha(){
-
-
 
 
 }
