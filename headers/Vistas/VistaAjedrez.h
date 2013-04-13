@@ -5,7 +5,7 @@
 
 
 #include "BaseVistas.h"
-
+#include "../Modelo/EscenaAjedrez.h"
 #include "../Modelo/Autorizaciones.h"
 #include <Ogre.h>
 

@@ -1,8 +1,9 @@
 #ifndef __Modelo_
 #define __Modelo_
 #include <Ogre.h>
-#include "EscenaAjedrez.h"
+//#include "EscenaAjedrez.h"
 #include "ModeloMenu.h"
+#include "Tablero.h"
 
 
 class Modelo
@@ -11,7 +12,7 @@ public:
     bool getApagar();
     int getNumPantalla();
 
-    EscenaAjedrez* escena;
+//    EscenaAjedrez* escena;
     ModeloMenu* menu;
 
     int modoJuego;
@@ -21,10 +22,10 @@ public:
     //Singleton
     static Modelo* getSingletonPtr();
 
-
+    std::string* resolucion;
 
     ~Modelo(void);
-
+    Tablero* getTablero();
 
 protected:
 
@@ -49,6 +50,9 @@ private:
     Ogre::String mPluginsCfg;
     Ogre::Root *mRoot;
     Ogre::SceneManager* mSceneMgr;
+
+    Tablero* tablero;
+
 
 };
 

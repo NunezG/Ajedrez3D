@@ -25,7 +25,7 @@ bool VistaAjedrezSolo::keyReleased( const OIS::KeyEvent &arg )
 
 bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 {
-    if(!escenaAjedrez->esTurnoNegras())
+    if(!modelo->getTablero()->getTurnoNegras())
     return VistaAjedrez::mouseMoved( arg );
     //else mInputMan->injectMouseMove(arg);
     return true;
@@ -33,7 +33,7 @@ bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 
 bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {      
-    if(!escenaAjedrez->esTurnoNegras())
+    if(!modelo->getTablero()->getTurnoNegras())
     return VistaAjedrez::mousePressed( arg , id);
     //else mInputMan->injectMouseDown(arg, id);
      return true;
@@ -42,7 +42,7 @@ bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButto
 
 bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    if(!escenaAjedrez->esTurnoNegras())
+    if(!modelo->getTablero()->getTurnoNegras())
     return VistaAjedrez::mouseReleased( arg, id );
     else{
       //  mInputMan->injectMouseUp(arg, id);
@@ -54,7 +54,7 @@ bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButt
 //-------------------------------------------------------------------------------------
 bool VistaAjedrezSolo::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    if(modelo->escena->esTurnoNegras())rotaTurno = Ogre::Real(0.0f);
+    if(modelo->getTablero()->getTurnoNegras())rotaTurno = Ogre::Real(0.0f);
     return VistaAjedrez::frameRenderingQueued(evt);
     return true;
 }

@@ -4,6 +4,7 @@
 
 
 
+#include "../Modelo/Modelo.h"
 
 #include <OgreCamera.h>
 #include <OgreEntity.h>
@@ -54,6 +55,8 @@ public:
     Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
     Ogre::RaySceneQuery* createRayQuery(void);
 
+
+    void iluminaCasillaSobrevolada();
     void iluminaCasilla(Casilla* casilla);
     void apagaCasilla(Casilla* casilla);
 
@@ -78,13 +81,7 @@ public:
 
     void rotacionCamara(Ogre::Degree angulo);
     void cambiaTurno();
-    bool esTurnoNegras();
 
-    Casilla* getNodoFichaSeleccionada();
-    Casilla* getNodoCasillaSobrevolada();
-
-    void setNodoFichaSeleccionada(Casilla* nodo);
-    void setNodoCasillaSobrevolada(Casilla* nodo);
     bool FichaComestible();
 
     Ogre::String columnas;
@@ -92,24 +89,25 @@ public:
     //std::vector<Tablero*> HistorialMovimientos;
 
 
-    Tablero* tablero;
+   Tablero* tablero;
 
     int* traduceTablero();
 
+    int* mueveYTraduceTablero();
+
+    bool seleccionaFichaEnPosicion(int posX, int posY);
 
 private:   
 
-
+     Modelo* modelo;
 
     //Ogre::Entity *entTablero;
 
 
     void creaIluminacion();
 
-    Casilla* _selectedNode;
-    Casilla* _nodoNuevo;
 
-    bool turnoNegras;
+   // bool turnoNegras;
 
     InputMan::SdkCameraMan* mInputMan;
 

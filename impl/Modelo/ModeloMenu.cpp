@@ -1,68 +1,133 @@
 #include "../../headers/Modelo/ModeloMenu.h"
 
-
-
-ModeloMenu::ModeloMenu() : posBoton(0)
-
+ModeloMenu::ModeloMenu() : posBoton(0) 
+  ,numVentana(0)
 {
-
-
-
 }
 
 ModeloMenu::~ModeloMenu()
-{
-
-
+{    
 }
 
-
-void ModeloMenu::creaBoton(CEGUI::Event::Subscriber evento, Ogre::String nombre)
+void ModeloMenu::creaBoton(CEGUI::Event::Subscriber evento, Ogre::String nombre, CEGUI::FrameWindow* ventana)
 {
+    //  Ogre::LogManager::getSingletonPtr()->logMessage("*** CRcfbhfbxbet***");
 
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** CRcfbhfbxbet***");
+    CEGUI::ButtonBase* quitButton;
+
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
 
-    CEGUI::Window* quitButton;
+    //  Ogre::LogManager::getSingletonPtr()->logMessage("*** C222222***");
 
-   CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-
-    quitButton = wmgr.createWindow("TaharezLook/Button", nombre);
-   quitButton->setText(nombre);
+    quitButton = static_cast<CEGUI::ButtonBase*>(wmgr.createWindow("TaharezLook/Button", nombre));
+    quitButton->setText(nombre);
     quitButton->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2*posBoton,0)));
 
     quitButton->setSize(CEGUI::UVector2(CEGUI::UDim(0.15,0),CEGUI::UDim(0.05,0)));
-   quitButton->subscribeEvent(CEGUI::PushButton::EventClicked, evento);
+    quitButton->subscribeEvent(CEGUI::PushButton::EventClicked, evento);
 
-   Ogre::LogManager::getSingletonPtr()->logMessage("*** casi final***");
+    // Ogre::LogManager::getSingletonPtr()->logMessage("*** C222222***");
 
-  //  botones[posBoton] = quitButton;
+
+    // Ogre::LogManager::getSingletonPtr()->logMessage("*** casi final***");
+
+    //  botones[posBoton] = quitButton;
 
     posBoton++;
 
-   //Atsstaching buttons
-   ventana->addChildWindow(quitButton);
-   Ogre::LogManager::getSingletonPtr()->logMessage("***  final***");
+    //Atsstaching buttons
+    ventana->addChildWindow(quitButton);
+    // Ogre::LogManager::getSingletonPtr()->logMessage("***  final***");
 
-   // CEGUI::Event::Subscriber(&MenuInicio::botonSalir, this)
+    // CEGUI::Event::Subscriber(&MenuInicio::botonSalir, this)
 }
 
+CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre, std::vector<std::string*> listaElementos, CEGUI::FrameWindow* ventana)
+{
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** MENU DESPLEGABLE***");
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+
+    CEGUI::Listbox* listaReal = static_cast<CEGUI::Listbox*>(wmgr.createWindow("TaharezLook/Listbox",nombre));
+
+    // new  CEGUI::Listbox("TaharezLook/Listbox","ListaDesplegabl");
+    //
+    //
+
+    listaReal->show();
+    //   listaReal->setRenderingSurface();
+
+    CEGUI::colour col;
+
+    col.setBlue(100.0f);
+    col.setGreen(50.0f);
+    col.setRed(50.0f);
+    col.setAlpha(50.0f);
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** for***");
+
+    for (int i = 0; i < 6; i++)
+    {
+
+        Ogre::LogManager::getSingletonPtr()->logMessage("*** un for***");
+
+        elementoLista[i] = new CEGUI::ListboxTextItem(std::string(*listaElementos.at(i)));
+
+        //elementoLista->setSelectionColours(col );
+
+        if (i== 1)elementoLista[i]->setSelected(true);
+
+        // elementoLista->setText();
+
+        Ogre::LogManager::getSingletonPtr()->logMessage("*** agrega a lista***");
+
+        listaReal->addItem(elementoLista[i]);
+        listaReal->handleUpdatedItemData();
+
+    }
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** MENU 2***");
+
+    //  lista = wmgr.createWindow("TaharezLook/Listbox", nombre);
+    // lista->setText(nombre);
+    posBoton=1;
+
+    listaReal->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2*posBoton,0)));
+
+    listaReal->setSize(CEGUI::UVector2(CEGUI::UDim(0.15,0),CEGUI::UDim(0.2,0)));
+
+    listaReal->subscribeEvent(CEGUI::Listbox::EventMouseMove, evento);
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** casi final***");
+
+    //  botones[posBoton] = quitButton;
+
+    ventana->addChildWindow(listaReal);
+
+    posBoton = posBoton+2;
+
+    //Atsstaching buttons
+    Ogre::LogManager::getSingletonPtr()->logMessage("***  final***");
 
 
 
-void ModeloMenu::creaVentana()
+    return listaReal;
+    // CEGUI::Event::Subscriber(&MenuInicio::botonSalir, this)
+}
+
+CEGUI::FrameWindow* ModeloMenu::creaVentana(std::string nombre)
 {
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREdddddddddddddddddddAftghet***");
 
 
-   CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
 
-   Ogre::LogManager::getSingletonPtr()->logMessage("*** CREAftghet***");
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** CREAftghet***");
 
-  ventana = static_cast<CEGUI::FrameWindow*>(wmgr.createWindow( "TaharezLook/FrameWindow", "testWindow" ));
+    CEGUI::FrameWindow* ventana = static_cast<CEGUI::FrameWindow*>(wmgr.createWindow( "TaharezLook/FrameWindow", nombre));
 
-  Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUcvcfdfI dentro 5***");
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUcvcfdfI dentro 5***");
 
 
     // fWnd->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25f, 0 ), CEGUI::UDim( 0.25f, 0 ) ) );
@@ -73,12 +138,8 @@ void ModeloMenu::creaVentana()
 
     sys->getGUISheet()->addChildWindow( ventana );
 
-
+    return ventana;
 }
-
-
-
-
 
 ModeloMenu* ModeloMenu::getSingletonPtr()
 {

@@ -53,7 +53,7 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
     {
 
 
-        if (modelo->escena->esTurnoNegras() && esperaCalculo == false)
+        if (modelo->getTablero()->getTurnoNegras() && esperaCalculo == false)
         {
             punteroVentana->capturaRaton = false;
 
@@ -87,6 +87,8 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 {
     // mR-aySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
+    escenaAjedrez = EscenaAjedrez::getSingletonPtr();
+
     std::cout << "INICIA VISTA 1 " << std::endl;
 
     modelo->construyeAjedrez();
@@ -95,24 +97,24 @@ bool ControlJuego::iniciaModeloAjedrez(void)
     //escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     std::cout << "INICIA VISTA 2 " << std::endl;
 
-    modelo->escena->setSceneManager(mSceneMgr);
+    escenaAjedrez->setSceneManager(mSceneMgr);
 
-    modelo->escena->createRayQuery();
+    escenaAjedrez->createRayQuery();
     std::cout << "INICIA VISTA 3 " << std::endl;
 
-    modelo->escena->createCamera();
+    escenaAjedrez->createCamera();
     //mInputMan->setTopSpeed(100);
 
     std::cout << "INICIA VISTA 4 " << std::endl;
 
-    modelo->escena->createViewports(punteroVentana->getVentana());
+    escenaAjedrez->createViewports(punteroVentana->getVentana());
     std::cout << "INICIA VISTA 5 " << std::endl;
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
     std::cout << "INICIA VISTA 6 " << std::endl;
 
-    createScene();
+    escenaAjedrez->createScene();
 
     return true;
 }
@@ -123,7 +125,6 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 
 void ControlJuego::createScene(void)
 {
-    modelo->escena->createScene();
 }
 
 
@@ -140,37 +141,30 @@ void ControlJuego::calculaMovimiento(){
 
     ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
 
-
-
     //¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡PASALO A VITA AJEDREZ SOLO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    modulo->construyeArbol(modelo->escena->traduceTablero());
+    modulo->construyeArbol(escenaAjedrez->traduceTablero());
 
 
+    if (modulo->tableroElegido != NULL)
+    {
+        std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
+        std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
+        std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
 
-    std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
-    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
-    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
+        escenaAjedrez->mueveIA(modulo->tableroElegido->movimiento[0],modulo->tableroElegido->movimiento[1]);
 
+        modulo->tableroElegido = NULL;
 
-    modelo->escena->mueveIA(modulo->tableroElegido->movimiento[0],modulo->tableroElegido->movimiento[1]);
-
-    std::cout  << "DELETE TABLEROELEGIDO EN COTROL: "<<  std::endl;
-
-
-    modulo->tableroElegido = NULL;
-
+    } else std::cout  << "NO HAY FICHA EN CONTROL, SE SUPONE JAQUE MATE O AHOGADO " << std::endl;
 
     std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
 
-
     delete modulo->tableroPadre;
-
 
     std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
     modulo->tableroPadre = NULL;
 
     modulo = NULL;
-
 
     //   std::cout   << "BORRA TABLERO " << std::endl;
 
@@ -185,9 +179,6 @@ void ControlJuego::calculaMovimiento(){
 
     //modulo->ejecutaMovimiento(mod);
 
-
-
-
     //INICIA LA IA PARA CALCULAR LA FICHA A MOVER
 
     //PRIMERO HAZLO CON EL TABLERO Y LUEGO TE OCUPAS DE LAS FICHAS
@@ -195,11 +186,4 @@ void ControlJuego::calculaMovimiento(){
     //ModuloIA modulo;
 
     // modelo->escena->tablero->movimientosPeon();
-
-
-
-
-
-
-
 }

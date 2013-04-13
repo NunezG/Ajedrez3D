@@ -18,12 +18,17 @@ public:
     static ModeloMenu* getSingletonPtr();
 
 
-    void creaBoton(CEGUI::Event::Subscriber evento, Ogre::String nombre);
+    void creaBoton(CEGUI::Event::Subscriber evento, Ogre::String nombre, CEGUI::FrameWindow* ventana);
+    CEGUI::Listbox* creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre,std::vector<std::string*> listaElementos, CEGUI::FrameWindow* ventana);
 
     int posBoton;
 
-    CEGUI::FrameWindow* ventana;
-    void creaVentana();
+    int numVentana;
+
+    CEGUI::ListboxTextItem* elementoLista[];
+
+  //  CEGUI::FrameWindow* ventana;
+    CEGUI::FrameWindow* creaVentana(std::string nombre);
 
 
 private:  

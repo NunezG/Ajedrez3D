@@ -5,11 +5,44 @@
 Tablero::Tablero() :
     columnas("ABCDEFGH")
   , ObjetoOgre("Tablero")
+  ,alPaso(0)
+  , turnoNegras(false)
+  ,  _nodoNuevo(0)
+  , _selectedNode(0)
 {
 
 }
 Tablero::~Tablero()
 {
+}
+
+Casilla* Tablero::getNodoFichaSeleccionada(){
+    return _selectedNode;
+
+}
+
+Casilla* Tablero::getNodoCasillaSobrevolada(){
+
+    return _nodoNuevo;
+}
+
+
+bool Tablero::getTurnoNegras(){
+    return turnoNegras;
+}
+
+void Tablero::setTurnoNegras(bool turno){
+    turnoNegras = turno;
+}
+
+void Tablero::setNodoFichaSeleccionada(Casilla* nodo)
+{
+    _selectedNode = nodo;
+
+}
+void Tablero::setNodoCasillaSobrevolada(Casilla* nodo)
+{
+    _nodoNuevo = nodo;
 }
 
 bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
@@ -305,6 +338,54 @@ bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
             return false;
     }
     return true;
+}
+
+
+int Tablero::evaulaTablero(const int casillasInt[144])
+{
+
+    bool BlackCheck;
+    bool BlackMate;
+    bool WhiteCheck;
+    bool WhiteMate;
+    bool StaleMate;
+
+
+    int suma = 0;
+
+
+    //EMPIEZA CONTANDO LAS FICHAS DEL TABLERO Y HACIENDO UNA SUMA SIMPLE...
+
+    for (int i = 2; i<10;i++)
+    {
+        for (int y = 2; y<10;y++)
+        {
+
+
+            //MIRA SI ATACAN A LA
+            if (turnoNegras){
+            if (casillasInt[(i*12)+y]  == 6)
+            {
+
+
+            //    suma =  suma - valorFicha(tipoF(-casillasInt[(i*12)+y]));
+
+            }else if (casillasInt[(i*12)+y] > 0){
+
+            //    suma =  suma + valorFicha(tipoF(casillasInt[(i*12)+y]));
+
+            }
+
+            }
+
+        }
+
+    }
+
+    // std::cout << "ESTE TABLERO HA ACUMULADO UN VALOR DE: " << suma<< std::endl;
+
+
+    return suma;
 }
 
 /*

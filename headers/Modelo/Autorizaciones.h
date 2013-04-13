@@ -10,6 +10,7 @@ public:
     virtual ~Autorizaciones(void);
 
     static bool autorizaCasilla(Tablero* miTablero, Casilla* nodoSeleccionado, Casilla* nodoSobrevolado, bool turnoNegras);
+    static bool evaluaJaque(int casillasInt[144], bool turnoNegras);
 
 private:
 
@@ -22,6 +23,8 @@ private:
     static bool autorizaAlfil(posicion diferencia, posicion nodoSobrevolado, Tablero* elTablero);
     static bool autorizaTorre(posicion diferencia, posicion nodoSobrevolado, Tablero* elTablero);
     static bool autorizaCaballo(posicion diferencia);
+
+
 
    // static bool caminoAbajo(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo);
     //static bool caminoDiagArrIzq(Ogre::Vector3 distancia, Ogre::SceneNode *_nodoNuevo);

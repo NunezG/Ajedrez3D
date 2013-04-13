@@ -12,6 +12,9 @@ VistaAjedrez::VistaAjedrez( Ogre::RenderWindow* mWindow) :
 
 {
     escenaAjedrez = EscenaAjedrez::getSingletonPtr();
+    modelo =Modelo::getSingletonPtr();
+
+
 
 }
 
@@ -48,9 +51,6 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
     }
 
 
-
-    // escenaAjedrez->mueveIzquierda();
-    // mInputMan->injectKeyDown(arg);
     return true;
 }
 
@@ -59,20 +59,7 @@ bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 
     escenaAjedrez->noMueveCamara();
 
-    /*
-   if (evt.key == OIS::KC_A || evt.key == OIS::KC_LEFT)
-    {
-         escenaAjedrez->noMueveCamaraIzquierda();
-        // mCamera->yaw(Ogre::Degree(-10.25f));
-    }
-    if (evt.key == OIS::KC_D || evt.key == OIS::KC_RIGHT)
-    {
-         escenaAjedrez->noMueveCamaraIzquierda();
-        // mCamera->pitch(Ogre::Degree(10.025f));
-    }
-*/
 
-    // mInputMan->injectKeyUp(arg);
     return true;
 }
 
@@ -115,23 +102,23 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         {
             Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
 
-            Casilla* casillaSobrevolada = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo(nodoSobrevolado->getName()));
+            Casilla* casillaSobrevolada = static_cast<Casilla*>(modelo->getTablero()->getHijo(nodoSobrevolado->getName()));
 
-            if (escenaAjedrez->getNodoCasillaSobrevolada()==NULL || casillaSobrevolada->getNombre() != escenaAjedrez->getNodoCasillaSobrevolada() -> getNombre())
+            if (modelo->getTablero()->getNodoCasillaSobrevolada()==NULL || casillaSobrevolada->getNombre() != modelo->getTablero()->getNodoCasillaSobrevolada() -> getNombre())
             {
 
                 std::cout << "IF" << std::endl;
 
 
-                if (escenaAjedrez->getNodoCasillaSobrevolada()!=NULL){
-                    escenaAjedrez->apagaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
-                    escenaAjedrez->setNodoCasillaSobrevolada(NULL);
+                if (modelo->getTablero()->getNodoCasillaSobrevolada()!=NULL){
+                    escenaAjedrez->apagaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+                    modelo->getTablero()->setNodoCasillaSobrevolada(NULL);
                 }
-                escenaAjedrez->setNodoCasillaSobrevolada(casillaSobrevolada);
+                modelo->getTablero()->setNodoCasillaSobrevolada(casillaSobrevolada);
 
                 //Autoriza la casilla sobrevolada para mover ficha (no mira si la casilla está ocupada)
                 bool autorizado= true;
-                autorizado = Autorizaciones::autorizaCasilla(escenaAjedrez->tablero, escenaAjedrez->getNodoFichaSeleccionada() , escenaAjedrez->getNodoCasillaSobrevolada(), escenaAjedrez->esTurnoNegras());
+                autorizado = Autorizaciones::autorizaCasilla(modelo->getTablero(), modelo->getTablero()->getNodoFichaSeleccionada() , modelo->getTablero()->getNodoCasillaSobrevolada(), modelo->getTablero()->getTurnoNegras());
 
                 std::cout << "autorizado: "<<autorizado << std::endl;
 
@@ -139,14 +126,37 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
                 if(autorizado)
                 {
 
-                    if  (escenaAjedrez->getNodoCasillaSobrevolada()->sinHijos() != true)
+                    if  (modelo->getTablero()->getNodoCasillaSobrevolada()->sinHijos() != true)
                     {
 
 
-                        if (escenaAjedrez->FichaComestible()) escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
+                        if (escenaAjedrez->FichaComestible()) {
+                            //falta evaluar jaque y ahogado
+                            if (!Autorizaciones::evaluaJaque(escenaAjedrez->mueveYTraduceTablero(), modelo->getTablero()->getTurnoNegras()))
+                            {
+                                escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+                                std::cout << "ES COMESTIBLE" << std::endl;
+                            }else {
+                                std::cout << "JAQUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" << std::endl;
 
-                    } else{ escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
-                        std::cout << "ES COMESTIBLE" << std::endl;
+
+                            }
+
+
+                        }
+
+                    } else{
+
+                        //falta evaluar jaque y ahogado
+                        if (!Autorizaciones::evaluaJaque(escenaAjedrez->mueveYTraduceTablero(), modelo->getTablero()->getTurnoNegras()))
+                        {
+                            escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+                            std::cout << "ES COMESTIBLE" << std::endl;
+                        }else {
+                            std::cout << "JAQUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" << std::endl;
+
+
+                        }
 
                     }
                 }
@@ -252,216 +262,31 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
     if (mbleft)
     {  // Boton izquierdo o derecho -------------
         //std::cout << "mbleft "<< turnoNegras<< std::endl;
-        // if (escenaAjedrez->esTurnoNegras())
+        // if (escenaAjedrez->getTurnoNegras())
         //   {
         //        mask = 'N';  // Podemos elegir todo
         // } else mask ='B';
 
-        mask = 'C';
+
+        fichaSeleccionada = false;
+
+        // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
+        if (escenaAjedrez->seleccionaFichaEnPosicion(posx, posy))
+            fichaSeleccionada = true;
+
 
         std::cout  << "mpouse1" << std::endl;
 
-        if (escenaAjedrez->getNodoFichaSeleccionada() != NULL)
-        {  // Si habia alguno seleccionado...
-
-            std::cout  << "fichasel" << std::endl;
-            Ficha* ficha = static_cast<Ficha*>(escenaAjedrez->getNodoFichaSeleccionada()->getHijo(0));
-            ficha->getNodoOgre()->showBoundingBox(false);
-            escenaAjedrez->setNodoFichaSeleccionada(NULL);
-            fichaSeleccionada = false;
-        }
-
-        std::cout  << "mpouse2" << std::endl;
-
-        //EMPIEZA RAYO
-        //Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
-        Ogre::RaySceneQueryResult &result =escenaAjedrez->executeRay(posx,posy,mask);//mRaySceneQuery->execute();
-        Ogre::RaySceneQueryResult::iterator it;
-        it = result.begin();
-        std::cout  << "mpouse3" << std::endl;
-
-
-        if (it != result.end())
-        {
-            std::cout  << "mpouse31121: "<< it->movable->getParentSceneNode()->getName()<< std::endl;
-
-
-            std::cout  << "mpouse31121: "<< it->movable->getName()<< std::endl;
-
-
-
-            Casilla* casilla = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo(it->movable->getParentSceneNode()->getName()));
-
-            std::cout  << "mpouse31: "<< casilla->getNombre() << std::endl;
-
-
-
-            if (casilla != NULL && !casilla->sinHijos())
-            {
-
-                Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
-
-                std::cout  << "tiene hijos" << std::endl;
-
-
-                if ((escenaAjedrez->esTurnoNegras()
-                     && ficha->esNegra)
-                        || (!escenaAjedrez->esTurnoNegras() && !ficha->esNegra)){
-
-
-                    escenaAjedrez->setNodoFichaSeleccionada(casilla);
-                    ficha->getNodoOgre()->showBoundingBox(true);
-                    fichaSeleccionada = true;
-                }
-
-            }
-        }
         std::cout  << "fin mousepressed" << std::endl;
 
     } else if (mbright)
     {
         //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
-        if (fichaSeleccionada && escenaAjedrez->getNodoCasillaSobrevolada()!=NULL && escenaAjedrez->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
+        if (fichaSeleccionada && modelo->getTablero()->getNodoCasillaSobrevolada()!=NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
         {
 
+            escenaAjedrez->actualizaTablero(modelo->getTablero()->getNodoFichaSeleccionada()->getPosicion(), modelo->getTablero()->getNodoCasillaSobrevolada()->getPosicion());
 
-
-
-
-            //Recupera ficha
-            Ficha* ficha = static_cast<Ficha*>(escenaAjedrez->getNodoFichaSeleccionada()->getHijo(0));
-
-
-
-            std::cout  << "antes:" << escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila<<std::endl;
-
-            escenaAjedrez->actualizaTablero(escenaAjedrez->getNodoFichaSeleccionada()->getPosicion(), escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion());
-
-            std::cout  << "borra" << std::endl;
-
-
-
-            std::cout  << "desp:" << escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila<<std::endl;
-
-
-
-
-
-
-
-            std::cout  << "MIRA SI SALTA: " <<ficha->getNombre()<< std::endl;
-
-            if (ficha->tipo_Ficha ==Rey)
-            {
-
-
-                std::cout  << "en rey" << std::endl;
-
-                int difCol = escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna - escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Columna;
-                // if (difCol<0 ) difCol = -difCol;
-
-                int fila =escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Fila;
-
-
-                if (difCol == 2){
-                    Casilla* casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8)+7));
-                    Ficha* fichaTorre = static_cast<Ficha*>(casillaTorre->getHijo(0));
-                    casillaTorre->eliminaHijo(0);
-
-                    casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8) +escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna-1));
-                    casillaTorre->agregaHijo(fichaTorre);
-                }
-
-                if (difCol == -2){
-                    //Casilla* casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8)));
-
-                    Casilla* casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo(fila*8));
-                    Ficha* fichaTorre = static_cast<Ficha*>(casillaTorre->getHijo(0));
-                    casillaTorre->eliminaHijo(0);
-
-                    casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8) +escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna+1));
-                    casillaTorre->agregaHijo(fichaTorre);
-                }
-
-
-
-
-
-            }
-
-            std::cout  << "MIRA SI peon " << std::endl;
-
-
-            if (ficha->tipo_Ficha ==Peon)
-            {
-
-                std::cout  << "dif" << std::endl;
-
-
-
-                std::cout  << "dif:" << escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Fila<< std::endl;
-
-                std::cout  << "dif:" << escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila<< std::endl;
-
-
-                int dif = escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Fila - escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila;
-
-                std::cout  << "dif:" << dif<< std::endl;
-
-
-
-                int difCol = escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna - escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Columna;
-                std::cout  << "difcol: " << difCol<<std::endl;
-
-                if (dif < 0 ) dif = -dif;
-                if (difCol<0 ) difCol = -difCol;
-
-
-                if( dif == 2) ficha -> salto = true;
-
-                if( dif == 1 && difCol == 1)
-                {
-
-                    int fila =escenaAjedrez->getNodoFichaSeleccionada()->getPosicion().Fila;
-                    int columna =escenaAjedrez->getNodoCasillaSobrevolada()->getPosicion().Columna;
-
-                    Casilla* casillaAux = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8)+columna));
-
-                    if (!casillaAux->sinHijos())
-                    {
-                        Ficha* fichaAux = static_cast<Ficha*>(casillaAux->getHijo(0));
-                        if (fichaAux->salto) casillaAux->eliminaHijo(0);
-
-                    }
-
-
-
-
-
-                }
-
-            }
-
-            std::cout  << "acaba de mirar " << std::endl;
-
-
-            //escenaAjedrez->getNodoFichaSeleccionada()->getParent()->removeChild(escenaAjedrez->getNodoFichaSeleccionada());
-
-
-
-            //PROMOCION DE PEON
-            //  std::cout << "_nodoNuevo->getName() "<< _nodoNuevo->getName()<< std::endl;
-
-
-            //  mCamera->moveRelative(Ogre::Degree(30));
-
-            std::cout  << "fincambia " << std::endl;
-
-            //DESELECCIONA FICHA Y CASILLA
-            ficha->getNodoOgre()->showBoundingBox(false);
-            std::cout  << "apagado " << std::endl;
-
-            std::cout  << "nulleado " << std::endl;
 
             fichaSeleccionada = false;
 

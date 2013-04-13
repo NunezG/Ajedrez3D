@@ -32,11 +32,6 @@ struct TableroPrueba{
 
     std::vector<TableroPrueba*> vectorMov;
 
-    bool BlackCheck;
-    bool BlackMate;
-    bool WhiteCheck;
-    bool WhiteMate;
-    bool StaleMate;
 
     int Score;
     //  Casilla* casillas[64];
@@ -44,6 +39,7 @@ struct TableroPrueba{
     int movimiento[2];
     int numeroHijos;
 
+    int alPaso;
 
     // Ficha* fichasNegras[16];
     // Ficha* fichasBlancas[16];
@@ -69,7 +65,7 @@ public:
     ~ModuloIA(void);
 
 
-    bool construyeArbol(int* listaCasillas);
+    bool construyeArbol(const int listaCasillas[144]);
 
     void insert( TableroPrueba *newKey);
 
@@ -79,9 +75,19 @@ public:
     int casillaCambiada;
 
     bool BorraArbol();
+    bool evaluaJaque(const int casillasInt[144], bool turnoNegras);
+
+
 
 private:
-    int evaulaTablero(TableroPrueba* table);
+
+
+    bool BlackCheck;
+    bool BlackMate;
+    bool WhiteCheck;
+    bool WhiteMate;
+    bool StaleMate;
+    int evaulaTablero(const int casillasInt[144], bool turnoN);
 
    // std::vector<TableroPrueba> vectorTableros;
 

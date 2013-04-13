@@ -29,7 +29,7 @@ private:
 
 
 
-  //  EscenaAjedrez* escenaAjedrez;
+     EscenaAjedrez* escenaAjedrez;
 
     Ogre::SceneManager* mSceneMgr;
 

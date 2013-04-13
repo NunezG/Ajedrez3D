@@ -46,7 +46,26 @@ public:
 
     //Ogre::SceneNode* nodoCasillero;
 
+    int alPaso;
+
+    bool getTurnoNegras();
+    void setTurnoNegras(bool turno);
+
+
+    Casilla* getNodoFichaSeleccionada();
+    Casilla* getNodoCasillaSobrevolada();
+
+    void setNodoFichaSeleccionada(Casilla* nodo);
+    void setNodoCasillaSobrevolada(Casilla* nodo);
+
+
+
 private:
+
+
+    Casilla* _selectedNode;
+    Casilla* _nodoNuevo;
+
      bool jaqueNegras;
      bool mateNegras;
      bool jaqueBlancas;
@@ -74,6 +93,7 @@ private:
     Tablero* listaNodos[];
 
     bool verificaCamino(int inicial[2], int final[2], int camino);
+    int evaulaTablero(const int casillasInt[144]);
 
     bool turnoNegras;
 };

@@ -1,6 +1,11 @@
 #include "../headers/ModuloIA.h"
 
-ModuloIA::ModuloIA()
+ModuloIA::ModuloIA():
+    BlackCheck(false),
+    BlackMate(false),
+    WhiteCheck(false),
+    WhiteMate(false),
+    StaleMate(false)
 {
 
 }
@@ -18,12 +23,13 @@ ModuloIA* ModuloIA::getCEGUISingletonPtr()
 }
 
 
-bool ModuloIA::construyeArbol(int* listaCasillas){
+bool ModuloIA::construyeArbol(const int listaCasillas[144])
+{
 
     /*
  *
 0 = Vacio
-9 = Fuera del tablero
+99 = Fuera del tablero
 1 = (Blancas) Peon
 2 =(Blancas) Caballo
 3 =(Blancas) Alfil
@@ -50,26 +56,12 @@ bool ModuloIA::construyeArbol(int* listaCasillas){
 
 
     //AÑADE LOS BORDES
-    for (int i = 0; i<12; i++)
+    for (int i = 0; i<144; i++)
     {
 
-        for (int y = 0; y<12; y++)
-        {
 
+        tableroPadre->casillasInt[i] = listaCasillas[i];
 
-
-            if((i > 9)
-                    || (y > 9)
-                    || (i < 2)
-                    || (y < 2))
-            {
-                tableroPadre->casillasInt[(i*12)+y] = 99;
-
-            }else tableroPadre->casillasInt[(i*12)+y] = listaCasillas[((i-2)*8)+y-2];
-
-
-            //  std::cout << tablero->casillasInt[((i-2)*8)+y-2] << std::endl;
-        }
 
 
     }
@@ -86,65 +78,67 @@ bool ModuloIA::construyeArbol(int* listaCasillas){
     tableroElegido = NULL;
     std::cout << "CONSTRUYE ARBOL33333333333" << std::endl;
 
-    int resultado = alphaBeta(tableroPadre,-50000, 50000, 5);
+    int resultado = alphaBeta(tableroPadre,-50000, 50000, 1);
 
     std::cout << "RESULTADO DE ALFABETA: "<< resultado<< std::endl;
 
 
     std::cout << "NUMERO NODOS TABLERO INICIAL: "<< tableroPadre->vectorMov.size()<< std::endl;
 
-    TableroPrueba* tp = NULL;
-    for (int i = 0; i< tableroPadre->vectorMov.size(); i++)
+    if (tableroPadre->vectorMov.size() == 0)
     {
 
+        std::cout << "NO HAY TABLEROS EN EL VECTOR POR LO QUE ES UN JAQUE MATE O UN AHOGADO, HABRA QUE DIFERENCIAR"<< std::endl;
 
-        //  std::vector<TableroPrueba*> vecRef = tablero->vectorMov;
-
-
-        tp = tableroPadre->vectorMov.at(i);
-
-        std::cout << "EL ESCORE DE TP: "<< tp->Score<< std::endl;
-
-
-
-
-        if ( tp->Score == -resultado)
+    }else
+    {
+        TableroPrueba* tp = NULL;
+        for (int i = 0; i< tableroPadre->vectorMov.size(); i++)
         {
 
-            tableroElegido = tp;
-            std::cout << tableroElegido->fichaMovida<< std::endl;
-            break;
+            //  std::vector<TableroPrueba*> vecRef = tablero->vectorMov;
+
+            tp = tableroPadre->vectorMov.at(i);
+
+            std::cout << "EL ESCORE DE TP: "<< tp->Score<< std::endl;
+
+
+            if ( tp->Score == -resultado)
+            {
+
+                tableroElegido = tp;
+                std::cout << tableroElegido->fichaMovida<< std::endl;
+                break;
+            }
+
         }
+        //  delete [] tp;
+
+        // std::cout << "acaba bucle"<< std::endl;
+
+        //  std::cout << "MOVIMIENTOSS: "<<      tableroElegido->movimiento[0] << std::endl;
+        //std::cout << "MOVIMIENTOSS: "<<      tableroElegido->movimiento[1] << std::endl;
+
+        // std::cout << "Turno NEGRAS del tablero (0 blancas, bien porque se elige un hijo del inicial): "<<  tableroElegido->turnoN  << std::endl;
+
+        std::cout << "TABLERO ELEGIDO"<< std::endl;
 
 
+        for(int i=2; i<10;i++){
 
 
-
-    }
-    //  delete [] tp;
-
-    // std::cout << "acaba bucle"<< std::endl;
-
-    //  std::cout << "MOVIMIENTOSS: "<<      tableroElegido->movimiento[0] << std::endl;
-    //std::cout << "MOVIMIENTOSS: "<<      tableroElegido->movimiento[1] << std::endl;
-
-    // std::cout << "Turno NEGRAS del tablero (0 blancas, bien porque se elige un hijo del inicial): "<<  tableroElegido->turnoN  << std::endl;
-
-    std::cout << "TABLERO ELEGIDO"<< std::endl;
+            std::cout << tableroElegido->casillasInt[(i*12)+2]<<"    "<<tableroElegido->casillasInt[(i*12)+3]<<"    "<<tableroElegido->casillasInt[(i*12)+4]<<"    "<<tableroElegido->casillasInt[(i*12)+5]<<"    "<<tableroElegido->casillasInt[(i*12)+6]<<"    "<<tableroElegido->casillasInt[(i*12)+7]<<"    "<<tableroElegido->casillasInt[(i*12)+8]<<"    "<<tableroElegido->casillasInt[(i*12)+9]<<std::endl;
 
 
-    for(int i=2; i<10;i++){
-
-
-        std::cout << tableroElegido->casillasInt[(i*12)+2]<<"    "<<tableroElegido->casillasInt[(i*12)+3]<<"    "<<tableroElegido->casillasInt[(i*12)+4]<<"    "<<tableroElegido->casillasInt[(i*12)+5]<<"    "<<tableroElegido->casillasInt[(i*12)+6]<<"    "<<tableroElegido->casillasInt[(i*12)+7]<<"    "<<tableroElegido->casillasInt[(i*12)+8]<<"    "<<tableroElegido->casillasInt[(i*12)+9]<<std::endl;
-
+        }
 
     }
 
 
 }
 
-void ModuloIA::insert_helper( TableroPrueba **root, TableroPrueba *newkey,const int profundidad ) {
+void ModuloIA::insert_helper( TableroPrueba **root, TableroPrueba *newkey,const int profundidad )
+{
 
     if (profundidad != 0){
         if ( (*root) == NULL ) {
@@ -156,7 +150,8 @@ void ModuloIA::insert_helper( TableroPrueba **root, TableroPrueba *newkey,const 
     }
 }
 
-TableroPrueba* ModuloIA::siguienteMovimiento(TableroPrueba *newkey){
+TableroPrueba* ModuloIA::siguienteMovimiento(TableroPrueba *newkey)
+{
 
 
 
@@ -179,7 +174,12 @@ int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthl
     {
         //   std::cout << "EVALUA LA HEURISTICA "<< std::endl;
         //CALCULA LA HEURISTICA
-        table->Score = evaulaTablero(table);
+        int ev = evaulaTablero(table->casillasInt, table->turnoN);
+
+        table->Score = ev;
+        // std::cout << "EVALUACION DEVUELVE: "<< table->Score<< std::endl;
+
+
         //   std::cout << "ENCUENTRA UN NODO TERMINAL: "<< table->Score<< std::endl;
 
         return table->Score;
@@ -204,6 +204,14 @@ int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthl
 
     //TableroPrueba* tab;
     //if (table->vectorMov != NULL){
+    if (table->vectorMov.size() == 0)
+    {
+        std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
+
+        return 0;
+
+    }
+
     for (int i = 0; i < table->vectorMov.size();i++)
     {
 
@@ -243,34 +251,49 @@ int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthl
     return alpha;
 }
 
-int ModuloIA::evaulaTablero(TableroPrueba* table)
+int ModuloIA::evaulaTablero(const int casillasInt[144], bool turnoN)
 {
     int suma = 0;
-
+    //   BlackCheck = false;
 
     //EMPIEZA CONTANDO LAS FICHAS DEL TABLERO Y HACIENDO UNA SUMA SIMPLE...
+
+
+    //EVALUA JAQUE PARA NEGRAS
+
+    //  BlackCheck = evaluaJaque(casillasInt, turnoN);
+
+
+    //   if(BlackCheck)
+    //   {
+    //      return 0;
+    //   std::cout << "EVALUA UN JAQUE COMO TERMINAL: "<< std::endl;
+
+    //  }
 
     for (int i = 2; i<10;i++)
     {
         for (int y = 2; y<10;y++)
         {
-
-
-            if (table->casillasInt[(i*12)+y] < 0)
+            if (casillasInt[(i*12)+y] < 0)
             {
+                //if(casillasInt[(i*12)+y] == -6){
+                //   BlackCheck = false;
 
+                //   }
 
-                suma =  suma - valorFicha(tipoF(-table->casillasInt[(i*12)+y]));
+                suma =  suma - valorFicha(tipoF(-casillasInt[(i*12)+y]));
 
-            }else if (table->casillasInt[(i*12)+y] > 0){
+            }else if (casillasInt[(i*12)+y] > 0){
 
-                suma =  suma + valorFicha(tipoF(table->casillasInt[(i*12)+y]));
+                suma =  suma + valorFicha(tipoF(casillasInt[(i*12)+y]));
 
             }
 
         }
 
     }
+
 
     // std::cout << "ESTE TABLERO HA ACUMULADO UN VALOR DE: " << suma<< std::endl;
 
@@ -320,7 +343,8 @@ short ModuloIA::valorFicha(const tipoF tipo)
 
 
 
-void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
+void ModuloIA::generaMovimientos(TableroPrueba* miTablero)
+{
     // TableroPrueba nuevoTablero;
     //  std::cout << "!!!!!!!!!!!!!!!!!!GENERA MOVI!!!!!!!!!!!!!!!!!!!" << std::endl;
 
@@ -418,8 +442,13 @@ void ModuloIA::generaMovimientos(TableroPrueba* miTablero){
         }
     }
 
+    // std::cout << "!!!!!!!!!!!!!!!!!!ACABA MOVI!!!!!!!!!!!!!!!!!!!: "<<  miTablero->vectorMov.size()<< std::endl;
 
-    //  std::cout << "!!!!!!!!!!!!!!!!!!ACABA MOVI!!!!!!!!!!!!!!!!!!!" << std::endl;
+
+    if (miTablero->vectorMov.size() == 0){
+        std::cout << "JAQUE MATE O AHOGADO!!!!!!!!!!: "<< std::endl;
+
+    }
 
 
 
@@ -525,20 +554,30 @@ void ModuloIA::muevePeon(TableroPrueba* miTablero, int casilla)
     int nuevaCasilla;
     int casillaCome;
     int casillaComeSec;
+    int salto;
 
     if (miTablero->turnoN)
     {
         //  std::cout << "!!!!!!!!!!!TURNO NEGRAS!!!!!!!!!!" << std::endl;
-
+        salto = casilla-24;
         nuevaCasilla = casilla-12;
         casillaCome = casilla-11;
         casillaComeSec= casilla-13;
         //  std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
         // std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
 
+
+        if(casilla > 96 && miTablero->casillasInt[salto] == 0)
+        {
+
+            aplicaMovimiento(*miTablero, casilla, salto);
+        }
+
+
+
         if(miTablero->casillasInt[nuevaCasilla] == 0)
         {
-            if (nuevaCasilla > 122){
+            if (nuevaCasilla < 36){
                 //        miTablero->casillasInt[nuevaCasilla] = 0;
                 //        peonEnemigo == true;
 
@@ -554,7 +593,7 @@ void ModuloIA::muevePeon(TableroPrueba* miTablero, int casilla)
         if (/*peonEnemigo ||*/ miTablero->casillasInt[casillaCome] > 0)
         {
 
-            if (casillaCome > 122){
+            if (casillaCome <36){
                 //        miTablero->casillasInt[nuevaCasilla] = 0;
                 //        peonEnemigo == true;
 
@@ -567,7 +606,7 @@ void ModuloIA::muevePeon(TableroPrueba* miTablero, int casilla)
         if (miTablero->casillasInt[casillaComeSec] > 0)
         {
 
-            if (casillaComeSec > 122){
+            if (casillaComeSec <36){
                 //        miTablero->casillasInt[nuevaCasilla] = 0;
                 //        peonEnemigo == true;
 
@@ -577,14 +616,24 @@ void ModuloIA::muevePeon(TableroPrueba* miTablero, int casilla)
         }
     }else
     {
+        salto = casilla+24;
         nuevaCasilla = casilla+12;
         casillaCome = casilla+11;
         casillaComeSec= casilla+13;
 
+
+
+        if(casilla < 48 && miTablero->casillasInt[salto] == 0)
+        {
+
+            aplicaMovimiento(*miTablero, casilla, salto);
+        }
+
+
         //   std::cout << "!!!!!!!!!!!TURNO BLANCAS!!!!!!!!!!" << std::endl;
         if (miTablero->casillasInt[nuevaCasilla] == 0)
         {
-            if (nuevaCasilla < 36){
+            if (nuevaCasilla > 122){
                 miTablero->casillasInt[casilla] = 5;
             }
             aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
@@ -595,7 +644,7 @@ void ModuloIA::muevePeon(TableroPrueba* miTablero, int casilla)
         if (miTablero->casillasInt[casillaCome] < 0)
         {
 
-            if (casillaCome < 36){
+            if (casillaCome > 122){
                 miTablero->casillasInt[casilla] = 5;
             }
             aplicaMovimiento(*miTablero, casilla, casillaCome);
@@ -603,7 +652,7 @@ void ModuloIA::muevePeon(TableroPrueba* miTablero, int casilla)
 
         if (miTablero->casillasInt[casillaComeSec] < 0)
         {
-            if (casillaComeSec < 36){
+            if (casillaComeSec > 122){
                 miTablero->casillasInt[casilla] = 5;
             }
             aplicaMovimiento(*miTablero, casilla, casillaComeSec);
@@ -1047,8 +1096,14 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
     pasa = false;
 
     if (miTablero->turnoN){
-        pasa = miTablero->casillasInt[nuevaCasilla] >= 0  ;
-    }else  pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+        pasa = miTablero->casillasInt[nuevaCasilla] > 0  ;
+    }else
+    {
+        // AL PASO; MIRA A VER PARA MEJORARLO (HAY QUE BORRAR)
+        if (miTablero->alPaso == casilla+1) pasa = miTablero->casillasInt[nuevaCasilla] == 0;
+
+        else pasa = miTablero->casillasInt[nuevaCasilla] < 0;
+    }
 
     if (pasa)
     {
@@ -1067,16 +1122,20 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
     pasa = false;
     if (miTablero->turnoN){
-        pasa = miTablero->casillasInt[nuevaCasilla] >= 0 ;
-    }else  pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+        pasa = miTablero->casillasInt[nuevaCasilla] > 0 ;
+    }else  {
+        if (miTablero->alPaso == casilla-1) pasa = miTablero->casillasInt[nuevaCasilla] == 0 ;
+
+        else pasa = miTablero->casillasInt[nuevaCasilla] < 0;
+
+
+    }
 
     if (pasa)
     {
 
 
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
 
 
     }
@@ -1088,8 +1147,13 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
 
     if (miTablero->turnoN){
-        pasa = miTablero->casillasInt[nuevaCasilla] >= 0 ;
-    }else  pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+        if (miTablero->alPaso == casilla+1)  pasa = miTablero->casillasInt[nuevaCasilla] == 0 ;
+        else pasa = miTablero->casillasInt[nuevaCasilla] > 0 ;
+    }else  {
+
+        pasa = miTablero->casillasInt[nuevaCasilla] < 0;
+
+    }
 
     if (pasa)
     {
@@ -1108,8 +1172,13 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 
 
     if (miTablero->turnoN){
-        pasa = miTablero->casillasInt[nuevaCasilla] >= 0;
-    }else  pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+        if (miTablero->alPaso == casilla-1) pasa = miTablero->casillasInt[nuevaCasilla] == 0;
+        else pasa = miTablero->casillasInt[nuevaCasilla] > 0;
+    }else {
+
+        pasa = miTablero->casillasInt[nuevaCasilla] < 0;
+
+    }
 
     if (pasa)
     {
@@ -1127,21 +1196,39 @@ bool ModuloIA::mueveRey(TableroPrueba* miTablero, int casilla)
 }
 
 
-void ModuloIA::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, int casDestino){
-
-
-
+void ModuloIA::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, int casDestino)
+{
     if(miTablero.casillasInt[casDestino] != 99)
     {
-
-
-
         TableroPrueba* TableroMovido = new TableroPrueba(miTablero);
 
-
-
+        TableroMovido->alPaso = 0;
 
         int fichaOrigen = miTablero.casillasInt[casOrigen];
+
+        if (fichaOrigen == 1 || fichaOrigen == -1)
+        {
+            if (miTablero.casillasInt[casDestino] == 0)
+            {
+
+                if ((miTablero.alPaso == casDestino-12 && (casOrigen == casDestino+13 || casOrigen == casDestino+11))
+                        ||( miTablero.alPaso == casDestino+12 &&(casOrigen == casDestino-13 || casOrigen == casDestino-11 )))
+                {
+                    std::cout << "!!!!!!!!!COME AL PASO!!!!!!:" << fichaOrigen << std::endl;
+                    TableroMovido->casillasInt[miTablero.alPaso] == 0;
+                }
+            }
+            if ((casDestino - casOrigen  > 22) || casOrigen - casDestino > 22){
+
+
+                //   std::cout << "!!!!!!!!!DOBLE SALTO EN IA!!!!!!:" << fichaOrigen << std::endl;
+
+                TableroMovido->alPaso = casDestino;
+
+
+            }
+
+        }
 
         //   std::cout << "!!!!!!!!!FICHA ORIGEN!!!!!!:" << fichaOrigen << std::endl;
 
@@ -1162,16 +1249,379 @@ void ModuloIA::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, int cas
 
         //   std::cout << "!!!!!!LE METE AL VECTOR" << std::endl;
 
-        miTablero.vectorMov.push_back(TableroMovido);
+        if (evaluaJaque(TableroMovido->casillasInt, miTablero.turnoN))
+        {
 
-        miTablero.numeroHijos++;
+            //  std::cout << "!!!!!HA EVALUADO UN JAQUE (DESPUES DE MOVER) POR LO QUE NO AÑADE AL VECTOR!!!" << std::endl;
 
+        }else {
+            miTablero.vectorMov.push_back(TableroMovido);
 
+            miTablero.numeroHijos++;
+        }
+    }
+}
 
+bool ModuloIA::evaluaJaque(const int casillasInt[144], bool turnoNegras)
+{
+    int posRey = 999;
+    int fichaRey = 6;
+
+    int fichaReina = 5;
+    int fichaPeon = 1;
+    int fichaAlfil = 3;
+    int fichaCaballo = 2;
+    int fichaTorre = 4;
+
+    if (!turnoNegras)
+    {
+        fichaRey = -6;
+
+        fichaReina = -5;
+        fichaPeon = -1;
+        fichaAlfil = -3;
+        fichaCaballo = -2;
+        fichaTorre = -4;
     }
 
+    for (int i=0; i<144;i++)
+    {
+        if (casillasInt[i] == -fichaRey)
+        {
+            posRey = i;
+        }
+    }
+
+    if (posRey != 999)
+    {
+        //HACER PARA BLANCAS Y NEGRAS
+
+        //N
+        int ficha= 0;
+        for (int i = 1;ficha != 99; i++)
+        {
+            ficha = casillasInt[posRey+(i*12)];
+
+            if (i==1)
+            {
+                //REY
+                if(ficha == fichaRey)
+                {
+                    return true;
+                }
+            }
+
+            //REINA                             //TORRE
+            if(ficha == fichaReina || ficha == fichaTorre)
+            {
 
 
+
+                return true;
+            }
+
+            //cualquier otra ficha en medio
+            if(ficha != 0)
+            {
+
+                break;
+            }
+        }
+
+        //S
+        ficha= 4;
+        for (int i = 1;ficha != 99; i++)
+        {
+            ficha = casillasInt[posRey-(i*12)];
+
+            if (i==1)
+            {
+                //REY
+                if(ficha == fichaRey)
+                {
+
+                    return true;
+                }
+            }
+
+            //REINA                             //TORRE
+            if(ficha == fichaReina || ficha == fichaTorre)
+            {
+
+
+
+                return true;
+            }
+
+            //ficha en medio
+            if(ficha != 0)
+            {
+                break;
+            }
+        }
+
+        //E
+        ficha= 0;
+
+        for (int i = 1;ficha != 99; i++)
+        {
+            ficha = casillasInt[posRey+i];
+
+            if (i==1)
+            {
+                //REY
+                if(ficha == fichaRey)
+                {
+
+                    return true;
+                }
+            }
+
+            //REINA                             //TORRE
+            if(ficha == fichaReina || ficha == fichaTorre)
+            {
+
+
+
+                return true;
+            }
+
+            //ficha en medio
+            if(ficha != 0)
+            {
+                break;
+            }
+        }
+
+        //O
+        ficha= 0;
+
+        for (int i = 1;ficha != 99; i++)
+        {
+
+            ficha = casillasInt[posRey-i];
+
+            if (i==1)
+            {
+                //REY
+                if(ficha == fichaRey)
+                {
+
+                    return true;
+
+                }
+            }
+
+            //REINA                             //TORRE
+            if(ficha == fichaReina || ficha == fichaTorre)
+            {
+
+
+
+                return true;
+
+            }
+            //ficha en medio
+            if(ficha != 0)
+            {
+                break;
+
+            }
+        }
+
+        //NE
+
+
+        ficha= 0;
+
+        for (int i = 1;ficha != 99; i++)
+        {
+            ficha = casillasInt[posRey+(i*11)];
+
+            if (i==1)
+            {
+                //REY                               //PEON NEGRO
+                if(ficha == fichaRey || (!turnoNegras && ficha == fichaPeon))
+                {
+
+
+                    return true;
+                }
+            }
+
+            //REINA                             //ALFIL
+            if(ficha == fichaReina || ficha == fichaAlfil)
+            {
+
+                return true;
+            }
+
+            //ficha en medio
+            if(ficha != 0)
+            {
+                break;
+
+            }
+        }
+
+        //NO
+        ficha= 0;
+
+        for (int i = 1;ficha != 99; i++)
+        {
+            ficha = casillasInt[posRey+(i*13)];
+            if (i==1)
+            {
+                //REY                               //PEON NEGRO
+                if(ficha == fichaRey || (!turnoNegras && ficha ==fichaPeon))
+                {
+
+
+                    return true;
+                }
+            }
+            //REINA                             //ALFIL
+            if(ficha == fichaReina || ficha == fichaAlfil)
+            {
+
+                return true;
+            }
+            //ficha en medio
+            if(ficha != 0)
+            {
+                break;
+            }
+        }
+
+        //SE
+
+        ficha= 0;
+
+        for (int i = 1;ficha != 99; i++)
+        {
+
+            ficha = casillasInt[posRey-(i*11)];
+
+
+            if (i==1)
+            {
+                //REY                               //PEON BLANCO
+                if(ficha == fichaRey || (turnoNegras && ficha ==fichaPeon))
+                {
+
+
+                    return true;
+
+                }
+            }
+
+            //REINA                             //ALFIL
+            if(ficha == fichaReina || ficha == fichaAlfil)
+            {
+
+
+                return true;
+
+            }
+
+            //ficha en medio
+            if(ficha != 0)
+            {
+                break;
+            }
+        }
+
+        //SO
+        ficha= 0;
+        for (int i = 1;ficha != 99; i++)
+        {
+            ficha = casillasInt[posRey-(i*13)];
+
+            if (i==1)
+            {
+                //REY                               //PEON BLANCO
+                if(ficha == fichaRey || (turnoNegras && ficha ==fichaPeon))
+                {
+                    return true;
+                }
+            }
+
+            //REINA                             //ALFIL
+            if(ficha == fichaReina || ficha == fichaAlfil)
+            {;
+                return true;
+
+            }
+
+            //ficha en medio
+            if(ficha != 0)
+            {
+                break;
+            }
+        }
+        int caballo;
+
+        caballo= posRey-10;
+        ficha = casillasInt[caballo];
+        if(ficha == fichaCaballo)
+        {
+            return true;
+
+        }
+        caballo= posRey-14;
+        ficha = casillasInt[caballo];
+        if(ficha == fichaCaballo)
+        {
+            return true;
+
+        }
+        caballo= posRey-23;
+        ficha = casillasInt[caballo];
+        if(ficha == fichaCaballo)
+        {
+            return true;
+
+        }
+
+        caballo= posRey-25;
+        ficha = casillasInt[caballo];
+        if(ficha == fichaCaballo)
+        {
+            return true;
+
+        }
+
+        caballo= posRey+10;
+        ficha = casillasInt[caballo];
+
+        if(ficha == fichaCaballo)
+        {
+            return true;
+
+        }
+
+        caballo= posRey+14;
+        ficha = casillasInt[caballo];
+        if(ficha == fichaCaballo)
+        {
+            return true;
+
+        }
+        caballo= posRey+23;
+        ficha = casillasInt[caballo];
+        if(ficha == fichaCaballo)
+        {
+            return true;
+
+        }
+        caballo= posRey+25;
+        ficha = casillasInt[caballo];
+        if(ficha == fichaCaballo)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 
@@ -1181,6 +1631,8 @@ TableroPrueba::TableroPrueba() :
     Score(0),
     fichaMovida(""),
     vectorMov(0)
+
+
 {
 }
 
@@ -1193,7 +1645,8 @@ TableroPrueba::TableroPrueba( const TableroPrueba& original ):
 {
 
 
-    for(int i=0; i<144;i++){
+    for(int i=0; i<144;i++)
+    {
 
 
         casillasInt[i] = original.casillasInt[i];
