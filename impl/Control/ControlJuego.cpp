@@ -142,7 +142,7 @@ void ControlJuego::calculaMovimiento(){
     ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
 
     //¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡PASALO A VITA AJEDREZ SOLO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    modulo->construyeArbol(escenaAjedrez->traduceTablero());
+    modulo->construyeArbol(modelo->getTablero()->traduceTablero());
 
 
     if (modulo->tableroElegido != NULL)
@@ -151,7 +151,7 @@ void ControlJuego::calculaMovimiento(){
         std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
         std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
 
-        escenaAjedrez->mueveIA(modulo->tableroElegido->movimiento[0],modulo->tableroElegido->movimiento[1]);
+        modelo->getTablero()->mueveIA(modulo->tableroElegido->movimiento[0],modulo->tableroElegido->movimiento[1]);
 
         modulo->tableroElegido = NULL;
 

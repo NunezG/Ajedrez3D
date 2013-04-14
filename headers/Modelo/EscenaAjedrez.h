@@ -17,8 +17,8 @@
 
 
 #include <Ogre.h>
-#include "InputMan.h"
-#include "Tablero.h"
+//#include "InputMan.h"
+//#include "Tablero.h"
 
 
 
@@ -33,11 +33,7 @@ class  EscenaAjedrez
 public:
 
 
-    int peonesPromocionados;
 
-    int* actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
-
-    int* mueveIA(int origen, int destino);
 
     ~EscenaAjedrez(void);
 
@@ -46,7 +42,6 @@ public:
 
     void createScene();
 
-    FichaReina* promocionaPeon(Ficha* nodoFicha);
 
     // void createCamera(void);
 
@@ -55,6 +50,8 @@ public:
     Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
     Ogre::RaySceneQuery* createRayQuery(void);
 
+    Ogre::SceneNode* mTarget;
+    void setTarget(Ogre::SceneNode* target);
 
     void iluminaCasillaSobrevolada();
     void iluminaCasilla(Casilla* casilla);
@@ -80,9 +77,7 @@ public:
     void DistanciaCamara(int distanciaRelativa);
 
     void rotacionCamara(Ogre::Degree angulo);
-    void cambiaTurno();
 
-    bool FichaComestible();
 
     Ogre::String columnas;
 
@@ -91,9 +86,7 @@ public:
 
    Tablero* tablero;
 
-    int* traduceTablero();
 
-    int* mueveYTraduceTablero();
 
     bool seleccionaFichaEnPosicion(int posX, int posY);
 
@@ -109,7 +102,7 @@ private:
 
    // bool turnoNegras;
 
-    InputMan::SdkCameraMan* mInputMan;
+    // InputMan::SdkCameraMan* mInputMan;
 
     bool mGoingLeft;
     //  bool mCambiaTurno;
@@ -130,8 +123,9 @@ private:
     Ogre::RaySceneQuery *mRaySceneQuery;
 
     Ogre::Camera* mCamera;
+    Ogre::Real mTopSpeed;
+    void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);
 
-    short traduceFicha(tipoFicha tipo);
 
 
 

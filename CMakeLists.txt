@@ -142,7 +142,7 @@ set(HDRS
         # headers de modelo
 
 
-        ./headers/Modelo/InputMan.h
+      #  ./headers/Modelo/InputMan.h
 
         ./headers/Modelo/EscenaAjedrez.h
 

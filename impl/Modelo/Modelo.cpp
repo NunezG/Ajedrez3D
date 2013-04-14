@@ -46,7 +46,6 @@ menu = ModeloMenu::getSingletonPtr();
 
 void Modelo::construyeAjedrez()
 {
-   // escena = EscenaAjedrez::getSingletonPtr();
 
 
 }

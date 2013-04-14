@@ -59,9 +59,20 @@ public:
     void setNodoCasillaSobrevolada(Casilla* nodo);
 
 
+    bool FichaComestible();
+    void cambiaTurno();
+    FichaReina* promocionaPeon(Ficha* nodoFicha);
+
+    int* actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
+
+    int* mueveIA(int origen, int destino);
+    int* traduceTablero();
+
+    int* mueveYTraduceTablero();
 
 private:
 
+    int peonesPromocionados;
 
     Casilla* _selectedNode;
     Casilla* _nodoNuevo;
@@ -76,7 +87,7 @@ private:
     Ficha* fichasNegras[16];
     Ficha* fichasBlancas[16];
 
-    int casillas[8][8];
+   // int casillas[8][8];
 
     void creaCasillas();
 
@@ -92,10 +103,13 @@ private:
 
     Tablero* listaNodos[];
 
-    bool verificaCamino(int inicial[2], int final[2], int camino);
+   // bool verificaCamino(int inicial[2], int final[2], int camino);
     int evaulaTablero(const int casillasInt[144]);
 
     bool turnoNegras;
+
+    short traduceFicha(tipoFicha tipo);
+
 };
 
 #endif

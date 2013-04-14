@@ -36,8 +36,12 @@ protected:
     bool botonAplicarCambios(const CEGUI::EventArgs &e);
     bool sobrevuelaLista(const CEGUI::EventArgs &e);
     bool seleccionaResolucion(const CEGUI::EventArgs &e);
+    bool sobrevuelaListaDificultad(const CEGUI::EventArgs &e);
+    bool seleccionaDificultad(const CEGUI::EventArgs &e);
 
     CEGUI::Listbox *listaResoluciones;
+    CEGUI::Listbox *listaDificultades;
+
     std::vector<std::string*>  listaElementos;
 
     // std::vector<std::string>  listaElementos;

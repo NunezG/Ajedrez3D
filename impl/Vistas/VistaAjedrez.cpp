@@ -25,10 +25,12 @@ VistaAjedrez::~VistaAjedrez(void)
 
 bool VistaAjedrez::cambiaTurno(){
     std::cout << "cambiatur "<< std::endl;
+    fichaSeleccionada = false;
 
+    escenaAjedrez->apagaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
 
     rotaTurno = Ogre::Real(180.0f);
-    escenaAjedrez->cambiaTurno();
+    modelo->getTablero()->cambiaTurno();
     //mediaVuelta();
 }
 
@@ -130,9 +132,9 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
                     {
 
 
-                        if (escenaAjedrez->FichaComestible()) {
+                        if (modelo->getTablero()->FichaComestible()) {
                             //falta evaluar jaque y ahogado
-                            if (!Autorizaciones::evaluaJaque(escenaAjedrez->mueveYTraduceTablero(), modelo->getTablero()->getTurnoNegras()))
+                            if (!Autorizaciones::evaluaJaque(modelo->getTablero()->mueveYTraduceTablero(), modelo->getTablero()->getTurnoNegras()))
                             {
                                 escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
                                 std::cout << "ES COMESTIBLE" << std::endl;
@@ -148,7 +150,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
                     } else{
 
                         //falta evaluar jaque y ahogado
-                        if (!Autorizaciones::evaluaJaque(escenaAjedrez->mueveYTraduceTablero(), modelo->getTablero()->getTurnoNegras()))
+                        if (!Autorizaciones::evaluaJaque(modelo->getTablero()->mueveYTraduceTablero(), modelo->getTablero()->getTurnoNegras()))
                         {
                             escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
                             std::cout << "ES COMESTIBLE" << std::endl;
@@ -285,12 +287,12 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         if (fichaSeleccionada && modelo->getTablero()->getNodoCasillaSobrevolada()!=NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
         {
 
-            escenaAjedrez->actualizaTablero(modelo->getTablero()->getNodoFichaSeleccionada()->getPosicion(), modelo->getTablero()->getNodoCasillaSobrevolada()->getPosicion());
+            modelo->getTablero()->actualizaTablero(modelo->getTablero()->getNodoFichaSeleccionada()->getPosicion(), modelo->getTablero()->getNodoCasillaSobrevolada()->getPosicion());
 
 
-            fichaSeleccionada = false;
 
             cambiaTurno();
+
             std::cout  << "acaba " << std::endl;
 
         }

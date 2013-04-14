@@ -115,8 +115,10 @@ bool MenuInicio::pantallaConfig()
 
 
         std::cout  << "listares1 "<< std::endl;
+        modelo->menu->posBoton =1;
 
-      listaResoluciones =   modelo->menu->creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaLista, this), "Lista", listaElementos ,ventanaConfig);
+
+      listaResoluciones =   modelo->menu->creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaLista, this), "Lista_Resoluciones", listaElementos ,ventanaConfig);
 
       listaResoluciones->subscribeEvent(CEGUI::Listbox::EventMouseClick, CEGUI::Event::Subscriber(&MenuInicio::seleccionaResolucion, this));
 
@@ -126,6 +128,31 @@ bool MenuInicio::pantallaConfig()
 
       listaResoluciones->handleUpdatedItemData();
       std::cout  << "handle "<< std::endl;
+
+
+      listaElementos.clear();
+      listaElementos.push_back(new std::string("Facil"));
+      listaElementos.push_back(new std::string("Media"));
+      listaElementos.push_back(new std::string("Dificil"));
+;
+
+
+      std::cout  << "listares1 "<< std::endl;
+
+
+    listaDificultades =   modelo->menu->creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaDificultad, this), "Lista_Dificultad", listaElementos ,ventanaConfig);
+    std::cout  << "listaredddss "<< std::endl;
+
+    listaDificultades->subscribeEvent(CEGUI::Listbox::EventMouseClick, CEGUI::Event::Subscriber(&MenuInicio::seleccionaDificultad, this));
+
+
+    std::cout  << "listares aaa"<< std::endl;
+
+    listaDificultades->handleUpdatedItemData();
+
+
+
+
 
         modelo->menu->creaBoton(CEGUI::Event::Subscriber(&MenuInicio::botonVolver, this), "Cancelar",  ventanaConfig);
 
@@ -215,6 +242,52 @@ bool MenuInicio::sobrevuelaLista(const CEGUI::EventArgs &e)
 }
 
 
+bool MenuInicio::sobrevuelaListaDificultad(const CEGUI::EventArgs &e)
+{
+
+    // Reset all list items to undetected colour
+    for(int i=0; i<listaDificultades->getItemCount(); i++)
+    {
+
+      CEGUI::ListboxTextItem* item = static_cast<CEGUI::ListboxTextItem*>(listaDificultades->getListboxItemFromIndex(i));
+
+      // If the item is selected then it maintains its selected colour
+      if(!item->isSelected()){
+
+
+        item->setTextColours(CEGUI::colour(1.0, 1.0, 1.0, 1.0));
+      }
+    }
+listaDificultades->handleUpdatedItemData();
+
+
+    CEGUI::Window &win = *ventanaConfig;
+
+    CEGUI::Point   mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
+    CEGUI::Vector2 mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
+                                 CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
+
+    std::cout  << "mouse: "<< mousePosLocal.d_x  << std::endl;
+    std::cout  << "mouse: "<< mousePosLocal.d_y  << std::endl;
+
+    CEGUI::ListboxTextItem* detectedItem = static_cast<CEGUI::ListboxTextItem*>(listaDificultades->getItemAtPoint(mousePosLocal));
+
+    // The colour is updated only if the detected item is not selected
+    if(detectedItem ){
+
+        std::cout  << "ITEM DETECTADO: "<< mousePosLocal.d_x  << std::endl;
+
+      detectedItem->setTextColours(CEGUI::colour(0.0, 1.0, 0.0, 1.0));
+    }
+
+    listaDificultades->handleUpdatedItemData();
+
+    return true;
+
+}
+
+
+
 bool MenuInicio::seleccionaResolucion(const CEGUI::EventArgs &e)
 {
 
@@ -234,6 +307,32 @@ bool MenuInicio::seleccionaResolucion(const CEGUI::EventArgs &e)
     }
 
     listaResoluciones->handleUpdatedItemData();
+
+    return true;
+
+
+}
+
+
+bool MenuInicio::seleccionaDificultad(const CEGUI::EventArgs &e)
+{
+
+    CEGUI::Window &win = *ventanaConfig;
+
+    CEGUI::Point   mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
+    CEGUI::Vector2 mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
+                                 CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
+
+
+    CEGUI::ListboxTextItem* detectedItem = static_cast<CEGUI::ListboxTextItem*>(listaDificultades->getItemAtPoint(mousePosLocal));
+
+    // The colour is updated only if the detected item is not selected
+    if(detectedItem ){
+
+      detectedItem->setSelected(true);
+    }
+
+    listaDificultades->handleUpdatedItemData();
 
     return true;
 

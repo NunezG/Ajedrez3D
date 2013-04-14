@@ -66,7 +66,7 @@ CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento,
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** for***");
 
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < listaElementos.size(); i++)
     {
 
         Ogre::LogManager::getSingletonPtr()->logMessage("*** un for***");
@@ -90,7 +90,6 @@ CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento,
 
     //  lista = wmgr.createWindow("TaharezLook/Listbox", nombre);
     // lista->setText(nombre);
-    posBoton=1;
 
     listaReal->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2*posBoton,0)));
 
@@ -104,7 +103,7 @@ CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento,
 
     ventana->addChildWindow(listaReal);
 
-    posBoton = posBoton+2;
+    posBoton = posBoton+1;
 
     //Atsstaching buttons
     Ogre::LogManager::getSingletonPtr()->logMessage("***  final***");
