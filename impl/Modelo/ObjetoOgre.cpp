@@ -18,6 +18,39 @@ ObjetoOgre::ObjetoOgre(std::string nombre) :
 ObjetoOgre::~ObjetoOgre()
 {
 
+    if (nodoEscena){
+
+
+        nodoEscena->detachAllObjects();
+
+
+
+
+        for(int i = 0; i < vectorHijos.size(); i++)
+        {
+
+            delete vectorHijos.at(i);
+
+            vectorHijos.at(i) = NULL;
+        }
+
+
+        vectorHijos.clear();
+
+        nodoEscena->removeAndDestroyAllChildren();
+
+
+        mSceneMgr->destroySceneNode(nodoEscena);
+
+        delete entidad;
+
+
+        nodoEscena = NULL;
+
+    }
+
+
+
 
 }
 

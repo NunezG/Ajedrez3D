@@ -2,7 +2,6 @@
 #define __Casilla_
 
 #include <Ogre.h>
-
 #include "ObjetoOgre.h"
 
 
@@ -30,7 +29,6 @@ public:
 
     posicion getPosicion();
 
-    bool esNegra;
     ~Casilla(void);
     Casilla(std::string nombre);
 
@@ -38,6 +36,9 @@ public:
     void trasladarAPunto();
 
     void setPosicion(int posFila, int posCol);
+
+    bool esNegra;
+
 
 protected:
 

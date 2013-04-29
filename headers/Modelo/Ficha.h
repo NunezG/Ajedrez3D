@@ -4,8 +4,6 @@
 #include <Ogre.h>
 #include "ObjetoOgre.h"
 
-
-
 enum ColorFicha
 {
     Blanco,
@@ -22,8 +20,6 @@ enum tipoFicha
     Reina,
     Rey
 };
-
-
 
 
 struct FichaPrueba{
@@ -43,11 +39,13 @@ class Ficha : public ObjetoOgre
 {
 public:
 
+    ~Ficha(void);
+    //constructor de copia
+    Ficha(  const Ficha& fichaOriginal, std::string nombre, tipoFicha tipo);
 
     void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
 
 
-    tipoFicha tipo_Ficha;
 
     virtual bool mueveFicha() = 0;
     virtual bool autorizaFicha(int diferencia[2]) = 0;
@@ -63,10 +61,8 @@ public:
 
 
     bool salto;
-    ~Ficha(void);
+    tipoFicha tipo_Ficha;
 
-    //constructor de copia
-    Ficha(  const Ficha& fichaOriginal, std::string nombre, tipoFicha tipo);
 
 
 

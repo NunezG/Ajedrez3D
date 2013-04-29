@@ -73,10 +73,13 @@ void EscenaAjedrez::createScene()
 
     tablero->creaTableroYCasillas(mSceneMgr);
 
-    tablero->creaFichasAjedrez(mSceneMgr);
+   // tablero->creaFichasAjedrez(mSceneMgr);
 
     creaIluminacion();
 }
+
+
+
 
 
 
@@ -128,8 +131,6 @@ void EscenaAjedrez::mueveCamaraIzquierda()
     mGoingLeft = true;
 }
 
-
-
 void EscenaAjedrez::mueveCamaraDerecha()
 {
     mGoingRight = true;
@@ -154,9 +155,6 @@ void EscenaAjedrez::DistanciaCamara(int distanciaRelativa)
     // the further the camera is, the faster it moves
     mCamera->moveRelative(Ogre::Vector3(0, 0, -distanciaRelativa * 0.0008f * dist));
 }
-
-
-
 
 void EscenaAjedrez::setTarget(Ogre::SceneNode* target)
 {

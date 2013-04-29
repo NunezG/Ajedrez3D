@@ -6,7 +6,10 @@ ModeloMenu::ModeloMenu() : posBoton(0)
 }
 
 ModeloMenu::~ModeloMenu()
-{    
+{
+
+    std::cout  << "DESTRUYE MODELOMENU " << std::endl;
+
 }
 
 void ModeloMenu::creaBoton(CEGUI::Event::Subscriber evento, Ogre::String nombre, CEGUI::FrameWindow* ventana)
@@ -66,22 +69,26 @@ CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento,
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** for***");
 
+
+CEGUI::ListboxTextItem* elementoLista;
+
+
     for (int i = 0; i < listaElementos.size(); i++)
     {
 
         Ogre::LogManager::getSingletonPtr()->logMessage("*** un for***");
 
-        elementoLista[i] = new CEGUI::ListboxTextItem(std::string(*listaElementos.at(i)));
+         elementoLista= new CEGUI::ListboxTextItem(std::string(*listaElementos.at(i)));
 
         //elementoLista->setSelectionColours(col );
 
-        if (i== 1)elementoLista[i]->setSelected(true);
+        if (i== 1)elementoLista->setSelected(true);
 
         // elementoLista->setText();
 
         Ogre::LogManager::getSingletonPtr()->logMessage("*** agrega a lista***");
 
-        listaReal->addItem(elementoLista[i]);
+        listaReal->addItem(elementoLista);
         listaReal->handleUpdatedItemData();
 
     }
@@ -140,9 +147,3 @@ CEGUI::FrameWindow* ModeloMenu::creaVentana(std::string nombre)
     return ventana;
 }
 
-ModeloMenu* ModeloMenu::getSingletonPtr()
-{
-    static ModeloMenu miModelo;
-    static ModeloMenu* miModeloPtr = &miModelo;
-    return miModeloPtr;
-}

@@ -78,7 +78,7 @@ bool ModuloIA::construyeArbol(const int listaCasillas[144])
     tableroElegido = NULL;
     std::cout << "CONSTRUYE ARBOL33333333333" << std::endl;
 
-    int resultado = alphaBeta(tableroPadre,-50000, 50000, 1);
+    int resultado = alphaBeta(tableroPadre,-50000, 50000, 3);
 
     std::cout << "RESULTADO DE ALFABETA: "<< resultado<< std::endl;
 

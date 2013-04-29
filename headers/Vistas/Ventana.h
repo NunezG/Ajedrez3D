@@ -35,8 +35,7 @@
 class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener
 {
 public:
-    //Singleton
-    static Ventana* getCEGUISingletonPtr();
+    Ventana(void);
 
      ~Ventana(void);
 
@@ -50,21 +49,16 @@ public:
     bool muestraAjedrez();
     bool muestraAjedrezSolo();
 
-
     int getFPS();
-
     int pantallaActual();
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     Ogre::RenderWindow* getVentana();
-    bool mShutDown;
     int mPantalla;
-
+    Modelo* modelo;
     BaseVistas* vista;
-
    // BaseApplication* Create(Ogre::String type);
-
 
     bool capturaRaton;
 
@@ -86,21 +80,16 @@ private:
     bool mouseMoved( const OIS::MouseEvent &arg );
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+    CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
 
-    //Singleton;
-    Ventana(void);
-    void operator=(const Ventana& frameListener ) ;
-    Ventana(const Ventana& ventana);
-
-    Ogre::SceneManager* mSceneMgr;
+  //  Ogre::SceneManager* mSceneMgr;
     Ogre::RenderWindow* mWindow;
     Ogre::Root* mRoot;
     Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
 
     unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 
-    CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
     CEGUI::Window *sheet;
     CEGUI::System* sys;
 

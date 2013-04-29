@@ -1,7 +1,7 @@
 #include "../../headers/Vistas/BaseVistas.h"
 
-BaseVistas::BaseVistas() :
-    modoJuego(0)
+BaseVistas::BaseVistas()
+    //modoJuego(0)
 
 
 {  

@@ -47,7 +47,6 @@ public:
 
 
 
-
     std::string getNombre();
 
         // bool NuevoObjetoDeOgre(void);

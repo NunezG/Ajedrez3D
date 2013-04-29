@@ -18,14 +18,14 @@ class BaseJuego : public Ogre::FrameListener
 public:
     void go(void);
 
-protected:   
-    Ventana* punteroVentana;
-
-    Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
-    virtual void inicio(void) = 0;
+protected:
 
     BaseJuego(void);
     ~BaseJuego(void);
+
+
+
+   // virtual void inicio(void) = 0;
 
     void destroyScene(void);
     void setupResources(void);
@@ -35,16 +35,21 @@ protected:
     bool configureOpenGL();
     bool configureOgre(void);
     void chooseSceneManager(void);
-
-    Ogre::Root *mRoot;
-    Modelo* modelo;
+    void inicio(void);
 
     //BUCLE PRINCIPAL
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
 
-private:   
-    Ogre::String mResourcesCfg;
-    Ogre::String mPluginsCfg;
+   // void destruyeTablero(void);
+
+
+    Ventana* punteroVentana;
+
+    Ogre::Root *mRoot;
+    Modelo* modelo;
+    Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
+    Ogre::SceneManager* mSceneMgr;
+
 };
 
 #endif // #ifndef __BaseJuego_h_

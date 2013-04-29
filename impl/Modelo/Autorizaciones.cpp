@@ -1,15 +1,12 @@
 #include "../../headers/Modelo/Autorizaciones.h"
 
-Autorizaciones::Autorizaciones(void)
-{
-}
 
-Autorizaciones::~Autorizaciones(void)
-{
-}
 
-bool Autorizaciones::autorizaCasilla(Tablero* miTablero,Casilla* nodoSeleccionado, Casilla* nodoSobrevolado, bool turnoNegras)
+bool Autorizaciones::autorizaCasilla(Tablero* miTablero)
 {
+    Casilla* nodoSeleccionado = miTablero->getNodoFichaSeleccionada();
+     Casilla* nodoSobrevolado = miTablero->getNodoCasillaSobrevolada();
+
     // elTablero = miTablero;
     posicion seleccionado = nodoSeleccionado->getPosicion();
     // Ogre::Vector3 nuevo = nodoSobrevolado->getNodoOgre()->getPosition();
@@ -36,7 +33,7 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero,Casilla* nodoSeleccionad
     case Rey: //REY SELECCIONADO
         std::cout << "rey" << std::endl;
 
-        return autorizaRey(diferencia,nodoSobrevolado->getPosicion(), miTablero, turnoNegras);
+        return autorizaRey(diferencia,nodoSobrevolado->getPosicion(), miTablero, miTablero->getTurnoNegras());
         break;
 
     case Reina: //REINA SELECCIONADO
@@ -67,7 +64,7 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero,Casilla* nodoSeleccionad
         std::cout << "peon" << std::endl;
 
 
-        return autorizaPeon(diferencia, nodoSobrevolado, seleccionado, turnoNegras, miTablero);
+        return autorizaPeon(diferencia, nodoSobrevolado, seleccionado, miTablero->getTurnoNegras(), miTablero);
         break;
 
     default:
@@ -492,7 +489,7 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado,
         //Invierte la coordenada X de los peones negros
         // seleccionado.Fila = 7 - seleccionado.Fila;
         diferencia.Fila = -diferencia.Fila;
-        diferencia.Columna = -diferencia.Columna;
+        diferencia.Columna = enColummas(-diferencia.Columna);
 
     }
 
@@ -562,7 +559,7 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado,
 
             int posCasilla = (casillaLateral.Fila*8) + casillaLateral.Columna;
 
-            if (miTablero->alPaso == (casillaLateral.Fila*8)+casillaLateral.Columna)
+            if (miTablero->getAlPaso() == (casillaLateral.Fila*8)+casillaLateral.Columna)
             {
               //  Casilla* casilla = static_cast<Casilla*>(miTablero->getHijo(posCasilla));
              //   if (!casilla->sinHijos())
@@ -746,7 +743,7 @@ bool Autorizaciones::autorizaTorre(posicion diferencia, posicion nodoSobrevolado
 bool Autorizaciones::autorizaCaballo(posicion diferencia)
 {
     if (diferencia.Fila < 0) diferencia.Fila = -diferencia.Fila;
-    if (diferencia.Columna < 0) diferencia.Columna = -diferencia.Columna;
+    if (diferencia.Columna < 0) diferencia.Columna = enColummas(-diferencia.Columna);
 
     if ((diferencia.Fila == 2 && diferencia.Columna == 1)
             || (diferencia.Fila == 1 && diferencia.Columna == 2))

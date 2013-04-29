@@ -34,22 +34,19 @@ public:
 
     Tablero(void);
 
-    int nivel;
+   int getAlPaso();
 
-    std::string columnas;
+   void setAlPaso(int casilla);
 
-   Ogre::SceneManager* mSceneMgr;
-
-    bool creaFichasAjedrez(Ogre::SceneManager* sceneMgr);
+  // bool creaFichasAjedrez(Ogre::SceneManager* sceneMgr);
 
     bool creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
 
     //Ogre::SceneNode* nodoCasillero;
 
-    int alPaso;
 
     bool getTurnoNegras();
-    void setTurnoNegras(bool turno);
+   // void setTurnoNegras(bool turno);
 
 
     Casilla* getNodoFichaSeleccionada();
@@ -61,7 +58,6 @@ public:
 
     bool FichaComestible();
     void cambiaTurno();
-    FichaReina* promocionaPeon(Ficha* nodoFicha);
 
     int* actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
 
@@ -70,7 +66,33 @@ public:
 
     int* mueveYTraduceTablero();
 
+
+    std::string columnas;
+
+   Ogre::SceneManager* mSceneMgr;
+
+
 private:
+
+   FichaReina* promocionaPeon(Ficha* nodoFicha);
+
+   void creaCasillas();
+
+  // ObjetoOgre* objetoOgreAsociado;
+
+
+   void creaPeones();
+   void creaNobleza();
+   void creaVasallos();
+   //void creaFichas();
+
+  // bool verificaCamino(int inicial[2], int final[2], int camino);
+   int evaulaTablero(const int casillasInt[144]);
+   short traduceFicha(tipoFicha tipo);
+
+    int nivel;
+
+    int alPaso;
 
     int peonesPromocionados;
 
@@ -83,32 +105,17 @@ private:
      bool mateBlancas;
      bool ahogado;
 
+  //  Ficha* fichasNegras[16];
+  //  Ficha* fichasBlancas[16];
 
-    Ficha* fichasNegras[16];
-    Ficha* fichasBlancas[16];
+   // Ogre::SceneNode* nodoTablero;
+
+    Tablero* listaNodos[];
+    bool turnoNegras;
 
    // int casillas[8][8];
 
-    void creaCasillas();
 
-    Ogre::SceneNode* nodoTablero;
-
-   // ObjetoOgre* objetoOgreAsociado;
-
-
-    void creaPeones();
-    void creaNobleza();
-    void creaVasallos();
-    //void creaFichas();
-
-    Tablero* listaNodos[];
-
-   // bool verificaCamino(int inicial[2], int final[2], int camino);
-    int evaulaTablero(const int casillasInt[144]);
-
-    bool turnoNegras;
-
-    short traduceFicha(tipoFicha tipo);
 
 };
 

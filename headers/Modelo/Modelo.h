@@ -9,51 +9,62 @@
 class Modelo
 {
 public:
-    bool getApagar();
-    int getNumPantalla();
 
-//    EscenaAjedrez* escena;
+
+    Ogre::String mResourcesCfg;
+    Ogre::String mPluginsCfg;
+
+    std::string* resolucion;
+    bool salirPulsado;
+
     ModeloMenu* menu;
 
     int modoJuego;
+
+    bool getApagar();
+    int getNumPantalla();
+    void setNumPantalla(int pantalla);
+
+//    EscenaAjedrez* escena;
+
     void construyeAjedrez();
     void construyeMenu();
 
     //Singleton
     static Modelo* getSingletonPtr();
 
-    std::string* resolucion;
+
+    bool getSalir();
+
+    void setSalir(bool salir);
+
+    void destruyeTablero();
+
+    void destruyeMenu();
 
     ~Modelo(void);
     Tablero* getTablero();
+
 
 protected:
 
 
 private:  
 
-
-
     //Singleton;
     Modelo(void);
     void operator=(const Modelo& miModelo) ;
     Modelo(const Modelo& miModelo);
-
-
 
     bool mShutDown;
     int mPantalla;
 
     unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 
-    Ogre::String mResourcesCfg;
-    Ogre::String mPluginsCfg;
-    Ogre::Root *mRoot;
-    Ogre::SceneManager* mSceneMgr;
+   // Ogre::Root *mRoot;
+   // Ogre::SceneManager* mSceneMgr;
 
     Tablero* tablero;
-
-
 };
 
 #endif

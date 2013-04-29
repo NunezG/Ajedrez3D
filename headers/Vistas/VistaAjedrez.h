@@ -12,7 +12,7 @@
 class VistaAjedrez : public BaseVistas
 {
 public:
-    VistaAjedrez( Ogre::RenderWindow* mWindow);
+    VistaAjedrez(void);
     ~VistaAjedrez(void);
     // Ogre::FrameListener
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -32,10 +32,9 @@ protected:
 
 
 EscenaAjedrez* escenaAjedrez;
-Ogre::RenderWindow* mWindow;
     Ogre::Degree rotaTurno;
 
-
+Tablero* tablero;
 
     bool fichaSeleccionada;
     Ogre::String textoOverlay;

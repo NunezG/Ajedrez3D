@@ -14,9 +14,8 @@ public:
     ~MenuInicio(void);
 
    // CEGUI::FrameWindow* createGUI(void);
-    bool salirPulsado;
 
-    bool salir();
+    //bool salir();
     bool iniciaVista();
 
     bool esMenuInicio();
@@ -24,9 +23,6 @@ public:
     int numVentana;
 
 protected:
-
-
-    CEGUI::FrameWindow* ventanaConfig;
 
     bool botonSalir(const CEGUI::EventArgs    &e);
     bool botonJuegoTurnos(const CEGUI::EventArgs &e);
@@ -39,22 +35,7 @@ protected:
     bool sobrevuelaListaDificultad(const CEGUI::EventArgs &e);
     bool seleccionaDificultad(const CEGUI::EventArgs &e);
 
-    CEGUI::Listbox *listaResoluciones;
-    CEGUI::Listbox *listaDificultades;
-
-    std::vector<std::string*>  listaElementos;
-
-    // std::vector<std::string>  listaElementos;
-
-
     bool pantallaConfig();
-
-    CEGUI::Window *sheetWindow;
-    CEGUI::Window *quitButton;
-    CEGUI::Window *mBotonJTurnos;
-    CEGUI::Window *mBotonJSolo;
-
-    CEGUI::FrameWindow* fWnd;
 
     bool keyPressed( const OIS::KeyEvent &arg );
     bool keyReleased( const OIS::KeyEvent &arg );
@@ -64,6 +45,23 @@ protected:
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
     bool IluminaSeleccion(CEGUI::Listbox *list);
+
+    CEGUI::FrameWindow* ventanaConfig;
+
+    CEGUI::Listbox *listaResoluciones;
+    CEGUI::Listbox *listaDificultades;
+
+    std::vector<std::string*>  listaElementos;
+
+    // std::vector<std::string>  listaElementos;
+
+    CEGUI::Window *sheetWindow;
+    CEGUI::Window *quitButton;
+    CEGUI::Window *mBotonJTurnos;
+    CEGUI::Window *mBotonJSolo;
+
+    CEGUI::FrameWindow* fWnd;
+
 
 };
 

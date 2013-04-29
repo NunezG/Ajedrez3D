@@ -6,7 +6,6 @@
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 
-#include <OgreRenderWindow.h>
 #include "../Modelo/Modelo.h"
 
 
@@ -17,12 +16,11 @@ public:
     ~BaseVistas(void);
 
 
-    int modoJuego;
-
-    Modelo* modelo;
+   // int modoJuego;
 
 
-    virtual bool salir() = 0;
+
+    //virtual bool salir() = 0;
 
     virtual bool keyPressed( const OIS::KeyEvent &arg ) = 0;
     virtual bool keyReleased( const OIS::KeyEvent &arg ) = 0;
@@ -32,6 +30,9 @@ public:
 
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
     virtual bool esMenuInicio() = 0;
+
+    Modelo* modelo;
+
 
 private:
 

@@ -2,8 +2,8 @@
 #include "../../headers/Vistas/VistaAjedrezSolo.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrezSolo::VistaAjedrezSolo( Ogre::RenderWindow* mWindow)
-    : VistaAjedrez(mWindow)
+VistaAjedrezSolo::VistaAjedrezSolo()
+    : VistaAjedrez()
 
 {
 }

@@ -1,19 +1,18 @@
 #include "../../headers/Control/BaseJuego.h"
 
 //-------------------------------------------------------------------------------------
-BaseJuego::BaseJuego(void):
-    mPluginsCfg("plugins.cfg"),
-    mResourcesCfg("resources.cfg")
+BaseJuego::BaseJuego(void)//: mSceneMgr(mSceneMgr)
+
+    //mPluginsCfg("plugins.cfg"),
+   // mResourcesCfg("resources.cfg")
 {
-    mRoot =new Ogre::Root(mPluginsCfg);
-    mTimer = mRoot->getTimer();
-    punteroVentana = Ventana::getCEGUISingletonPtr();
-    modelo = Modelo::getSingletonPtr();
+
+ //   modelo = Modelo::getSingletonPtr();
 }
 //-------------------------------------------------------------------------------------
 BaseJuego::~BaseJuego(void)
 {
-    delete mRoot;
+   // delete mRoot;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////7
@@ -31,6 +30,22 @@ bool BaseJuego::configureOpenGL()
     {
         return false;
     }
+}
+
+void BaseJuego::inicio(void){
+
+    modelo->construyeMenu();
+
+    Ogre::Root::getSingletonPtr()->addFrameListener(this);
+    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
+
+    punteroVentana->EmpiezaCEGUI();
+    punteroVentana->MuestraMenu();
+
+    //punteroVentana->iniciaVista();
+    // iniciaModeloAjedrez();
+
+
 }
 
 bool BaseJuego::configuraGraficos(const char *desiredRenderer)
@@ -73,7 +88,7 @@ bool BaseJuego::configuraGraficos(const char *desiredRenderer)
     }
 
     renderSystem->setConfigOption("Full Screen", "No");
-    renderSystem->setConfigOption("Video Mode", "800 x 600");
+    renderSystem->setConfigOption("Video Mode", "1920 x 1080");
 
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
         it != renderSystem->getConfigOptions().end(); it++)
@@ -108,6 +123,41 @@ bool BaseJuego::setup(void)
 
 void BaseJuego::destroyScene(void)
 {
+
+    std::cout << "destruyemenu"<< std::endl;
+
+
+  //  if modelo->   modelo->destruyeMenu();
+
+    std::cout << "destruyetablero"<< std::endl;
+
+    std::cout << "modelo->getTablero()"<<modelo->getTablero()<< std::endl;
+
+    if (modelo->getTablero()) modelo->destruyeTablero();
+
+    std::cout << "nullea mod " << std::endl;
+
+    modelo = NULL;
+
+    std::cout << "delete roor " << std::endl;
+
+    //delete mRoot;
+    std::cout << "nullea " << std::endl;
+
+    mTimer = NULL;
+    std::cout << "nullea " << std::endl;
+
+    if (mRoot)
+     mRoot->removeFrameListener(this);
+
+    mRoot = NULL;
+    std::cout << "puntventana"<< std::endl;
+
+    delete punteroVentana;
+    std::cout << "nullea " << std::endl;
+
+    punteroVentana = NULL;
+
     std::cout << "destroyScene"<< std::endl;
 
 }
@@ -121,7 +171,7 @@ void BaseJuego::setupResources(void)
 {
     // Load resource paths from config file
     Ogre::ConfigFile cf;
-    cf.load(mResourcesCfg);
+    cf.load(modelo->mResourcesCfg);
     // Go through all sections & settings in the file
     Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
     Ogre::String secName, typeName, archName;
@@ -149,12 +199,20 @@ void BaseJuego::loadResources(void)
 //-------------------------------------------------------------------------------------
 void BaseJuego::go(void)
 {
+    modelo = Modelo::getSingletonPtr();
+
+    mRoot =new Ogre::Root(modelo->mPluginsCfg);
+    mTimer = mRoot->getTimer();
+    punteroVentana = new Ventana();
+
     if (!configureOgre())
         return;
 
     inicio();
 
     mRoot->startRendering();
+
+
 
     // clean up (despues de ejeucion)
     destroyScene();

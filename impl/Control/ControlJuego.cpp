@@ -4,30 +4,13 @@
 //-------------------------------------------------------------------------------------
 ControlJuego::ControlJuego(void) :
     BaseJuego(),
-    esperaCalculo(false),
-    mSceneMgr(mSceneMgr)
+    esperaCalculo(false)
 
 {
 }
 //-------------------------------------------------------------------------------------
 ControlJuego::~ControlJuego(void)
 {
-}
-
-void ControlJuego::inicio(void){
-
-    modelo->construyeMenu();
-
-    Ogre::Root::getSingletonPtr()->addFrameListener(this);
-    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
-
-    punteroVentana->EmpiezaCEGUI();
-    punteroVentana->MuestraMenu();
-
-    //punteroVentana->iniciaVista();
-    // iniciaModeloAjedrez();
-
-
 }
 
 ControlJuego& ControlJuego::getControlSingleton()
@@ -41,18 +24,18 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
     if(punteroVentana -> pantallaActual() == 0)
     {
-        if(punteroVentana -> mPantalla > 0){
+        if(modelo->getNumPantalla() > 0)
+        {
             std::cout << "CAMBIA DE PANTALLA " << std::endl;
+            modelo->destruyeMenu();
 
-            punteroVentana->muestraAjedrez(/*escenaAjedrez*/);
+            punteroVentana->muestraAjedrez();
             std::cout << "FIN CAMBIO" << std::endl;
             iniciaModeloAjedrez();
-
         }
-    }  else if(punteroVentana -> mPantalla == 2)
+    }
+    else if(modelo->getNumPantalla() == 2)
     {
-
-
         if (modelo->getTablero()->getTurnoNegras() && esperaCalculo == false)
         {
             punteroVentana->capturaRaton = false;
@@ -60,9 +43,7 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
             calculaMovimiento();
             //  esperaCalculo=true;
         }else punteroVentana->capturaRaton = true;
-
     }
-
 
     if(punteroVentana -> getVentana()->isClosed())
         return false;
@@ -70,28 +51,29 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(!punteroVentana -> getVentana()->isVisible())
         return false;
 
-    if(punteroVentana -> mShutDown)
+    if(modelo->getSalir())
         return false;
 
     punteroVentana->frameRenderingQueued(evt);
 
     //jugador.mueveFicha();
 
-
     return true;
 }
-
 
 //------------------------------------------------------------------------------------
 bool ControlJuego::iniciaModeloAjedrez(void)
 {
     // mR-aySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
+
+    modelo->construyeAjedrez();
+
+
     escenaAjedrez = EscenaAjedrez::getSingletonPtr();
 
     std::cout << "INICIA VISTA 1 " << std::endl;
 
-    modelo->construyeAjedrez();
 
 
     //escenaAjedrez = EscenaAjedrez::getSingletonPtr();
@@ -123,16 +105,6 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 
 
 
-void ControlJuego::createScene(void)
-{
-}
-
-
-
-
-bool ControlJuego::iniciaModelo(){
-
-}
 
 void ControlJuego::calculaMovimiento(){
 

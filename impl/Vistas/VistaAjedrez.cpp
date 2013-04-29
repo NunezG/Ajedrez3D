@@ -2,17 +2,18 @@
 #include "../../headers/Vistas/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez( Ogre::RenderWindow* mWindow) :
-    fichaSeleccionada(false),
-    textoOverlay("VACIO")
+VistaAjedrez::VistaAjedrez() :
+    BaseVistas()
+    ,fichaSeleccionada(false)
+    , textoOverlay("VACIO")
   , rotaTurno(0)
-  , mWindow(mWindow)
 
 
 
 {
     escenaAjedrez = EscenaAjedrez::getSingletonPtr();
-    modelo =Modelo::getSingletonPtr();
+    tablero = modelo->getTablero();
+   // modelo =Modelo::getSingletonPtr();
 
 
 
@@ -27,10 +28,10 @@ bool VistaAjedrez::cambiaTurno(){
     std::cout << "cambiatur "<< std::endl;
     fichaSeleccionada = false;
 
-    escenaAjedrez->apagaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+    escenaAjedrez->apagaCasilla(tablero->getNodoCasillaSobrevolada());
 
     rotaTurno = Ogre::Real(180.0f);
-    modelo->getTablero()->cambiaTurno();
+    tablero->cambiaTurno();
     //mediaVuelta();
 }
 
@@ -104,23 +105,23 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         {
             Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
 
-            Casilla* casillaSobrevolada = static_cast<Casilla*>(modelo->getTablero()->getHijo(nodoSobrevolado->getName()));
+            Casilla* casillaSobrevolada = static_cast<Casilla*>(tablero->getHijo(nodoSobrevolado->getName()));
 
-            if (modelo->getTablero()->getNodoCasillaSobrevolada()==NULL || casillaSobrevolada->getNombre() != modelo->getTablero()->getNodoCasillaSobrevolada() -> getNombre())
+            if (tablero->getNodoCasillaSobrevolada()==NULL || casillaSobrevolada->getNombre() != tablero->getNodoCasillaSobrevolada() -> getNombre())
             {
 
                 std::cout << "IF" << std::endl;
 
 
-                if (modelo->getTablero()->getNodoCasillaSobrevolada()!=NULL){
-                    escenaAjedrez->apagaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
-                    modelo->getTablero()->setNodoCasillaSobrevolada(NULL);
+                if (tablero->getNodoCasillaSobrevolada()!=NULL){
+                    escenaAjedrez->apagaCasilla(tablero->getNodoCasillaSobrevolada());
+                    tablero->setNodoCasillaSobrevolada(NULL);
                 }
-                modelo->getTablero()->setNodoCasillaSobrevolada(casillaSobrevolada);
+                tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
 
                 //Autoriza la casilla sobrevolada para mover ficha (no mira si la casilla está ocupada)
                 bool autorizado= true;
-                autorizado = Autorizaciones::autorizaCasilla(modelo->getTablero(), modelo->getTablero()->getNodoFichaSeleccionada() , modelo->getTablero()->getNodoCasillaSobrevolada(), modelo->getTablero()->getTurnoNegras());
+                autorizado = Autorizaciones::autorizaCasilla(tablero);
 
                 std::cout << "autorizado: "<<autorizado << std::endl;
 
@@ -128,15 +129,15 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
                 if(autorizado)
                 {
 
-                    if  (modelo->getTablero()->getNodoCasillaSobrevolada()->sinHijos() != true)
+                    if  (tablero->getNodoCasillaSobrevolada()->sinHijos() != true)
                     {
 
 
-                        if (modelo->getTablero()->FichaComestible()) {
+                        if (tablero->FichaComestible()) {
                             //falta evaluar jaque y ahogado
-                            if (!Autorizaciones::evaluaJaque(modelo->getTablero()->mueveYTraduceTablero(), modelo->getTablero()->getTurnoNegras()))
+                            if (!Autorizaciones::evaluaJaque(tablero->mueveYTraduceTablero(), tablero->getTurnoNegras()))
                             {
-                                escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+                                escenaAjedrez->iluminaCasilla(tablero->getNodoCasillaSobrevolada());
                                 std::cout << "ES COMESTIBLE" << std::endl;
                             }else {
                                 std::cout << "JAQUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" << std::endl;
@@ -150,9 +151,9 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
                     } else{
 
                         //falta evaluar jaque y ahogado
-                        if (!Autorizaciones::evaluaJaque(modelo->getTablero()->mueveYTraduceTablero(), modelo->getTablero()->getTurnoNegras()))
+                        if (!Autorizaciones::evaluaJaque(tablero->mueveYTraduceTablero(), tablero->getTurnoNegras()))
                         {
-                            escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+                            escenaAjedrez->iluminaCasilla(tablero->getNodoCasillaSobrevolada());
                             std::cout << "ES COMESTIBLE" << std::endl;
                         }else {
                             std::cout << "JAQUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" << std::endl;
@@ -180,7 +181,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 }
 
 bool VistaAjedrez::salir(){
-    //return salirPulsado;
+
 }
 bool VistaAjedrez::esMenuInicio(){
 
@@ -284,10 +285,10 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
     } else if (mbright)
     {
         //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
-        if (fichaSeleccionada && modelo->getTablero()->getNodoCasillaSobrevolada()!=NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
+        if (fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
         {
 
-            modelo->getTablero()->actualizaTablero(modelo->getTablero()->getNodoFichaSeleccionada()->getPosicion(), modelo->getTablero()->getNodoCasillaSobrevolada()->getPosicion());
+            tablero->actualizaTablero(tablero->getNodoFichaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion());
 
 
 

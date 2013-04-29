@@ -20,7 +20,8 @@ enum tipoF
 
 
 
-struct TableroPrueba{
+struct TableroPrueba
+{
 
     // StringClass(char *ptr);
     TableroPrueba();
@@ -69,13 +70,16 @@ public:
 
     void insert( TableroPrueba *newKey);
 
+
+
+    bool BorraArbol();
+    bool evaluaJaque(const int casillasInt[144], bool turnoNegras);
+
+
     TableroPrueba* tableroPadre;
 
     TableroPrueba* tableroElegido;
     int casillaCambiada;
-
-    bool BorraArbol();
-    bool evaluaJaque(const int casillasInt[144], bool turnoNegras);
 
 
 
@@ -87,6 +91,7 @@ private:
     bool WhiteCheck;
     bool WhiteMate;
     bool StaleMate;
+
     int evaulaTablero(const int casillasInt[144], bool turnoN);
 
    // std::vector<TableroPrueba> vectorTableros;

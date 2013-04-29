@@ -9,23 +9,40 @@ Ventana::Ventana() :
     sys(0),
     mRoot(Ogre::Root::getSingletonPtr()),
     mTimer(mRoot->getTimer()),
-    mSceneMgr(0),
-    vista(0),
+  //  mSceneMgr(0),
+    vista(NULL),
     capturaRaton(true)
-{  
+{
+    modelo = Modelo::getSingletonPtr();
+
 }
 
 Ventana::~Ventana()
 {
-    Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
-    windowClosed(mWindow);
-}
+    std::cout << "vista"<< std::endl;
 
-Ventana* Ventana::getCEGUISingletonPtr()
-{
-    static Ventana miFrameListener;
-    static Ventana* miFrameListenerPtr = &miFrameListener;
-    return miFrameListenerPtr;
+    delete vista;
+    std::cout << "fin"<< std::endl;
+    vista = NULL;
+    std::cout << "remove"<< std::endl;
+
+    windowClosed(mWindow);
+
+    std::cout << "listenre"<< std::endl;
+
+    Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
+
+
+    std::cout << "detach"<< std::endl;
+
+    mRoot->detachRenderTarget(mWindow);
+    std::cout << "framelis"<< std::endl;
+
+
+
+
+    std::cout << "end"<< std::endl;
+
 }
 
 Ogre::RenderWindow* Ventana::getVentana(){
@@ -92,12 +109,22 @@ void Ventana::windowClosed(Ogre::RenderWindow* rw)
 {      
     if( rw == mWindow )
     {
+        std::cout << "windowclosed"<< std::endl;
+
         if( mInputManager )
         {
-            mInputManager->destroyInputObject( mMouse );
+            std::cout << "destroy"<< std::endl;
             mInputManager->destroyInputObject( mKeyboard );
+            std::cout << "destroy2"<< std::endl;
+
+            mInputManager->destroyInputObject( mMouse );
+
+
+            std::cout << "destroy 3"<< std::endl;
 
             OIS::InputManager::destroyInputSystem(mInputManager);
+            std::cout << "destroy 4"<< std::endl;
+
             mInputManager = 0;
         }
     }
@@ -187,8 +214,7 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 
     if (evt.key == OIS::KC_ESCAPE)// Pulsa Esc
     {
-        mShutDown = true;
-        return true;
+        modelo->setSalir(true);
     }else if (evt.key == OIS::KC_SYSRQ)   // take a screenshot
     {
         mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
@@ -267,13 +293,15 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 {
+    delete vista;
+    vista = NULL;
     if (mPantalla == 1)
     {
-        vista= new VistaAjedrez(mWindow);
+        vista= new VistaAjedrez();
     }
     else if (mPantalla == 2)
     {
-        vista= new VistaAjedrezSolo(mWindow);
+        vista= new VistaAjedrezSolo();
     }
 }
 
@@ -307,15 +335,14 @@ bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
     {
         std::cout << "MOUSE RELEASED EN PANTALLA = 0 " << std::endl;
 
-        if(vista->salir()) mShutDown = true;
-        else if (sys->getGUISheet()->isVisible()==true && vista->modoJuego == 1)
+        if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 1)
         {
             std::cout << "PANTALLA 1 " << std::endl;
 
             sys->getGUISheet()->setVisible(false);
-            mPantalla = 1;
+           mPantalla = 1;
         }
-        else if (sys->getGUISheet()->isVisible()==true && vista->modoJuego == 2)
+        else if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 2)
         {
             std::cout << "PANTALLA 2 " << std::endl;
 

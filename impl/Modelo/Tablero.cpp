@@ -13,9 +13,14 @@ Tablero::Tablero() :
 
 {
 
+
 }
 Tablero::~Tablero()
 {
+    std::cout << "DESTRUYE TABLERO" << std::endl;
+
+
+//delete mSceneMgr;
 }
 
 Casilla* Tablero::getNodoFichaSeleccionada(){
@@ -29,13 +34,23 @@ Casilla* Tablero::getNodoCasillaSobrevolada(){
 }
 
 
+int Tablero::getAlPaso()
+{
+ return alPaso;
+}
+
+void Tablero::setAlPaso(int casilla)
+{
+  alPaso = casilla;
+
+}
+
+
 bool Tablero::getTurnoNegras(){
     return turnoNegras;
 }
 
-void Tablero::setTurnoNegras(bool turno){
-    turnoNegras = turno;
-}
+
 
 void Tablero::setNodoFichaSeleccionada(Casilla* nodo)
 {
@@ -54,6 +69,13 @@ bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
 
     mSceneMgr->getRootSceneNode()->addChild(getNodoOgre());
     creaCasillas();
+
+
+        creaVasallos();
+        creaNobleza();
+        creaPeones();
+
+
 }
 
 //-------------------------------------------------------------------------------------
@@ -82,19 +104,13 @@ bool Tablero::FichaComestible()
 void Tablero::creaCasillas()
 {
     int contFila = 0;
-    int contColumna = 0;
+    enColummas contColumna = COL_A;
     std::stringstream saux;
     Casilla* objeto;
 
     for (int i = 0; i < 64; ++i)
     {
-        if (contColumna == 8)
-        {
-            contFila++;
-            contColumna = 0;
-            std::cout  <<"/"<< std::endl;
 
-        }
         saux.str("");
         saux  << Ogre::StringConverter::toString( contFila + 1 )<<  columnas[contColumna];
         std::cout  <<(contFila*8)+contColumna<< std::ends;
@@ -116,17 +132,17 @@ void Tablero::creaCasillas()
         objeto->setPosicion(contFila, contColumna);
         objeto->trasladarAPunto();
         agregaHijo(objeto);
-        contColumna++;
+
+        if (contColumna == COL_H)
+        {
+            contFila++;
+            contColumna = COL_A;
+            std::cout  <<"/"<< std::endl;
+
+        }else contColumna = enColummas(static_cast<int>(contColumna)+1);
     }
 }
 
-bool Tablero::creaFichasAjedrez(Ogre::SceneManager* mSceneMgr)
-{
-    creaVasallos();
-    creaNobleza();
-    creaPeones();
-
-}
 
 void Tablero::creaVasallos()
 {
@@ -448,7 +464,7 @@ void Tablero::cambiaTurno()
 
     std::cout << "fin cambia "<< std::endl;
 
-    setTurnoNegras(!getTurnoNegras());
+    turnoNegras = !turnoNegras;
     std::cout << "fin "<< std::endl;
 
 }

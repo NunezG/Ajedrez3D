@@ -32,16 +32,12 @@ class  EscenaAjedrez
 {
 public:
 
-
-
-
     ~EscenaAjedrez(void);
 
     //Singleton
     static EscenaAjedrez* getSingletonPtr();
 
     void createScene();
-
 
     // void createCamera(void);
 
@@ -50,7 +46,6 @@ public:
     Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
     Ogre::RaySceneQuery* createRayQuery(void);
 
-    Ogre::SceneNode* mTarget;
     void setTarget(Ogre::SceneNode* target);
 
     void iluminaCasillaSobrevolada();
@@ -78,27 +73,26 @@ public:
 
     void rotacionCamara(Ogre::Degree angulo);
 
+    bool seleccionaFichaEnPosicion(int posX, int posY);
 
+    Ogre::SceneNode* mTarget;
     Ogre::String columnas;
 
     //std::vector<Tablero*> HistorialMovimientos;
 
-
    Tablero* tablero;
-
-
-
-    bool seleccionaFichaEnPosicion(int posX, int posY);
 
 private:   
 
-     Modelo* modelo;
-
     //Ogre::Entity *entTablero;
-
+     //Singleton;
+     EscenaAjedrez(void);
+     void operator=(const EscenaAjedrez& escena ) ;
+     EscenaAjedrez(const EscenaAjedrez& escena);
 
     void creaIluminacion();
-
+    void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);
+    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
    // bool turnoNegras;
 
@@ -110,13 +104,6 @@ private:
 
     bool mOrbiting;
 
-    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
-
-    //Singleton;
-    EscenaAjedrez(void);
-    void operator=(const EscenaAjedrez& escena ) ;
-    EscenaAjedrez(const EscenaAjedrez& escena);
-
     Ogre::RenderWindow* mWindow;
 
     Ogre::SceneManager* mSceneMgr;
@@ -124,10 +111,8 @@ private:
 
     Ogre::Camera* mCamera;
     Ogre::Real mTopSpeed;
-    void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);
 
-
-
+    Modelo* modelo;
 
 };
 
