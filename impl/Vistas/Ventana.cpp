@@ -10,8 +10,8 @@ Ventana::Ventana() :
     mRoot(Ogre::Root::getSingletonPtr()),
     mTimer(mRoot->getTimer()),
   //  mSceneMgr(0),
-    vista(NULL),
-    capturaRaton(true)
+    vista(NULL)
+   // capturaRaton(true)
 {
     modelo = Modelo::getSingletonPtr();
 
@@ -51,6 +51,7 @@ Ogre::RenderWindow* Ventana::getVentana(){
 
 void Ventana::capture(){
     //Need to capture/update each device
+    mKeyboard->capture();
     mMouse->capture();
 }
 
@@ -269,11 +270,11 @@ int Ventana::getFPS()
 bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
     injectTimePulse(evt);
-    mKeyboard->capture();
 
-    if (capturaRaton){
+
+    //if (capturaRaton){
     capture();
-    }
+   // }
     statUpdate(evt);
 
 

@@ -12,11 +12,15 @@ public:
 
    // TableroPrueba tableroInicial;
 
+    virtual bool esHumano() = 0;
+    bool jugadorNegras;
+    virtual void mueveFicha(float frecuencia) = 0;
+
 protected:
 
-    virtual void mueveFicha() = 0;
 
-    Tablero miTablero;
+
+    Tablero* tablero;
 
 private:
 };

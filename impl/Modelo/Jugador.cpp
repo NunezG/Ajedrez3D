@@ -1,4 +1,4 @@
-#include "../../headers/Modelo/Jugador.h"
+ #include "../../headers/Modelo/Jugador.h"
 
 
 

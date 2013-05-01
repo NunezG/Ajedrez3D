@@ -4,7 +4,8 @@
 //#include "EscenaAjedrez.h"
 #include "ModeloMenu.h"
 #include "Tablero.h"
-
+#include "JugadorHumano.h"
+#include "JugadorArtificial.h"
 
 class Modelo
 {
@@ -20,6 +21,15 @@ public:
     ModeloMenu* menu;
 
     int modoJuego;
+
+    std::vector<Jugador*> jugadores;
+    int numJugadores;
+    Jugador* jugadorActual;
+
+    void creaJugador(bool negras, bool humano);
+
+    void mueveFicha(float frecuencia);
+
 
     bool getApagar();
     int getNumPantalla();

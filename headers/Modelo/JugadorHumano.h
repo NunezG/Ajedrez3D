@@ -10,10 +10,12 @@ public:
 
     ~JugadorHumano(void);
     JugadorHumano(void);
+ bool esHumano();
 
+ bool esperaSeleccion;
 
 protected:
-    void mueveFicha();
+    void mueveFicha(float frecuencia);
 
 
 

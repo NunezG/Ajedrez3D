@@ -3,8 +3,8 @@
 
 //-------------------------------------------------------------------------------------
 ControlJuego::ControlJuego(void) :
-    BaseJuego(),
-    esperaCalculo(false)
+    BaseJuego()
+    //esperaCalculo(false)
 
 {
 }
@@ -22,6 +22,8 @@ ControlJuego& ControlJuego::getControlSingleton()
 //-------------------------------------------------------------------------------------
 bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+
+
     if(punteroVentana -> pantallaActual() == 0)
     {
         if(modelo->getNumPantalla() > 0)
@@ -34,16 +36,26 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
             iniciaModeloAjedrez();
         }
     }
-    else if(modelo->getNumPantalla() == 2)
-    {
-        if (modelo->getTablero()->getTurnoNegras() && esperaCalculo == false)
-        {
-            punteroVentana->capturaRaton = false;
 
-            calculaMovimiento();
+
+   else if(modelo->getNumPantalla() > 0)
+    {
+
+        modelo->mueveFicha(evt.timeSinceLastFrame);
+
+     //  if (modelo->getTablero()->getTurnoNegras())
+    //    {
+     //       punteroVentana->capturaRaton = false;
+
+
+
+                  //  calculaMovimiento();
             //  esperaCalculo=true;
-        }else punteroVentana->capturaRaton = true;
-    }
+     //   }else punteroVentana->capturaRaton = true;
+  }
+
+
+
 
     if(punteroVentana -> getVentana()->isClosed())
         return false;
@@ -76,6 +88,21 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 
 
 
+    modelo->creaJugador(true, true);
+
+
+    if (modelo->getNumPantalla() == 1){
+
+         modelo->creaJugador(false, true);
+
+    }else{
+         modelo->creaJugador(false, false);
+
+    }
+
+
+
+
     //escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     std::cout << "INICIA VISTA 2 " << std::endl;
 
@@ -104,58 +131,3 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 
 
 
-
-
-void ControlJuego::calculaMovimiento(){
-
-    std::cout << "CALCULA MOVIMIENTO" << std::endl;
-
-
-    ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
-
-    //¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡PASALO A VITA AJEDREZ SOLO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    modulo->construyeArbol(modelo->getTablero()->traduceTablero());
-
-
-    if (modulo->tableroElegido != NULL)
-    {
-        std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
-        std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
-        std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
-
-        modelo->getTablero()->mueveIA(modulo->tableroElegido->movimiento[0],modulo->tableroElegido->movimiento[1]);
-
-        modulo->tableroElegido = NULL;
-
-    } else std::cout  << "NO HAY FICHA EN CONTROL, SE SUPONE JAQUE MATE O AHOGADO " << std::endl;
-
-    std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
-
-    delete modulo->tableroPadre;
-
-    std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
-    modulo->tableroPadre = NULL;
-
-    modulo = NULL;
-
-    //   std::cout   << "BORRA TABLERO " << std::endl;
-
-
-    //  delete modulo->tableroElegido;
-
-
-    //   std::cout  << "NULLEA TABLERO " << std::endl;
-
-
-    //  modulo->tableroElegido = NULL;
-
-    //modulo->ejecutaMovimiento(mod);
-
-    //INICIA LA IA PARA CALCULAR LA FICHA A MOVER
-
-    //PRIMERO HAZLO CON EL TABLERO Y LUEGO TE OCUPAS DE LAS FICHAS
-    //EMPEZAMOS POR TODOS LOS MOVIMIENTOS DE TODOS LOS PEONES
-    //ModuloIA modulo;
-
-    // modelo->escena->tablero->movimientosPeon();
-}

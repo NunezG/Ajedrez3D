@@ -60,7 +60,7 @@ public:
     BaseVistas* vista;
    // BaseApplication* Create(Ogre::String type);
 
-    bool capturaRaton;
+   // bool capturaRaton;
 
 private:
 

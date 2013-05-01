@@ -61,7 +61,6 @@ public:
 
     int* actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
 
-    int* mueveIA(int origen, int destino);
     int* traduceTablero();
 
     int* mueveYTraduceTablero();

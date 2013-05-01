@@ -165,9 +165,9 @@ set(HDRS
 
         ./headers/Modelo/Casilla.h
 
-      #  ./headers/Modelo/Jugador.h
-      #  ./headers/Modelo/JugadorHumano.h
-      #  ./headers/Modelo/JugadorArtificial.h
+        ./headers/Modelo/Jugador.h
+        ./headers/Modelo/JugadorHumano.h
+        ./headers/Modelo/JugadorArtificial.h
         ./headers/Modelo/ModeloMenu.h
 
 
@@ -227,9 +227,9 @@ set(SRCS
         ./impl/Modelo/ObjetoOgre.cpp
 
 
-      # ./impl/Modelo/Jugador.cpp
-      #./impl/Modelo/JugadorHumano.cpp
-      # ./impl/Modelo/JugadorArtificial.cpp
+       ./impl/Modelo/Jugador.cpp
+      ./impl/Modelo/JugadorHumano.cpp
+       ./impl/Modelo/JugadorArtificial.cpp
 
        ./impl/Modelo/Casilla.cpp
 

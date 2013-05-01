@@ -526,56 +526,6 @@ FichaReina* Tablero::promocionaPeon(Ficha* nodoFicha)
 
 }
 
-int* Tablero::mueveIA(int origen, int destino)
-{
-    posicion orig;
-    orig.Fila = (origen/12)-2;
-    orig.Columna = (origen%12)-2;
-
-    posicion dest;
-    dest.Fila = (destino/12)-2;
-    dest.Columna = (destino%12)-2;
-    //int columanOrigen = (origen%12)-2;
-    // int filaOrigen =   ;
-
-    // std::stringstream origenBaseOcho;
-
-    //char letra = tablero->columnas[columanOrigen];
-
-
-    //std::cout  << "letra: "<< letra << std::endl;
-
-    //origenBaseOcho.str("");
-
-    //origenBaseOcho<< filaOrigen;
-    // origenBaseOcho<< letra ;
-
-    // char columna = ;
-
-
-    //char letraDestino = tablero->columnas[columanDestino];
-
-    //std::cout  << "letraDestino: "<< letraDestino << std::endl;
-
-
-    //std::stringstream destinoBaseOcho;
-
-    //destinoBaseOcho.str("");
-
-    //destinoBaseOcho<<filaDestino;
-    //destinoBaseOcho <<letraDestino;
-
-    //std::cout  << "columanOrigen "<< columanOrigen << std::endl;
-
-    //std::cout  << "filaOrigen " << filaOrigen << std::endl;
-
-    //std::cout  << "origenBaseOcho "<< origenBaseOcho.str() << std::endl;
-    //std::cout  << "destinoBaseOcho "<< destinoBaseOcho.str() << std::endl;
-
-    actualizaTablero(orig,dest );
-
-    cambiaTurno();
-}
 
 int* Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 {

@@ -24,7 +24,6 @@ private:
     ControlJuego(const ControlJuego& control);
     ControlJuego(void);
 
-    void calculaMovimiento();
 
 
     //BUCLE PRINCIPAL
@@ -35,7 +34,7 @@ private:
 
 
 
-    bool esperaCalculo;
+   // bool esperaCalculo;
 
 };
 

@@ -6,6 +6,7 @@ Modelo::Modelo() :
   , mPantalla(0)
   , salirPulsado(0)
   , tablero(NULL)
+  , numJugadores(0)
 
 
 {
@@ -90,6 +91,47 @@ void Modelo::destruyeMenu(){
     std::cout << "nullea " << std::endl;
 
     menu = NULL;
+
+}
+
+void Modelo::creaJugador(bool negras, bool humano){
+
+    if (humano)
+    {
+        jugadores.push_back(new JugadorHumano());
+
+    }else{
+
+        jugadores.push_back(new JugadorArtificial());
+    }
+
+    Jugador* jug = jugadores.at(numJugadores);
+    if (negras)
+    {
+
+          jug->jugadorNegras = true;
+
+
+    }else
+    {
+
+        jug->jugadorNegras = false;
+
+    }
+
+
+
+
+    if (numJugadores == 0) jugadorActual = jugadores.at(0);
+    numJugadores++;
+
+}
+void Modelo::mueveFicha(float frecuencia){
+
+
+
+jugadorActual->mueveFicha(frecuencia);
+
 
 }
 
