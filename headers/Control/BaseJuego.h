@@ -23,7 +23,7 @@ protected:
     BaseJuego(void);
     ~BaseJuego(void);
 
-
+//TEEEEEST
 
    // virtual void inicio(void) = 0;
 
