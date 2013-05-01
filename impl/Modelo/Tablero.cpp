@@ -10,6 +10,9 @@ Tablero::Tablero() :
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , peonesPromocionados(0)
+  ,fichaSeleccionada(false)
+  , rotaTurno(0)
+
 
 {
 

@@ -128,6 +128,7 @@ void Modelo::creaJugador(bool negras, bool humano){
 }
 void Modelo::mueveFicha(float frecuencia)
 {
+    std::cout  << "mueveFicha en modelo " << std::endl;
 
 
 

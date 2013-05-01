@@ -54,7 +54,7 @@ bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButt
 //-------------------------------------------------------------------------------------
 bool VistaAjedrezSolo::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    if(modelo->getTablero()->getTurnoNegras())rotaTurno = Ogre::Real(0.0f);
+    if(modelo->getTablero()->getTurnoNegras()) tablero->rotaTurno = Ogre::Real(0.0f);
     return VistaAjedrez::frameRenderingQueued(evt);
     return true;
 }

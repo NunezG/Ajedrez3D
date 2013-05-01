@@ -274,15 +274,22 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     //if (capturaRaton){
     capture();
+    std::cout << "sale de cpature" << std::endl;
+
    // }
     statUpdate(evt);
+    std::cout << "statup" << std::endl;
 
 
 
     if(mPantalla > 0 && vista != NULL)
     {
+        std::cout << "vistaaa" << std::endl;
+
         vista->frameRenderingQueued(evt);
     }
+    std::cout << "sale de framerend" << std::endl;
+
 }
 
 
@@ -316,21 +323,36 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
         vista->mousePressed(evt, id);
     }
 
+
+    std::cout << "fin mousepressed " << std::endl;
+
     if(sys->injectMouseButtonDown(convertButton(id)))
     {
+        std::cout << "inject" << std::endl;
+
         return true;
     }
+    std::cout << "fin finmousepressed " << std::endl;
+
 
     return true;
 }
 
 bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
+    std::cout << "MOUSE RELEASED" << std::endl;
+
     sys->injectMouseButtonUp(convertButton(id));
+
+    std::cout << "MOUSE RELEASED 22" << std::endl;
 
     if(mPantalla > 0)
     {
+        std::cout << "vista MOUSE RELEASED" << std::endl;
+
         vista->mouseReleased(evt, id);
+        std::cout << "fin vista MOUSE RELEASED" << std::endl;
+
     }
     else if(mPantalla == 0)
     {
@@ -351,6 +373,8 @@ bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
             mPantalla = 2;
         }
     }
+    std::cout << "return" << std::endl;
+
     return true;
 }
 

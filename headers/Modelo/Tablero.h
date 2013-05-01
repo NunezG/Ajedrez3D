@@ -70,6 +70,9 @@ public:
 
    Ogre::SceneManager* mSceneMgr;
 
+   bool fichaSeleccionada;
+
+   Ogre::Degree rotaTurno;
 
 private:
 

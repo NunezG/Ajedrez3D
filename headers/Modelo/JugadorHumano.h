@@ -14,6 +14,14 @@ public:
 
  bool esperaSeleccion;
 
+
+
+ void movimientoSeleccionado();
+
+
+
+
+
 protected:
     void mueveFicha(float frecuencia);
 

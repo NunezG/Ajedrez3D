@@ -32,11 +32,9 @@ protected:
 
 
 EscenaAjedrez* escenaAjedrez;
-    Ogre::Degree rotaTurno;
 
 Tablero* tablero;
 
-    bool fichaSeleccionada;
     Ogre::String textoOverlay;
 };
 

@@ -4,9 +4,7 @@
 //-------------------------------------------------------------------------------------
 VistaAjedrez::VistaAjedrez() :
     BaseVistas()
-    ,fichaSeleccionada(false)
     , textoOverlay("VACIO")
-  , rotaTurno(0)
 
 
 
@@ -25,13 +23,15 @@ VistaAjedrez::~VistaAjedrez(void)
 
 
 bool VistaAjedrez::cambiaTurno(){
+
     std::cout << "cambiatur "<< std::endl;
-    fichaSeleccionada = false;
 
-    escenaAjedrez->apagaCasilla(tablero->getNodoCasillaSobrevolada());
 
-    rotaTurno = Ogre::Real(180.0f);
+    tablero->rotaTurno = Ogre::Real(180.0f);
+    tablero->fichaSeleccionada = false;
     tablero->cambiaTurno();
+    std::cout << "fin cambiatur "<< std::endl;
+
     //mediaVuelta();
 }
 
@@ -80,7 +80,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     }
 
 
-    else if (fichaSeleccionada)
+    else if (tablero->fichaSeleccionada)
     {
 
         int posx = arg.state.X.abs;   // Posicion del puntero
@@ -210,7 +210,7 @@ bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     }
 
-    if (rotaTurno != Ogre::Degree(0))
+    if (tablero->rotaTurno != Ogre::Degree(0))
     {
         //std::cout << "cambiaturnorota "<< accel<< std::endl;
 
@@ -226,15 +226,15 @@ bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
         Ogre::Degree rot = Ogre::Degree(Ogre::Real(120.0f) * evt.timeSinceLastFrame);
 
         //Rota la camara
-        if (rot > rotaTurno){
+        if (rot > tablero->rotaTurno){
 
-            escenaAjedrez->rotacionCamara(rotaTurno);
-            rotaTurno = Ogre::Real(0.0f);
+            escenaAjedrez->rotacionCamara(tablero->rotaTurno);
+            tablero->rotaTurno = Ogre::Real(0.0f);
 
 
         }else {
             escenaAjedrez->rotacionCamara(rot);
-            rotaTurno = rotaTurno - rot;
+            tablero->rotaTurno = tablero->rotaTurno - rot;
         }
 
         //Devuelve la camara a su posicion ¿z? original
@@ -271,11 +271,11 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         // } else mask ='B';
 
 
-        fichaSeleccionada = false;
+        tablero->fichaSeleccionada = false;
 
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
         if (escenaAjedrez->seleccionaFichaEnPosicion(posx, posy))
-            fichaSeleccionada = true;
+            tablero->fichaSeleccionada = true;
 
 
         std::cout  << "mpouse1" << std::endl;
@@ -285,12 +285,16 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
     } else if (mbright)
     {
         //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
-        if (fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
+        if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
         {
+
+
+
 
             tablero->actualizaTablero(tablero->getNodoFichaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion());
 
 
+            escenaAjedrez->apagaCasilla(tablero->getNodoCasillaSobrevolada());
 
             cambiaTurno();
 

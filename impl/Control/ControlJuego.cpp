@@ -22,6 +22,7 @@ ControlJuego& ControlJuego::getControlSingleton()
 //-------------------------------------------------------------------------------------
 bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+   // std::cout << "FRAME" << std::endl;
 
 
     if(punteroVentana -> pantallaActual() == 0)
@@ -41,6 +42,8 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
    else if(modelo->getNumPantalla() > 0)
     {
 
+        std::cout << "FRAME MUVEVE FICHA" << std::endl;
+
         modelo->mueveFicha(evt.timeSinceLastFrame);
 
      //  if (modelo->getTablero()->getTurnoNegras())
@@ -56,6 +59,7 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
 
+    std::cout << "sigue en el framerendering" << std::endl;
 
     if(punteroVentana -> getVentana()->isClosed())
         return false;
