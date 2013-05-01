@@ -1,8 +1,8 @@
 #include "../../headers/Modelo/JugadorArtificial.h"
 
 
-JugadorArtificial::JugadorArtificial() :
-    Jugador()
+JugadorArtificial::JugadorArtificial(Tablero* tabl) :
+    Jugador(tabl)
 
 
 
@@ -19,6 +19,7 @@ JugadorArtificial::~JugadorArtificial()
 void JugadorArtificial::mueveFicha(float frecuencia){
 
 
+    std::cout << "CALCULA MOVIMIENTO" << std::endl;
 
 
 calculaMovimiento();

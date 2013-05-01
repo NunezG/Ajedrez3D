@@ -98,11 +98,11 @@ void Modelo::creaJugador(bool negras, bool humano){
 
     if (humano)
     {
-        jugadores.push_back(new JugadorHumano());
+        jugadores.push_back(new JugadorHumano(tablero));
 
     }else{
 
-        jugadores.push_back(new JugadorArtificial());
+        jugadores.push_back(new JugadorArtificial(tablero));
     }
 
     Jugador* jug = jugadores.at(numJugadores);
@@ -126,11 +126,12 @@ void Modelo::creaJugador(bool negras, bool humano){
     numJugadores++;
 
 }
-void Modelo::mueveFicha(float frecuencia){
+void Modelo::mueveFicha(float frecuencia)
+{
 
 
 
-jugadorActual->mueveFicha(frecuencia);
+jugadores.at(tablero->getTurnoNegras())->mueveFicha(frecuencia);
 
 
 }

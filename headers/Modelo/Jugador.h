@@ -8,7 +8,7 @@ class Jugador
 {
 public:
     ~Jugador(void);
-    Jugador();
+    Jugador(Tablero* tabl);
 
    // TableroPrueba tableroInicial;
 

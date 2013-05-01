@@ -2,13 +2,13 @@
 
 
 
-Jugador::Jugador()
+Jugador::Jugador(Tablero* tabl)
 
 
 
 
 {
-
+tablero = tabl;
 
 
 }

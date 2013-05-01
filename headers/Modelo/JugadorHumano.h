@@ -9,7 +9,7 @@ class JugadorHumano : public Jugador
 public:
 
     ~JugadorHumano(void);
-    JugadorHumano(void);
+    JugadorHumano(Tablero* tabl);
  bool esHumano();
 
  bool esperaSeleccion;

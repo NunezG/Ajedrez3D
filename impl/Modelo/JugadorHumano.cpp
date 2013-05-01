@@ -2,8 +2,8 @@
 
 
 
-JugadorHumano::JugadorHumano() :
-    Jugador()
+JugadorHumano::JugadorHumano(Tablero* tabl) :
+    Jugador(tabl)
   , esperaSeleccion(0)
 
 
