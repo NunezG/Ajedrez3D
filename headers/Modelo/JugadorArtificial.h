@@ -4,24 +4,25 @@
 #include "Jugador.h"
 #include "../ModuloIA.h"
 
+
 class JugadorArtificial : public Jugador
 {
 public:
 
     ~JugadorArtificial(void);
-    JugadorArtificial(Tablero* tabl);
-    void calculaMovimiento();
+    JugadorArtificial(Tablero* tablero);
 
     bool esHumano();
+    void mueveFicha(float time);
+    //void setVentana(Ventana* obj);
 
 
-protected:
-    void mueveFicha(float frecuencia);
-
+private:
+    void calculaMovimiento();
     int* mueveIA(int origen, int destino);
 
 
-private:  
+
 
 
 

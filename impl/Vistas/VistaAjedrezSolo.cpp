@@ -2,8 +2,8 @@
 #include "../../headers/Vistas/VistaAjedrezSolo.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrezSolo::VistaAjedrezSolo()
-    : VistaAjedrez()
+VistaAjedrezSolo::VistaAjedrezSolo(Ogre::RenderWindow* window)
+    : VistaAjedrez(window)
 
 {
 }
@@ -11,6 +11,9 @@ VistaAjedrezSolo::VistaAjedrezSolo()
 VistaAjedrezSolo::~VistaAjedrezSolo(void)
 {    
 }
+
+
+//NO SIRVE PARA NADA PERO SE PUEDE USAR PARA MOSTRAR OTROS MENUS
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrezSolo::keyPressed( const OIS::KeyEvent &arg )
@@ -25,15 +28,20 @@ bool VistaAjedrezSolo::keyReleased( const OIS::KeyEvent &arg )
 
 bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 {
-    if(!modelo->getTablero()->getTurnoNegras())
+    Jugador* jug = modelo->jugadores.at(modelo->getTablero()->getTurnoNegras());
+
+    if(jug->esHumano())
     return VistaAjedrez::mouseMoved( arg );
     //else mInputMan->injectMouseMove(arg);
     return true;
 }
 
 bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
-{      
-    if(!modelo->getTablero()->getTurnoNegras())
+{
+
+    Jugador* jug = modelo->jugadores.at(modelo->getTablero()->getTurnoNegras());
+
+    if(jug->esHumano())
     return VistaAjedrez::mousePressed( arg , id);
     //else mInputMan->injectMouseDown(arg, id);
      return true;
@@ -42,7 +50,9 @@ bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButto
 
 bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    if(!modelo->getTablero()->getTurnoNegras())
+    Jugador* jug = modelo->jugadores.at(modelo->getTablero()->getTurnoNegras());
+
+    if(jug->esHumano())
     return VistaAjedrez::mouseReleased( arg, id );
     else{
       //  mInputMan->injectMouseUp(arg, id);
@@ -52,11 +62,18 @@ bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButt
 }
 
 //-------------------------------------------------------------------------------------
-bool VistaAjedrezSolo::frameRenderingQueued(const Ogre::FrameEvent& evt)
+//bool VistaAjedrezSolo::frameRenderingQueued(float frecuencia)
+//{
+   // if(modelo->getTablero()->getTurnoNegras())rotaTurno = Ogre::Real(0.0f);
+    //return VistaAjedrez::mueveCamara(frecuencia);
+  //  return true;
+//}
+
+//-------------------------------------------------------------------------------------
+bool VistaAjedrezSolo::mueveCamara(float frecuencia)
 {
-    if(modelo->getTablero()->getTurnoNegras()) tablero->rotaTurno = Ogre::Real(0.0f);
-    return VistaAjedrez::frameRenderingQueued(evt);
-    return true;
+ return true;
 }
+
 
 

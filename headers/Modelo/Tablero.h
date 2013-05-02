@@ -13,6 +13,8 @@
 #include "FichaPeon.h"
 #include "Casilla.h"
 
+
+
 enum enColummas{
     COL_A,
     COL_B,
@@ -49,15 +51,14 @@ public:
    // void setTurnoNegras(bool turno);
 
 
-    Casilla* getNodoFichaSeleccionada();
+    Casilla* getNodoCasillaSeleccionada();
     Casilla* getNodoCasillaSobrevolada();
 
-    void setNodoFichaSeleccionada(Casilla* nodo);
+    void setNodoCasillaSeleccionada(Casilla* nodo);
     void setNodoCasillaSobrevolada(Casilla* nodo);
 
 
     bool FichaComestible();
-    void cambiaTurno();
 
     int* actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
 
@@ -69,14 +70,17 @@ public:
     std::string columnas;
 
    Ogre::SceneManager* mSceneMgr;
-
    bool fichaSeleccionada;
+   Ogre::Degree rotacionCamara;
 
-   Ogre::Degree rotaTurno;
+   void promocionaPeon();
+
+   bool turnoNegras;
+   void cambiaTurno();
 
 private:
 
-   FichaReina* promocionaPeon(Ficha* nodoFicha);
+
 
    void creaCasillas();
 
@@ -113,7 +117,6 @@ private:
    // Ogre::SceneNode* nodoTablero;
 
     Tablero* listaNodos[];
-    bool turnoNegras;
 
    // int casillas[8][8];
 

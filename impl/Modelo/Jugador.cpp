@@ -1,14 +1,14 @@
- #include "../../headers/Modelo/Jugador.h"
+#include "../../headers/Modelo/Jugador.h"
 
 
 
-Jugador::Jugador(Tablero* tabl)
-
+Jugador::Jugador(Tablero* tablero) :
+//esperaEleccion(false)
+miTablero(tablero)
 
 
 
 {
-tablero = tabl;
 
 
 }
@@ -18,3 +18,5 @@ Jugador::~Jugador()
 
 
 }
+
+

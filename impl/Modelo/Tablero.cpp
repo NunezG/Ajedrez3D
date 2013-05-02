@@ -10,9 +10,8 @@ Tablero::Tablero() :
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , peonesPromocionados(0)
-  ,fichaSeleccionada(false)
-  , rotaTurno(0)
-
+  ,    fichaSeleccionada(false)
+  , rotacionCamara(0)
 
 {
 
@@ -23,10 +22,12 @@ Tablero::~Tablero()
     std::cout << "DESTRUYE TABLERO" << std::endl;
 
 
-//delete mSceneMgr;
+    //delete mSceneMgr;
 }
 
-Casilla* Tablero::getNodoFichaSeleccionada(){
+
+
+Casilla* Tablero::getNodoCasillaSeleccionada(){
     return _selectedNode;
 
 }
@@ -39,12 +40,12 @@ Casilla* Tablero::getNodoCasillaSobrevolada(){
 
 int Tablero::getAlPaso()
 {
- return alPaso;
+    return alPaso;
 }
 
 void Tablero::setAlPaso(int casilla)
 {
-  alPaso = casilla;
+    alPaso = casilla;
 
 }
 
@@ -55,7 +56,7 @@ bool Tablero::getTurnoNegras(){
 
 
 
-void Tablero::setNodoFichaSeleccionada(Casilla* nodo)
+void Tablero::setNodoCasillaSeleccionada(Casilla* nodo)
 {
     _selectedNode = nodo;
 
@@ -74,9 +75,9 @@ bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
     creaCasillas();
 
 
-        creaVasallos();
-        creaNobleza();
-        creaPeones();
+    creaVasallos();
+    creaNobleza();
+    creaPeones();
 
 
 }
@@ -432,37 +433,19 @@ int Tablero::evaulaTablero(const int casillasInt[144])
 }
 
 
+
 void Tablero::cambiaTurno()
 {
     //CAMBIA TURNO
+    //NOTIFICAR A LAS VISTAS?? AL FUNCIONAR CON FRAMES EN REALIDAD NO HACE FALTA NOTIFICAR
 
-    Casilla* casilla = static_cast<Casilla*>(getNodoCasillaSobrevolada());
-
-    if(!casilla->sinHijos())
-    {
-        //PROMOCIONA PEON
-        Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
-        if(ficha->tipo_Ficha == Peon
-                && ((!getTurnoNegras()
-                     && getNodoCasillaSobrevolada()->getPosicion().Fila == 7)
-                    || (getTurnoNegras()
-                        && getNodoCasillaSobrevolada()->getPosicion().Fila == 0 )))
-        {
-            std::cout  << "promociona " << std::endl;
-
-            casilla->eliminaHijo(0);
-            ficha = promocionaPeon(ficha);
-            casilla->agregaHijo(ficha);
-        }
-
-    }
-
+    promocionaPeon();
 
 
     std::cout  << "apagada " << std::endl;
 
     setNodoCasillaSobrevolada(NULL);
-    setNodoFichaSeleccionada(NULL);
+    setNodoCasillaSeleccionada(NULL);
 
 
     std::cout << "fin cambia "<< std::endl;
@@ -472,66 +455,79 @@ void Tablero::cambiaTurno()
 
 }
 
-FichaReina* Tablero::promocionaPeon(Ficha* nodoFicha)
+void Tablero::promocionaPeon()
 {
-    Ogre::Entity *entidadFicha;
-    std::cout << "PROMOCION" << std::endl;
+    Casilla* casilla = static_cast<Casilla*>(getNodoCasillaSobrevolada());
 
-    //HAZ UN CONSTRUCTOR DE COPIA PORQUE HAY QUE CAMBIAR EL TIPO DE FICHA, METE ESNEGRA Y TIPO_FICHA Y PUEDE QUE ALGO MAS
-    std::stringstream saux;
-
-    saux.str("");
-    saux << "ReinaPR_" << peonesPromocionados;
-
-    FichaReina* nodoNuevo =new FichaReina(*nodoFicha, saux.str());
-
-    //    nodo = mSceneMgr->createSceneNode(saux.str());
-
-    //nodoNuevo->getNodoOgre()->detachAllObjects();
-
-    std::cout << "fin getnodoogre" << std::endl;
-
-    // entidadFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
-
-    // nodoFicha
-
-    if (!getTurnoNegras())
+    if(!casilla->sinHijos())
     {
-        std::cout << "blanca" << std::endl;
+        //PROMOCIONA PEON
+        Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
 
-        nodoNuevo->creaModelo3D(mSceneMgr,"Reina",BLANCAS);
-        // entidadFicha = mSceneMgr->createEntity("(B)"+saux.str(), "Reina.mesh");
-        // entidadFicha->setQueryFlags(BLANCAS);
-    }else
-    {
-        std::cout << "negra" << std::endl;
+        if(ficha->tipo_Ficha == Peon
+                && ((!getTurnoNegras()
+                     && getNodoCasillaSobrevolada()->getPosicion().Fila == 7)
+                    || (getTurnoNegras()
+                        && getNodoCasillaSobrevolada()->getPosicion().Fila == 0 )))
+        {
+            std::cout  << "promociona " << std::endl;
 
-        nodoNuevo->creaModelo3D(mSceneMgr,"Reina",NEGRAS);
-        nodoNuevo->cambiaMaterial("MaterialFichaNegra");
-        // entidadFicha = mSceneMgr->createEntity("(N)"+saux.str(), "Reina.mesh");
-        // entidadFicha->setQueryFlags(NEGRAS);
-        //mNodoFicha->yaw(Ogre::Degree(180));
-        //  mNodoFicha->translate(70,0,70);
+            casilla->eliminaHijo(0);
+
+            // ficha = tablero->promocionaPeon(ficha);
+
+            Ogre::Entity *entidadFicha;
+            std::cout << "PROMOCION" << std::endl;
+
+            std::stringstream saux;
+
+            saux.str("");
+            saux << "ReinaPR_" << peonesPromocionados;
+
+            FichaReina* nodoNuevo =new FichaReina(*ficha, saux.str());
+
+            if (!getTurnoNegras())
+            {
+                std::cout << "blanca" << std::endl;
+
+                nodoNuevo->creaModelo3D(mSceneMgr,"Reina",BLANCAS);
+
+                std::cout << "ha creado modelo" << std::endl;
+
+            }else
+            {
+                std::cout << "negra" << std::endl;
+
+                nodoNuevo->creaModelo3D(mSceneMgr,"Reina",NEGRAS);
+                nodoNuevo->cambiaMaterial("MaterialFichaNegra");
+
+            }
+            std::cout << "DELETE FICHA" << std::endl;
+
+            delete ficha;
+
+            std::cout << "aumenta peones" << std::endl;
+
+
+            peonesPromocionados++;
+
+            std::cout << "agrega hijo " << std::endl;
+
+
+            casilla->agregaHijo(nodoNuevo);
+            std::cout << "fin hijo " << std::endl;
+
+        }
+
     }
-    std::cout << "fin" << std::endl;
-
-    delete nodoFicha;
-
-    //  *nodoFicha = static_cast<FichaReina&>(*nodoNuevo);
-    //entidadFicha->setCastShadows(true);
-
-    //nodoFicha->getNodoOgre()->attachObject(entidadFicha);
-    peonesPromocionados++;
-
-
-    std::cout << "fin fin" << std::endl;
-    return static_cast<FichaReina*>(nodoNuevo);
+    //return static_cast<FichaReina*>(nodoNuevo);
 
 }
 
-
 int* Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 {
+    //NOTIFICAR A LAS VISTAS??
+
 
     //    Ogre::SceneNode* nodoCasillas = tablero->nodoCasillero;
 
@@ -560,7 +556,7 @@ int* Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 
         // columna = tablero->columnas[casillaDestino[0]];
 
-        setNodoFichaSeleccionada(nodoCasillaTemporal);
+        setNodoCasillaSeleccionada(nodoCasillaTemporal);
 
         std::cout  << "casilla: " << (casillaDestino.Fila*8)+casillaDestino.Columna <<std::endl;
 
@@ -592,7 +588,7 @@ int* Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
         {
             std::cout  << "en rey" << std::endl;
 
-            int difCol = getNodoCasillaSobrevolada()->getPosicion().Columna - getNodoFichaSeleccionada()->getPosicion().Columna;
+            int difCol = getNodoCasillaSobrevolada()->getPosicion().Columna - getNodoCasillaSeleccionada()->getPosicion().Columna;
             // if (difCol<0 ) difCol = -difCol;
 
             int fila =getNodoCasillaSobrevolada()->getPosicion().Fila;
@@ -629,14 +625,14 @@ int* Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 
             std::cout  << "dif:" << getNodoCasillaSobrevolada()->getPosicion().Fila<< std::endl;
 
-            std::cout  << "dif:" << getNodoFichaSeleccionada()->getPosicion().Fila<< std::endl;
+            std::cout  << "dif:" << getNodoCasillaSeleccionada()->getPosicion().Fila<< std::endl;
 
 
-            int dif = getNodoCasillaSobrevolada()->getPosicion().Fila - getNodoFichaSeleccionada()->getPosicion().Fila;
+            int dif = getNodoCasillaSobrevolada()->getPosicion().Fila - getNodoCasillaSeleccionada()->getPosicion().Fila;
 
             std::cout  << "dif:" << dif<< std::endl;
 
-            int difCol = getNodoCasillaSobrevolada()->getPosicion().Columna - getNodoFichaSeleccionada()->getPosicion().Columna;
+            int difCol = getNodoCasillaSobrevolada()->getPosicion().Columna - getNodoCasillaSeleccionada()->getPosicion().Columna;
             std::cout  << "difcol: " << difCol<<std::endl;
 
             if (dif < 0 ) dif = -dif;
@@ -647,7 +643,7 @@ int* Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
             if(alPaso > 0 && dif == 1 && difCol == 1)
             {
                 //SOLO COMER AL PASO
-                int fila =getNodoFichaSeleccionada()->getPosicion().Fila;
+                int fila =getNodoCasillaSeleccionada()->getPosicion().Fila;
                 int columna =getNodoCasillaSobrevolada()->getPosicion().Columna;
 
                 Casilla* casillaAux = static_cast<Casilla*>(getHijo((fila*8)+columna));
@@ -682,7 +678,7 @@ int* Tablero::mueveYTraduceTablero()
 
     int posFinal = ((getNodoCasillaSobrevolada()->getPosicion().Fila+2)*12) + getNodoCasillaSobrevolada()->getPosicion().Columna+2;
 
-    int posInicial = ((getNodoFichaSeleccionada()->getPosicion().Fila+2)*12) + getNodoFichaSeleccionada()->getPosicion().Columna+2;
+    int posInicial = ((getNodoCasillaSeleccionada()->getPosicion().Fila+2)*12) + getNodoCasillaSeleccionada()->getPosicion().Columna+2;
 
     std::cout << "inicial:" << posInicial<<std::endl;
 
@@ -703,7 +699,7 @@ int* Tablero::traduceTablero()
     //    Ogre::SceneNode* nodoTest = tablero->nodoCasillero;
 
     // Ogre::Node::ChildNodeIterator iterator = _nodoNuevo->getChildIterator();
-    Ogre::Node::ChildNodeIterator iterator = getNodoOgre()->getChildIterator();
+   // Ogre::Node::ChildNodeIterator iterator = getNodoOgre()->getChildIterator();
 
     //AÑADE LOS BORDES
     for (int i = 0; i<12; i++)

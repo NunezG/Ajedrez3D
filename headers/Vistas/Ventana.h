@@ -32,6 +32,7 @@
 #include "VistaAjedrezSolo.h"
 
 
+
 class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener
 {
 public:
@@ -46,7 +47,7 @@ public:
 
     //Pantallas
     bool MuestraMenu();
-    bool muestraAjedrez();
+    VistaAjedrez* muestraAjedrez();
     bool muestraAjedrezSolo();
 
     int getFPS();
@@ -60,13 +61,12 @@ public:
     BaseVistas* vista;
    // BaseApplication* Create(Ogre::String type);
 
-   // bool capturaRaton;
+    void capture();
 
 private:
 
     bool injectTimePulse(const Ogre::FrameEvent& evt);
     bool statUpdate(const Ogre::FrameEvent& evt);
-    void capture();
 
     //Unattach OIS before window shutdown (very important under Linux)
     //Ogre::WindowEventListener

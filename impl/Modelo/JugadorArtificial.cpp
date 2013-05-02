@@ -1,10 +1,7 @@
 #include "../../headers/Modelo/JugadorArtificial.h"
 
-
-JugadorArtificial::JugadorArtificial(Tablero* tabl) :
-    Jugador(tabl)
-
-
+JugadorArtificial::JugadorArtificial(Tablero* tablero) :
+    Jugador(tablero)
 
 {
 
@@ -16,62 +13,61 @@ JugadorArtificial::~JugadorArtificial()
 }
 
 
-void JugadorArtificial::mueveFicha(float frecuencia){
+void JugadorArtificial::mueveFicha(float time){
 
 
-    std::cout << "CALCULA MOVIMIENTO" << std::endl;
+
+    std::cout << "ARTIF MUEVE FICHA " << std::endl;
 
 
-calculaMovimiento();
+    calculaMovimiento();
 
 
-   // tableroInicial.casillas = ...
+
+
+    // tableroInicial.casillas = ...
 
     //Recorre todas las fichas (negras) del tablero y crea un tablero para cada movimiento de cada ficha (estos seran lso hermanos)
 
     //Recorre todas las fichas (blancas) de cada tablero creado y crea un tablero para cada movimiento de cada ficha
 
 
-//    tableroInicial
+    //    tableroInicial
 
 
 }
 
 
- bool JugadorArtificial::esHumano(){
 
-     return false;
- }
-
-
+//añade Tablero como parametro y asi se puede integrar al modelo??
 void JugadorArtificial::calculaMovimiento(){
 
     std::cout << "CALCULA MOVIMIENTO" << std::endl;
 
+    // Modelo* modelo = Modelo::getSingletonPtr();
 
     ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
 
-    //¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡PASALO A VITA AJEDREZ SOLO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    modulo->construyeArbol(tablero->traduceTablero());
+    modulo->construyeArbol(miTablero->traduceTablero());
 
 
     if (modulo->tableroElegido != NULL)
     {
-        std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
-        std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
-        std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
+        //std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
+        //    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
+        //    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
 
         mueveIA(modulo->tableroElegido->movimiento[0],modulo->tableroElegido->movimiento[1]);
 
         modulo->tableroElegido = NULL;
 
-    } else std::cout  << "NO HAY FICHA EN CONTROL, SE SUPONE JAQUE MATE O AHOGADO " << std::endl;
+    } //else std::cout  << "NO HAY FICHA EN CONTROL, SE SUPONE JAQUE MATE O AHOGADO " << std::endl;
 
-    std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
+    //  std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
 
     delete modulo->tableroPadre;
 
-    std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
+    //  std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
     modulo->tableroPadre = NULL;
 
     modulo = NULL;
@@ -98,11 +94,17 @@ void JugadorArtificial::calculaMovimiento(){
     // modelo->escena->tablero->movimientosPeon();
 }
 
+bool JugadorArtificial::esHumano()
+{
+    return false;
+}
 
 
 
 int* JugadorArtificial::mueveIA(int origen, int destino)
 {
+
+
     posicion orig;
     orig.Fila = (origen/12)-2;
     orig.Columna = (origen%12)-2;
@@ -147,7 +149,7 @@ int* JugadorArtificial::mueveIA(int origen, int destino)
     //std::cout  << "origenBaseOcho "<< origenBaseOcho.str() << std::endl;
     //std::cout  << "destinoBaseOcho "<< destinoBaseOcho.str() << std::endl;
 
-    tablero->actualizaTablero(orig,dest );
+    miTablero->actualizaTablero(orig,dest );
 
-    tablero->cambiaTurno();
+    miTablero->cambiaTurno();
 }

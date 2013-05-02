@@ -1,10 +1,10 @@
 #ifndef __MenuInicio_
 #define __MenuInicio_
+#include "BaseVistas.h"
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include <Ogre.h>
-#include "BaseVistas.h"
 
 class MenuInicio : public BaseVistas
 {
@@ -36,6 +36,9 @@ protected:
     bool seleccionaDificultad(const CEGUI::EventArgs &e);
 
     bool pantallaConfig();
+
+
+    bool mueveCamara(float frecuencia);
 
     bool keyPressed( const OIS::KeyEvent &arg );
     bool keyReleased( const OIS::KeyEvent &arg );

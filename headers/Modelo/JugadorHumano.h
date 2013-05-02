@@ -2,6 +2,7 @@
 #define __JugadorHumano_
 
 #include "Jugador.h"
+#include "../Modelo/Autorizaciones.h"
 
 
 class JugadorHumano : public Jugador
@@ -9,26 +10,28 @@ class JugadorHumano : public Jugador
 public:
 
     ~JugadorHumano(void);
-    JugadorHumano(Tablero* tabl);
- bool esHumano();
+    JugadorHumano(Tablero* tablero);
 
- bool esperaSeleccion;
-
+    bool esHumano();
 
 
- void movimientoSeleccionado();
+    //void setVentana(Ventana* obj);
+    void mueveFicha(float time);
 
+    void aplicaSeleccion();
 
+    void autorizaCasilla();
 
+    void sobreVuelaCasilla();
 
 
 protected:
-    void mueveFicha(float frecuencia);
 
 
 
 
 private:  
+   // Ventana* ventana;
 
 
 

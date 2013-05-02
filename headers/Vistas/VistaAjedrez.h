@@ -6,16 +6,15 @@
 
 #include "BaseVistas.h"
 #include "../Modelo/EscenaAjedrez.h"
-#include "../Modelo/Autorizaciones.h"
 #include <Ogre.h>
 
-class VistaAjedrez : public BaseVistas
+class VistaAjedrez : public  BaseVistas
 {
 public:
-    VistaAjedrez(void);
+    VistaAjedrez(Ogre::RenderWindow* window);
     ~VistaAjedrez(void);
-    // Ogre::FrameListener
-    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+    bool mueveCamara(float frecuencia);
 
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
@@ -27,15 +26,23 @@ public:
 
     bool salir();
     bool esMenuInicio();
-    bool cambiaTurno();
+
+    Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
+    Ogre::RaySceneQuery* createRayQuery(void);
+
+    bool seleccionaFichaEnPosicion(int posX, int posY);
+
+    EscenaAjedrez* escenaAjedrez;
+
 protected:
 
-
-EscenaAjedrez* escenaAjedrez;
+Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
 Tablero* tablero;
 
     Ogre::String textoOverlay;
+    Ogre::RaySceneQuery *mRaySceneQuery;
+    Ogre::RenderWindow* mWindow;
 };
 
 #endif // #ifndef __VistaAjedrez_h_

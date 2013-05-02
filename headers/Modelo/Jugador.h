@@ -1,26 +1,27 @@
 #ifndef __Jugador_
 #define __Jugador_
-#include "Tablero.h"
 
+#include "Tablero.h"
 
 
 class Jugador
 {
 public:
     ~Jugador(void);
-    Jugador(Tablero* tabl);
-
-   // TableroPrueba tableroInicial;
+    Jugador(Tablero* tablero);
 
     virtual bool esHumano() = 0;
+
+   // TableroPrueba tableroInicial;
     bool jugadorNegras;
-    virtual void mueveFicha(float frecuencia) = 0;
+
+    virtual void mueveFicha(float time) = 0;
+//bool esperaEleccion;
 
 protected:
 
 
-
-    Tablero* tablero;
+   Tablero* miTablero;
 
 private:
 };

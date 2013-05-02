@@ -4,7 +4,7 @@
 
 bool Autorizaciones::autorizaCasilla(Tablero* miTablero)
 {
-    Casilla* nodoSeleccionado = miTablero->getNodoFichaSeleccionada();
+    Casilla* nodoSeleccionado = miTablero->getNodoCasillaSeleccionada();
      Casilla* nodoSobrevolado = miTablero->getNodoCasillaSobrevolada();
 
     // elTablero = miTablero;

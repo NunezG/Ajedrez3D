@@ -6,7 +6,11 @@ Modelo::Modelo() :
   , mPantalla(0)
   , salirPulsado(0)
   , tablero(NULL)
-  , numJugadores(0)
+   , numJugadores(0)
+
+  //,  jugadores(NULL)
+
+
 
 
 {
@@ -18,6 +22,11 @@ Modelo::Modelo() :
 }
 Modelo::~Modelo()
 {
+    for (int i=0; i<jugadores.size();i++){
+        delete jugadores.at(i);
+        jugadores.at(i) = NULL;
+    }
+    jugadores.clear();
 
 
 }
@@ -64,13 +73,6 @@ void Modelo::construyeMenu()
 
 
 
-void Modelo::construyeAjedrez()
-{
-    std::cout << "construye ajedrez " << std::endl;
-
-
-
-}
 
 
 void Modelo::destruyeTablero(){
@@ -93,50 +95,78 @@ void Modelo::destruyeMenu(){
     menu = NULL;
 
 }
+void Modelo::mueveFicha(float time)
+{
 
-void Modelo::creaJugador(bool negras, bool humano){
 
-    if (humano)
+
+    std::cout << "mueve " << time<<std::endl;
+    std::cout << "mueve " << static_cast<JugadorHumano*> (jugadores.at(0))->esHumano()<<std::endl;
+
+    //Jugador* jug = jugadores[0];
+
+
+    std::cout << "mueve22 " <<jugadores.at(0)->jugadorNegras<<std::endl;
+
+
+    jugadores.at(getTablero()->getTurnoNegras())->mueveFicha(time);
+
+
+}
+
+
+
+//tal vez sea mejor una factoria de jugadores
+void Modelo::creaJugador(bool blancas, bool humano ){
+
+   // jugadores = new std::vector<Jugador*>();
+
+ //   Jugador** catArray = new Jugador*[200];
+   int num = numJugadores;
+
+    std::cout << "CREA JUGADOR "<< num<<std::endl;
+
+
+    if (humano){
+        std::cout << "humano "<<std::endl;
+       // JugadorHumano* jug =  static_cast<JugadorHumano*> (jugadores[modelo->numJugadores]);
+        jugadores.push_back(new JugadorHumano(getTablero()));
+        //static_cast<JugadorHumano*> (modelo->jugadores[num])->setVentana(punteroVentana);
+
+    }
+    else {
+        std::cout << "maquina "<<std::endl;
+        //JugadorArtificial* jug =  static_cast<JugadorArtificial*> (jugadores[modelo->numJugadores]);
+
+        jugadores.push_back(new JugadorArtificial(getTablero()));
+
+
+    }
+   // Jugador* jugador = jugadores[modelo->numJugadores];
+
+
+    if (blancas)
     {
-        jugadores.push_back(new JugadorHumano(tablero));
+        std::cout << "jugador blancas "<<std::endl;
+        jugadores.at(num)->jugadorNegras = 0;
 
-    }else{
+        std::cout << "jug->jugadorNegras "<<jugadores.at(0)->jugadorNegras<<std::endl;
 
-        jugadores.push_back(new JugadorArtificial(tablero));
+    }else {
+        std::cout << "jugador negras"<<std::endl;
+
+        jugadores.at(num)->jugadorNegras = 1;
+        std::cout << "jug->jugadorNegras "<<jugadores.at(1)->jugadorNegras<<std::endl;
+
     }
 
-    Jugador* jug = jugadores.at(numJugadores);
-    if (negras)
-    {
 
-          jug->jugadorNegras = true;
-
-
-    }else
-    {
-
-        jug->jugadorNegras = false;
-
-    }
-
-
-
+    //punteroVentana
 
     if (numJugadores == 0) jugadorActual = jugadores.at(0);
+
     numJugadores++;
-
 }
-void Modelo::mueveFicha(float frecuencia)
-{
-    std::cout  << "mueveFicha en modelo " << std::endl;
-
-
-
-jugadores.at(tablero->getTurnoNegras())->mueveFicha(frecuencia);
-
-
-}
-
 
 Modelo* Modelo::getSingletonPtr()
 {
@@ -144,5 +174,6 @@ Modelo* Modelo::getSingletonPtr()
     static Modelo* miModeloPtr = &miModelo;
     return miModeloPtr;
 }
+
 
 

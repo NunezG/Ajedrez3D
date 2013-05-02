@@ -373,3 +373,10 @@ bool MenuInicio::IluminaSeleccion(CEGUI::Listbox *list)
 
     return true;
 }
+
+
+//-------------------------------------------------------------------------------------
+bool MenuInicio::mueveCamara(float frecuencia)
+{
+
+}

@@ -6,11 +6,11 @@
 class VistaAjedrezSolo : public VistaAjedrez
 {
 public:
-    VistaAjedrezSolo(void);
+    VistaAjedrezSolo(Ogre::RenderWindow* window);
     ~VistaAjedrezSolo(void);
 
     // Ogre::FrameListener
-    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+   // bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
@@ -19,6 +19,8 @@ public:
     bool mouseMoved( const OIS::MouseEvent &arg );
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+    bool mueveCamara(float frecuencia);
 
 private:
 

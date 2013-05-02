@@ -13,6 +13,7 @@
 //#include <OgreRoot.h>
 
 
+
 class BaseJuego : public Ogre::FrameListener
 {
 public:
@@ -23,7 +24,7 @@ protected:
     BaseJuego(void);
     ~BaseJuego(void);
 
-//TEEEEEST
+
 
    // virtual void inicio(void) = 0;
 
@@ -36,6 +37,9 @@ protected:
     bool configureOgre(void);
     void chooseSceneManager(void);
     void inicio(void);
+
+    void agregaJugador();
+
 
     //BUCLE PRINCIPAL
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;

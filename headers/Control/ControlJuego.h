@@ -4,7 +4,6 @@
 #include <CEGUI/CEGUISystem.h>
 #include "BaseJuego.h"
 #include "../Modelo/Modelo.h"
-#include "../ModuloIA.h"
 
 
 
@@ -18,7 +17,9 @@ public:
     static ControlJuego& getControlSingleton();
 
     bool iniciaModeloAjedrez();
+
 private:
+
     //Singleton
     void operator=(const ControlJuego& controlJuego ) ;
     ControlJuego(const ControlJuego& control);
@@ -30,11 +31,7 @@ private:
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 
-     EscenaAjedrez* escenaAjedrez;
-
-
-
-   // bool esperaCalculo;
+  //   EscenaAjedrez* escenaAjedrez;
 
 };
 

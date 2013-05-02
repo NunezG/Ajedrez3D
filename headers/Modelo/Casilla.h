@@ -32,6 +32,8 @@ public:
     ~Casilla(void);
     Casilla(std::string nombre);
 
+    void iluminaCasilla();
+    void apagaCasilla();
 
     void trasladarAPunto();
 
@@ -39,6 +41,7 @@ public:
 
     bool esNegra;
 
+  //  bool seleccionada;
 
 protected:
 

@@ -43,18 +43,13 @@ public:
 
     Ogre::Camera* createCamera(void);
     void createViewports(Ogre::RenderWindow* window);
-    Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
-    Ogre::RaySceneQuery* createRayQuery(void);
+
 
     void setTarget(Ogre::SceneNode* target);
 
-    void iluminaCasillaSobrevolada();
-    void iluminaCasilla(Casilla* casilla);
-    void apagaCasilla(Casilla* casilla);
-
     Casilla* casillaOcupada(Casilla* nodoCasilla);
 
-    void setSceneManager(Ogre::SceneManager* sceneMgr);
+    void setSceneManager(Ogre::Root* mRoot);
 
     void mueveCamaraIzquierda();
     void mueveCamaraDerecha();
@@ -73,7 +68,6 @@ public:
 
     void rotacionCamara(Ogre::Degree angulo);
 
-    bool seleccionaFichaEnPosicion(int posX, int posY);
 
     Ogre::SceneNode* mTarget;
     Ogre::String columnas;
@@ -81,6 +75,8 @@ public:
     //std::vector<Tablero*> HistorialMovimientos;
 
    Tablero* tablero;
+   Ogre::SceneManager* mSceneMgr;
+   Ogre::Camera* mCamera;
 
 private:   
 
@@ -92,7 +88,7 @@ private:
 
     void creaIluminacion();
     void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);
-    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
+
 
    // bool turnoNegras;
 
@@ -106,10 +102,7 @@ private:
 
     Ogre::RenderWindow* mWindow;
 
-    Ogre::SceneManager* mSceneMgr;
-    Ogre::RaySceneQuery *mRaySceneQuery;
 
-    Ogre::Camera* mCamera;
     Ogre::Real mTopSpeed;
 
     Modelo* modelo;

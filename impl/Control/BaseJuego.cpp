@@ -37,7 +37,7 @@ void BaseJuego::inicio(void){
     modelo->construyeMenu();
 
     Ogre::Root::getSingletonPtr()->addFrameListener(this);
-    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
+
 
     punteroVentana->EmpiezaCEGUI();
     punteroVentana->MuestraMenu();

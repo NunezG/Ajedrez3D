@@ -18,6 +18,7 @@ public:
 
    // int modoJuego;
 
+    virtual bool mueveCamara(float frecuencia) = 0;
 
 
     //virtual bool salir() = 0;
@@ -28,7 +29,7 @@ public:
     virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) = 0;
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )= 0;
 
-    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
+   // virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
     virtual bool esMenuInicio() = 0;
 
     Modelo* modelo;

@@ -9,9 +9,9 @@ Ventana::Ventana() :
     sys(0),
     mRoot(Ogre::Root::getSingletonPtr()),
     mTimer(mRoot->getTimer()),
-  //  mSceneMgr(0),
+    //  mSceneMgr(0),
     vista(NULL)
-   // capturaRaton(true)
+    //capturaRaton(true)
 {
     modelo = Modelo::getSingletonPtr();
 
@@ -242,18 +242,18 @@ bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 
 
 
-    if(mPantalla > 0)
-    {
+    //  if(mPantalla > 0)
+    //   {
 
 
-        vista->mouseMoved(evt);
+    vista->mouseMoved(evt);
 
 
 
-        // Scroll wheel.
-        if (evt.state.Z.rel)
-            sys->injectMouseWheelChange(evt.state.Z.rel / 120.0f);
-    }
+    // Scroll wheel.
+    //if (evt.state.Z.rel)
+    //    sys->injectMouseWheelChange(evt.state.Z.rel / 120.0f);
+    //  }
 
 
 
@@ -272,45 +272,63 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
     injectTimePulse(evt);
 
 
-    //if (capturaRaton){
-    capture();
-    std::cout << "sale de cpature" << std::endl;
+    //  if (capturaRaton){
+    //    }
+    statUpdate(evt);
+
+
+  //  if (modelo->getTablero()->jugadores[modelo->getTablero()->getTurnoNegras()]->esHumano())
+ //   {
+
+    std::cout << "if moddddd " <<std::endl;
+
+
+    if((vista != NULL && vista->esMenuInicio()) || (modelo->jugadores.size()>0 && modelo->jugadores.at(modelo->getTablero()->getTurnoNegras())->esHumano()))
+    {
+
+        std::cout << "capt " <<std::endl;
+
+        capture();
+
+
+        if(!vista->esMenuInicio())
+        {
+
+            vista->mueveCamara(evt.timeSinceLastFrame);
+        }
+
+
+    }
+    std::cout << "end " <<std::endl;
 
    // }
-    statUpdate(evt);
-    std::cout << "statup" << std::endl;
-
-
-
-    if(mPantalla > 0 && vista != NULL)
-    {
-        std::cout << "vistaaa" << std::endl;
-
-        vista->frameRenderingQueued(evt);
-    }
-    std::cout << "sale de framerend" << std::endl;
-
 }
 
 
 //BaseApplication* Ventana::Create(Ogre::String type) {
-  //  if ( type == "JuegoPorTurnos" ) return  VistaAjedrez(mSceneMgr, mWindow);
- //   if ( type == "JuegoEnSolitario" ) return  VistaAjedrezSolo(mSceneMgr, mWindow);
-  //  return NULL;
+//  if ( type == "JuegoPorTurnos" ) return  VistaAjedrez(mSceneMgr, mWindow);
+//   if ( type == "JuegoEnSolitario" ) return  VistaAjedrezSolo(mSceneMgr, mWindow);
+//  return NULL;
 //}
 
-bool Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
+VistaAjedrez* Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 {
     delete vista;
     vista = NULL;
-    if (mPantalla == 1)
+    sys->getGUISheet()->setVisible(false);
+
+    if (modelo->getNumPantalla() == 1)
     {
-        vista= new VistaAjedrez();
+        mPantalla = 1;
+        vista= new VistaAjedrez(mWindow);
     }
-    else if (mPantalla == 2)
+    else if (modelo->getNumPantalla() == 2)
     {
-        vista= new VistaAjedrezSolo();
+        mPantalla = 2;
+        vista= new VistaAjedrezSolo(mWindow);
     }
+
+    return static_cast<VistaAjedrez*>(vista);
 }
 
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
@@ -319,62 +337,41 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
     std::cout << "mousePressed"<< std::endl;
 
 
-    if(mPantalla > 0){
-        vista->mousePressed(evt, id);
-    }
+    vista->mousePressed(evt, id);
 
-
-    std::cout << "fin mousepressed " << std::endl;
 
     if(sys->injectMouseButtonDown(convertButton(id)))
     {
-        std::cout << "inject" << std::endl;
-
         return true;
     }
-    std::cout << "fin finmousepressed " << std::endl;
-
 
     return true;
 }
 
 bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
-    std::cout << "MOUSE RELEASED" << std::endl;
-
     sys->injectMouseButtonUp(convertButton(id));
 
-    std::cout << "MOUSE RELEASED 22" << std::endl;
 
-    if(mPantalla > 0)
-    {
-        std::cout << "vista MOUSE RELEASED" << std::endl;
+    vista->mouseReleased(evt, id);
 
-        vista->mouseReleased(evt, id);
-        std::cout << "fin vista MOUSE RELEASED" << std::endl;
+    // else if(mPantalla == 0)
+    //  {
+    std::cout << "MOUSE RELEASED EN PANTALLA = 0 " << std::endl;
 
-    }
-    else if(mPantalla == 0)
-    {
-        std::cout << "MOUSE RELEASED EN PANTALLA = 0 " << std::endl;
+    //  if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 1)
+    //   {
+    //      std::cout << "PANTALLA 1 " << std::endl;
 
-        if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 1)
-        {
-            std::cout << "PANTALLA 1 " << std::endl;
 
-            sys->getGUISheet()->setVisible(false);
-           mPantalla = 1;
-        }
-        else if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 2)
-        {
-            std::cout << "PANTALLA 2 " << std::endl;
+    //    }
+    //    else if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 2)
+    //   {
+    //        std::cout << "PANTALLA 2 " << std::endl;
 
-            sys->getGUISheet()->setVisible(false);
-            mPantalla = 2;
-        }
-    }
-    std::cout << "return" << std::endl;
-
+    //  sys->getGUISheet()->setVisible(false);
+    //    }
+    //}
     return true;
 }
 

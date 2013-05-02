@@ -2,9 +2,11 @@
 #include "../../headers/Vistas/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez() :
+VistaAjedrez::VistaAjedrez(Ogre::RenderWindow* window) :
     BaseVistas()
     , textoOverlay("VACIO")
+,   mRaySceneQuery(0)
+  ,mWindow(window)
 
 
 
@@ -19,21 +21,10 @@ VistaAjedrez::VistaAjedrez() :
 
 VistaAjedrez::~VistaAjedrez(void)
 {    
+    escenaAjedrez->mSceneMgr->destroyQuery(mRaySceneQuery);
 }
 
 
-bool VistaAjedrez::cambiaTurno(){
-
-    std::cout << "cambiatur "<< std::endl;
-
-
-    tablero->rotaTurno = Ogre::Real(180.0f);
-    tablero->fichaSeleccionada = false;
-    tablero->cambiaTurno();
-    std::cout << "fin cambiatur "<< std::endl;
-
-    //mediaVuelta();
-}
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
@@ -41,13 +32,21 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 
     if (arg.key == OIS::KC_A || arg.key == OIS::KC_LEFT)
     {
-        escenaAjedrez->mueveCamaraIzquierda();
+
+
+
+        escenaAjedrez->rotacionCamara(Ogre::Degree(1));
+      //  escenaAjedrez->mueveCamaraIzquierda();
         //   mCamera->moveRelative(Ogre::Vector3(-1,0,0));//yaw(Ogre::Degree(-1.25f));
     }
 
     if (arg.key == OIS::KC_D || arg.key == OIS::KC_RIGHT)
     {
-        escenaAjedrez->mueveCamaraDerecha();
+
+        escenaAjedrez->rotacionCamara(Ogre::Degree(-1));
+
+
+      //  escenaAjedrez->mueveCamaraDerecha();
 
         // mCamera->moveRelative(Ogre::Vector3(1,0,0));
         // mCamera->pitch(Ogre::Degree(1.025f));
@@ -56,6 +55,9 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 
     return true;
 }
+
+//void VistaAjedrez::rotar
+
 
 bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 { 
@@ -69,16 +71,10 @@ bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 {
 
-
-
     if (escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
     {
-
         escenaAjedrez->rotacionCamara(Ogre::Degree(arg.state.X.rel)); // con grados?
-
-
     }
-
 
     else if (tablero->fichaSeleccionada)
     {
@@ -86,17 +82,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         int posx = arg.state.X.abs;   // Posicion del puntero
         int posy = arg.state.Y.abs;   //  en pixeles.
 
-        // escenaAjedrez->executeRay(posx, posy, "casilla");
-
-        // Ogre::uint32 mask;
-        // mask = CASILLA;
-
-        //  Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
-
-        Ogre::RaySceneQueryResult &result = escenaAjedrez->executeRay(posx, posy, 'C');
-
-
-        //  Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
+        Ogre::RaySceneQueryResult &result = executeRay(posx, posy, 'C');
 
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
@@ -109,60 +95,14 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 
             if (tablero->getNodoCasillaSobrevolada()==NULL || casillaSobrevolada->getNombre() != tablero->getNodoCasillaSobrevolada() -> getNombre())
             {
-
-                std::cout << "IF" << std::endl;
-
-
                 if (tablero->getNodoCasillaSobrevolada()!=NULL){
-                    escenaAjedrez->apagaCasilla(tablero->getNodoCasillaSobrevolada());
+                    tablero->getNodoCasillaSobrevolada()->apagaCasilla();
                     tablero->setNodoCasillaSobrevolada(NULL);
                 }
                 tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
 
-                //Autoriza la casilla sobrevolada para mover ficha (no mira si la casilla está ocupada)
-                bool autorizado= true;
-                autorizado = Autorizaciones::autorizaCasilla(tablero);
-
-                std::cout << "autorizado: "<<autorizado << std::endl;
-
-
-                if(autorizado)
-                {
-
-                    if  (tablero->getNodoCasillaSobrevolada()->sinHijos() != true)
-                    {
-
-
-                        if (tablero->FichaComestible()) {
-                            //falta evaluar jaque y ahogado
-                            if (!Autorizaciones::evaluaJaque(tablero->mueveYTraduceTablero(), tablero->getTurnoNegras()))
-                            {
-                                escenaAjedrez->iluminaCasilla(tablero->getNodoCasillaSobrevolada());
-                                std::cout << "ES COMESTIBLE" << std::endl;
-                            }else {
-                                std::cout << "JAQUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" << std::endl;
-
-
-                            }
-
-
-                        }
-
-                    } else{
-
-                        //falta evaluar jaque y ahogado
-                        if (!Autorizaciones::evaluaJaque(tablero->mueveYTraduceTablero(), tablero->getTurnoNegras()))
-                        {
-                            escenaAjedrez->iluminaCasilla(tablero->getNodoCasillaSobrevolada());
-                            std::cout << "ES COMESTIBLE" << std::endl;
-                        }else {
-                            std::cout << "JAQUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE" << std::endl;
-
-
-                        }
-
-                    }
-                }
+                //AUTORIZA
+                 static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->autorizaCasilla();
             }
         }
     }
@@ -172,8 +112,6 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         // the further the camera is, the faster it moves
         escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
     }
-
-
 
     //  mInputMan->injectMouseMove(arg); //CAMBIA NOMBRE POR MUEVECAMARA
 
@@ -189,62 +127,31 @@ bool VistaAjedrez::esMenuInicio(){
 }
 
 //-------------------------------------------------------------------------------------
-bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
+bool VistaAjedrez::mueveCamara(float frecuencia)
 {   
 
-    //   if (mGoingRight) accel += mCamera->getRight();
 
-    //    if (mGoingLeft) accel -= mCamera->getRight();
 
-    //   if (rotaTurno > Ogre::Real(0.0f))
-    //   {
-    //    std::cout << "cambiaturnorota "<< accel<< std::endl;
-
-    //ROTACION MIENTRAS SE PULSEN LAS FLECHAS
-    if(escenaAjedrez->vaIzquierda()){
-        escenaAjedrez->rotacionCamara(Ogre::Degree(1));
-    }
-
-    if(escenaAjedrez->vaDerecha()){
-        escenaAjedrez->rotacionCamara(Ogre::Degree(-1));
-
-    }
-
-    if (tablero->rotaTurno != Ogre::Degree(0))
+    if (tablero->rotacionCamara != Ogre::Degree(0))
     {
-        //std::cout << "cambiaturnorota "<< accel<< std::endl;
 
 
-        //  mCambiaTurno = false;
-        // accel += mCamera->getRight();
-
-        //   accel -= mCamera->getRight();
-
-
-        //  escenaAjedrez->mInputMan->rotaCamara(rotaTurno);
-
-        Ogre::Degree rot = Ogre::Degree(Ogre::Real(120.0f) * evt.timeSinceLastFrame);
+        Ogre::Degree rot = Ogre::Degree(Ogre::Real(80.0f) * frecuencia);
 
         //Rota la camara
-        if (rot > tablero->rotaTurno){
+        if (rot > tablero->rotacionCamara){
 
-            escenaAjedrez->rotacionCamara(tablero->rotaTurno);
-            tablero->rotaTurno = Ogre::Real(0.0f);
+            escenaAjedrez->rotacionCamara(tablero->rotacionCamara);
+            tablero->rotacionCamara = Ogre::Real(0.0f);
 
 
         }else {
             escenaAjedrez->rotacionCamara(rot);
-            tablero->rotaTurno = tablero->rotaTurno - rot;
+            tablero->rotacionCamara = tablero->rotacionCamara - rot;
         }
-
-        //Devuelve la camara a su posicion ¿z? original
-        // mCamera->pitch(Ogre::Degree(-evt.state.Y.rel * 0.025f));
-
-        //  std::cout << "Ogre::Real(120.0f) * evt.timeSinceLastFrame "<< Ogre::Real(120.0f) * evt.timeSinceLastFrame<< std::endl;
 
     }
 
-    //mInputMan->rotaCamara(evt);
     return true;
 }
 
@@ -274,7 +181,7 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         tablero->fichaSeleccionada = false;
 
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
-        if (escenaAjedrez->seleccionaFichaEnPosicion(posx, posy))
+        if (seleccionaFichaEnPosicion(posx, posy))
             tablero->fichaSeleccionada = true;
 
 
@@ -284,23 +191,33 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
 
     } else if (mbright)
     {
+   //     if (modelo->jugadorActual->esHumano())
+    //    {
+
+
         //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
         if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
         {
+            std::cout  << "aplicaseleccion " << std::endl;
 
 
+            tablero->getNodoCasillaSobrevolada()->apagaCasilla();
+
+            std::cout  << "acaba aplicaseleccion " << std::endl;
 
 
-            tablero->actualizaTablero(tablero->getNodoFichaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion());
+            //CAMBIA EL MODELO, ESTO SE VERA REFLEJADO AUTOMATICAMENTE EN LA VISTA
+            static_cast<JugadorHumano*>(modelo->jugadorActual)->aplicaSeleccion();
+
+            std::cout  << "acaba apagacasilla " << std::endl;
 
 
-            escenaAjedrez->apagaCasilla(tablero->getNodoCasillaSobrevolada());
-
-            cambiaTurno();
 
             std::cout  << "acaba " << std::endl;
 
         }
+
+           //   }
     }else {
         escenaAjedrez->empezarModoCamara();
 
@@ -309,6 +226,10 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
 
     return true;
 }
+
+
+
+
 
 bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
@@ -320,4 +241,105 @@ bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID
     //  mInputMan->injectMouseUp(arg, id);
 
     return true;
+}
+
+
+
+
+
+Ogre::RaySceneQuery* VistaAjedrez::createRayQuery(void)
+{
+    // Create the camera
+    mRaySceneQuery = escenaAjedrez->mSceneMgr->createRayQuery(Ogre::Ray());
+    return mRaySceneQuery;
+}
+
+
+Ogre::RaySceneQueryResult& VistaAjedrez::executeRay(int posx, int posy, char mascara)
+{
+
+    Ogre::uint32 mask;
+
+
+    switch (mascara)
+    {
+
+    case 'C':
+        mask = CASILLA;
+        break;
+
+
+    case 'N':
+        mask =  NEGRAS;
+        break;
+
+
+    case 'B':
+        mask = BLANCAS;
+        break;
+
+    default:
+        mask = TABLERO;
+
+        break;
+    }
+
+    Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
+
+    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
+    return result;
+}
+
+Ogre::Ray VistaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)
+{
+    Ogre::Ray rayMouse = escenaAjedrez->mCamera->getCameraToViewportRay
+            (posx/float(win->getWidth()), posy/float(win->getHeight()));
+
+    mRaySceneQuery->setRay(rayMouse);
+    mRaySceneQuery->setSortByDistance(true);
+    mRaySceneQuery->setQueryMask(mask);
+    return (rayMouse);
+}
+
+
+bool VistaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
+{
+    if (tablero->getNodoCasillaSeleccionada() != NULL)
+    {  // Si habia alguno seleccionado...
+
+        std::cout  << "fichasel" << std::endl;
+        Ficha* ficha = static_cast<Ficha*>(tablero->getNodoCasillaSeleccionada()->getHijo(0));
+        ficha->getNodoOgre()->showBoundingBox(false);
+        tablero->setNodoCasillaSeleccionada(NULL);
+    }
+
+    //EMPIEZA RAYO
+    Ogre::RaySceneQueryResult &result =executeRay(posX,posY,'C');
+    Ogre::RaySceneQueryResult::iterator it;
+    it = result.begin();
+
+    if (it != result.end())
+    {
+
+        //Busca la casilla que tenga un hijo con ese nombre
+        Casilla* casilla = static_cast<Casilla*>(tablero->getHijo(it->movable->getParentSceneNode()->getName()));
+
+        if (casilla != NULL && !casilla->sinHijos())
+        {
+            Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
+
+            if ((tablero->getTurnoNegras()
+                 && ficha->esNegra)
+                    || (!tablero->getTurnoNegras() && !ficha->esNegra))
+            {
+
+                tablero->setNodoCasillaSeleccionada(casilla);
+                ficha->getNodoOgre()->showBoundingBox(true);
+                return true;
+            }
+
+        }
+    }
+    return false;
+
 }

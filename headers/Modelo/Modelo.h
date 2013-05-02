@@ -4,8 +4,10 @@
 //#include "EscenaAjedrez.h"
 #include "ModeloMenu.h"
 #include "Tablero.h"
-#include "JugadorHumano.h"
+
+
 #include "JugadorArtificial.h"
+#include "JugadorHumano.h"
 
 class Modelo
 {
@@ -22,14 +24,14 @@ public:
 
     int modoJuego;
 
-    std::vector<Jugador*> jugadores;
     int numJugadores;
+    std::vector<Jugador*> jugadores;
     Jugador* jugadorActual;
 
-    void creaJugador(bool negras, bool humano);
 
-    void mueveFicha(float frecuencia);
 
+    void mueveFicha(float time);
+    void creaJugador(bool blancas, bool humano);
 
     bool getApagar();
     int getNumPantalla();
@@ -37,7 +39,6 @@ public:
 
 //    EscenaAjedrez* escena;
 
-    void construyeAjedrez();
     void construyeMenu();
 
     //Singleton

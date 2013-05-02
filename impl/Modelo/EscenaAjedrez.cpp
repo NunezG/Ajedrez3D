@@ -3,9 +3,8 @@
 
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::EscenaAjedrez(void) :
-    mRaySceneQuery(0),
     mCamera(0)
-   //, mInputMan(0)
+  //, mInputMan(0)
   , mOrbiting(false)
   , mGoingLeft(false)
   , mGoingRight(false)
@@ -23,15 +22,14 @@ EscenaAjedrez::EscenaAjedrez(void) :
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::~EscenaAjedrez(void)
 {
-    mSceneMgr->destroyQuery(mRaySceneQuery);
-   // if (mInputMan) delete mInputMan;
+    // if (mInputMan) delete mInputMan;
 
 }
 
-void EscenaAjedrez::setSceneManager(Ogre::SceneManager* sceneMgr)
+void EscenaAjedrez::setSceneManager(Ogre::Root* mRoot)
 {
-    mSceneMgr = sceneMgr;
-
+   mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
+   createCamera();
 }
 
 
@@ -73,14 +71,10 @@ void EscenaAjedrez::createScene()
 
     tablero->creaTableroYCasillas(mSceneMgr);
 
-   // tablero->creaFichasAjedrez(mSceneMgr);
+    // tablero->creaFichasAjedrez(mSceneMgr);
 
     creaIluminacion();
 }
-
-
-
-
 
 
 
@@ -91,40 +85,6 @@ EscenaAjedrez* EscenaAjedrez::getSingletonPtr()
     return miEscenaPtr;
 }
 
-void iluminaCasillaSobrevolada()
-{
-
-
-}
-
-void EscenaAjedrez::apagaCasilla(Casilla* casilla)
-{
-
-
-    casilla->getNodoOgre()->showBoundingBox(false);
-    // Casilla *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
-    // const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
-    if (!casilla->esNegra){
-
-        casilla->cambiaMaterial("MaterialCasillaBlanca");
-    }else casilla->cambiaMaterial("MaterialCasillaNegra");
-}
-
-void EscenaAjedrez::iluminaCasilla(Casilla* casilla)
-{
-
-
-    casilla->getNodoOgre()->showBoundingBox(true);
-    // Ogre::Entity *mEntidadCasilla = static_cast<Ogre::Entity*>(casilla->getAttachedObject(0));
-    // const Ogre::String mNombreEntidad =  mEntidadCasilla->getName();
-
-    if (casilla->esNegra)
-    {
-
-
-        casilla->cambiaMaterial("MaterialCasillaNegraIlum");
-    }else casilla->cambiaMaterial("MaterialCasillaBlancaIlum");
-}
 
 void EscenaAjedrez::mueveCamaraIzquierda()
 {
@@ -237,18 +197,12 @@ Ogre::Camera* EscenaAjedrez::createCamera(void){
     setTarget(mTarget ? mTarget : mCamera->getSceneManager()->getRootSceneNode());
     mCamera->setFixedYawAxis(true);
 
-   // mInputMan = new InputMan::SdkCameraMan(mCamera);   // create a default camera controller
-  //  mTopSpeed = topSpeed;
+    // mInputMan = new InputMan::SdkCameraMan(mCamera);   // create a default camera controller
+    //  mTopSpeed = topSpeed;
 
     return mCamera;
 }
 
-Ogre::RaySceneQuery* EscenaAjedrez::createRayQuery(void)
-{
-    // Create the camera
-    mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
-    return mRaySceneQuery;
-}
 
 //-------------------------------------------------------------------------------------
 void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
@@ -263,131 +217,6 @@ void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
                 Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 
-//-------------------------------------------------------------------------------------
-//Casilla* EscenaAjedrez::casillaOcupada(Casilla* nodoCasilla)
-//{
-//Mira si la casilla está ocupada y por quién
-//  Ficha* child = static_cast<Casilla*> (nodoCasilla->getHijo(0));
-// Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
 
-//  if(child->getAttachedObject(0) != NULL)
-//   {
-//      return child;
-//   }
-//}
-
-Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char mascara)
-{
-
-    Ogre::uint32 mask;
-
-
-    switch (mascara)
-    {
-
-    case 'C':
-        mask = CASILLA;
-        break;
-
-
-    case 'N':
-        mask =  NEGRAS;
-        break;
-
-
-    case 'B':
-        mask = BLANCAS;
-        break;
-
-    default:
-        mask = TABLERO;
-
-        break;
-    }
-
-    Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
-
-    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
-    return result;
-}
-
-Ogre::Ray EscenaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)
-{
-    Ogre::Ray rayMouse = mCamera->getCameraToViewportRay
-            (posx/float(win->getWidth()), posy/float(win->getHeight()));
-
-    mRaySceneQuery->setRay(rayMouse);
-    mRaySceneQuery->setSortByDistance(true);
-    mRaySceneQuery->setQueryMask(mask);
-    return (rayMouse);
-}
-
-
-
-
-
-
-bool EscenaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
-{
-
-    if (tablero->getNodoFichaSeleccionada() != NULL)
-    {  // Si habia alguno seleccionado...
-
-        std::cout  << "fichasel" << std::endl;
-        Ficha* ficha = static_cast<Ficha*>(tablero->getNodoFichaSeleccionada()->getHijo(0));
-        ficha->getNodoOgre()->showBoundingBox(false);
-        tablero->setNodoFichaSeleccionada(NULL);
-    }
-
-    std::cout  << "mpouse2" << std::endl;
-
-    //EMPIEZA RAYO
-    //Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
-    Ogre::RaySceneQueryResult &result =executeRay(posX,posY,'C');//mRaySceneQuery->execute();
-    Ogre::RaySceneQueryResult::iterator it;
-    it = result.begin();
-    std::cout  << "mpouse3" << std::endl;
-
-
-    if (it != result.end())
-    {
-        std::cout  << "mpouse31121: "<< it->movable->getParentSceneNode()->getName()<< std::endl;
-
-
-        std::cout  << "mpouse31121: "<< it->movable->getName()<< std::endl;
-
-
-
-        Casilla* casilla = static_cast<Casilla*>(tablero->getHijo(it->movable->getParentSceneNode()->getName()));
-
-        std::cout  << "mpouse31: "<< casilla->getNombre() << std::endl;
-
-
-
-        if (casilla != NULL && !casilla->sinHijos())
-        {
-
-            Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
-
-            std::cout  << "tiene hijos" << std::endl;
-
-
-            if ((tablero->getTurnoNegras()
-                 && ficha->esNegra)
-                    || (!tablero->getTurnoNegras() && !ficha->esNegra))
-            {
-
-
-                tablero->setNodoFichaSeleccionada(casilla);
-                ficha->getNodoOgre()->showBoundingBox(true);
-                return true;
-
-            }
-
-        }
-    }
-return false;
-
-}
 
 
