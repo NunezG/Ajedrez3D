@@ -136,7 +136,7 @@ set(HDRS
         ./headers/Vistas/MenuInicio.h
         ./headers/Vistas/BaseVistas.h
 
-
+        ./headers/Vistas/EscenaAjedrez.h
 
 
         # headers de modelo
@@ -144,7 +144,7 @@ set(HDRS
 
       #  ./headers/Modelo/InputMan.h
 
-        ./headers/Modelo/EscenaAjedrez.h
+
 
 
         ./headers/Modelo/Autorizaciones.h
@@ -173,7 +173,7 @@ set(HDRS
 
 
 
-        ./headers/ModuloIA.h
+        ./headers/Modelo/ModuloIA.h
 
 
 
@@ -196,7 +196,7 @@ set(SRCS
         ./impl/Vistas/Ventana.cpp
         ./impl/Vistas/MenuInicio.cpp
         ./impl/Vistas/BaseVistas.cpp
-
+        ./impl/Vistas/EscenaAjedrez.cpp
 
        # ./impl/CreacionJuego.cpp
        # ./impl/MenuInicial.cpp
@@ -208,7 +208,7 @@ set(SRCS
         # implementaciones de modelo
       #  ./imps/Modelo.h
 
-        ./impl/Modelo/EscenaAjedrez.cpp
+
 
         ./impl/Modelo/Autorizaciones.cpp
 
@@ -236,7 +236,7 @@ set(SRCS
        ./impl/Modelo/ModeloMenu.cpp
 
 
-        ./impl/ModuloIA.cpp
+        ./impl/Modelo/ModuloIA.cpp
 
 
 
