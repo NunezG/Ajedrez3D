@@ -14,10 +14,10 @@ class Modelo
 public:
 
 
-    Ogre::String mResourcesCfg;
-    Ogre::String mPluginsCfg;
+    std::string mResourcesCfg;
+    std::string mPluginsCfg;
 
-    std::string* resolucion;
+    std::string resolucion;
     bool salirPulsado;
 
     ModeloMenu* menu;
@@ -27,7 +27,6 @@ public:
     int numJugadores;
     std::vector<Jugador*> jugadores;
     Jugador* jugadorActual;
-
 
 
     void mueveFicha(float time);

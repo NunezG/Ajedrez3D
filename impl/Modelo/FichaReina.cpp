@@ -47,10 +47,5 @@ FichaReina::FichaReina( const Ficha& fichaOriginal, std::string nombre):
 
 bool FichaReina::autorizaFicha(int diferencia[2]){
 
-//if (FichaTorre::autorizaFicha(diferencia))
-//{
-    //return Ficha::autorizaFicha(diferencia);
-//}
 
-return false;
 }

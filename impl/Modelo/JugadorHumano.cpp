@@ -31,7 +31,6 @@ void JugadorHumano::mueveFicha(float time){
 
     //HA CAPTUURADO MOVIMIENTO??
 
-    std::cout << "HUMANO MUEVE FICHA " << std::endl;
 
 
    // if (miTablero->g)

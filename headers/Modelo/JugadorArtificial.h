@@ -16,6 +16,7 @@ public:
     void mueveFicha(float time);
     //void setVentana(Ventana* obj);
 
+    int dificultad;
 
 private:
     void calculaMovimiento();

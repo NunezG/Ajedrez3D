@@ -8,13 +8,14 @@ Modelo::Modelo() :
   , tablero(NULL)
    , numJugadores(0)
 
+
   //,  jugadores(NULL)
 
 
 
 
 {
-    resolucion = new std::string("1024 x 768");
+    resolucion = "800 x 600";
     tablero = new Tablero();
 
 //mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
@@ -79,7 +80,6 @@ void Modelo::destruyeTablero(){
    //delete mSceneMgr;
 
     delete tablero;
-    std::cout << "nullea " << std::endl;
 
     tablero = NULL;
 
@@ -90,7 +90,6 @@ void Modelo::destruyeMenu(){
 
     delete menu;
 
-    std::cout << "nullea " << std::endl;
 
     menu = NULL;
 
@@ -98,17 +97,7 @@ void Modelo::destruyeMenu(){
 void Modelo::mueveFicha(float time)
 {
 
-
-
-    std::cout << "mueve " << time<<std::endl;
-    std::cout << "mueve " << static_cast<JugadorHumano*> (jugadores.at(0))->esHumano()<<std::endl;
-
     //Jugador* jug = jugadores[0];
-
-
-    std::cout << "mueve22 " <<jugadores.at(0)->jugadorNegras<<std::endl;
-
-
     jugadores.at(getTablero()->getTurnoNegras())->mueveFicha(time);
 
 
@@ -117,51 +106,32 @@ void Modelo::mueveFicha(float time)
 
 
 //tal vez sea mejor una factoria de jugadores
-void Modelo::creaJugador(bool blancas, bool humano ){
-
-   // jugadores = new std::vector<Jugador*>();
-
- //   Jugador** catArray = new Jugador*[200];
+void Modelo::creaJugador(bool blancas, bool humano )
+{
    int num = numJugadores;
-
-    std::cout << "CREA JUGADOR "<< num<<std::endl;
 
 
     if (humano){
-        std::cout << "humano "<<std::endl;
-       // JugadorHumano* jug =  static_cast<JugadorHumano*> (jugadores[modelo->numJugadores]);
         jugadores.push_back(new JugadorHumano(getTablero()));
-        //static_cast<JugadorHumano*> (modelo->jugadores[num])->setVentana(punteroVentana);
 
     }
     else {
-        std::cout << "maquina "<<std::endl;
-        //JugadorArtificial* jug =  static_cast<JugadorArtificial*> (jugadores[modelo->numJugadores]);
 
         jugadores.push_back(new JugadorArtificial(getTablero()));
 
 
     }
-   // Jugador* jugador = jugadores[modelo->numJugadores];
-
 
     if (blancas)
     {
-        std::cout << "jugador blancas "<<std::endl;
         jugadores.at(num)->jugadorNegras = 0;
 
-        std::cout << "jug->jugadorNegras "<<jugadores.at(0)->jugadorNegras<<std::endl;
 
     }else {
-        std::cout << "jugador negras"<<std::endl;
 
         jugadores.at(num)->jugadorNegras = 1;
-        std::cout << "jug->jugadorNegras "<<jugadores.at(1)->jugadorNegras<<std::endl;
 
     }
-
-
-    //punteroVentana
 
     if (numJugadores == 0) jugadorActual = jugadores.at(0);
 

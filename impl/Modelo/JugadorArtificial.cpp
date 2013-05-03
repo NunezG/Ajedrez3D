@@ -2,6 +2,7 @@
 
 JugadorArtificial::JugadorArtificial(Tablero* tablero) :
     Jugador(tablero)
+  , dificultad(0)
 
 {
 

@@ -23,7 +23,7 @@ void ModeloMenu::creaBoton(CEGUI::Event::Subscriber evento, Ogre::String nombre,
 
     //  Ogre::LogManager::getSingletonPtr()->logMessage("*** C222222***");
 
-    quitButton = static_cast<CEGUI::ButtonBase*>(wmgr.createWindow("TaharezLook/Button", nombre));
+    quitButton = static_cast<CEGUI::ButtonBase*>(wmgr.createWindow("WindowsLook/Button", nombre));
     quitButton->setText(nombre);
     quitButton->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2*posBoton,0)));
 
@@ -46,12 +46,25 @@ void ModeloMenu::creaBoton(CEGUI::Event::Subscriber evento, Ogre::String nombre,
     // CEGUI::Event::Subscriber(&MenuInicio::botonSalir, this)
 }
 
+void ModeloMenu::creaTexto(Ogre::String texto, CEGUI::FrameWindow* ventana){
+
+
+
+
+
+
+
+
+
+}
+
+
 CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre, std::vector<std::string*> listaElementos, CEGUI::FrameWindow* ventana)
 {
     Ogre::LogManager::getSingletonPtr()->logMessage("*** MENU DESPLEGABLE***");
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
-    CEGUI::Listbox* listaReal = static_cast<CEGUI::Listbox*>(wmgr.createWindow("TaharezLook/Listbox",nombre));
+    CEGUI::Listbox* listaReal = static_cast<CEGUI::Listbox*>(wmgr.createWindow("WindowsLook/Listbox",nombre));
 
     // new  CEGUI::Listbox("TaharezLook/Listbox","ListaDesplegabl");
     //
@@ -131,7 +144,7 @@ CEGUI::FrameWindow* ModeloMenu::creaVentana(std::string nombre)
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREAftghet***");
 
-    CEGUI::FrameWindow* ventana = static_cast<CEGUI::FrameWindow*>(wmgr.createWindow( "TaharezLook/FrameWindow", nombre));
+    CEGUI::FrameWindow* ventana = static_cast<CEGUI::FrameWindow*>(wmgr.createWindow( "OgreTray/FrameWindow", nombre));
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUcvcfdfI dentro 5***");
 

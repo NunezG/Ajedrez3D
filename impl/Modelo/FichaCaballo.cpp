@@ -19,7 +19,8 @@ FichaCaballo::~FichaCaballo()
 
 }
 
-bool FichaCaballo::autorizaFicha(int diferencia[2]){
+bool FichaCaballo::autorizaFicha(int diferencia[2])
+{
 
 
 

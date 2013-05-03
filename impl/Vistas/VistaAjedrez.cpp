@@ -185,9 +185,7 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
             tablero->fichaSeleccionada = true;
 
 
-        std::cout  << "mpouse1" << std::endl;
 
-        std::cout  << "fin mousepressed" << std::endl;
 
     } else if (mbright)
     {
@@ -198,22 +196,18 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
         if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
         {
-            std::cout  << "aplicaseleccion " << std::endl;
 
 
             tablero->getNodoCasillaSobrevolada()->apagaCasilla();
 
-            std::cout  << "acaba aplicaseleccion " << std::endl;
 
 
             //CAMBIA EL MODELO, ESTO SE VERA REFLEJADO AUTOMATICAMENTE EN LA VISTA
             static_cast<JugadorHumano*>(modelo->jugadorActual)->aplicaSeleccion();
 
-            std::cout  << "acaba apagacasilla " << std::endl;
 
 
 
-            std::cout  << "acaba " << std::endl;
 
         }
 
@@ -307,7 +301,6 @@ bool VistaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
     if (tablero->getNodoCasillaSeleccionada() != NULL)
     {  // Si habia alguno seleccionado...
 
-        std::cout  << "fichasel" << std::endl;
         Ficha* ficha = static_cast<Ficha*>(tablero->getNodoCasillaSeleccionada()->getHijo(0));
         ficha->getNodoOgre()->showBoundingBox(false);
         tablero->setNodoCasillaSeleccionada(NULL);

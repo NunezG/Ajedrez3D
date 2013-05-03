@@ -47,7 +47,6 @@ protected:
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-    bool IluminaSeleccion(CEGUI::Listbox *list);
 
     CEGUI::FrameWindow* ventanaConfig;
 

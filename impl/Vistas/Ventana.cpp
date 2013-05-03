@@ -280,13 +280,11 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
   //  if (modelo->getTablero()->jugadores[modelo->getTablero()->getTurnoNegras()]->esHumano())
  //   {
 
-    std::cout << "if moddddd " <<std::endl;
 
 
     if((vista != NULL && vista->esMenuInicio()) || (modelo->jugadores.size()>0 && modelo->jugadores.at(modelo->getTablero()->getTurnoNegras())->esHumano()))
     {
 
-        std::cout << "capt " <<std::endl;
 
         capture();
 
@@ -299,7 +297,6 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
     }
-    std::cout << "end " <<std::endl;
 
    // }
 }
@@ -334,7 +331,6 @@ VistaAjedrez* Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
 
-    std::cout << "mousePressed"<< std::endl;
 
 
     vista->mousePressed(evt, id);
@@ -357,7 +353,6 @@ bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 
     // else if(mPantalla == 0)
     //  {
-    std::cout << "MOUSE RELEASED EN PANTALLA = 0 " << std::endl;
 
     //  if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 1)
     //   {

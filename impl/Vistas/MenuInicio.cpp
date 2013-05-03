@@ -19,32 +19,13 @@ MenuInicio::~MenuInicio(void)
 
 bool MenuInicio::iniciaVista()
 {
-    // Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro ***");
-
-
-    std::cout  << "PINICIA VISTA "<< std::endl;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
-    // Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro 2***");
-
-    // fWnd = static_cast<CEGUI::FrameWindow*>(wmgr.createWindow( "TaharezLook/FrameWindow", "testWindow" ));
-
-    // Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro 3***");
-
-    // fWnd->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25f, 0 ), CEGUI::UDim( 0.25f, 0 ) ) );
-
-    //fWnd->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
-
-    Ogre::LogManager::getSingletonPtr()->logMessage( "*** CREATE GUI dentro 3***");
 
     CEGUI::FrameWindow* ventana;
 
     ventana = modelo->menu->creaVentana("Inicio");
-
-    std::cout  << "ventana creada "<< std::endl;
-
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** CREATE GUI dentro 5***");
 
     modelo->menu->creaBoton(CEGUI::Event::Subscriber(&MenuInicio::botonSalir, this), "Salir", ventana);
 
@@ -53,39 +34,6 @@ bool MenuInicio::iniciaVista()
     modelo->menu->creaBoton(CEGUI::Event::Subscriber(&MenuInicio::botonJuegoSolo, this), "contra la IA", ventana);
 
     modelo->menu->creaBoton(CEGUI::Event::Subscriber(&MenuInicio::botonConfig, this), "Configuracion", ventana);
-
-    /*
-    //Boton Jugar por turnos
-    mBotonJTurnos = wmgr.createWindow("TaharezLook/Button", "CEGUI/BotonJuegoPorTurnos");
-    mBotonJTurnos->setText("Jugar por turnos");
-    mBotonJTurnos->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.4,0)));
-    mBotonJTurnos->setSize(CEGUI::UVector2(CEGUI::UDim(0.15,0),CEGUI::UDim(0.05,0)));
-    mBotonJTurnos->subscribeEvent(CEGUI::PushButton::EventClicked,
-                                  );
-*/
-
-    /*
-    //Boton Jugar contra la máquina
-    mBotonJSolo = wmgr.createWindow("TaharezLook/Button", "CEGUI/BotonJuegoContraIA");
-    mBotonJSolo->setText("Jugar solo");
-    mBotonJSolo->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.5,0)));
-    mBotonJSolo->setSize(CEGUI::UVector2(CEGUI::UDim(0.15,0),CEGUI::UDim(0.05,0)));
-    mBotonJSolo->subscribeEvent(CEGUI::PushButton::EventClicked,
-                              );
-
-    */
-
-    Ogre::LogManager::getSingletonPtr()->logMessage("***añade**");
-
-    //Atsstaching buttons
-    // fWnd->addChildWindow(quitButton);
-    // fWnd->addChildWindow(mBotonJTurnos);
-    // fWnd->addChildWindow(mBotonJSolo);
-
-    //  CEGUI::System* sys = CEGUI::System::getSingletonPtr();
-
-    //sys->getGUISheet()->addChildWindow( fWnd );
-    Ogre::LogManager::getSingletonPtr()->logMessage("***acacacaba**");
 
     return true;
 }
@@ -118,6 +66,9 @@ bool MenuInicio::pantallaConfig()
         std::cout  << "listares1 "<< std::endl;
         modelo->menu->posBoton =1;
 
+
+
+        modelo->menu->creaTexto("Prueba de texto",ventanaConfig);
 
         listaResoluciones =   modelo->menu->creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaLista, this), "Lista_Resoluciones", listaElementos ,ventanaConfig);
 
@@ -230,13 +181,72 @@ bool MenuInicio::botonVolver(const CEGUI::EventArgs &e)
 
 bool MenuInicio::botonAplicarCambios(const CEGUI::EventArgs &e)
 {
+
+    for(int i=0; i<listaResoluciones->getItemCount(); i++)
+    {
+
+        CEGUI::ListboxTextItem* item = static_cast<CEGUI::ListboxTextItem*>(listaResoluciones->getListboxItemFromIndex(i));
+
+        // If the item is selected then it maintains its selected colour
+        if(item->isSelected()){
+            std::cout  << "SE HA APLICADO Y SELECCIONADO LA RESOLUCION ("<< item->getText() <<  ")" << std::endl;
+
+            modelo->resolucion = item->getText().c_str();
+          //  renderSystem->setConfigOption("Video Mode", modelo->resolucion);
+
+
+        }
+    }
+
+
     return true;
 }
 
 
 bool MenuInicio::sobrevuelaLista(const CEGUI::EventArgs &e)
 {
-    return IluminaSeleccion(listaResoluciones);
+    // Reset all list items to undetected colour
+    for(int i=0; i<listaResoluciones->getItemCount(); i++)
+    {
+
+        CEGUI::ListboxTextItem* item = static_cast<CEGUI::ListboxTextItem*>(listaResoluciones->getListboxItemFromIndex(i));
+
+        // If the item is selected then it maintains its selected colour
+        if(!item->isSelected()){
+
+
+            item->setTextColours(CEGUI::colour(1.0, 1.0, 1.0, 1.0));
+        }
+    }
+    listaResoluciones->handleUpdatedItemData();
+
+
+    CEGUI::Window &win = *ventanaConfig;
+
+    CEGUI::Point   mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
+    CEGUI::Vector2 mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
+                                 CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
+
+    std::cout  << "mouse: "<< mousePosLocal.d_x  << std::endl;
+    std::cout  << "mouse: "<< mousePosLocal.d_y  << std::endl;
+
+    CEGUI::ListboxTextItem* detectedItem = static_cast<CEGUI::ListboxTextItem*>(listaResoluciones->getItemAtPoint(mousePosLocal));
+
+    // The colour is updated only if the detected item is not selected
+    if(detectedItem ){
+
+        std::cout  << "ITEM DETECTADO: "<< mousePosLocal.d_x  << std::endl;
+
+        detectedItem->setTextColours(CEGUI::colour(0.0, 1.0, 0.0, 1.0));
+    }
+
+    listaResoluciones->handleUpdatedItemData();
+
+    return true;
+
+
+
+
 }
 
 
@@ -274,6 +284,7 @@ bool MenuInicio::sobrevuelaListaDificultad(const CEGUI::EventArgs &e)
     {
         std::cout  << "ITEM DETECTADO: "<< mousePosLocal.d_x  << std::endl;
         detectedItem->setTextColours(CEGUI::colour(0.0, 1.0, 0.0, 1.0));
+
     }
 
     listaDificultades->handleUpdatedItemData();
@@ -331,48 +342,6 @@ bool MenuInicio::seleccionaDificultad(const CEGUI::EventArgs &e)
 
 }
 
-bool MenuInicio::IluminaSeleccion(CEGUI::Listbox *list)
-{
-
-    // Reset all list items to undetected colour
-    for(int i=0; i<list->getItemCount(); i++)
-    {
-
-        CEGUI::ListboxTextItem* item = static_cast<CEGUI::ListboxTextItem*>(list->getListboxItemFromIndex(i));
-
-        // If the item is selected then it maintains its selected colour
-        if(!item->isSelected()){
-
-
-            item->setTextColours(CEGUI::colour(1.0, 1.0, 1.0, 1.0));
-        }
-    }
-    list->handleUpdatedItemData();
-
-
-    CEGUI::Window &win = *ventanaConfig;
-
-    CEGUI::Point   mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
-    CEGUI::Vector2 mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
-                                 CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
-
-    std::cout  << "mouse: "<< mousePosLocal.d_x  << std::endl;
-    std::cout  << "mouse: "<< mousePosLocal.d_y  << std::endl;
-
-    CEGUI::ListboxTextItem* detectedItem = static_cast<CEGUI::ListboxTextItem*>(list->getItemAtPoint(mousePosLocal));
-
-    // The colour is updated only if the detected item is not selected
-    if(detectedItem ){
-
-        std::cout  << "ITEM DETECTADO: "<< mousePosLocal.d_x  << std::endl;
-
-        detectedItem->setTextColours(CEGUI::colour(0.0, 1.0, 0.0, 1.0));
-    }
-
-    list->handleUpdatedItemData();
-
-    return true;
-}
 
 
 //-------------------------------------------------------------------------------------
