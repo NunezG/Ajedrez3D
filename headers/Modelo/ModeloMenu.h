@@ -15,7 +15,7 @@ public:
     ModeloMenu(void);
 
     void creaBoton(CEGUI::Event::Subscriber evento, Ogre::String nombre, CEGUI::FrameWindow* ventana);
-    CEGUI::Listbox* creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre,std::vector<std::string*> listaElementos, CEGUI::FrameWindow* ventana);
+    CEGUI::Listbox* creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre,std::vector<std::string*> listaElementos, CEGUI::Listbox* listaReal);
     void creaTexto(Ogre::String texto, CEGUI::FrameWindow* ventana);
 
     CEGUI::FrameWindow* creaVentana(std::string nombre);

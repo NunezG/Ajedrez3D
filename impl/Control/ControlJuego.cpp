@@ -29,7 +29,7 @@ ControlJuego& ControlJuego::getControlSingleton()
 bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
-   // std::cout << "frameRenderingQueued"<< std::endl;
+ //  std::cout << "frameRenderingQueued"<< std::endl;
 
 
     if(punteroVentana -> pantallaActual() == 0)

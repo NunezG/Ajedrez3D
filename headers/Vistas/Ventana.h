@@ -90,7 +90,6 @@ private:
 
     unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 
-    CEGUI::Window *sheet;
     CEGUI::System* sys;
 
    // MenuInicio* menu;

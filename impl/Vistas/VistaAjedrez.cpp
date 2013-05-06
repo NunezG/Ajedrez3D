@@ -78,10 +78,14 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     else if (tablero->fichaSeleccionada)
     {
 
+        CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
+
+
+
         int posx = arg.state.X.abs;   // Posicion del puntero
         int posy = arg.state.Y.abs;   //  en pixeles.
 
-        Ogre::RaySceneQueryResult &result = modelo->escenaAjedrez->executeRay(posx, posy, 'C');
+        Ogre::RaySceneQueryResult &result = modelo->escenaAjedrez->executeRay(mCursorPosition.d_x, mCursorPosition.d_y, 'C');
 
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
@@ -163,11 +167,13 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
     //
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+    CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
+
     bool mbleft = (id == OIS::MB_Left);
     bool mbright = (id == OIS::MB_Right);
-    int posx = arg.state.X.abs;   // Posicion del puntero
-    int posy = arg.state.Y.abs;   //  en pixeles.
-    char mask;
+    //int posx = arg.state.X.abs;   // Posicion del puntero
+    //int posy = arg.state.Y.abs;   //  en pixeles.
+    //char mask;
     if (mbleft)
     {  // Boton izquierdo o derecho -------------
         //std::cout << "mbleft "<< turnoNegras<< std::endl;
@@ -180,7 +186,7 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         tablero->fichaSeleccionada = false;
 
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
-        if (seleccionaFichaEnPosicion(posx, posy))
+        if (seleccionaFichaEnPosicion(mCursorPosition.d_x, mCursorPosition.d_y))
             tablero->fichaSeleccionada = true;
 
 

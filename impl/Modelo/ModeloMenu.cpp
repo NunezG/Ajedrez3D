@@ -59,18 +59,18 @@ void ModeloMenu::creaTexto(Ogre::String texto, CEGUI::FrameWindow* ventana){
 }
 
 
-CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre, std::vector<std::string*> listaElementos, CEGUI::FrameWindow* ventana)
+CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre, std::vector<std::string*> listaElementos, CEGUI::Listbox* listaReal)
 {
     Ogre::LogManager::getSingletonPtr()->logMessage("*** MENU DESPLEGABLE***");
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
-    CEGUI::Listbox* listaReal = static_cast<CEGUI::Listbox*>(wmgr.createWindow("TaharezLook/Listbox",nombre));
+   // CEGUI::Listbox* listaReal = static_cast<CEGUI::Listbox*>(wmgr.createWindow("TaharezLook/Listbox",nombre));
 
     // new  CEGUI::Listbox("TaharezLook/Listbox","ListaDesplegabl");
     //
     //
 
-    listaReal->show();
+   // listaReal->show();
     //   listaReal->setRenderingSurface();
 
     CEGUI::colour col;
@@ -111,9 +111,9 @@ CEGUI::ListboxTextItem* elementoLista;
     //  lista = wmgr.createWindow("TaharezLook/Listbox", nombre);
     // lista->setText(nombre);
 
-    listaReal->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2*posBoton,0)));
+  //  listaReal->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2*posBoton,0)));
 
-    listaReal->setSize(CEGUI::UVector2(CEGUI::UDim(0.15,0),CEGUI::UDim(0.2,0)));
+    //listaReal->setSize(CEGUI::UVector2(CEGUI::UDim(0.15,0),CEGUI::UDim(0.2,0)));
 
     listaReal->subscribeEvent(CEGUI::Listbox::EventMouseMove, evento);
 
@@ -121,7 +121,7 @@ CEGUI::ListboxTextItem* elementoLista;
 
     //  botones[posBoton] = quitButton;
 
-    ventana->addChildWindow(listaReal);
+    //ventana->addChildWindow(listaReal);
 
     posBoton = posBoton+1;
 

@@ -52,7 +52,9 @@ Ogre::RenderWindow* Ventana::getVentana(){
 void Ventana::capture(){
     //Need to capture/update each device
     mKeyboard->capture();
+
     mMouse->capture();
+
 }
 
 bool areFrameStatsVisible()
@@ -163,6 +165,7 @@ bool Ventana::EmpiezaCEGUI()
     CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
 
     // CEGUI::SchemeManager::getSingleton().loadScheme( (CEGUI::utf8*)"TaharezLook.scheme");
+    CEGUI::SchemeManager::getSingleton().create("VanillaSkin.scheme");
     CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
 
     sys = CEGUI::System::getSingletonPtr();
@@ -174,7 +177,7 @@ bool Ventana::EmpiezaCEGUI()
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CARGA RATON 1***");
 
-    sys->setDefaultMouseCursor("TaharezLook", "MouseArrow");
+    sys->setDefaultMouseCursor("Vanilla-Images", "MouseArrow");
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CARGA RATON 2***");
 
 
@@ -182,7 +185,9 @@ bool Ventana::EmpiezaCEGUI()
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** ACABA CARGA RATON ***");
 
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+   CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+    CEGUI::Window *sheet;
+
     sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
 
     sys->setGUISheet(sheet);
@@ -212,11 +217,7 @@ int Ventana::pantallaActual(){
 
 bool Ventana::MuestraMenu(){
 
-   vista = new MenuInicio();
-  //  CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuInicioAjedrez.layout");
-
-  //  CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
-
+  vista = new MenuInicio();
 
 }
 
@@ -254,6 +255,7 @@ bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 {   
 
+
     sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
 
 
@@ -262,7 +264,7 @@ bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
     //   {
 
 
-    vista->mouseMoved(evt);
+   if (vista != NULL) vista->mouseMoved(evt);
 
 
 
@@ -298,14 +300,15 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
 
-    if((vista != NULL && vista->esMenuInicio()) || (modelo->jugadores.size()>0 && modelo->jugadores.at(modelo->escenaAjedrez->getTablero()->getTurnoNegras())->esHumano()))
+    if(!(modelo->jugadores.size()>0 && !modelo->jugadores.at(modelo->escenaAjedrez->getTablero()->getTurnoNegras())->esHumano()))
     {
 
 
-        capture();
+            capture();
 
 
-        if(!vista->esMenuInicio())
+
+        if(vista != NULL && !vista->esMenuInicio())
         {
 
             vista->mueveCamara(evt.timeSinceLastFrame);
@@ -346,18 +349,17 @@ VistaAjedrez* Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
+sys->injectMouseButtonDown(convertButton(id));
 
 
 
-    vista->mousePressed(evt, id);
 
-
-    if(sys->injectMouseButtonDown(convertButton(id)))
+    if(vista->mousePressed(evt, id))
     {
         return true;
     }
 
-    return true;
+   // return true;
 }
 
 bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)

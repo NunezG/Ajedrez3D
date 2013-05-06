@@ -48,7 +48,7 @@ protected:
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-    CEGUI::FrameWindow* ventanaConfig;
+    CEGUI::Window* ventanaConfig;
 
     CEGUI::Listbox *listaResoluciones;
     CEGUI::Listbox *listaDificultades;
