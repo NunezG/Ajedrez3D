@@ -28,7 +28,7 @@ bool VistaAjedrezSolo::keyReleased( const OIS::KeyEvent &arg )
 
 bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 {
-    Jugador* jug = modelo->jugadores.at(modelo->getTablero()->getTurnoNegras());
+    Jugador* jug = modelo->jugadores.at(modelo->escenaAjedrez->getTablero()->getTurnoNegras());
 
     if(jug->esHumano())
     return VistaAjedrez::mouseMoved( arg );
@@ -39,7 +39,7 @@ bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
 
-    Jugador* jug = modelo->jugadores.at(modelo->getTablero()->getTurnoNegras());
+    Jugador* jug = modelo->jugadores.at(modelo->escenaAjedrez->getTablero()->getTurnoNegras());
 
     if(jug->esHumano())
     return VistaAjedrez::mousePressed( arg , id);
@@ -50,7 +50,7 @@ bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButto
 
 bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    Jugador* jug = modelo->jugadores.at(modelo->getTablero()->getTurnoNegras());
+    Jugador* jug = modelo->jugadores.at(modelo->escenaAjedrez->getTablero()->getTurnoNegras());
 
     if(jug->esHumano())
     return VistaAjedrez::mouseReleased( arg, id );

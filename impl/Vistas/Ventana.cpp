@@ -167,10 +167,20 @@ bool Ventana::EmpiezaCEGUI()
 
     sys = CEGUI::System::getSingletonPtr();
 
-    sys->setDefaultFont("DejaVuSans-10");
+    CEGUI::FontManager::getSingleton().create("DejaVuSans-10.font");
+
+
+   // sys->setDefaultFont("DejaVuSans-10");
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** CARGA RATON 1***");
+
     sys->setDefaultMouseCursor("TaharezLook", "MouseArrow");
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** CARGA RATON 2***");
+
 
     CEGUI::MouseCursor::getSingleton().setImage(sys->getDefaultMouseCursor());
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** ACABA CARGA RATON ***");
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
@@ -187,6 +197,7 @@ bool Ventana::EmpiezaCEGUI()
 
 bool Ventana::injectTimePulse(const Ogre::FrameEvent& evt)
 {   
+    CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
     sys->injectTimePulse(evt.timeSinceLastFrame);
 }
 
@@ -201,7 +212,12 @@ int Ventana::pantallaActual(){
 
 bool Ventana::MuestraMenu(){
 
-    vista = new MenuInicio();
+   vista = new MenuInicio();
+  //  CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuInicioAjedrez.layout");
+
+  //  CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
+
+
 }
 
 bool Ventana::keyPressed(const OIS::KeyEvent& evt)
@@ -282,7 +298,7 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
 
-    if((vista != NULL && vista->esMenuInicio()) || (modelo->jugadores.size()>0 && modelo->jugadores.at(modelo->getTablero()->getTurnoNegras())->esHumano()))
+    if((vista != NULL && vista->esMenuInicio()) || (modelo->jugadores.size()>0 && modelo->jugadores.at(modelo->escenaAjedrez->getTablero()->getTurnoNegras())->esHumano()))
     {
 
 

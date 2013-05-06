@@ -5,7 +5,6 @@
 
 
 #include "BaseVistas.h"
-#include "../Modelo/EscenaAjedrez.h"
 #include <Ogre.h>
 
 class VistaAjedrez : public  BaseVistas
@@ -27,21 +26,16 @@ public:
     bool salir();
     bool esMenuInicio();
 
-    Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
-    Ogre::RaySceneQuery* createRayQuery(void);
 
     bool seleccionaFichaEnPosicion(int posX, int posY);
 
-    EscenaAjedrez* escenaAjedrez;
 
 protected:
 
-Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
 Tablero* tablero;
 
     Ogre::String textoOverlay;
-    Ogre::RaySceneQuery *mRaySceneQuery;
     Ogre::RenderWindow* mWindow;
 };
 

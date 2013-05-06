@@ -1,11 +1,8 @@
 #include "../../headers/Modelo/Modelo.h"
 
 Modelo::Modelo() :
-    mPluginsCfg("plugins.cfg")
-  , mResourcesCfg("resources.cfg")
-  , mPantalla(0)
+   mPantalla(0)
   , salirPulsado(0)
-  , tablero(NULL)
    , numJugadores(0)
 
 
@@ -15,8 +12,8 @@ Modelo::Modelo() :
 
 
 {
+    escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     resolucion = "800 x 600";
-    tablero = new Tablero();
 
 //mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
 
@@ -30,15 +27,10 @@ Modelo::~Modelo()
     jugadores.clear();
 
 
-}
-
-
-
-Tablero* Modelo::getTablero()
-{
-return tablero;
 
 }
+
+
 
 bool Modelo::getApagar()
 {
@@ -76,16 +68,6 @@ void Modelo::construyeMenu()
 
 
 
-void Modelo::destruyeTablero(){
-   //delete mSceneMgr;
-
-    delete tablero;
-
-    tablero = NULL;
-
-
-}
-
 void Modelo::destruyeMenu(){
 
     delete menu;
@@ -98,7 +80,7 @@ void Modelo::mueveFicha(float time)
 {
 
     //Jugador* jug = jugadores[0];
-    jugadores.at(getTablero()->getTurnoNegras())->mueveFicha(time);
+    jugadores.at(escenaAjedrez->getTablero()->getTurnoNegras())->mueveFicha(time);
 
 
 }
@@ -112,12 +94,12 @@ void Modelo::creaJugador(bool blancas, bool humano )
 
 
     if (humano){
-        jugadores.push_back(new JugadorHumano(getTablero()));
+        jugadores.push_back(new JugadorHumano(escenaAjedrez->getTablero()));
 
     }
     else {
 
-        jugadores.push_back(new JugadorArtificial(getTablero()));
+        jugadores.push_back(new JugadorArtificial(escenaAjedrez->getTablero()));
 
 
     }
@@ -144,6 +126,5 @@ Modelo* Modelo::getSingletonPtr()
     static Modelo* miModeloPtr = &miModelo;
     return miModeloPtr;
 }
-
 
 

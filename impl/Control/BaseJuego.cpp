@@ -131,9 +131,8 @@ void BaseJuego::destroyScene(void)
 
     std::cout << "destruyetablero"<< std::endl;
 
-    std::cout << "modelo->getTablero()"<<modelo->getTablero()<< std::endl;
 
-    if (modelo->getTablero()) modelo->destruyeTablero();
+    if (modelo->escenaAjedrez->getTablero()) modelo->escenaAjedrez->destruyeTablero();
 
     std::cout << "nullea mod " << std::endl;
 
@@ -171,7 +170,7 @@ void BaseJuego::setupResources(void)
 {
     // Load resource paths from config file
     Ogre::ConfigFile cf;
-    cf.load(modelo->mResourcesCfg);
+    cf.load("resources.cfg");
     // Go through all sections & settings in the file
     Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
     Ogre::String secName, typeName, archName;
@@ -199,9 +198,8 @@ void BaseJuego::loadResources(void)
 //-------------------------------------------------------------------------------------
 void BaseJuego::go(void)
 {
+    mRoot =new Ogre::Root("plugins.cfg");
     modelo = Modelo::getSingletonPtr();
-
-    mRoot =new Ogre::Root(modelo->mPluginsCfg);
     mTimer = mRoot->getTimer();
     punteroVentana = new Ventana();
 

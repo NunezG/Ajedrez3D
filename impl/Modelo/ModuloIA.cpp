@@ -1,4 +1,4 @@
-#include "../headers/ModuloIA.h"
+#include "../../headers/Modelo/ModuloIA.h"
 
 ModuloIA::ModuloIA():
     BlackCheck(false),

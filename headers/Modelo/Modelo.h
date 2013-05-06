@@ -3,19 +3,14 @@
 #include <Ogre.h>
 //#include "EscenaAjedrez.h"
 #include "ModeloMenu.h"
-#include "Tablero.h"
 
 
-#include "JugadorArtificial.h"
-#include "JugadorHumano.h"
+#include "../Vistas/EscenaAjedrez.h"
+
 
 class Modelo
 {
 public:
-
-
-    std::string mResourcesCfg;
-    std::string mPluginsCfg;
 
     std::string resolucion;
     bool salirPulsado;
@@ -48,12 +43,16 @@ public:
 
     void setSalir(bool salir);
 
-    void destruyeTablero();
 
     void destruyeMenu();
 
+
+
+
+  EscenaAjedrez* escenaAjedrez;
+
+
     ~Modelo(void);
-    Tablero* getTablero();
 
 
 protected:
@@ -74,7 +73,9 @@ private:
    // Ogre::Root *mRoot;
    // Ogre::SceneManager* mSceneMgr;
 
-    Tablero* tablero;
+    //Tablero* tablero;
+
+
 };
 
 #endif

@@ -2,7 +2,7 @@
 #define __JugadorArtificial_
 
 #include "Jugador.h"
-#include "../ModuloIA.h"
+#include "../Modelo/ModuloIA.h"
 
 
 class JugadorArtificial : public Jugador

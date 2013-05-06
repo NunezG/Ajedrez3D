@@ -5,15 +5,15 @@
 VistaAjedrez::VistaAjedrez(Ogre::RenderWindow* window) :
     BaseVistas()
     , textoOverlay("VACIO")
-,   mRaySceneQuery(0)
   ,mWindow(window)
 
 
 
 {
-    escenaAjedrez = EscenaAjedrez::getSingletonPtr();
-    tablero = modelo->getTablero();
-   // modelo =Modelo::getSingletonPtr();
+    modelo =Modelo::getSingletonPtr();
+
+   // escenaAjedrez = EscenaAjedrez::getSingletonPtr();
+    tablero = modelo->escenaAjedrez->getTablero();
 
 
 
@@ -21,7 +21,6 @@ VistaAjedrez::VistaAjedrez(Ogre::RenderWindow* window) :
 
 VistaAjedrez::~VistaAjedrez(void)
 {    
-    escenaAjedrez->mSceneMgr->destroyQuery(mRaySceneQuery);
 }
 
 
@@ -35,7 +34,7 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 
 
 
-        escenaAjedrez->rotacionCamara(Ogre::Degree(1));
+        modelo->escenaAjedrez->rotacionCamara(Ogre::Degree(1));
       //  escenaAjedrez->mueveCamaraIzquierda();
         //   mCamera->moveRelative(Ogre::Vector3(-1,0,0));//yaw(Ogre::Degree(-1.25f));
     }
@@ -43,7 +42,7 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
     if (arg.key == OIS::KC_D || arg.key == OIS::KC_RIGHT)
     {
 
-        escenaAjedrez->rotacionCamara(Ogre::Degree(-1));
+        modelo->escenaAjedrez->rotacionCamara(Ogre::Degree(-1));
 
 
       //  escenaAjedrez->mueveCamaraDerecha();
@@ -62,7 +61,7 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 { 
 
-    escenaAjedrez->noMueveCamara();
+    modelo->escenaAjedrez->noMueveCamara();
 
 
     return true;
@@ -71,9 +70,9 @@ bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 {
 
-    if (escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
+    if (modelo->escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
     {
-        escenaAjedrez->rotacionCamara(Ogre::Degree(arg.state.X.rel)); // con grados?
+        modelo->escenaAjedrez->rotacionCamara(Ogre::Degree(arg.state.X.rel)); // con grados?
     }
 
     else if (tablero->fichaSeleccionada)
@@ -82,7 +81,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         int posx = arg.state.X.abs;   // Posicion del puntero
         int posy = arg.state.Y.abs;   //  en pixeles.
 
-        Ogre::RaySceneQueryResult &result = executeRay(posx, posy, 'C');
+        Ogre::RaySceneQueryResult &result = modelo->escenaAjedrez->executeRay(posx, posy, 'C');
 
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
@@ -110,7 +109,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
     {
         // the further the camera is, the faster it moves
-        escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
+        modelo->escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
     }
 
     //  mInputMan->injectMouseMove(arg); //CAMBIA NOMBRE POR MUEVECAMARA
@@ -141,12 +140,12 @@ bool VistaAjedrez::mueveCamara(float frecuencia)
         //Rota la camara
         if (rot > tablero->rotacionCamara){
 
-            escenaAjedrez->rotacionCamara(tablero->rotacionCamara);
+            modelo->escenaAjedrez->rotacionCamara(tablero->rotacionCamara);
             tablero->rotacionCamara = Ogre::Real(0.0f);
 
 
         }else {
-            escenaAjedrez->rotacionCamara(rot);
+            modelo->escenaAjedrez->rotacionCamara(rot);
             tablero->rotacionCamara = tablero->rotacionCamara - rot;
         }
 
@@ -213,7 +212,7 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
 
            //   }
     }else {
-        escenaAjedrez->empezarModoCamara();
+        modelo->escenaAjedrez->empezarModoCamara();
 
     }
     //  mInputMan->injectMouseDown(arg, id);
@@ -229,7 +228,7 @@ bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID
 {
     bool mbMiddle= (id == OIS::MB_Middle);
 
-    if(mbMiddle) escenaAjedrez->acabarModoCamara();
+    if(mbMiddle) modelo->escenaAjedrez->acabarModoCamara();
 
 
     //  mInputMan->injectMouseUp(arg, id);
@@ -239,61 +238,6 @@ bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID
 
 
 
-
-
-Ogre::RaySceneQuery* VistaAjedrez::createRayQuery(void)
-{
-    // Create the camera
-    mRaySceneQuery = escenaAjedrez->mSceneMgr->createRayQuery(Ogre::Ray());
-    return mRaySceneQuery;
-}
-
-
-Ogre::RaySceneQueryResult& VistaAjedrez::executeRay(int posx, int posy, char mascara)
-{
-
-    Ogre::uint32 mask;
-
-
-    switch (mascara)
-    {
-
-    case 'C':
-        mask = CASILLA;
-        break;
-
-
-    case 'N':
-        mask =  NEGRAS;
-        break;
-
-
-    case 'B':
-        mask = BLANCAS;
-        break;
-
-    default:
-        mask = TABLERO;
-
-        break;
-    }
-
-    Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
-
-    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
-    return result;
-}
-
-Ogre::Ray VistaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)
-{
-    Ogre::Ray rayMouse = escenaAjedrez->mCamera->getCameraToViewportRay
-            (posx/float(win->getWidth()), posy/float(win->getHeight()));
-
-    mRaySceneQuery->setRay(rayMouse);
-    mRaySceneQuery->setSortByDistance(true);
-    mRaySceneQuery->setQueryMask(mask);
-    return (rayMouse);
-}
 
 
 bool VistaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
@@ -307,7 +251,7 @@ bool VistaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
     }
 
     //EMPIEZA RAYO
-    Ogre::RaySceneQueryResult &result =executeRay(posX,posY,'C');
+    Ogre::RaySceneQueryResult &result =modelo->escenaAjedrez->executeRay(posX,posY,'C');
     Ogre::RaySceneQueryResult::iterator it;
     it = result.begin();
 

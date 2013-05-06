@@ -29,6 +29,8 @@ ControlJuego& ControlJuego::getControlSingleton()
 bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
+   // std::cout << "frameRenderingQueued"<< std::endl;
+
 
     if(punteroVentana -> pantallaActual() == 0)
     {
@@ -127,20 +129,24 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 
     }
 
-    static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->setSceneManager(mRoot);
+    modelo->escenaAjedrez->setSceneManager(mRoot);
+    modelo->escenaAjedrez->createCamera();
 
-    static_cast<VistaAjedrez*>(punteroVentana->vista)->createRayQuery();
+
+    modelo->escenaAjedrez->createRayQuery();
 
    // escenaAjedrez->createCamera();
     //mInputMan->setTopSpeed(100);
 
 
-    static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->createViewports(punteroVentana->getVentana());
+    modelo->escenaAjedrez->createViewports(punteroVentana->getVentana());
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 
-    static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->createScene();
+
+
+    modelo->escenaAjedrez->createScene();
 
     return true;
 }

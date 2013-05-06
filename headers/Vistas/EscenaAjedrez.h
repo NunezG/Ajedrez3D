@@ -4,7 +4,7 @@
 
 
 
-#include "../Modelo/Modelo.h"
+//#include "../Modelo/Modelo.h"
 
 #include <OgreCamera.h>
 #include <OgreEntity.h>
@@ -20,6 +20,12 @@
 //#include "InputMan.h"
 //#include "Tablero.h"
 
+
+#include "../Modelo/Tablero.h"
+
+
+#include "../Modelo/JugadorArtificial.h"
+#include "../Modelo/JugadorHumano.h"
 
 
 
@@ -51,22 +57,12 @@ public:
 
     void setSceneManager(Ogre::Root* mRoot);
 
-    void mueveCamaraIzquierda();
-    void mueveCamaraDerecha();
 
-    bool vaIzquierda();
-    bool vaDerecha();
-
-    void noMueveCamara();
-
-    bool esModoCamara();
-
-    void empezarModoCamara();
-    void acabarModoCamara();
 
     void DistanciaCamara(int distanciaRelativa);
 
     void rotacionCamara(Ogre::Degree angulo);
+    void destruyeTablero();
 
 
     Ogre::SceneNode* mTarget;
@@ -78,7 +74,28 @@ public:
    Ogre::SceneManager* mSceneMgr;
    Ogre::Camera* mCamera;
 
+   Tablero* getTablero();
+
+   Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
+   Ogre::RaySceneQuery* createRayQuery(void);
+
+
+
+   bool vaIzquierda();
+   bool vaDerecha();
+ bool esModoCamara();
+ void mueveCamaraIzquierda();
+ void mueveCamaraDerecha();
+
+ void noMueveCamara();
+
+ void empezarModoCamara();
+ void acabarModoCamara();
 private:   
+   Ogre::RaySceneQuery *mRaySceneQuery;
+
+
+   Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
     //Ogre::Entity *entTablero;
      //Singleton;
@@ -94,18 +111,19 @@ private:
 
     // InputMan::SdkCameraMan* mInputMan;
 
-    bool mGoingLeft;
     //  bool mCambiaTurno;
-    bool mGoingRight;
 
-    bool mOrbiting;
 
     Ogre::RenderWindow* mWindow;
 
 
     Ogre::Real mTopSpeed;
+    bool mGoingLeft;
 
-    Modelo* modelo;
+    bool mGoingRight;
+
+    bool mOrbiting;
+  //  Modelo* modelo;
 
 };
 

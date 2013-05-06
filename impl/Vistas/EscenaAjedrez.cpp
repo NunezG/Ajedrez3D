@@ -1,35 +1,58 @@
 
-#include "../../headers/Modelo/EscenaAjedrez.h"
+#include "../../headers/Vistas/EscenaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::EscenaAjedrez(void) :
     mCamera(0)
   //, mInputMan(0)
+  , tablero(NULL)
+  , mTarget(0)
+  , mTopSpeed(150)
+  ,   mRaySceneQuery(0)
   , mOrbiting(false)
   , mGoingLeft(false)
   , mGoingRight(false)
-  , mTarget(0)
-  , mTopSpeed(150)
-
   , columnas("ABCDEFGH")
 {
 
 
-    modelo = Modelo::getSingletonPtr();
-    tablero = modelo->getTablero();
+   // modelo = Modelo::getSingletonPtr();
+    tablero = new Tablero();
+
 
 }
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::~EscenaAjedrez(void)
 {
+    mSceneMgr->destroyQuery(mRaySceneQuery);
+
     // if (mInputMan) delete mInputMan;
+
+}
+
+
+
+Tablero* EscenaAjedrez::getTablero()
+{
+return tablero;
+
+}
+
+
+
+void EscenaAjedrez::destruyeTablero(){
+   //delete mSceneMgr;
+
+    delete tablero;
+
+    tablero = NULL;
+
 
 }
 
 void EscenaAjedrez::setSceneManager(Ogre::Root* mRoot)
 {
    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
-   createCamera();
 }
 
 
@@ -86,27 +109,6 @@ EscenaAjedrez* EscenaAjedrez::getSingletonPtr()
 }
 
 
-void EscenaAjedrez::mueveCamaraIzquierda()
-{
-    mGoingLeft = true;
-}
-
-void EscenaAjedrez::mueveCamaraDerecha()
-{
-    mGoingRight = true;
-}
-
-void EscenaAjedrez::noMueveCamara()
-{
-    mGoingRight = false;
-    mGoingLeft = false;
-}
-
-void EscenaAjedrez::empezarModoCamara()
-{
-    //mInputMan->entrarModoCamara();
-    mOrbiting = true;
-}
 
 void EscenaAjedrez::DistanciaCamara(int distanciaRelativa)
 {
@@ -163,26 +165,7 @@ void EscenaAjedrez::rotacionCamara(Ogre::Degree angulo)
     //return true;
 }
 
-bool EscenaAjedrez::vaIzquierda(){
 
-    return mGoingLeft;
-}
-
-bool EscenaAjedrez::vaDerecha(){
-    return mGoingRight;
-}
-
-bool EscenaAjedrez::esModoCamara()
-{
-    return mOrbiting;
-}
-
-void EscenaAjedrez::acabarModoCamara()
-{
-    std::cout  << "acabarModoCamara " << std::endl;
-    //mInputMan->salirModoCamara();
-    mOrbiting = false;
-}
 
 Ogre::Camera* EscenaAjedrez::createCamera(void){
     // Create the camera
@@ -220,3 +203,102 @@ void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
 
 
 
+
+
+Ogre::RaySceneQuery* EscenaAjedrez::createRayQuery(void)
+{
+    // Create the camera
+    mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
+    return mRaySceneQuery;
+}
+
+
+Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char mascara)
+{
+
+    Ogre::uint32 mask;
+
+
+    switch (mascara)
+    {
+
+    case 'C':
+        mask = CASILLA;
+        break;
+
+
+    case 'N':
+        mask =  NEGRAS;
+        break;
+
+
+    case 'B':
+        mask = BLANCAS;
+        break;
+
+    default:
+        mask = TABLERO;
+
+        break;
+    }
+
+    Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
+
+    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
+    return result;
+}
+
+Ogre::Ray EscenaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)
+{
+    Ogre::Ray rayMouse = mCamera->getCameraToViewportRay
+            (posx/float(win->getWidth()), posy/float(win->getHeight()));
+
+    mRaySceneQuery->setRay(rayMouse);
+    mRaySceneQuery->setSortByDistance(true);
+    mRaySceneQuery->setQueryMask(mask);
+    return (rayMouse);
+}
+
+bool EscenaAjedrez::vaIzquierda(){
+
+    return mGoingLeft;
+}
+
+bool EscenaAjedrez::vaDerecha(){
+    return mGoingRight;
+}
+
+bool EscenaAjedrez::esModoCamara()
+{
+    return mOrbiting;
+}
+
+
+void EscenaAjedrez::mueveCamaraIzquierda()
+{
+    mGoingLeft = true;
+}
+
+void EscenaAjedrez::mueveCamaraDerecha()
+{
+    mGoingRight = true;
+}
+
+void EscenaAjedrez::noMueveCamara()
+{
+    mGoingRight = false;
+    mGoingLeft = false;
+}
+
+void EscenaAjedrez::empezarModoCamara()
+{
+    //mInputMan->entrarModoCamara();
+    mOrbiting = true;
+}
+
+void EscenaAjedrez::acabarModoCamara()
+{
+    std::cout  << "acabarModoCamara " << std::endl;
+    //mInputMan->salirModoCamara();
+    mOrbiting = false;
+}
