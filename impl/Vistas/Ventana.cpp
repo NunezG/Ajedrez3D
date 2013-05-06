@@ -186,9 +186,7 @@ bool Ventana::EmpiezaCEGUI()
     Ogre::LogManager::getSingletonPtr()->logMessage("*** ACABA CARGA RATON ***");
 
    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window *sheet;
-
-    sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
+    CEGUI::Window *sheet= wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
 
     sys->setGUISheet(sheet);
 
@@ -331,7 +329,11 @@ VistaAjedrez* Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 {
     delete vista;
     vista = NULL;
-    sys->getGUISheet()->setVisible(false);
+    //sys->getGUISheet()->setVisible(false);
+   // CEGUI::Window* win = sys->getGUISheet();
+
+       //win->cleanupChildren();
+
 
     if (modelo->getNumPantalla() == 1)
     {

@@ -216,7 +216,18 @@ bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 
 bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 {
-    //modelo->modoJuego = 1;
+
+
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+
+    wmgr.getWindow("Demo/NewNode")->setVisible(false);
+   // wmgr.getWindow("Demo")->setVisible(false);
+
+    wmgr.getWindow("root")->setVisible(false);
+
+    wmgr.destroyWindow("Demo/NewNode");
+    wmgr.destroyWindow("root");
+
     modelo->setNumPantalla(1);
     //modoJuego = 1;
     return true;
@@ -224,6 +235,18 @@ bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 
 bool MenuInicio::botonJuegoSolo(const CEGUI::EventArgs &e)
 {
+
+
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+
+    wmgr.getWindow("Demo/NewNode")->setVisible(false);
+   // wmgr.getWindow("Demo")->setVisible(false);
+
+    wmgr.getWindow("root")->setVisible(false);
+
+    wmgr.destroyWindow("Demo/NewNode");
+    wmgr.destroyWindow("root");
+
     modelo->setNumPantalla(2);
   //  modoJuego = 2;
     return true;

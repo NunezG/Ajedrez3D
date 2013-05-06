@@ -15,7 +15,11 @@ VistaAjedrez::VistaAjedrez(Ogre::RenderWindow* window) :
    // escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     tablero = modelo->escenaAjedrez->getTablero();
 
+    CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("InfoAjedrez.layout");
+  //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
+
+    CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
 
 }
 
