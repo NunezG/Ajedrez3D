@@ -108,7 +108,7 @@ void ObjetoOgre::rota(int grados){
 
 ObjetoOgre* ObjetoOgre::getHijo(int numero)
 {
-    ObjetoOgre* obj = vectorHijos.at(numero);
+   // ObjetoOgre* obj = vectorHijos.at(numero);
 
 
 

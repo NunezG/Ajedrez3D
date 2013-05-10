@@ -15,6 +15,41 @@
 
 
 
+
+struct TableroPrueba
+{
+
+    // StringClass(char *ptr);
+    TableroPrueba();
+    ~TableroPrueba();
+
+    //constructor de copia
+    TableroPrueba( const TableroPrueba& original );
+
+    std::vector<TableroPrueba*> vectorMov;
+
+    int Score;
+    //  Casilla* casillas[64];
+    int* casillasInt;
+    int movimiento[2];
+    //  int numeroHijos;
+
+    int alPaso;
+    bool turnoN;
+
+    // Ficha* fichasNegras[16];
+    // Ficha* fichasBlancas[16];
+    // int casillas[8][8];
+    //TableroPrueba* tableroHermano;
+    //TableroPrueba* tableroHijo;
+  //  std::string fichaMovida;
+
+private:
+
+};
+
+
+
 enum enColummas{
     COL_A,
     COL_B,
@@ -28,7 +63,7 @@ enum enColummas{
 };
 
 // ESTE SERÁ EL NODO USADO EN LOS ÁRBOLES
-class Tablero: public ObjetoOgre
+class Tablero: public ObjetoOgre, public TableroPrueba
 {
 public:
 
@@ -60,14 +95,14 @@ public:
 
     bool FichaComestible();
 
-    int* actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
+    void actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
 
     int* traduceTablero();
 
     int* mueveYTraduceTablero();
 
 
-    std::string columnas;
+   // std::string columnas;
 
    Ogre::SceneManager* mSceneMgr;
    bool fichaSeleccionada;
@@ -75,7 +110,7 @@ public:
 
    void promocionaPeon();
 
-   bool turnoNegras;
+ //  bool turnoNegras;
    void cambiaTurno();
 
 private:
@@ -96,27 +131,32 @@ private:
    int evaulaTablero(const int casillasInt[144]);
    short traduceFicha(tipoFicha tipo);
 
-    int nivel;
+   // int nivel;
 
-    int alPaso;
+   // int alPaso;
 
     int peonesPromocionados;
 
     Casilla* _selectedNode;
     Casilla* _nodoNuevo;
 
+
+
+   /*
      bool jaqueNegras;
      bool mateNegras;
      bool jaqueBlancas;
      bool mateBlancas;
-     bool ahogado;
+
+   */
+  //   bool ahogado;
 
   //  Ficha* fichasNegras[16];
   //  Ficha* fichasBlancas[16];
 
    // Ogre::SceneNode* nodoTablero;
 
-    Tablero* listaNodos[];
+   // Tablero* listaNodos[];
 
    // int casillas[8][8];
 

@@ -4,6 +4,9 @@
 #include "Jugador.h"
 #include "../Modelo/Autorizaciones.h"
 
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 
 class JugadorHumano : public Jugador
 {
@@ -31,6 +34,8 @@ protected:
 
 
 private:  
+
+    CEGUI::Window *ventanaJaque;
    // Ventana* ventana;
 
 

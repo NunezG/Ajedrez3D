@@ -3,17 +3,16 @@
 
 
 Tablero::Tablero() :
-    columnas("ABCDEFGH")
-  , ObjetoOgre("Tablero")
-  ,alPaso(0)
-  , turnoNegras(false)
+    ObjetoOgre("Tablero")
+  //,alPaso(0)
+  //, turnoNegras(false)
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , peonesPromocionados(0)
   ,    fichaSeleccionada(false)
   , rotacionCamara(0)
-
 {
+
 
 
 }
@@ -51,7 +50,7 @@ void Tablero::setAlPaso(int casilla)
 
 
 bool Tablero::getTurnoNegras(){
-    return turnoNegras;
+    return turnoN;
 }
 
 
@@ -107,6 +106,8 @@ bool Tablero::FichaComestible()
 
 void Tablero::creaCasillas()
 {
+    std::string columnas ="ABCDEFGH";
+
     int contFila = 0;
     enColummas contColumna = COL_A;
     std::stringstream saux;
@@ -407,7 +408,7 @@ int Tablero::evaulaTablero(const int casillasInt[144])
         {
 
             //MIRA SI ATACAN A LA
-            if (turnoNegras){
+            if (turnoN){
                 if (casillasInt[(i*12)+y]  == 6)
                 {
 
@@ -437,7 +438,8 @@ int Tablero::evaulaTablero(const int casillasInt[144])
 void Tablero::cambiaTurno()
 {
     //CAMBIA TURNO
-    //NOTIFICAR A LAS VISTAS?? AL FUNCIONAR CON FRAMES EN REALIDAD NO HACE FALTA NOTIFICAR
+    //NOTIFICAR A LAS VISTAS?? AL FUNCIONAR EN BUCLE EN REALIDAD NO HACE FALTA NOTIFICAR
+    //COMPRUEBA JAQUE MATE
 
     promocionaPeon();
 
@@ -450,7 +452,7 @@ void Tablero::cambiaTurno()
 
     std::cout << "fin cambia "<< std::endl;
 
-    turnoNegras = !turnoNegras;
+    turnoN = !turnoN;
     std::cout << "fin "<< std::endl;
 
 }
@@ -524,15 +526,20 @@ void Tablero::promocionaPeon()
 
 }
 
-int* Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
+void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 {
     //NOTIFICAR A LAS VISTAS??
+    std::cout  << "actualizaTablero" << std::endl;
 
 
     //    Ogre::SceneNode* nodoCasillas = tablero->nodoCasillero;
 
-    // std::cout  << "actualizaTablero  : "<< casillaOrigen<< std::endl;
-    //std::cout  << "actualizaTablero  : "<< casillaDestino<< std::endl;
+    std::cout  << "actualizaTablero  : "<< casillaOrigen.Fila<< " "<< casillaOrigen.Columna<<std::endl;
+    std::cout  << "actualizaTablero  : "<< casillaDestino.Fila<< " "<< casillaDestino.Columna <<std::endl;
+
+    std::cout  << "actualizaTablero  : "<< (casillaOrigen.Fila*8)+casillaOrigen.Columna<< std::endl;
+    std::cout  << "actualizaTablero  : "<< (casillaDestino.Fila*8)+casillaDestino.Columna<< std::endl;
+
 
     Casilla* nodoCasillaTemporal = static_cast<Casilla*>(getHijo((casillaOrigen.Fila*8)+casillaOrigen.Columna));
     Casilla* casillaDestinoTemp = static_cast<Casilla*>(getHijo((casillaDestino.Fila*8)+casillaDestino.Columna));
@@ -659,8 +666,12 @@ int* Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
             alPaso = -1;
 
 
-            if( dif == 2) alPaso = ( getNodoCasillaSobrevolada()->getPosicion().Fila*8) +  getNodoCasillaSobrevolada()->getPosicion().Columna;
+            if( dif == 2){
 
+                alPaso = ( getNodoCasillaSobrevolada()->getPosicion().Fila*8) +  getNodoCasillaSobrevolada()->getPosicion().Columna;
+                std::cout  << "ALPASO EN TABLERO: " <<alPaso<<std::endl;
+
+            }
 
         }else alPaso = -1;
 
@@ -699,7 +710,7 @@ int* Tablero::traduceTablero()
     //    Ogre::SceneNode* nodoTest = tablero->nodoCasillero;
 
     // Ogre::Node::ChildNodeIterator iterator = _nodoNuevo->getChildIterator();
-   // Ogre::Node::ChildNodeIterator iterator = getNodoOgre()->getChildIterator();
+    // Ogre::Node::ChildNodeIterator iterator = getNodoOgre()->getChildIterator();
 
     //AÑADE LOS BORDES
     for (int i = 0; i<12; i++)
@@ -714,9 +725,8 @@ int* Tablero::traduceTablero()
             {
                 casillas[(i*12)+y] = 99;
 
-            }else {
-
-
+            }else
+            {
                 Casilla* casilla= static_cast<Casilla*>(getHijo(((i-2)*8)+y-2));
 
                 int filaTemp = casilla->getPosicion().Fila;
@@ -734,9 +744,9 @@ int* Tablero::traduceTablero()
                     //Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
 
                     casillas[numeroCasilla] = traduceFicha(ficha->tipo_Ficha);
-                    if (ficha->esNegra){
+                    if (ficha->esNegra)
+                    {
                         casillas[numeroCasilla] = -casillas[numeroCasilla];
-
                     }
 
                     //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
@@ -746,7 +756,6 @@ int* Tablero::traduceTablero()
                 numCasilla++;
 
             }
-
             //  std::cout << tablero->casillasInt[((i-2)*8)+y-2] << std::endl;
         }
 
@@ -754,8 +763,8 @@ int* Tablero::traduceTablero()
 
     std::cout << "traducido" << std::endl;
 
-    for(int i=0; i<12;i++){
-
+    for(int i=0; i<12;i++)
+    {
         std::cout  << casillas[(i*12)+2]<<"    "<<casillas[(i*12)+3]<<"    "<<casillas[(i*12)+4]<<"    "<<casillas[(i*12)+5]<<"    "<<casillas[(i*12)+6]<<"    "<<casillas[(i*12)+7] <<"    " <<casillas[(i*12)+8]<<"    " << casillas[(i*12)+9]<<"    " << std::endl;
     }
 
@@ -800,6 +809,59 @@ short Tablero::traduceFicha(tipoFicha tipo)
     }
 }
 
+
+
+
+TableroPrueba::TableroPrueba() :
+    //numeroHijos(0),
+    Score(0),
+    //fichaMovida(""),
+    vectorMov(0),
+    turnoN(false),
+    alPaso(0)
+
+
+{
+}
+
+TableroPrueba::TableroPrueba( const TableroPrueba& original ):
+  //  numeroHijos(0),
+    Score(0),
+    // fichaMovida(""),
+    vectorMov(0),
+    turnoN(!original.turnoN),
+    alPaso(original.alPaso)
+{
+    casillasInt = new int[144];
+
+
+    for(int i=0; i<144;i++)
+    {
+
+
+        casillasInt[i] = original.casillasInt[i];
+    }
+}
+
+TableroPrueba::~TableroPrueba()
+{
+
+
+
+    for(int i = 0; i < vectorMov.size(); i++)
+    {
+
+        delete vectorMov.at(i);
+
+        vectorMov.at(i) = NULL;
+    }
+
+  //  numeroHijos=0;
+
+    vectorMov.clear();
+
+
+}
 
 
 /*

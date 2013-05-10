@@ -49,12 +49,53 @@ void JugadorArtificial::calculaMovimiento(){
 
     ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
 
-    modulo->construyeArbol(miTablero->traduceTablero());
 
 
-    if (modulo->tableroElegido != NULL)
+    TableroPrueba* tableroPadre = new TableroPrueba();
+
+    tableroPadre->turnoN = true;
+
+
+
+    std::cout << "CONSTRUYE ARBOL CO ALPASO:" << miTablero->alPaso<< std::endl;
+
+
+    int fila = (miTablero->alPaso/8)+2;
+    int col= (miTablero->alPaso%8)+2;
+
+    tableroPadre->casillasInt = new int[144];
+    tableroPadre->alPaso = 144-((fila*12)+col);
+    std::cout << "TRADUCIDO:" << tableroPadre->alPaso<< std::endl;
+
+    ////////////////////////////////////////////////////////////////////////////////////7
+    tableroPadre->casillasInt = miTablero->traduceTablero();
+
+
+    //  tablero->Score = 2;
+/*
+    for (int i = 0; i<144; i++)
     {
-        //std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
+
+
+        tableroPadre->casillasInt[i] = listaCasillas[i];
+
+
+
+    }
+
+
+
+   */
+
+
+
+    bool result = modulo->construyeArbol(tableroPadre);
+
+    std::cout  << "IFFF " << std::endl;
+
+    if (result == true && modulo->tableroElegido != NULL)
+    {
+        std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
         //    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
         //    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
 
@@ -62,14 +103,20 @@ void JugadorArtificial::calculaMovimiento(){
 
         modulo->tableroElegido = NULL;
 
-    } //else std::cout  << "NO HAY FICHA EN CONTROL, SE SUPONE JAQUE MATE O AHOGADO " << std::endl;
+    }else{
+
+
+
+         std::cout  << "NO HAY FICHA EN CONTROL, SE SUPONE JAQUE MATE O AHOGADO " << std::endl;
+
+    }
 
     //  std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
 
-    delete modulo->tableroPadre;
+    delete tableroPadre;
 
     //  std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
-    modulo->tableroPadre = NULL;
+    tableroPadre = NULL;
 
     modulo = NULL;
 
@@ -105,6 +152,9 @@ bool JugadorArtificial::esHumano()
 int* JugadorArtificial::mueveIA(int origen, int destino)
 {
 
+    std::cout  << "mueve" <<  origen << std::endl;
+
+    std::cout  << "mueve" <<  destino << std::endl;
 
     posicion orig;
     orig.Fila = (origen/12)-2;
@@ -151,6 +201,9 @@ int* JugadorArtificial::mueveIA(int origen, int destino)
     //std::cout  << "destinoBaseOcho "<< destinoBaseOcho.str() << std::endl;
 
     miTablero->actualizaTablero(orig,dest );
+
+    std::cout  << "cambiaturno " << std::endl;
+
 
     miTablero->cambiaTurno();
 }

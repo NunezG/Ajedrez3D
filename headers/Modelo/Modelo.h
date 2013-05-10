@@ -13,6 +13,9 @@ class Modelo
 public:
 
     std::string resolucion;
+    std::string nombreBlancas;
+    std::string nombreNegras;
+
     bool salirPulsado;
 
     ModeloMenu* menu;

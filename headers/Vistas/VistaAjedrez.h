@@ -28,6 +28,9 @@ public:
 
 
     bool seleccionaFichaEnPosicion(int posX, int posY);
+    bool muestraJaque();
+
+    CEGUI::Window *ventanaJaque;
 
 
 protected:

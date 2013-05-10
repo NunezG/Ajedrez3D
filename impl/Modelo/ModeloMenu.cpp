@@ -64,13 +64,13 @@ CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento,
     Ogre::LogManager::getSingletonPtr()->logMessage("*** MENU DESPLEGABLE***");
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
-   // CEGUI::Listbox* listaReal = static_cast<CEGUI::Listbox*>(wmgr.createWindow("TaharezLook/Listbox",nombre));
+    // CEGUI::Listbox* listaReal = static_cast<CEGUI::Listbox*>(wmgr.createWindow("TaharezLook/Listbox",nombre));
 
     // new  CEGUI::Listbox("TaharezLook/Listbox","ListaDesplegabl");
     //
     //
 
-   // listaReal->show();
+    // listaReal->show();
     //   listaReal->setRenderingSurface();
 
     CEGUI::colour col;
@@ -83,7 +83,7 @@ CEGUI::Listbox* ModeloMenu::creaMenuDesplegable(CEGUI::Event::Subscriber evento,
     Ogre::LogManager::getSingletonPtr()->logMessage("*** for***");
 
 
-CEGUI::ListboxTextItem* elementoLista;
+    CEGUI::ListboxTextItem* elementoLista;
 
 
     for (int i = 0; i < listaElementos.size(); i++)
@@ -91,7 +91,7 @@ CEGUI::ListboxTextItem* elementoLista;
 
         Ogre::LogManager::getSingletonPtr()->logMessage("*** un for***");
 
-         elementoLista= new CEGUI::ListboxTextItem(std::string(*listaElementos.at(i)));
+        elementoLista= new CEGUI::ListboxTextItem(std::string(*listaElementos.at(i)));
 
         //elementoLista->setSelectionColours(col );
 
@@ -111,7 +111,7 @@ CEGUI::ListboxTextItem* elementoLista;
     //  lista = wmgr.createWindow("TaharezLook/Listbox", nombre);
     // lista->setText(nombre);
 
-  //  listaReal->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2*posBoton,0)));
+    //  listaReal->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2*posBoton,0)));
 
     //listaReal->setSize(CEGUI::UVector2(CEGUI::UDim(0.15,0),CEGUI::UDim(0.2,0)));
 

@@ -4,7 +4,8 @@ Modelo::Modelo() :
    mPantalla(0)
   , salirPulsado(0)
    , numJugadores(0)
-
+ ,nombreBlancas("Jugador 1")
+ , nombreNegras("Jugador 2")
 
   //,  jugadores(NULL)
 

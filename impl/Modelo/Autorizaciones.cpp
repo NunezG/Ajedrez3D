@@ -5,7 +5,7 @@
 bool Autorizaciones::autorizaCasilla(Tablero* miTablero)
 {
     Casilla* nodoSeleccionado = miTablero->getNodoCasillaSeleccionada();
-     Casilla* nodoSobrevolado = miTablero->getNodoCasillaSobrevolada();
+    Casilla* nodoSobrevolado = miTablero->getNodoCasillaSobrevolada();
 
     // elTablero = miTablero;
     posicion seleccionado = nodoSeleccionado->getPosicion();
@@ -33,7 +33,7 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero)
     case Rey: //REY SELECCIONADO
         std::cout << "rey" << std::endl;
 
-        return autorizaRey(diferencia,nodoSobrevolado->getPosicion(), miTablero, miTablero->getTurnoNegras());
+        return autorizaRey(diferencia,nodoSobrevolado->getPosicion(), miTablero);
         break;
 
     case Reina: //REINA SELECCIONADO
@@ -64,7 +64,7 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero)
         std::cout << "peon" << std::endl;
 
 
-        return autorizaPeon(diferencia, nodoSobrevolado, seleccionado, miTablero->getTurnoNegras(), miTablero);
+        return autorizaPeon(diferencia, nodoSobrevolado, seleccionado, miTablero);
         break;
 
     default:
@@ -85,16 +85,6 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
     int fichaCaballo = 2;
     int fichaTorre = 4;
 
-    if (!turnoNegras)
-    {
-        fichaRey = -6;
-
-        fichaReina = -5;
-        fichaPeon = -1;
-        fichaAlfil = -3;
-        fichaCaballo = -2;
-        fichaTorre = -4;
-    }
 
     for (int i=0; i<144;i++)
     {
@@ -106,7 +96,6 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
 
     if (posRey != 999)
     {
-        //HACER PARA BLANCAS Y NEGRAS
 
         //N
         int ficha= 0;
@@ -480,11 +469,11 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
     return false;
 }
 
-bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado, posicion seleccionado, bool turnoNegras, Tablero* miTablero)
+bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado, posicion seleccionado, Tablero* miTablero)
 {
 
 
-    if (turnoNegras)
+    if (miTablero->getTurnoNegras())
     {
         //Invierte la coordenada X de los peones negros
         // seleccionado.Fila = 7 - seleccionado.Fila;
@@ -509,10 +498,10 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado,
     if (diferencia.Columna == 0)
     {
         if (diferencia.Fila== 2
-                && ((seleccionado.Fila == 1 && !turnoNegras) || (seleccionado.Fila == 6 && turnoNegras)))
+                && ((seleccionado.Fila == 1 && !miTablero->getTurnoNegras()) || (seleccionado.Fila == 6 && miTablero->getTurnoNegras())))
         {
             //SALTA 2 CASILLAS (ESCAQUES)
-            if (turnoNegras) return verificaCamino(diferencia.Fila, nodoSobrevolado->getPosicion(), 2, miTablero);
+            if (miTablero->getTurnoNegras()) return verificaCamino(diferencia.Fila, nodoSobrevolado->getPosicion(), 2, miTablero);
             else return verificaCamino(diferencia.Fila, nodoSobrevolado->getPosicion(), 1, miTablero);
 
         }
@@ -542,7 +531,7 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado,
             return true;
         }else
         {
-            //AL PASO, HAY QUE MEJORARLO SABIENDO QUE SOLO PUEDE HABER UNA FICHA QUE SALTE A LA VEZ (SE PUEDE GUARDAR EN UN INT LA POSICION O 0 SI NO HAY FICHA AL PASO)
+            //AL PASO
             posicion casillaLateral;
             // int casillaLateral = (seleccionado.Fila*8) + seleccionado.Columna;
 
@@ -558,28 +547,9 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado,
             std::cout  << "casillaLateral.col "<<casillaLateral.Columna<<std::endl;
 
             int posCasilla = (casillaLateral.Fila*8) + casillaLateral.Columna;
+            miTablero->setAlPaso(posCasilla);
 
-            if (miTablero->getAlPaso() == (casillaLateral.Fila*8)+casillaLateral.Columna)
-            {
-              //  Casilla* casilla = static_cast<Casilla*>(miTablero->getHijo(posCasilla));
-             //   if (!casilla->sinHijos())
-
-               // {
-                    std::cout  << "tiene ficha "<<std::endl;
-
-
-                   // Ficha* fichaLateral = static_cast<Ficha*>(casilla->getHijo(0));
-
-                  //  if (fichaLateral->salto)
-                  //  {
-                        std::cout  << "COME AL PASO "<<std::endl;
-
-                        return true;
-                  //  }else  std::cout  << "no salta "<<std::endl;
-
-
-               // }
-            }
+            return true;
 
 
 
@@ -622,7 +592,7 @@ bool Autorizaciones::autorizaReina(posicion diferencia, posicion nodoSobrevolado
     else return autorizaTorre(diferencia, nodoSobrevolado, miTablero);
 }
 
-bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, Tablero* miTablero, bool turnoNegras)
+bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, Tablero* miTablero)
 {
     if ((diferencia.Fila==1||diferencia.Fila==-1||diferencia.Fila==0)
             && (diferencia.Columna==1||diferencia.Columna==-1||diferencia.Columna==0))
@@ -659,8 +629,8 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
                 if(ficha->tipo_Ficha == Torre)
                 {
 
-                    if ((!turnoNegras && nodoSobrevolado.Fila == 0) ||
-                            (turnoNegras && nodoSobrevolado.Fila == 7)){
+                    if ((!miTablero->getTurnoNegras() && nodoSobrevolado.Fila == 0) ||
+                            (miTablero->getTurnoNegras() && nodoSobrevolado.Fila == 7)){
 
 
                         if(diferencia.Columna == 2)
@@ -805,4 +775,890 @@ bool Autorizaciones::verificaCamino(int distancia, posicion _nodoNuevo, int cami
             return false;
     }
     return true;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void Autorizaciones::generaMovimientos(TableroPrueba* miTablero)
+{
+    // TableroPrueba nuevoTablero;
+    //  std::cout << "!!!!!!!!!!!!!!!!!!GENERA MOVI!!!!!!!!!!!!!!!!!!!" << std::endl;
+
+    //BUSCA EN EL TABLERO LAS FICHAS Y SEGUN SU TIPO VA GENERANDO LOS MOVIMIENTOS
+
+    std::cout << "generamov"<< std::endl;
+
+
+    miTablero->vectorMov.clear();
+
+    std::cout << "generamov222"<< std::endl;
+
+
+    int rey = 6;
+    int reina = 5;
+    int torre = 4;
+    int alfil = 3;
+    int caballo = 2;
+    int peon = 1;
+
+    if (miTablero->turnoN){
+        normalizaTablero(miTablero->casillasInt);
+    }
+
+
+    for (int i = 2; i<10;i++)
+    {
+        for (int y = 2; y<10;y++)
+        {
+            std::cout << "FOR"<< miTablero->casillasInt[(i*12)+y] << std::endl;
+
+
+            // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
+            if (miTablero->casillasInt[(i*12)+y] == rey)
+            {
+                std::cout << "REY"<< std::endl;
+
+
+                //ENCUENTRA REY BLANCO
+
+                mueveRey(miTablero, (i*12)+y);
+
+            }
+
+            // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
+            if (miTablero->casillasInt[(i*12)+y] == reina)
+            {
+
+                //ENCUENTRA REY BLANCO
+
+                mueveReina(miTablero, (i*12)+y);
+
+            }
+
+            // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
+            if (miTablero->casillasInt[(i*12)+y] == torre)
+            {
+
+                //ENCUENTRA REY BLANCO
+
+                mueveTorre(miTablero, (i*12)+y);
+
+            }
+
+            // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
+            if (miTablero->casillasInt[(i*12)+y] == alfil)
+            {
+
+
+                //ENCUENTRA REY BLANCO
+
+                mueveAlfil(miTablero, (i*12)+y);
+
+            }
+
+            // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
+            if (miTablero->casillasInt[(i*12)+y] == caballo)
+            {
+
+                //ENCUENTRA REY BLANCO
+
+                mueveCaballo(miTablero, (i*12)+y);
+
+            }
+
+            // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
+            if (miTablero->casillasInt[(i*12)+y] == peon)
+            {
+                std::cout << "!!!!!!!!!!!!!!!!!!UN MUEVE PEON!!!!!!!!!!!!!!!!!!!" << std::endl;
+
+
+                //ENCUENTRA REY BLANCO
+
+                muevePeon(miTablero, (i*12)+y);
+                //   std::cout << "!!!!!!!!!!!!!!!!!!ACABA MUEVE PEON!!!!!!!!!!!!!!!!!!!" << std::endl;
+
+
+            }
+
+
+        }
+    }
+
+    std::cout << "!!!!!!!!!!!!!!!!!!ACABA MOVI!!!!!!!!!!!!!!!!!!!: "<<  miTablero->vectorMov.size()<< std::endl;
+    if (miTablero->turnoN){
+        normalizaTablero(miTablero->casillasInt);
+    }
+
+    if (miTablero->vectorMov.size() == 0){
+        std::cout << "JAQUE MATE O AHOGADO!!!!!!!!!!: "<< std::endl;
+
+    }
+    //  std::cout << "generamov"<< std::endl;
+
+
+
+}
+
+//HABRA QUE REALIZAR TODOS LOS MOVIMIENTOS CON LA TABLA ACTUAL Y PONERLOS EN UN ARBOL? HACERLO RECURSIVO?
+
+
+
+bool Autorizaciones::mueveTorre(TableroPrueba* miTablero,const int casilla)
+{
+    //mueve a todas las casillas posibles
+
+    //mira si esta ocupada
+
+    int nuevaCasilla = casilla-1;
+    bool come = false;
+    bool pasa = false;
+
+    while(nuevaCasilla%12 >2)
+    {
+
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (come) break;
+        } else break;
+
+        nuevaCasilla = nuevaCasilla-1;
+    }
+
+    nuevaCasilla = casilla+1;
+    pasa = false;
+    while(nuevaCasilla%12 <10)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (come) break;
+
+        } else break;
+        nuevaCasilla = nuevaCasilla+1;
+    }
+
+    nuevaCasilla = casilla-12;
+    pasa = false;
+    while(nuevaCasilla/12 > 2)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (come) break;
+
+        } else break;
+        nuevaCasilla = nuevaCasilla-12;
+    }
+
+    nuevaCasilla = casilla+12;
+    pasa = false;
+    while(nuevaCasilla/12 < 10)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (come) break;
+        } else break;
+        nuevaCasilla = nuevaCasilla+12;
+    }
+}
+
+
+bool Autorizaciones::mueveReina(TableroPrueba* miTablero, int casilla)
+{
+    mueveTorre(miTablero, casilla);
+    mueveAlfil(miTablero, casilla);
+}
+
+void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
+{
+    int nuevaCasilla;
+    int casillaCome;
+    int casillaComeSec;
+    int salto;
+
+    std::cout << "HAY AL PASO?"<< miTablero->alPaso << std::endl;
+
+    //FALTA AL PASO!!!!!!!!!!!!!!!!!!!!!
+
+
+
+    if (miTablero->turnoN)
+    {
+        //  std::cout << "!!!!!!!!!!!TURNO NEGRAS!!!!!!!!!!" << std::endl;
+        salto = casilla-24;
+        nuevaCasilla = casilla-12;
+        casillaCome = casilla-11;
+        casillaComeSec= casilla-13;
+        //  std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
+        // std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
+
+        if(casilla > 96 && miTablero->casillasInt[salto] == 0)
+        {
+
+            aplicaMovimiento(*miTablero, casilla, salto);
+        }
+
+        if(miTablero->casillasInt[nuevaCasilla] == 0)
+        {
+            //PROMOCION A REINA
+            if (nuevaCasilla < 36)
+            {
+                //        miTablero->casillasInt[nuevaCasilla] = 0;
+                //        peonEnemigo == true;
+
+                miTablero->casillasInt[casilla] = 5;
+            }
+
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        }
+
+        //   nuevaCasilla = casilla+1;
+        //    bool peonEnemigo = false;
+
+        if (miTablero->casillasInt[casillaCome] < 0 || (miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaCome] == 0))
+        {
+
+            std::cout << "NEGRAS COME O AL PASO 1"<< std::endl;
+
+
+
+            aplicaMovimiento(*miTablero, casilla, casillaCome);
+        }
+
+        if (miTablero->casillasInt[casillaComeSec] < 0 || (miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaComeSec] == 0))
+        {
+            std::cout << "NEGRAS COME O AL PASO 2"<< std::endl;
+
+
+            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+        }
+    }else
+    {
+        salto = casilla+24;
+        nuevaCasilla = casilla+12;
+        casillaCome = casilla+11;
+        casillaComeSec= casilla+13;
+
+
+
+        if(casilla < 48 && miTablero->casillasInt[salto] == 0 )
+        {
+
+            aplicaMovimiento(*miTablero, casilla, salto);
+        }
+
+
+        //   std::cout << "!!!!!!!!!!!TURNO BLANCAS!!!!!!!!!!" << std::endl;
+        if (miTablero->casillasInt[nuevaCasilla] == 0)
+        {
+            if (nuevaCasilla > 122){
+                miTablero->casillasInt[casilla] = 5;
+            }
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        }
+        //   std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
+        //std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
+
+        if (miTablero->casillasInt[casillaCome] < 0 || (miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaCome] == 0 ))
+        {
+            std::cout << "BLANCAS COME O AL PASO 1"<< std::endl;
+
+
+            aplicaMovimiento(*miTablero, casilla, casillaCome);
+        }
+
+        if (miTablero->casillasInt[casillaComeSec] < 0 || (miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaComeSec] == 0))
+        {
+            std::cout << "BLANCAS COME O AL PASO 2"<< std::endl;
+
+
+            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+        }
+    }
+
+    // std::cout << "!!!!FIN!!!!!!!!!!!!!!!: "  <<std::endl;
+
+    //  for (int i = 0;  i< miTablero->vectorMov.size(); i++)
+    //    {
+    //     TableroPrueba puntTab = miTablero->vectorMov.at(i);
+    //      std::cout << "!!!MUEVE DE: " <<    puntTab.movimiento[0]  << std::endl;
+    //      std::cout << "!!!A: " <<    puntTab.movimiento[1]  << std::endl;
+
+    //  }
+}
+
+bool Autorizaciones::mueveAlfil(TableroPrueba* miTablero, int casilla)
+{
+    int nuevaCasilla = casilla-13;
+
+    bool pasa = false;
+    bool come;
+
+    while(nuevaCasilla%12 >2 && nuevaCasilla/12 >2)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (come) break;
+
+        } else break;
+
+        nuevaCasilla = nuevaCasilla-13;
+    }
+
+    nuevaCasilla = casilla-11;
+    pasa = false;
+    while(nuevaCasilla%12 < 10 && nuevaCasilla/12 >2)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (come) break;
+
+        } else break;
+
+        nuevaCasilla = nuevaCasilla-11;
+    }
+
+    nuevaCasilla = casilla+13;
+    pasa = false;
+    while(nuevaCasilla%12 < 10 && nuevaCasilla/12 < 10)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (come) break;
+        } else break;
+
+        nuevaCasilla = nuevaCasilla+13;
+    }
+
+    nuevaCasilla = casilla+11;
+    pasa = false;
+    while(nuevaCasilla%12 >2 && nuevaCasilla/12 < 10)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (come) break;
+        } else break;
+
+        nuevaCasilla = nuevaCasilla+11;
+    }
+}
+
+bool Autorizaciones::mueveCaballo(TableroPrueba* miTablero, int casilla)
+{
+    //HAY QUE HACERLO A PARTIR DE UNA POSICION
+
+    int nuevaCasilla;
+
+    nuevaCasilla = casilla-25;
+
+
+    bool pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+    nuevaCasilla = casilla-23;
+
+
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+
+
+
+    nuevaCasilla = casilla+25;
+
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+
+
+    nuevaCasilla = casilla+23;
+
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+
+
+    nuevaCasilla = casilla-10;
+
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+
+
+    nuevaCasilla = casilla-14;
+
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+
+
+    nuevaCasilla = casilla+10;
+
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+
+
+    nuevaCasilla = casilla+14;
+
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+
+    /*
+    diferencia[0]=-dif2;
+    diferencia[1] = dif1;
+    diferencia[1] = -dif1;
+
+
+
+    diferencia[0] = dif2;
+    diferencia[1] = dif1;
+    diferencia[1] = -dif1;
+
+
+
+    diferencia[0] = dif1;
+    diferencia[1] = dif2;
+    diferencia[1] = -dif2;
+
+
+
+    diferencia[0] == -dif1;
+    diferencia[1] == dif2;
+    diferencia[1] == -dif2;
+*/
+    // std::list<int> lista;
+
+    //devuelve una lista con todas las nuevas posiciones?
+}
+
+bool Autorizaciones::mueveRey(TableroPrueba* miTablero, int casilla)
+{
+    std::cout << "MUEVE REY"<< miTablero->turnoN<< std::endl;
+
+
+
+    int nuevaCasilla;
+
+
+
+    bool pasa = false;
+
+
+
+    if (casilla < 36)
+    {
+        //ENROQUE CORTO
+        bool torre = false;
+        nuevaCasilla = casilla-3;
+
+        pasa = false;
+
+        torre = miTablero->casillasInt[nuevaCasilla] == 4;
+
+        if (torre && miTablero->casillasInt[casilla-2] == 0&& miTablero->casillasInt[casilla-1] == 0)
+        {
+
+            nuevaCasilla = casilla-2;
+
+            miTablero->casillasInt[casilla-3] = 0;
+
+
+            miTablero->casillasInt[casilla-1] = 4;
+
+
+            std::cout << "APLICA MOVIMIENTO REY -3 (enroque)"<< std::endl;
+
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+        }
+    }
+
+    if (casilla > 122)
+    {
+        //ENROQUE LARGO
+        bool torre = false;
+        nuevaCasilla = casilla+4;
+
+        pasa = false;
+        torre = miTablero->casillasInt[nuevaCasilla] == 4;
+
+        if (torre && miTablero->casillasInt[casilla+2] == 0 && miTablero->casillasInt[casilla+1] == 0 && miTablero->casillasInt[casilla+3] == 0)
+        {
+
+            nuevaCasilla = casilla+2;
+
+            miTablero->casillasInt[casilla+4] = 0;
+
+
+            miTablero->casillasInt[casilla+1] = 4;
+
+            std::cout << "APLICA MOVIMIENTO REY +4 (enroque)"<< std::endl;
+
+            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+        }
+
+
+
+    }
+
+    //IZQUIERDA
+
+    pasa = false;
+    nuevaCasilla = casilla-1;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa){
+
+
+        std::cout << "APLICA MOVIMIENTO REY -1"<< std::endl;
+
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+    //DERECHA
+    nuevaCasilla = casilla+1;
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa){
+        //  miTablero->fichaMovida = "REY!!!!";
+
+
+        std::cout << "APLICA MOVIMIENTO REY +1"<< std::endl;
+
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+
+    }
+
+    //ATRAS
+    nuevaCasilla = casilla-12;
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa){
+
+
+        std::cout << "APLICA MOVIMIENTO REY -12"<< std::endl;
+
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+    }
+
+    //ADELANTE
+    nuevaCasilla = casilla+12;
+
+    pasa = false;
+
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        //  TableroMovido->fichaMovida = "REY!!!!";
+
+        std::cout << "APLICA MOVIMIENTO REY +12"<< std::endl;
+
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+
+
+    }
+
+    //NE
+    nuevaCasilla = casilla+13;
+
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        //    TableroMovido->fichaMovida = "REY!!!!";
+
+        std::cout << "APLICA MOVIMIENTO REY +13"<< std::endl;
+
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+
+
+
+    }
+
+    //NO
+    nuevaCasilla = casilla+11;
+
+    pasa = false;
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+
+        std::cout << "APLICA MOVIMIENTO REY +11"<< std::endl;
+
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+    }
+
+
+    //SO
+    nuevaCasilla = casilla-13;
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+        //   TableroMovido->fichaMovida = "REY!!!!";
+
+        std::cout << "APLICA MOVIMIENTO REY -13"<< std::endl;
+
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+
+
+    }
+
+
+    //SE
+    nuevaCasilla = casilla-11;
+    pasa = false;
+
+    pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+    if (pasa)
+    {
+        //   TableroMovido->fichaMovida = "REY!!!!";
+
+        std::cout << "APLICA MOVIMIENTO REY -11"<< std::endl;
+
+        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+
+    }
+
+
+
+}
+
+void Autorizaciones::normalizaTablero(int* tablero)
+{
+
+    for (int i=0; i<144;i++)
+    {
+        if (tablero[i] != 0 && tablero[i] != 99)
+        {
+            tablero[i] = -tablero[i];
+        }
+    }
+
+}
+
+
+void Autorizaciones::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, int casDestino)
+{
+
+    if(miTablero.casillasInt[casDestino] != 99)
+    {
+
+
+        TableroPrueba* TableroMovido = new TableroPrueba(miTablero);
+
+        TableroMovido->alPaso = -1;
+
+        int fichaOrigen = miTablero.casillasInt[casOrigen];
+
+        if (fichaOrigen == 1)
+        {
+            if (miTablero.casillasInt[casDestino] == 0)
+            {
+
+                if ((miTablero.alPaso == casDestino-12
+                     && (casOrigen == casDestino-13
+                         || casOrigen == casDestino-11))
+                        ||( miTablero.alPaso == casDestino+12
+                            &&(casOrigen == casDestino+13
+                               || casOrigen == casDestino+11 )))
+                {
+                    std::cout << "!!!!!!!!!COME AL PASO!!!!!!:" << miTablero.alPaso << std::endl;
+                    std::cout << "ORIGEN:" << casOrigen<< std::endl;
+
+                    std::cout << "DESTINO:" <<casDestino << std::endl;
+
+                    TableroMovido->casillasInt[miTablero.alPaso] == 0;
+                    TableroMovido->casillasInt[1] == 0;
+                }
+            }
+
+            if ((casDestino - casOrigen  == 24) || casOrigen - casDestino == 24)
+            {
+
+                TableroMovido->alPaso = casDestino;
+                std::cout << "!!!!!!!!!DOBLE SALTO EN IA!!!!!!:" <<TableroMovido->alPaso <<std::endl;
+
+            }
+
+        }
+
+        //   std::cout << "!!!!!!!!!FICHA ORIGEN!!!!!!:" << fichaOrigen << std::endl;
+
+        //     std::cout << "!!!!!!!!!FICHA DESTINO!!!!!!:" << miTablero.casillasInt[casDestino] << std::endl;
+
+        TableroMovido->casillasInt[casOrigen] = 0;
+
+        TableroMovido->casillasInt[casDestino] = fichaOrigen;
+
+        TableroMovido->movimiento[0] = casOrigen;
+        TableroMovido->movimiento[1] = casDestino;
+
+
+        //   std::cout << "!!!!!!LE METE AL VECTOR" << std::endl;
+
+        if (evaluaJaque(TableroMovido->casillasInt, TableroMovido->turnoN))
+        {
+
+            //  std::cout << "!!!!!HA EVALUADO UN JAQUE (DESPUES DE MOVER) POR LO QUE NO AÑADE AL VECTOR!!!" << std::endl;
+
+        }else
+        {
+            TableroMovido->turnoN = !miTablero.turnoN;
+
+            miTablero.vectorMov.push_back(TableroMovido);
+
+            // miTablero.numeroHijos++;
+        }
+    }
 }

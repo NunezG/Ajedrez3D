@@ -33,6 +33,7 @@ public:
     virtual bool esMenuInicio() = 0;
 
     Modelo* modelo;
+    bool jaqueMate();
 
 
 private:

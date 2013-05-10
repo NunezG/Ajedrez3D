@@ -15,7 +15,7 @@ VistaAjedrez::VistaAjedrez(Ogre::RenderWindow* window) :
    // escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     tablero = modelo->escenaAjedrez->getTablero();
 
-    CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("InfoAjedrez.layout");
+    CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("InfoAjedrezCEED.layout");
   //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
 
@@ -25,6 +25,18 @@ VistaAjedrez::VistaAjedrez(Ogre::RenderWindow* window) :
 
 VistaAjedrez::~VistaAjedrez(void)
 {    
+}
+
+
+
+bool VistaAjedrez::muestraJaque()
+{
+    CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueCEED.layout");
+  //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
+
+
+    CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
+
 }
 
 
