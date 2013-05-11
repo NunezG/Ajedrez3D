@@ -80,13 +80,13 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero)
 bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
 {
     int posRey = 999;
-    int fichaRey = 6;
+    int fichaRey = -6;
 
-    int fichaReina = 5;
-    int fichaPeon = 1;
-    int fichaAlfil = 3;
-    int fichaCaballo = 2;
-    int fichaTorre = 4;
+    int fichaReina = -5;
+    int fichaPeon = -1;
+    int fichaAlfil = -3;
+    int fichaCaballo = -2;
+    int fichaTorre = -4;
 
 
     for (int i=0; i<144;i++)
@@ -751,7 +751,7 @@ bool Autorizaciones::verificaCamino(int distancia, posicion _nodoNuevo, int cami
 
     for (int i = 1; i < distancia; i++)
     {
-        std::cout  << "FOR! " <<std::endl;
+      //  std::cout  << "FOR! " <<std::endl;
 
         if (camino == 1) filaDestino = filaDestino-1;  // DERECHA
         else if (camino == 2) filaDestino = filaDestino+1; // IZQUIERDA
@@ -823,7 +823,7 @@ void Autorizaciones::generaMovimientos(TableroPrueba* miTablero)
     {
         for (int y = 2; y<10;y++)
         {
-            std::cout << "FOR"<< miTablero->casillasInt[(i*12)+y] << std::endl;
+           // std::cout << "FOR"<< miTablero->casillasInt[(i*12)+y] << std::endl;
 
 
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;

@@ -850,7 +850,7 @@ TableroPrueba::TableroPrueba( const TableroPrueba& original ):
     alPaso(original.alPaso)
 {
 
-    std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
+   // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
 
 
     casillasInt = new int[144];
