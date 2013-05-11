@@ -27,6 +27,9 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero)
 
     std::cout << "switch: " << std::endl;
 
+    miTablero->casillasInt = miTablero->traduceTablero();
+
+    if (miTablero->getTurnoNegras())normalizaTablero(miTablero->casillasInt);
 
     switch (tipo)
     {
@@ -493,6 +496,7 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado,
 
     std::cout  << "sel " <<seleccionado.Columna<<std::endl;
 
+    std::cout  << "turnonegras una ez mas " <<miTablero->getTurnoNegras()<<std::endl;
     std::cout  << "sobrevolado: "<<  nodoSobrevolado->getNombre() << "diferencia; "<<diferencia.Fila<<" col: "<< diferencia.Columna<<std::endl;
 
     if (diferencia.Columna == 0)
@@ -500,9 +504,11 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado,
         if (diferencia.Fila== 2
                 && ((seleccionado.Fila == 1 && !miTablero->getTurnoNegras()) || (seleccionado.Fila == 6 && miTablero->getTurnoNegras())))
         {
+            std::cout  << "MIRA SI HAY FICHAS EN MEDIO " <<std::endl;
+
             //SALTA 2 CASILLAS (ESCAQUES)
-            if (miTablero->getTurnoNegras()) return verificaCamino(diferencia.Fila, nodoSobrevolado->getPosicion(), 2, miTablero);
-            else return verificaCamino(diferencia.Fila, nodoSobrevolado->getPosicion(), 1, miTablero);
+            if (miTablero->getTurnoNegras()) return verificaCamino(diferencia.Fila, nodoSobrevolado->getPosicion(), 2, miTablero->casillasInt);
+            else return verificaCamino(diferencia.Fila, nodoSobrevolado->getPosicion(), 1, miTablero->casillasInt);
 
         }
 
@@ -529,27 +535,32 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado,
         if (nodoSobrevolado->getNodoOgre()->getChildIterator().hasMoreElements())
         {
             return true;
-        }else
+        }else if(miTablero->getAlPaso() >= 0)
         {
+
             //AL PASO
             posicion casillaLateral;
             // int casillaLateral = (seleccionado.Fila*8) + seleccionado.Columna;
 
 
-            std::cout  << "diferencia 1 "<<std::endl;
+           std::cout  << "diferencia 1 "<<std::endl;
 
-            casillaLateral.Fila = seleccionado.Fila;
+           casillaLateral.Fila = seleccionado.Fila;
 
             casillaLateral.Columna = nodoSobrevolado->getPosicion().Columna;
 
-            std::cout  << "casillaLateral.Fila "<<casillaLateral.Fila<<std::endl;
+           std::cout  << "casillaLateral.Fila "<<casillaLateral.Fila<<std::endl;
 
-            std::cout  << "casillaLateral.col "<<casillaLateral.Columna<<std::endl;
+           std::cout  << "casillaLateral.col "<<casillaLateral.Columna<<std::endl;
 
-            int posCasilla = (casillaLateral.Fila*8) + casillaLateral.Columna;
-            miTablero->setAlPaso(posCasilla);
+           int posCasilla = 24+(casillaLateral.Fila*12) + casillaLateral.Columna+2;
 
-            return true;
+           if (miTablero->getAlPaso() == posCasilla)
+           {
+
+                return true;
+           }
+
 
 
 
@@ -568,19 +579,19 @@ bool Autorizaciones::autorizaAlfil(posicion diferencia, posicion nodoSobrevolado
 {
     if (diferencia.Columna - diferencia.Fila == 0
             && diferencia.Columna > 0) //Columnas DESCENDENTES Y Filas DESCENDENTES
-        return verificaCamino(diferencia.Columna, nodoSobrevolado, 8, elTablero);
+        return verificaCamino(diferencia.Columna, nodoSobrevolado, 8, elTablero->casillasInt);
 
     else if (diferencia.Columna + diferencia.Fila == 0
              && diferencia.Columna > 0) //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES (ARR DERECHA)
-        return verificaCamino(diferencia.Columna, nodoSobrevolado, 7, elTablero);
+        return verificaCamino(diferencia.Columna, nodoSobrevolado, 7, elTablero->casillasInt);
 
     else if(diferencia.Columna + diferencia.Fila == 0
             && diferencia.Columna < 0) //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES (ABAJO IZQUIERDA)
-        return verificaCamino(diferencia.Columna, nodoSobrevolado, 6, elTablero);
+        return verificaCamino(diferencia.Columna, nodoSobrevolado, 6, elTablero->casillasInt);
 
     else if(diferencia.Columna - diferencia.Fila == 0
             && diferencia.Columna  < 0) //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES (ABAJO DERECHA)
-        return verificaCamino(diferencia.Columna, nodoSobrevolado, 5, elTablero);
+        return verificaCamino(diferencia.Columna, nodoSobrevolado, 5, elTablero->casillasInt);
 
     else return false;
 }
@@ -637,7 +648,7 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
                         {
                             std::cout  << "mueve a la derecha "<<std::endl;
 
-                            return verificaCamino(diferencia.Columna, nodoSobrevolado, 4, miTablero);
+                            return verificaCamino(diferencia.Columna, nodoSobrevolado, 4, miTablero->casillasInt);
                         }
 
 
@@ -645,7 +656,7 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
                         {
                             std::cout  << "mueve a la izquierda "<<std::endl;
 
-                            return verificaCamino(diferencia.Columna, nodoSobrevolado, 3, miTablero);
+                            return verificaCamino(diferencia.Columna, nodoSobrevolado, 3, miTablero->casillasInt);
                         }
 
 
@@ -673,19 +684,19 @@ bool Autorizaciones::autorizaTorre(posicion diferencia, posicion nodoSobrevolado
 
     if (diferencia.Columna==0
             && diferencia.Fila < 0 ) //MOVIMIENTO A LA DERECHA
-        return verificaCamino(diferencia.Fila, nodoSobrevolado, 2, elTablero);
+        return verificaCamino(diferencia.Fila, nodoSobrevolado, 2, elTablero->casillasInt);
 
     else if (diferencia.Columna==0
              && diferencia.Fila > 0 )  //MOVIMIENTO A LA IZQUIERDA
-        return verificaCamino(diferencia.Fila, nodoSobrevolado, 1, elTablero);
+        return verificaCamino(diferencia.Fila, nodoSobrevolado, 1, elTablero->casillasInt);
 
     else if (diferencia.Fila==0
              && diferencia.Columna > 0 )  //MOVIMIENTO ARRIBA
-        return verificaCamino(diferencia.Columna, nodoSobrevolado, 4, elTablero);
+        return verificaCamino(diferencia.Columna, nodoSobrevolado, 4, elTablero->casillasInt);
 
     else if (diferencia.Fila==0
              && diferencia.Columna < 0 ) //MOVIMIENTO ABAJO
-        return verificaCamino(diferencia.Columna, nodoSobrevolado, 3, elTablero);
+        return verificaCamino(diferencia.Columna, nodoSobrevolado, 3, elTablero->casillasInt);
 
     else return false;
 }
@@ -721,11 +732,11 @@ bool Autorizaciones::autorizaCaballo(posicion diferencia)
     else return false;
 }
 
-bool Autorizaciones::verificaCamino(int distancia, posicion _nodoNuevo, int camino, Tablero* elTablero)
+bool Autorizaciones::verificaCamino(int distancia, posicion _nodoNuevo, int camino, int* casillas)
 {
-
     bool invertido;
-    if (distancia < 0){
+    if (distancia < 0)
+    {
         invertido = true;
         distancia = -distancia;
 
@@ -767,11 +778,10 @@ bool Autorizaciones::verificaCamino(int distancia, posicion _nodoNuevo, int cami
             filaDestino = filaDestino-1;
         }
 
-        std::cout  << "VERIFICA: "<<( (filaDestino*8) + (colDestino))<<std::endl;
+        std::cout  << "VERIFICA: "<<( 24+(filaDestino*12) + (colDestino)+2)<<std::endl;
 
 
-        Casilla* nodoTrayectoria = static_cast<Casilla*>(elTablero->getHijo((filaDestino*8) + (colDestino)));
-        if (nodoTrayectoria->sinHijos() == false)
+        if (casillas[24+(filaDestino*12) + colDestino+2] != 0)
             return false;
     }
     return true;
@@ -993,7 +1003,6 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
     int casillaComeSec;
     int salto;
 
-    std::cout << "HAY AL PASO?"<< miTablero->alPaso << std::endl;
 
     //FALTA AL PASO!!!!!!!!!!!!!!!!!!!!!
 
@@ -1032,7 +1041,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
         //   nuevaCasilla = casilla+1;
         //    bool peonEnemigo = false;
 
-        if (miTablero->casillasInt[casillaCome] < 0 || (miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaCome] == 0))
+        if (miTablero->casillasInt[casillaCome] < 0 || (miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaCome] == 0))
         {
 
             std::cout << "NEGRAS COME O AL PASO 1"<< std::endl;
@@ -1042,7 +1051,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
             aplicaMovimiento(*miTablero, casilla, casillaCome);
         }
 
-        if (miTablero->casillasInt[casillaComeSec] < 0 || (miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaComeSec] == 0))
+        if (miTablero->casillasInt[casillaComeSec] < 0 || (miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaComeSec] == 0))
         {
             std::cout << "NEGRAS COME O AL PASO 2"<< std::endl;
 
@@ -1060,6 +1069,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
 
         if(casilla < 48 && miTablero->casillasInt[salto] == 0 )
         {
+              std::cout << "!MIRA SI LAS BLANCAS SALTAN!!!!!!" << std::endl;
 
             aplicaMovimiento(*miTablero, casilla, salto);
         }
@@ -1076,7 +1086,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
         //   std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
         //std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
 
-        if (miTablero->casillasInt[casillaCome] < 0 || (miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaCome] == 0 ))
+        if (miTablero->casillasInt[casillaCome] < 0 || (miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaCome] == 0 ))
         {
             std::cout << "BLANCAS COME O AL PASO 1"<< std::endl;
 
@@ -1084,7 +1094,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
             aplicaMovimiento(*miTablero, casilla, casillaCome);
         }
 
-        if (miTablero->casillasInt[casillaComeSec] < 0 || (miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaComeSec] == 0))
+        if (miTablero->casillasInt[casillaComeSec] < 0 || (miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaComeSec] == 0))
         {
             std::cout << "BLANCAS COME O AL PASO 2"<< std::endl;
 

@@ -14,6 +14,7 @@ public:
     static bool autorizaCasilla(Tablero* miTablero);
     static bool evaluaJaque(int casillasInt[144], bool turnoNegras);
     static void generaMovimientos(TableroPrueba* miTablero);
+    static void normalizaTablero(int* tablero);
 
 private:
 
@@ -24,11 +25,10 @@ private:
     static bool autorizaTorre(posicion diferencia, posicion nodoSobrevolado, Tablero* elTablero);
     static bool autorizaCaballo(posicion diferencia);
 
-    static bool verificaCamino(int distancia, posicion _nodoNuevo, int camino, Tablero* elTablero);
+    static bool verificaCamino(int distancia, posicion _nodoNuevo, int camino, int* casillas);
 
 
 
-    static void normalizaTablero(int* tablero);
 
 
   //  bool evaluaJaque(const int casillasInt[144], bool turnoNegras);

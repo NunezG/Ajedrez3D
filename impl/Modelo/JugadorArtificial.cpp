@@ -53,7 +53,10 @@ void JugadorArtificial::calculaMovimiento(){
 
     TableroPrueba* tableroPadre = new TableroPrueba();
 
-    tableroPadre->turnoN = true;
+    std::cout << "TUDRNO DE MITABLERO:" << miTablero->turnoN<< std::endl;
+
+
+    tableroPadre->turnoN = miTablero->turnoN;
 
 
 
@@ -64,7 +67,7 @@ void JugadorArtificial::calculaMovimiento(){
     int col= (miTablero->alPaso%8)+2;
 
     tableroPadre->casillasInt = new int[144];
-    tableroPadre->alPaso = 144-((fila*12)+col);
+    tableroPadre->alPaso = ((fila*12)+col);
     std::cout << "TRADUCIDO:" << tableroPadre->alPaso<< std::endl;
 
     ////////////////////////////////////////////////////////////////////////////////////7
@@ -207,3 +210,5 @@ int* JugadorArtificial::mueveIA(int origen, int destino)
 
     miTablero->cambiaTurno();
 }
+
+

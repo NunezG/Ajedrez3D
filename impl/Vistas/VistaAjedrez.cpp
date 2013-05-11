@@ -206,6 +206,9 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
             tablero->fichaSeleccionada = true;
 
 
+        std::cout  << "FILA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Fila <<std::endl;
+        std::cout  << "COLUMNA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Columna <<std::endl;
+
 
 
     } else if (mbright)
@@ -292,7 +295,10 @@ bool VistaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
                     || (!tablero->getTurnoNegras() && !ficha->esNegra))
             {
 
+
+
                 tablero->setNodoCasillaSeleccionada(casilla);
+
                 ficha->getNodoOgre()->showBoundingBox(true);
                 return true;
             }

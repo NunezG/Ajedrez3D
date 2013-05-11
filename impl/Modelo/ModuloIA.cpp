@@ -57,12 +57,13 @@ bool ModuloIA::construyeArbol(TableroPrueba* tableroPadre)
     tableroElegido = NULL;
     std::cout << "CONSTRUYE ARBOL33333333333" << std::endl;
 
-    int resultado = alphaBeta(tableroPadre,-50000, 50000, 5);
+    int resultado = alphaBeta(tableroPadre,-50000, 50000, 3);
 
+    std::cout << "RESULTADO DE ALFABETA ANTES: "<< resultado<< std::endl;
 
-   // if ( tableroPadre->turnoN) resultado = -resultado;
+    if (tableroPadre->turnoN) resultado = -resultado;
 
-    std::cout << "RESULTADO DE ALFABETA: "<< resultado<< std::endl;
+    std::cout << "RESULTADO DE ALFABETA DESPUES: "<< resultado<< std::endl;
 
 
     std::cout << "NUMERO NODOS TABLERO INICIAL: "<< tableroPadre->vectorMov.size()<< std::endl;
@@ -253,14 +254,14 @@ int ModuloIA::evaulaTablero(const int casillasInt[144], bool turnoN)
         }
 
     }
-    if(!turnoN){
-       std::cout << "turno negras suma: " << suma<< std::endl;
+ //   if(turnoN){
+   //    std::cout << "turno  negras suma: " << suma<< std::endl;
 
-        suma = -suma;
+     //  suma = -suma;
 
-    }
+    //}
 
-    std::cout << "ESTE TABLERO HA ACUMULADO UN VALOR DE: " << suma<< " y turnoN:"<<turnoN   <<std::endl;
+    if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma<< " y turnoN:"<<turnoN   <<std::endl;
 
 
     return suma;

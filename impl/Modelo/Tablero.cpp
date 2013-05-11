@@ -630,9 +630,15 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 
             std::cout  << "dif" << std::endl;
 
-            std::cout  << "dif:" << getNodoCasillaSobrevolada()->getPosicion().Fila<< std::endl;
 
-            std::cout  << "dif:" << getNodoCasillaSeleccionada()->getPosicion().Fila<< std::endl;
+
+            std::cout  << "fila seleccionada:" << getNodoCasillaSeleccionada()->getPosicion().Fila<< std::endl;
+
+            std::cout  << "col seleccionada:" << getNodoCasillaSeleccionada()->getPosicion().Columna<< std::endl;
+
+            std::cout  << "fila sobrevolada:" << getNodoCasillaSobrevolada()->getPosicion().Fila<< std::endl;
+
+            std::cout  << "col sobrevolada:" << getNodoCasillaSobrevolada()->getPosicion().Columna<< std::endl;
 
 
             int dif = getNodoCasillaSobrevolada()->getPosicion().Fila - getNodoCasillaSeleccionada()->getPosicion().Fila;
@@ -646,34 +652,45 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
             if (difCol<0 ) difCol = -difCol;
 
 
+            std::cout  << "COMPRUEBA ALPASO: " <<alPaso<<std::endl;
 
             if(alPaso > 0 && dif == 1 && difCol == 1)
             {
+                std::cout  << "ENTRA" <<std::endl;
+
                 //SOLO COMER AL PASO
                 int fila =getNodoCasillaSeleccionada()->getPosicion().Fila;
                 int columna =getNodoCasillaSobrevolada()->getPosicion().Columna;
 
-                Casilla* casillaAux = static_cast<Casilla*>(getHijo((fila*8)+columna));
-
-                if (!casillaAux->sinHijos())
+                if (alPaso = 24+(fila*12)+columna+2)
                 {
-                    //* fichaAux = static_cast<Ficha*>(casillaAux->getHijo(0));
-                    casillaAux->eliminaHijo(0);
+                    std::cout  << "ALPASO VA BIEN " <<std::endl;
+
+                    Casilla* casillaAux = static_cast<Casilla*>(getHijo((fila*8)+columna));
+
+                    if (!casillaAux->sinHijos())
+                    {
+                        //* fichaAux = static_cast<Ficha*>(casillaAux->getHijo(0));
+                        casillaAux->eliminaHijo(0);
+
+                    }
+
 
                 }
 
+
             }
-            alPaso = -1;
+            setAlPaso(-1);
 
 
             if( dif == 2){
 
-                alPaso = ( getNodoCasillaSobrevolada()->getPosicion().Fila*8) +  getNodoCasillaSobrevolada()->getPosicion().Columna;
+                setAlPaso(24+(getNodoCasillaSobrevolada()->getPosicion().Fila*12) +  getNodoCasillaSobrevolada()->getPosicion().Columna+2);
                 std::cout  << "ALPASO EN TABLERO: " <<alPaso<<std::endl;
 
             }
 
-        }else alPaso = -1;
+        }else setAlPaso(-1);
 
         //DESELECCIONA FICHA Y CASILLA
         ficha->getNodoOgre()->showBoundingBox(false);
@@ -687,9 +704,9 @@ int* Tablero::mueveYTraduceTablero()
 
     // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
 
-    int posFinal = ((getNodoCasillaSobrevolada()->getPosicion().Fila+2)*12) + getNodoCasillaSobrevolada()->getPosicion().Columna+2;
+    int posFinal = 24+(getNodoCasillaSobrevolada()->getPosicion().Fila*12) + getNodoCasillaSobrevolada()->getPosicion().Columna+2;
 
-    int posInicial = ((getNodoCasillaSeleccionada()->getPosicion().Fila+2)*12) + getNodoCasillaSeleccionada()->getPosicion().Columna+2;
+    int posInicial = 24+(getNodoCasillaSeleccionada()->getPosicion().Fila*12) + getNodoCasillaSeleccionada()->getPosicion().Columna+2;
 
     std::cout << "inicial:" << posInicial<<std::endl;
 
@@ -731,9 +748,9 @@ int* Tablero::traduceTablero()
 
                 int filaTemp = casilla->getPosicion().Fila;
 
-                int columnaTemp = casilla->getPosicion().Columna+2;
+                int columnaTemp = casilla->getPosicion().Columna;
 
-                int numeroCasilla = 24+(filaTemp*12)+columnaTemp;
+                int numeroCasilla = 24+(filaTemp*12)+columnaTemp+2;
 
                 if (!casilla->sinHijos())
                 {
@@ -832,6 +849,10 @@ TableroPrueba::TableroPrueba( const TableroPrueba& original ):
     turnoN(!original.turnoN),
     alPaso(original.alPaso)
 {
+
+    std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
+
+
     casillasInt = new int[144];
 
 
