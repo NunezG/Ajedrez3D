@@ -56,10 +56,12 @@ void JugadorHumano::autorizaCasilla(){
         {
             int* tableroInt = miTablero->mueveYTraduceTablero();
 
-            if(miTablero->getTurnoNegras())Autorizaciones::normalizaTablero(tableroInt);
+            if(!miTablero->getTurnoNegras())Autorizaciones::normalizaTablero(tableroInt);
             
+            std::cout << "evalua jaque" << std::endl;
+
             //EVALUA JAQUE
-            if (!Autorizaciones::evaluaJaque(tableroInt, miTablero->getTurnoNegras()))
+            if (!Autorizaciones::evaluaJaque(tableroInt, !miTablero->getTurnoNegras()))
             {
 
                 // miTablero->getNodoCasillaSobrevolada()->seleccionada = true;
@@ -107,9 +109,11 @@ void JugadorHumano::aplicaSeleccion()
     std::cout << "cambiatur 4 "<< std::endl;
     std::cout << "cambiatur 5 "<< std::endl;
     
-    miTablero->casillasInt = miTablero->traduceTablero();
     std::cout << "cambiatur 6"<< std::endl;
-    
+    miTablero->cambiaTurno();
+
+    if(miTablero->getTurnoNegras()) miTablero->casillasInt = miTablero->traduceTablero();
+
     Autorizaciones::generaMovimientos(static_cast<TableroPrueba*>(miTablero));
     
     std::cout << "cambiatur 7 "<< std::endl;
@@ -123,7 +127,6 @@ void JugadorHumano::aplicaSeleccion()
         CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
         
     }else {
-        miTablero->cambiaTurno();
         miTablero->rotacionCamara = Ogre::Real(180.0f);
     }
     

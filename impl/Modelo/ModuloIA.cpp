@@ -57,7 +57,7 @@ bool ModuloIA::construyeArbol(TableroPrueba* tableroPadre)
     tableroElegido = NULL;
     std::cout << "CONSTRUYE ARBOL33333333333" << std::endl;
 
-    int resultado = alphaBeta(tableroPadre,-50000, 50000, 3);
+    int resultado = alphaBeta(tableroPadre,-50000, 50000, 2);
 
     std::cout << "RESULTADO DE ALFABETA ANTES: "<< resultado<< std::endl;
 
@@ -127,7 +127,7 @@ bool ModuloIA::construyeArbol(TableroPrueba* tableroPadre)
 int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthleft )
 {
 
-    // std::cout << "!!!!!!!!!!!!!!!!!!ALPHA-BETA turno: "<<table->turnoN << std::endl;
+     std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
     //  std::cout << "!!!!!!!!!!!!!!!!!!NIIVEL: "<< depthleft<< std::endl;
 
     int score;
@@ -138,7 +138,7 @@ int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthl
         int ev = evaulaTablero(table->casillasInt, table->turnoN);
 
         table->Score = ev;
-        // std::cout << "EVALUACION DEVUELVE: "<< table->Score<< std::endl;
+        std::cout << "EVALUACION DEVUELVE: "<< table->Score<<" NIVEL"<< depthleft<< std::endl;
 
 
         //   std::cout << "ENCUENTRA UN NODO TERMINAL: "<< table->Score<< std::endl;
@@ -177,28 +177,33 @@ int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthl
     {
 
 
-        //    std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA (del vector) NUMERO: "<< i << std::endl;
+           std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
 
-        score = -alphaBeta(table->vectorMov.at(i), -beta, -alpha, depthleft - 1 );
+        score = -alphaBeta(table->vectorMov.at(i), -beta,-alpha, depthleft - 1 );
+        std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
+        table->Score = score;
+
+        std::cout << "!!!!!!!!!!!!!!!!!SCORE: "<< score<< std::endl;
+
+
         if( score >= beta )
         {
-            table->Score =  score;
+          //  table->Score =  score;
 
             // table->Score = score;
-            //         std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE:"<< score <<" BETA:" << beta << std::endl;
+                     std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
             //DEJA DE CALCULAR HEURISTICAS
             //  table->Score = score;
             return beta;   //  fail hard beta-cutoff
 
-        }
-        if( score > alpha )
+        }else if( score > alpha )
         {
-            //    std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa:"<< score <<" ALFA:" << alpha << std::endl;
+              std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha <<std::endl;
 
-            table->Score = score;
 
             alpha = score; // alpha acts like max in MiniMax
-        }
+        } else std::cout << "!!!!!!!!!!!!!SCORE NO ES MAYOR QUE BETA NI ALFA:" << " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
+
     }
     // }else std::cout << "EL VECTOR ES NULL"<< std::endl;
 
@@ -254,14 +259,14 @@ int ModuloIA::evaulaTablero(const int casillasInt[144], bool turnoN)
         }
 
     }
- //   if(turnoN){
-   //    std::cout << "turno  negras suma: " << suma<< std::endl;
+   if(turnoN){
+       std::cout << "turno  negras suma: " << suma<< std::endl;
 
-     //  suma = -suma;
+       suma = -suma;
 
-    //}
+    }
 
-  //  if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma<< " y turnoN:"<<turnoN   <<std::endl;
+    if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma<< " y turnoN:"<<turnoN   <<std::endl;
 
 
     return suma;

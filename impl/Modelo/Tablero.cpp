@@ -76,7 +76,7 @@ bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
 
     creaVasallos();
     creaNobleza();
-    creaPeones();
+      creaPeones();
 
 
 }

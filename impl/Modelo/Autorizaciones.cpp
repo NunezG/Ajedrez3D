@@ -79,20 +79,26 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero)
 
 bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
 {
-    int posRey = 999;
-    int fichaRey = -6;
 
-    int fichaReina = -5;
-    int fichaPeon = -1;
-    int fichaAlfil = -3;
-    int fichaCaballo = -2;
-    int fichaTorre = -4;
+    std::cout << "EVALUAJAQUE turno: "<<turnoNegras << std::endl;
+
+
+    int posRey = 999;
+    int fichaRey = 6;
+
+    int fichaReina = 5;
+    int fichaPeon = 1;
+    int fichaAlfil = 3;
+    int fichaCaballo = 2;
+    int fichaTorre = 4;
 
 
     for (int i=0; i<144;i++)
     {
         if (casillasInt[i] == -fichaRey)
         {
+            std::cout << "Rey en: "<<i << std::endl;
+
             posRey = i;
         }
     }
@@ -610,7 +616,8 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
         return true;
     else{
         //ENROQUE!!!
-        if( diferencia.Fila == 0){
+        if( diferencia.Fila == 0)
+        {
             Casilla* casilla = NULL;
             int posCasilla = nodoSobrevolado.Fila*8;
 
@@ -619,6 +626,7 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
 
             if(diferencia.Columna == 2)
             {
+                //derecha (corto)
                 casilla  = static_cast<Casilla*>(miTablero->getHijo(posCasilla+7));
 
 
@@ -626,6 +634,7 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
             }
             if(diferencia.Columna == -2){
 
+                //izquierda (largo)
                 casilla  = static_cast<Casilla*>(miTablero->getHijo(posCasilla));
 
 
@@ -635,10 +644,12 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
             if (casilla != NULL && !casilla->sinHijos())
             {
 
+                std::cout  << "mira en casilla: "<< casilla->getPosicion().Fila<< " Y COL: "<<   casilla->getPosicion().Fila  <<std::endl;
                 Ficha* ficha =  static_cast<Ficha*>(casilla->getHijo(0));
 
                 if(ficha->tipo_Ficha == Torre)
                 {
+                    std::cout  << "detecta torre"<<std::endl;
 
                     if ((!miTablero->getTurnoNegras() && nodoSobrevolado.Fila == 0) ||
                             (miTablero->getTurnoNegras() && nodoSobrevolado.Fila == 7)){
@@ -646,17 +657,17 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
 
                         if(diferencia.Columna == 2)
                         {
-                            std::cout  << "mueve a la derecha "<<std::endl;
+                            std::cout  << "mira camino a la derecha (enroque corto) "<<std::endl;
 
-                            return verificaCamino(diferencia.Columna, nodoSobrevolado, 4, miTablero->casillasInt);
+                            return verificaCamino(diferencia.Columna+1, casilla->getPosicion(), 4, miTablero->casillasInt);
                         }
 
 
                         if(diferencia.Columna == -2)
                         {
-                            std::cout  << "mueve a la izquierda "<<std::endl;
+                            std::cout  << "mira camino a la izquierda (enroque largo) "<<std::endl;
 
-                            return verificaCamino(diferencia.Columna, nodoSobrevolado, 3, miTablero->casillasInt);
+                            return verificaCamino(diferencia.Columna-2, casilla->getPosicion(), 3, miTablero->casillasInt);
                         }
 
 
@@ -743,7 +754,7 @@ bool Autorizaciones::verificaCamino(int distancia, posicion _nodoNuevo, int cami
 
     }
 
-    std::cout  << "posicion FILA: "<<_nodoNuevo.Fila <<" COL: "<<_nodoNuevo.Columna<<std::endl;
+    std::cout  << "posicion FILA: "<<_nodoNuevo.Fila <<" COL: "<<_nodoNuevo.Columna<< " DISTANCIA: "<< distancia  <<std::endl;
 
     int colDestino = _nodoNuevo.Columna;//-(nuevo.z/10);
     int filaDestino =_nodoNuevo.Fila; //-(nuevo.x/10);
@@ -751,19 +762,19 @@ bool Autorizaciones::verificaCamino(int distancia, posicion _nodoNuevo, int cami
 
     for (int i = 1; i < distancia; i++)
     {
-      //  std::cout  << "FOR! " <<std::endl;
+        std::cout  << "FOR! " <<std::endl;
 
-        if (camino == 1) filaDestino = filaDestino-1;  // DERECHA
-        else if (camino == 2) filaDestino = filaDestino+1; // IZQUIERDA
-        else if (camino == 3) colDestino = colDestino+1; // MOVIMIENTO HACIA ARRIBA
-        else if (camino == 4) colDestino = colDestino-1; // MOVIMIENTO HACIA ABAJO
+        if (camino == 1) filaDestino = filaDestino-1;  // ABAJO
+        else if (camino == 2) filaDestino = filaDestino+1; // ARRIBA
+        else if (camino == 3) colDestino = colDestino+1; // DERECHA
+        else if (camino == 4) colDestino = colDestino-1; // IZQUIERDA
         else if (camino == 5)
-        { //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
+        { //MOVIMIENTO DIAGONAL ARRIBA DERECHA
             colDestino = colDestino+1;
             filaDestino = filaDestino+1;
         }
         else if (camino == 6)
-        { //MOVIMIENTO DIAGONAL ARRIBA DERECHA
+        { //MOVIMIENTO DIAGONAL ABAJO DERECHA
             colDestino = colDestino+1;
             filaDestino = filaDestino-1;
         }
@@ -799,7 +810,7 @@ void Autorizaciones::generaMovimientos(TableroPrueba* miTablero)
 
     //BUSCA EN EL TABLERO LAS FICHAS Y SEGUN SU TIPO VA GENERANDO LOS MOVIMIENTOS
 
-    std::cout << "generamov"<< std::endl;
+    std::cout << "generamov TURNO"<< miTablero->turnoN<< std::endl;
 
 
     miTablero->vectorMov.clear();
@@ -882,7 +893,7 @@ void Autorizaciones::generaMovimientos(TableroPrueba* miTablero)
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
             if (miTablero->casillasInt[(i*12)+y] == peon)
             {
-                std::cout << "!!!!!!!!!!!!!!!!!!UN MUEVE PEON!!!!!!!!!!!!!!!!!!!" << std::endl;
+                std::cout << "!!!!!!!!!!!!!!!!!!UN MUEVE PEON!!!!!!!!!!!!!!!!!!! EN CASILLA: "<<(i*12)+y << std::endl;
 
 
                 //ENCUENTRA REY BLANCO
@@ -1010,7 +1021,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
 
     if (miTablero->turnoN)
     {
-        //  std::cout << "!!!!!!!!!!!TURNO NEGRAS!!!!!!!!!!" << std::endl;
+         std::cout << "!!!!!!!!!!!TURNO NEGRAS EN PEON!!!!!!!!!!" << std::endl;
         salto = casilla-24;
         nuevaCasilla = casilla-12;
         casillaCome = casilla-11;
@@ -1020,6 +1031,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
 
         if(casilla > 96 && miTablero->casillasInt[salto] == 0)
         {
+            std::cout << "!!!!!!!!!!!SALTA  NEGRAS!!!!!!!!" << std::endl;
 
             aplicaMovimiento(*miTablero, casilla, salto);
         }
@@ -1034,6 +1046,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
 
                 miTablero->casillasInt[casilla] = 5;
             }
+            std::cout << "!!!!!!MUEVE NORMAL NEGRAS!!!!!!" << std::endl;
 
             aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
         }
@@ -1041,25 +1054,49 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
         //   nuevaCasilla = casilla+1;
         //    bool peonEnemigo = false;
 
-        if (miTablero->casillasInt[casillaCome] < 0 || (miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaCome] == 0))
-        {
+        if (miTablero->casillasInt[casillaCome] < 0)
+         {
 
-            std::cout << "NEGRAS COME O AL PASO 1"<< std::endl;
+            std::cout << "NEGRAS COME 1"<< std::endl;
 
 
 
             aplicaMovimiento(*miTablero, casilla, casillaCome);
         }
 
-        if (miTablero->casillasInt[casillaComeSec] < 0 || (miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaComeSec] == 0))
+        if(miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaCome] == 0)
         {
-            std::cout << "NEGRAS COME O AL PASO 2"<< std::endl;
+            std::cout << "NEGRAS COME AL PASO 1"<< std::endl;
+
+
+
+            aplicaMovimiento(*miTablero, casilla, casillaCome);
+
+        }
+
+
+
+        if (miTablero->casillasInt[casillaComeSec] < 0)
+
+
+        {
+            std::cout << "NEGRAS COME 2"<< std::endl;
 
 
             aplicaMovimiento(*miTablero, casilla, casillaComeSec);
         }
+
+        if ((miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaComeSec] == 0)){
+            std::cout << "NEGRAS COME AL PASO 2"<< std::endl;
+
+
+            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+
+        }
+
     }else
     {
+         std::cout << "!!!!!!!!!!!TURNO BLANCAS EN PEON!!!!!!!!!!" << std::endl;
         salto = casilla+24;
         nuevaCasilla = casilla+12;
         casillaCome = casilla+11;
@@ -1069,7 +1106,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
 
         if(casilla < 48 && miTablero->casillasInt[salto] == 0 )
         {
-              std::cout << "!MIRA SI LAS BLANCAS SALTAN!!!!!!" << std::endl;
+              std::cout << "!BLANCAS SALTAN!!!!!!" << std::endl;
 
             aplicaMovimiento(*miTablero, casilla, salto);
         }
@@ -1081,22 +1118,42 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
             if (nuevaCasilla > 122){
                 miTablero->casillasInt[casilla] = 5;
             }
+              std::cout << "!!!!!!!!!!! BLANCAS AVANZA!!!!!!!!!!" << std::endl;
+
             aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
         }
         //   std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
         //std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
 
-        if (miTablero->casillasInt[casillaCome] < 0 || (miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaCome] == 0 ))
+        if (miTablero->casillasInt[casillaCome] < 0)
         {
-            std::cout << "BLANCAS COME O AL PASO 1"<< std::endl;
+            std::cout << "BLANCAS COME 1"<< std::endl;
 
 
             aplicaMovimiento(*miTablero, casilla, casillaCome);
         }
 
-        if (miTablero->casillasInt[casillaComeSec] < 0 || (miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaComeSec] == 0))
+        if ((miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaCome] == 0 ))
         {
-            std::cout << "BLANCAS COME O AL PASO 2"<< std::endl;
+            std::cout << "BLANCAS COME AL PASO 1"<< std::endl;
+
+
+            aplicaMovimiento(*miTablero, casilla, casillaCome);
+        }
+
+
+        if (miTablero->casillasInt[casillaComeSec] < 0 )
+        {
+            std::cout << "BLANCAS COME 2"<< std::endl;
+
+
+            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+        }
+
+
+        if ((miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaComeSec] == 0))
+        {
+            std::cout << " BLANCAS COME AL PASO 2, casilla: "<< casilla << " CASILLA COME SEC: "<<casillaComeSec << " ALPASO: "<<miTablero->alPaso<<std::endl;
 
 
             aplicaMovimiento(*miTablero, casilla, casillaComeSec);
@@ -1591,7 +1648,11 @@ void Autorizaciones::normalizaTablero(int* tablero)
     {
         if (tablero[i] != 0 && tablero[i] != 99)
         {
+            std::cout << "CAMBIA SIGNO DE FICHA: "<< tablero[i]<<std::endl;
+
             tablero[i] = -tablero[i];
+            std::cout << "CNUEVA FICHA: "<< tablero[i]<<std::endl;
+
         }
     }
 
@@ -1659,7 +1720,7 @@ void Autorizaciones::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, i
 
         if (evaluaJaque(TableroMovido->casillasInt, TableroMovido->turnoN))
         {
-
+            delete TableroMovido;
             //  std::cout << "!!!!!HA EVALUADO UN JAQUE (DESPUES DE MOVER) POR LO QUE NO AÑADE AL VECTOR!!!" << std::endl;
 
         }else
