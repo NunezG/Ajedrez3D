@@ -92,7 +92,6 @@ bool BaseJuego::resetOgre(void)
     // punteroVentana->destruyeMenu();
 
       if(punteroVentana->vista){
-          CEGUI::OgreRenderer::destroySystem();
           punteroVentana->destruyeVista();
       }
 
@@ -156,29 +155,30 @@ void BaseJuego::destroyScene(void)
 {
 
 
-
     //  if modelo->   modelo->destruyeMenu();
 
-
-
-    if (modelo->escenaAjedrez->getTablero()){
-
-
-        modelo->escenaAjedrez->destruyeTablero();
+  if (modelo->escenaAjedrez != NULL)
+  {
+mRoot->removeFrameListener(this);
+//mRoot->destroySceneManager(modelo->escenaAjedrez->mSceneMgr);
+      //  modelo->escenaAjedrez->destruyeTablero();
 
 
 
         //MIRA A VER
-        mRoot->destroySceneManager(mSceneMgr);
+        //  mRoot->destroySceneManager(mSceneMgr);
+        delete mRoot;
 
-    }
+   }
 
-    if (mRoot)
-        mRoot->removeFrameListener(this);
 
-    delete mRoot;
+  delete punteroVentana;
 
-    modelo = NULL;
+  //  if (mRoot)
+
+
+
+  //  modelo = NULL;
 
 
     //delete mRoot;
@@ -188,9 +188,9 @@ void BaseJuego::destroyScene(void)
 
     mRoot = NULL;
 
-    delete punteroVentana;
+   //
 
-    punteroVentana = NULL;
+//    punteroVentana = NULL;
 
 
 }
@@ -214,24 +214,19 @@ void BaseJuego::loadResources(void)
 //-------------------------------------------------------------------------------------
 void BaseJuego::go(void)
 {
-    std::cout   << "   mod " << std::endl;
 
     modelo = Modelo::getSingletonPtr();
-    std::cout   << "   vent " << std::endl;
 
     punteroVentana = new Ventana();
 
     //if (!configureOgre())
     //      return;
-    std::cout   << "   reset " << std::endl;
 
     resetOgre();
-    std::cout   << "   init " << std::endl;
 
     initOgre();
 
     inicio();
-    std::cout   << "   start " << std::endl;
 
     
     start();

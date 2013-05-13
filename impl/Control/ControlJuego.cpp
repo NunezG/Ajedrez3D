@@ -47,16 +47,20 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
              punteroVentana->creaVista();
 
+             std::cout   << "   creavista" << std::endl;
 
             punteroVentana->vista->mWindow = mRoot->initialise(true, "Ajedrez 2 Jugadores");
+            std::cout   << "  root " << std::endl;
 
 
             initOgre();
+            std::cout   << "   intit" << std::endl;
 
-            punteroVentana->muestraAjedrez();
 
 
             iniciaModeloAjedrez();
+
+            punteroVentana->muestraAjedrez();
 
 
 
@@ -130,7 +134,6 @@ bool ControlJuego::iniciaModeloAjedrez(void)
 {
     // mR-aySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
     modelo->creaJugador(true, true);
-
 
 
     if (modelo->getNumPantalla() == 1)

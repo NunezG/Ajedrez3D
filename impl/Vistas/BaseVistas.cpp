@@ -9,6 +9,9 @@ BaseVistas::BaseVistas():
 
 {  
 
+    std::cout   << "AGREGA MODELO" << std::endl;
+
+
     modelo = Modelo::getSingletonPtr();
 
     Ogre::LogManager::getSingletonPtr()->logMessage("***CONFIGURA GRAFICOS**");
@@ -31,7 +34,7 @@ BaseVistas::~BaseVistas()
    // delete mWindow;
         std::cout << "delete window 2"<< std::endl;
 
-    mWindow = 0;
+   // mWindow = 0;
 
 
 

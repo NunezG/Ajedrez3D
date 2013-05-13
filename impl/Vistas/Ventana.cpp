@@ -18,15 +18,15 @@ Ventana::Ventana() :
 Ventana::~Ventana()
 {
 
-    std::cout << "framelis"<< std::endl;
+ //   std::cout << "framelis"<< std::endl;
 
-    delete vista;
-    std::cout << "fin"<< std::endl;
-    vista = NULL;
-    std::cout << "remove"<< std::endl;
+    //delete vista;
+   // std::cout << "fin"<< std::endl;
+    //vista = NULL;
+   // std::cout << "remove"<< std::endl;
 
 
-
+destruyeVista();
 
 
     std::cout << "end"<< std::endl;
@@ -307,6 +307,9 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 void Ventana::destruyeVista(){
 
+    CEGUI::OgreRenderer::destroySystem();
+
+
     Ogre::WindowEventUtilities::removeWindowEventListener(vista->mWindow, this);
 
 
@@ -317,7 +320,7 @@ void Ventana::destruyeVista(){
 
     delete vista;
 
-
+    vista = 0;
 
     std::cout << "detach"<< std::endl;
 
@@ -362,6 +365,7 @@ void Ventana::creaVista()
     {
         mPantalla = 1;
         vista= new VistaAjedrez();
+
 
     }
     else if (modelo->getNumPantalla() == 2)

@@ -55,7 +55,7 @@ protected:
     Ogre::Root *mRoot;
     Modelo* modelo;
    // Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
-    Ogre::SceneManager* mSceneMgr;
+   // Ogre::SceneManager* mSceneMgr;
 
 };
 

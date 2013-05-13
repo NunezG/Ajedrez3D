@@ -15,7 +15,11 @@ VistaAjedrez::VistaAjedrez() :
 
 
    // escenaAjedrez = EscenaAjedrez::getSingletonPtr();
-    tablero = modelo->escenaAjedrez->getTablero();
+
+
+    std::cout   << "   creaTablero" << std::endl;
+
+
 
 
 
@@ -44,7 +48,7 @@ bool VistaAjedrez::muestraInfo()
 
 bool VistaAjedrez::iniciaVentana()
 {
-
+    tablero = modelo->escenaAjedrez->getTablero();
 
     BaseVistas::iniciaVentana();
 

@@ -6,14 +6,13 @@ Modelo::Modelo() :
    , numJugadores(0)
  ,nombreBlancas("Jugador 1")
  , nombreNegras("Jugador 2")
-
+ , escenaAjedrez(NULL)
   //,  jugadores(NULL)
 
 
 
 
 {
-    escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     resolucion = "800 x 600";
 
 //mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
@@ -61,6 +60,7 @@ void Modelo::setNumPantalla(int pantalla)
 
 void Modelo::construyeMenu()
 {
+
     menu = new ModeloMenu();
 
 }
@@ -91,6 +91,9 @@ void Modelo::mueveFicha(float time)
 //tal vez sea mejor una factoria de jugadores
 void Modelo::creaJugador(bool blancas, bool humano )
 {
+
+    if (escenaAjedrez == NULL) escenaAjedrez  = EscenaAjedrez::getSingletonPtr();
+
    int num = numJugadores;
 
 
