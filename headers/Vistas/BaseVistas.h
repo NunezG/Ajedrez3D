@@ -19,9 +19,13 @@ public:
    // int modoJuego;
 
     virtual bool mueveCamara(float frecuencia) = 0;
-
+    //Unattach OIS before window shutdown (very important under Linux)
+    //Ogre::WindowEventListener
+    void windowClosed();
+    void windowResized();
 
     //virtual bool salir() = 0;
+    Ogre::RenderWindow* mWindow;
 
     virtual bool keyPressed( const OIS::KeyEvent &arg ) = 0;
     virtual bool keyReleased( const OIS::KeyEvent &arg ) = 0;
@@ -35,6 +39,19 @@ public:
     Modelo* modelo;
     bool jaqueMate();
 
+    bool iniciaVentana();
+    int getFPS();
+    void capture();
+    Ogre::RenderWindow* getVentana();
+
+    bool configuraGraficos(const char *desiredRenderer);
+
+
+
+    //OIS Input devices
+    OIS::Mouse*    mMouse;
+    OIS::Keyboard* mKeyboard;
+    OIS::InputManager* mInputManager;
 
 private:
 

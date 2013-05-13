@@ -17,6 +17,7 @@ public:
 
     virtual void mueveFicha(float time) = 0;
 //bool esperaEleccion;
+    virtual void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada) = 0;
 
 protected:
 

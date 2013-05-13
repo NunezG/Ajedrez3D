@@ -32,7 +32,6 @@ protected:
     void setupResources(void);
     void loadResources(void);
     bool setup();
-    bool configuraGraficos(const char *desiredRenderer);
     bool configureOpenGL();
     bool configureOgre(void);
     void chooseSceneManager(void);
@@ -40,18 +39,22 @@ protected:
 
     void agregaJugador();
 
+    bool resetOgre(void);
+    bool initOgre(void);
+
 
     //BUCLE PRINCIPAL
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
 
    // void destruyeTablero(void);
 
+    bool start(void);
 
     Ventana* punteroVentana;
 
     Ogre::Root *mRoot;
     Modelo* modelo;
-    Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
+   // Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
     Ogre::SceneManager* mSceneMgr;
 
 };

@@ -41,7 +41,6 @@ public:
      ~Ventana(void);
 
     //Iniciación
-    bool iniciaVentana();
     void iniciaIO(void);
     bool EmpiezaCEGUI();
 
@@ -50,28 +49,29 @@ public:
     VistaAjedrez* muestraAjedrez();
     bool muestraAjedrezSolo();
 
-    int getFPS();
+    bool iniciaMenu();
+
     int pantallaActual();
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-    Ogre::RenderWindow* getVentana();
     int mPantalla;
     Modelo* modelo;
     BaseVistas* vista;
    // BaseApplication* Create(Ogre::String type);
 
-    void capture();
+
+    bool ventanaCerrada();
+    void destruyeVista();
+    void creaVista();
+    bool CEGUIResources();
+
 
 private:
 
     bool injectTimePulse(const Ogre::FrameEvent& evt);
-    bool statUpdate(const Ogre::FrameEvent& evt);
 
-    //Unattach OIS before window shutdown (very important under Linux)
-    //Ogre::WindowEventListener
-    void windowClosed(Ogre::RenderWindow* rw);
-    void windowResized(Ogre::RenderWindow* rw);
+
 
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
@@ -84,20 +84,14 @@ private:
 
 
   //  Ogre::SceneManager* mSceneMgr;
-    Ogre::RenderWindow* mWindow;
-    Ogre::Root* mRoot;
-    Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
+  //  Ogre::Root* mRoot;
+   // Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
 
-    unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 
     CEGUI::System* sys;
 
    // MenuInicio* menu;
 
-    //OIS Input devices
-    OIS::InputManager* mInputManager;
-    OIS::Mouse*    mMouse;
-    OIS::Keyboard* mKeyboard;
 };
 
 

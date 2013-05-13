@@ -4,6 +4,7 @@
 
 JugadorHumano::JugadorHumano(Tablero* tablero) :
     Jugador(tablero)
+     , ventanaJaque(NULL)
   
   
   
@@ -45,10 +46,19 @@ void JugadorHumano::autorizaCasilla(){
     bool autorizado= true;
     autorizado = Autorizaciones::autorizaCasilla(miTablero);
     
-    std::cout << "autorizado: "<<autorizado << std::endl;
+    std::cout << "autorizado en autorizacasilla: "<<autorizado << std::endl;
     
-    if (ventanaJaque != NULL) ventanaJaque->setVisible(false);
+    if (ventanaJaque != NULL){
+
+        std::cout << "ventanajauqe NO ES NULL " << std::endl;
+
+
+        ventanaJaque->setVisible(false);
+
+    }
     
+    std::cout << "ventanajauqe pasa " << std::endl;
+
     if(autorizado)
     {
 
@@ -98,6 +108,8 @@ void JugadorHumano::autorizaCasilla(){
             
         }
     }
+    std::cout << "sale de autorizado" << std::endl;
+
     
 }
 
@@ -139,4 +151,29 @@ void JugadorHumano::aplicaSeleccion()
 bool JugadorHumano::esHumano()
 {
     return true;
+}
+
+void JugadorHumano::sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada)
+{
+/*if(miTablero->fichaSeleccionada)
+        {
+
+
+                Casilla* casilla = static_cast<Casilla*>(miTablero->getHijo(casillaSobrevolada->getName()));
+
+                if (miTablero->getNodoCasillaSobrevolada()==NULL || casilla->getNombre() != miTablero->getNodoCasillaSobrevolada() -> getNombre())
+                {
+                    if (miTablero->getNodoCasillaSobrevolada()!=NULL){
+                        miTablero->getNodoCasillaSobrevolada()->apagaCasilla();
+                        miTablero->setNodoCasillaSobrevolada(NULL);
+                    }
+                    miTablero->setNodoCasillaSobrevolada(casilla);
+
+                    //AUTORIZA
+                     static_cast<JugadorHumano*>(modelo->jugadores.at(miTablero->getTurnoNegras()))->autorizaCasilla();
+                }
+            }
+        }
+*/
+
 }

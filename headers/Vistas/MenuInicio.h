@@ -16,7 +16,7 @@ public:
    // CEGUI::FrameWindow* createGUI(void);
 
     //bool salir();
-    bool iniciaVista();
+    bool iniciaVentana();
 
     bool esMenuInicio();
 

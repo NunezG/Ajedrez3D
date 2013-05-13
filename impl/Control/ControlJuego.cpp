@@ -11,10 +11,8 @@ ControlJuego::ControlJuego(void) :
 //-------------------------------------------------------------------------------------
 ControlJuego::~ControlJuego(void)
 {
-    std::cout << "DELETE JUGADORES" << std::endl;
 
 
-    std::cout << "FIN DELETE" << std::endl;
 
 
 }
@@ -25,11 +23,13 @@ ControlJuego& ControlJuego::getControlSingleton()
     return miControlJuego_;
 }
 
+
+
+
 //-------------------------------------------------------------------------------------
 bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
- //  std::cout << "frameRenderingQueued"<< std::endl;
 
 
     if(punteroVentana -> pantallaActual() == 0)
@@ -39,8 +39,32 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
         {
             modelo->destruyeMenu();
 
+
+
+
+
+             resetOgre();
+
+             punteroVentana->creaVista();
+
+
+            punteroVentana->vista->mWindow = mRoot->initialise(true, "Ajedrez 2 Jugadores");
+
+
+            initOgre();
+
             punteroVentana->muestraAjedrez();
+
+
             iniciaModeloAjedrez();
+
+
+
+            start();
+
+
+            // Load resources
+           // loadResources();
         }
 
     }
@@ -88,18 +112,9 @@ bool ControlJuego::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
 
 
-    if(punteroVentana -> getVentana()->isClosed())
+    if(punteroVentana ->ventanaCerrada() || modelo->getSalir())
         return false;
 
-
-
-    if(!punteroVentana -> getVentana()->isVisible())
-        return false;
-
-
-
-    if(modelo->getSalir())
-        return false;
 
     punteroVentana->frameRenderingQueued(evt);
 
@@ -139,7 +154,11 @@ bool ControlJuego::iniciaModeloAjedrez(void)
     //mInputMan->setTopSpeed(100);
 
 
-    modelo->escenaAjedrez->createViewports(punteroVentana->getVentana());
+    VistaAjedrez* laVista = static_cast<VistaAjedrez*>(punteroVentana->vista);
+
+
+
+    modelo->escenaAjedrez->createViewports(laVista->mWindow);
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);

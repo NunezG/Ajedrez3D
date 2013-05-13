@@ -2,18 +2,35 @@
 #include "../../headers/Vistas/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez(Ogre::RenderWindow* window) :
+VistaAjedrez::VistaAjedrez() :
     BaseVistas()
     , textoOverlay("VACIO")
-  ,mWindow(window)
 
 
 
 {
-    modelo =Modelo::getSingletonPtr();
+
+  //  modelo =Modelo::getSingletonPtr();
+
+
 
    // escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     tablero = modelo->escenaAjedrez->getTablero();
+
+
+
+}
+
+VistaAjedrez::~VistaAjedrez(void)
+{    
+}
+
+
+
+
+bool VistaAjedrez::muestraInfo()
+{
+
 
     CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("InfoAjedrezCEED.layout");
   //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
@@ -23,10 +40,17 @@ VistaAjedrez::VistaAjedrez(Ogre::RenderWindow* window) :
 
 }
 
-VistaAjedrez::~VistaAjedrez(void)
-{    
-}
 
+
+bool VistaAjedrez::iniciaVentana()
+{
+
+
+    BaseVistas::iniciaVentana();
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("***SALE DE INICIA VENTANA DE LA BASE Y EMPIEZA CEGUI**");
+
+}
 
 
 bool VistaAjedrez::muestraJaque()
@@ -85,21 +109,24 @@ bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 
 bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 {
+    CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
     if (modelo->escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
     {
-        modelo->escenaAjedrez->rotacionCamara(Ogre::Degree(arg.state.X.rel)); // con grados?
+        modelo->escenaAjedrez->rotacionCamara(Ogre::Degree(mCursorPosition.d_x)); // con grados?
     }
 
+
+    else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
+    {
+        // the further the camera is, the faster it moves
+        modelo->escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
+    }
     else if (tablero->fichaSeleccionada)
     {
 
-        CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
-
-
-
-        int posx = arg.state.X.abs;   // Posicion del puntero
-        int posy = arg.state.Y.abs;   //  en pixeles.
+       // int posx = arg.state.X.abs;   // Posicion del puntero
+      //  int posy = arg.state.Y.abs;   //  en pixeles.
 
         Ogre::RaySceneQueryResult &result = modelo->escenaAjedrez->executeRay(mCursorPosition.d_x, mCursorPosition.d_y, 'C');
 
@@ -126,11 +153,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         }
     }
 
-    else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
-    {
-        // the further the camera is, the faster it moves
-        modelo->escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
-    }
+    std::cout << "fin mousemoved" << std::endl;
 
     //  mInputMan->injectMouseMove(arg); //CAMBIA NOMBRE POR MUEVECAMARA
 
@@ -206,8 +229,8 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
             tablero->fichaSeleccionada = true;
 
 
-        std::cout  << "FILA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Fila <<std::endl;
-        std::cout  << "COLUMNA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Columna <<std::endl;
+       // std::cout  << "FILA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Fila <<std::endl;
+      //  std::cout  << "COLUMNA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Columna <<std::endl;
 
 
 

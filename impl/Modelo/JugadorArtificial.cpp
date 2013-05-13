@@ -212,3 +212,9 @@ int* JugadorArtificial::mueveIA(int origen, int destino)
 }
 
 
+void JugadorArtificial::sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada)
+{
+
+}
+
+

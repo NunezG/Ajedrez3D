@@ -9,7 +9,7 @@ MenuInicio::MenuInicio() :
     listaResoluciones(NULL)
 
 {
-    iniciaVista();
+  //  iniciaVista();
 }
 //-------------------------------------------------------------------------------------
 MenuInicio::~MenuInicio(void)
@@ -18,8 +18,14 @@ MenuInicio::~MenuInicio(void)
 
 }
 
-bool MenuInicio::iniciaVista()
+bool MenuInicio::iniciaVentana()
 {
+
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("***INICIAVENTAAN EN MENU INICIO**");
+
+
+    BaseVistas::iniciaVentana();
     CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuInicioAjedrezCEED.layout");
     //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
@@ -276,12 +282,12 @@ bool MenuInicio::botonAplicarCambios(const CEGUI::EventArgs &e)
 
         CEGUI::ListboxItem* item = static_cast<CEGUI::ListboxItem*>(listaResoluciones->getListboxItemFromIndex(i));
 
-        std::cout  << "item: " <<item->getText() <<std::endl;
+      //  std::cout  << "item: " <<item->getText() <<std::endl;
 
 
         // If the item is selected then it maintains its selected colour
         if(item->isSelected()){
-            std::cout  << "SE HA APLICADO Y SELECCIONADO LA RESOLUCION ("<< item->getText() <<  ")" << std::endl;
+           // std::cout  << "SE HA APLICADO Y SELECCIONADO LA RESOLUCION ("<< item->getText() <<  ")" << std::endl;
 
             modelo->resolucion = item->getText().c_str();
             //  renderSystem->setConfigOption("Video Mode", modelo->resolucion);
@@ -323,15 +329,11 @@ bool MenuInicio::sobrevuelaLista(const CEGUI::EventArgs &e)
     CEGUI::Vector2 mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
                                  CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
 
-    std::cout  << "mouse: "<< mousePosLocal.d_x  << std::endl;
-    std::cout  << "mouse: "<< mousePosLocal.d_y  << std::endl;
 
     CEGUI::ListboxTextItem* detectedItem = static_cast<CEGUI::ListboxTextItem*>(listaResoluciones->getItemAtPoint(mousePosLocal));
 
     // The colour is updated only if the detected item is not selected
     if(detectedItem ){
-
-        std::cout  << "ITEM DETECTADO: "<< mousePosLocal.d_x  << std::endl;
 
         detectedItem->setTextColours(CEGUI::colour(0.0, 1.0, 0.0, 1.0));
     }

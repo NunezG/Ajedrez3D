@@ -26,7 +26,7 @@ public:
     void autorizaCasilla();
 
     void sobreVuelaCasilla();
-
+    void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 
 protected:
 

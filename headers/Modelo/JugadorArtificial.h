@@ -18,6 +18,9 @@ public:
 
     int dificultad;
 
+    void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
+
+
 private:
     void calculaMovimiento();
     int* mueveIA(int origen, int destino);
