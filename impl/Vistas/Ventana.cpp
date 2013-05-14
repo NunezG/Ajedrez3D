@@ -5,11 +5,11 @@ Ventana::Ventana() :
 
     mPantalla(0),
     sys(0),
-   // mRoot(Ogre::Root::getSingletonPtr()),
+    // mRoot(Ogre::Root::getSingletonPtr()),
     //mTimer(mRoot->getTimer()),
     //  mSceneMgr(0),
     vista(NULL)
-    //capturaRaton(true)
+  //capturaRaton(true)
 {
     modelo = Modelo::getSingletonPtr();
 
@@ -18,15 +18,15 @@ Ventana::Ventana() :
 Ventana::~Ventana()
 {
 
- //   std::cout << "framelis"<< std::endl;
+    //   std::cout << "framelis"<< std::endl;
 
     //delete vista;
-   // std::cout << "fin"<< std::endl;
+    // std::cout << "fin"<< std::endl;
     //vista = NULL;
-   // std::cout << "remove"<< std::endl;
+    // std::cout << "remove"<< std::endl;
 
 
-destruyeVista();
+    destruyeVista();
 
 
     std::cout << "end"<< std::endl;
@@ -91,7 +91,7 @@ bool Ventana::CEGUIResources()
 
 
 
-       // CEGUI::SchemeManager::getSingleton().create("OgreTray.scheme");
+    // CEGUI::SchemeManager::getSingleton().create("OgreTray.scheme");
 
     CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
     Ogre::LogManager::getSingletonPtr()->logMessage("*** sys***");
@@ -105,7 +105,7 @@ bool Ventana::CEGUIResources()
     CEGUI::FontManager::getSingleton().create("DejaVuSans-10.font");
 
 
-   // sys->setDefaultFont("DejaVuSans-10");
+    // sys->setDefaultFont("DejaVuSans-10");
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** CARGA RATON 1***");
 
@@ -117,12 +117,12 @@ bool Ventana::CEGUIResources()
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** ACABA CARGA RATON ***");
 
-   CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     CEGUI::Window *sheet= wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
 
     sys->setGUISheet(sheet);
 
-   sys->renderGUI();
+    sys->renderGUI();
     Ogre::LogManager::getSingletonPtr()->logMessage("*** ACABA GUI***");
 
 
@@ -157,7 +157,7 @@ bool Ventana::iniciaMenu()
 
 
 
-  //VistaAjedrez* miVista = static_cast<VistaAjedrez*>(vista);
+    //VistaAjedrez* miVista = static_cast<VistaAjedrez*>(vista);
 
 
 
@@ -168,19 +168,19 @@ bool Ventana::iniciaMenu()
 bool Ventana::MuestraMenu()
 {
 
-  static_cast<MenuInicio*>(vista)->iniciaVentana();
+    static_cast<MenuInicio*>(vista)->iniciaVentana();
 
- // vista->iniciaVentana();
-
-
-  vista->mMouse->setEventCallback(this);
-  vista->mKeyboard->setEventCallback(this);
+    // vista->iniciaVentana();
 
 
-  //Register as a Window listener
-  Ogre::WindowEventUtilities::addWindowEventListener(vista->mWindow, this);
+    vista->mMouse->setEventCallback(this);
+    vista->mKeyboard->setEventCallback(this);
 
-  Ogre::LogManager::getSingletonPtr()->logMessage("***FIN  Initializing OISpuntero ***");
+
+    //Register as a Window listener
+    Ogre::WindowEventUtilities::addWindowEventListener(vista->mWindow, this);
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("***FIN  Initializing OISpuntero ***");
 
 
 
@@ -193,7 +193,7 @@ bool Ventana::ventanaCerrada()
     VistaAjedrez* miVista = static_cast<VistaAjedrez*>(vista);
     if (miVista->mWindow->isClosed() || !miVista->mWindow->isVisible())
     {
-    //CIERRA LA VENTANA
+        //CIERRA LA VENTANA
 
 
         delete vista;
@@ -219,7 +219,7 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
         modelo->setSalir(true);
     }else if (evt.key == OIS::KC_SYSRQ)   // take a screenshot
     {
-       // mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
+        // mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
     }
 
     return true;
@@ -248,7 +248,7 @@ bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
     //   {
 
 
-   if (vista != NULL) vista->mouseMoved(evt);
+    if (vista != NULL) vista->mouseMoved(evt);
 
 
 
@@ -270,11 +270,11 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     //  if (capturaRaton){
     //    }
-   // statUpdate(evt);
+    // statUpdate(evt);
 
 
-  //  if (modelo->getTablero()->jugadores[modelo->getTablero()->getTurnoNegras()]->esHumano())
- //   {
+    //  if (modelo->getTablero()->jugadores[modelo->getTablero()->getTurnoNegras()]->esHumano())
+    //   {
 
 
 
@@ -282,7 +282,7 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
     {
 
 
-            vista->capture();
+        vista->capture();
 
 
 
@@ -295,7 +295,7 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     }
 
-   // }
+    // }
 }
 
 
@@ -307,47 +307,50 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 void Ventana::destruyeVista(){
 
-    CEGUI::OgreRenderer::destroySystem();
+
+    if (vista)
+    {
+        CEGUI::OgreRenderer::destroySystem();
 
 
-    Ogre::WindowEventUtilities::removeWindowEventListener(vista->mWindow, this);
+        Ogre::WindowEventUtilities::removeWindowEventListener(vista->mWindow, this);
 
 
-    std::cout << "destroy 3"<< std::endl;
+        std::cout << "destroy 3"<< std::endl;
 
-    vista->windowClosed();
-
-
-    delete vista;
-
-    vista = 0;
-
-    std::cout << "detach"<< std::endl;
-
-   // mRoot->detachRenderTarget(vista->mWindow);
-
-  //  std::cout << "destroy"<< std::endl;
+        vista->windowClosed();
 
 
-    //mRoot->destroyRenderTarget(vista->mWindow);
+        delete vista;
+
+        vista = 0;
+
+        std::cout << "detach"<< std::endl;
+
+        // mRoot->detachRenderTarget(vista->mWindow);
+
+        //  std::cout << "destroy"<< std::endl;
 
 
-  //  std::cout << "vista"<< std::endl;
-
-    //vista->windowClosed();
+        //mRoot->destroyRenderTarget(vista->mWindow);
 
 
-  //  std::cout << "destroy"<< std::endl;
+        //  std::cout << "vista"<< std::endl;
 
-  //  CEGUI::SchemeManager::getSingleton().destroyAll();
-
-  //  std::cout << "destroy 2"<< std::endl;
-
-  // CEGUI::OgreRenderer::destroySystem();
-
-    //OIS::InputManager::destroyInputSystem(vista->mInputManager);
+        //vista->windowClosed();
 
 
+        //  std::cout << "destroy"<< std::endl;
+
+        //  CEGUI::SchemeManager::getSingleton().destroyAll();
+
+        //  std::cout << "destroy 2"<< std::endl;
+
+        // CEGUI::OgreRenderer::destroySystem();
+
+        //OIS::InputManager::destroyInputSystem(vista->mInputManager);
+
+    }
 
 
     std::cout << "pasa"<< std::endl;
@@ -383,9 +386,9 @@ VistaAjedrez* Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 {
 
     //sys->getGUISheet()->setVisible(false);
-   // CEGUI::Window* win = sys->getGUISheet();
+    // CEGUI::Window* win = sys->getGUISheet();
 
-       //win->cleanupChildren();
+    //win->cleanupChildren();
 
 
 
@@ -413,12 +416,12 @@ VistaAjedrez* Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 
 
 
-  //  static_cast<VistaAjedrez*>(vista)->muestraInfo();
+    //  static_cast<VistaAjedrez*>(vista)->muestraInfo();
 
     Ogre::LogManager::getSingletonPtr()->logMessage("***fin**");
 
-  //  CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("InfoAjedrezCEED.layout");
-  //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
+    //  CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("InfoAjedrezCEED.layout");
+    //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
 
     //CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
@@ -430,7 +433,7 @@ VistaAjedrez* Ventana::muestraAjedrez(/*EscenaAjedrez escenaAjedrez*/)
 
 bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
-sys->injectMouseButtonDown(convertButton(id));
+    sys->injectMouseButtonDown(convertButton(id));
 
 
 
@@ -440,7 +443,7 @@ sys->injectMouseButtonDown(convertButton(id));
         return true;
     }
 
-   // return true;
+    // return true;
 }
 
 bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)

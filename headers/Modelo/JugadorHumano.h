@@ -23,7 +23,7 @@ public:
 
     void aplicaSeleccion();
 
-    void autorizaCasilla();
+    void autorizaCasilla(tipoFicha tipo, posicion seleccionado, posicion sobrevolado);
 
     void sobreVuelaCasilla();
     void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);

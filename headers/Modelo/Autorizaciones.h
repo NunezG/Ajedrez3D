@@ -11,18 +11,18 @@ class Autorizaciones
 {
 public:
 
-    static bool autorizaCasilla(Tablero* miTablero);
+    static bool autorizaCasilla(Tablero* miTablero,  tipoFicha tipo,  posicion nodoSeleccionado,  posicion nodoSobrevolado);
     static bool evaluaJaque(int casillasInt[144], bool turnoNegras);
     static void generaMovimientos(TableroPrueba* miTablero);
     static void normalizaTablero(int* tablero);
 
 private:
 
-    static bool autorizaRey(posicion diferencia, posicion nodoSobrevolado, Tablero* miTablero);
-    static bool autorizaReina(posicion diferencia, posicion nodoSobrevolado,Tablero* miTablero);
-    static bool autorizaPeon(posicion diferencia, Casilla* nodoSobrevolado, posicion seleccionado,Tablero* miTablero);
-    static bool autorizaAlfil(posicion diferencia, posicion nodoSobrevolado, Tablero* elTablero);
-    static bool autorizaTorre(posicion diferencia, posicion nodoSobrevolado, Tablero* elTablero);
+    static bool autorizaRey(posicion diferencia, posicion nodoSobrevolado, TableroPrueba* miTablero);
+    static bool autorizaReina(posicion diferencia, posicion nodoSobrevolado,int* miTablero);
+    static bool autorizaPeon(posicion diferencia, posicion nodoSobrevolado, posicion seleccionado,TableroPrueba* miTablero);
+    static bool autorizaAlfil(posicion diferencia, posicion nodoSobrevolado, int* elTablero);
+    static bool autorizaTorre(posicion diferencia, posicion nodoSobrevolado, int* elTablero);
     static bool autorizaCaballo(posicion diferencia);
 
     static bool verificaCamino(int distancia, posicion _nodoNuevo, int camino, int* casillas);

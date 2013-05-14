@@ -680,6 +680,9 @@ int* Tablero::mueveYTraduceTablero()
     tableroTraducido[posFinal]= tableroTraducido[posInicial];
     tableroTraducido[posInicial] = 0;
 
+
+
+
     return tableroTraducido;
 }
 

@@ -4,7 +4,7 @@
 
 
 
-//#include "../Modelo/Modelo.h"
+//#include "../Model o/Modelo.h"
 
 #include <OgreCamera.h>
 #include <OgreEntity.h>

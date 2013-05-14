@@ -91,10 +91,7 @@ bool BaseJuego::resetOgre(void)
 
     // punteroVentana->destruyeMenu();
 
-      if(punteroVentana->vista){
-          punteroVentana->destruyeVista();
-      }
-
+    punteroVentana->destruyeVista();
 
 
     std::cout   << "   reset1 " << std::endl;
@@ -157,11 +154,11 @@ void BaseJuego::destroyScene(void)
 
     //  if modelo->   modelo->destruyeMenu();
 
-  if (modelo->escenaAjedrez != NULL)
-  {
-mRoot->removeFrameListener(this);
-//mRoot->destroySceneManager(modelo->escenaAjedrez->mSceneMgr);
-      //  modelo->escenaAjedrez->destruyeTablero();
+    if (modelo->escenaAjedrez != NULL)
+    {
+        mRoot->removeFrameListener(this);
+        //mRoot->destroySceneManager(modelo->escenaAjedrez->mSceneMgr);
+        //  modelo->escenaAjedrez->destruyeTablero();
 
 
 
@@ -169,16 +166,16 @@ mRoot->removeFrameListener(this);
         //  mRoot->destroySceneManager(mSceneMgr);
         delete mRoot;
 
-   }
+    }
 
 
-  delete punteroVentana;
+    delete punteroVentana;
 
-  //  if (mRoot)
+    //  if (mRoot)
 
 
 
-  //  modelo = NULL;
+    //  modelo = NULL;
 
 
     //delete mRoot;
@@ -188,9 +185,9 @@ mRoot->removeFrameListener(this);
 
     mRoot = NULL;
 
-   //
+    //
 
-//    punteroVentana = NULL;
+    //    punteroVentana = NULL;
 
 
 }

@@ -143,16 +143,35 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 
             Casilla* casillaSobrevolada = static_cast<Casilla*>(tablero->getHijo(nodoSobrevolado->getName()));
 
-            if (tablero->getNodoCasillaSobrevolada()==NULL || casillaSobrevolada->getNombre() != tablero->getNodoCasillaSobrevolada() -> getNombre())
+            Casilla* casillaSobreAnterior = tablero->getNodoCasillaSobrevolada();
+
+
+            if (casillaSobreAnterior==NULL || casillaSobrevolada->getNombre() != casillaSobreAnterior-> getNombre())
             {
-                if (tablero->getNodoCasillaSobrevolada()!=NULL){
-                    tablero->getNodoCasillaSobrevolada()->apagaCasilla();
+                if (casillaSobreAnterior!=NULL){
+                    casillaSobreAnterior->apagaCasilla();
                     tablero->setNodoCasillaSobrevolada(NULL);
                 }
                 tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
 
+
+                Casilla* nodoSeleccionado = tablero->getNodoCasillaSeleccionada();
+
+                // elTablero = miTablero;
+             //   posicion seleccionado = nodoSeleccionado->getPosicion();
+                // Ogre::Vector3 nuevo = nodoSobrevolado->getNodoOgre()->getPosition();
+
+
+
+                // if(diferencia.Fila != 0)   diferencia= diferencia;
+                // else diferencia= diferenciaZ;
+
+                Ficha *mFicha = static_cast<Ficha*>(nodoSeleccionado->getHijo(0));
+                tipoFicha tipo = mFicha->tipo_Ficha;
+
+
                 //AUTORIZA
-                 static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->autorizaCasilla();
+                 static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->autorizaCasilla(tipo, nodoSeleccionado->getPosicion(), casillaSobrevolada->getPosicion());
             }
         }
     }
