@@ -80,28 +80,6 @@ bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
 
 }
 
-//-------------------------------------------------------------------------------------
-bool Tablero::FichaComestible()
-{
-
-    if (!getNodoCasillaSobrevolada()->sinHijos())
-    {
-        // Casilla* casilla = getNodoCasillaSobrevolada()->getHijo(0);
-
-        //Mira si la casilla está ocupada y por quién
-        // Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (_nodoNuevo->getChild(0));
-        Ficha* ent = static_cast<Ficha*> (getNodoCasillaSobrevolada()->getHijo(0));
-
-        if((!getTurnoNegras() && ent->esNegra)
-                || (getTurnoNegras() && !ent->esNegra))
-        {
-
-            return true;
-        }
-    }
-
-    return false;
-}
 
 void Tablero::creaCasillas()
 {

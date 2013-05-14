@@ -92,9 +92,6 @@ public:
     void setNodoCasillaSeleccionada(Casilla* nodo);
     void setNodoCasillaSobrevolada(Casilla* nodo);
 
-
-    bool FichaComestible();
-
     void actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
 
     int* traduceTablero();

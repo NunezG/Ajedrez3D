@@ -6,11 +6,10 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero, tipoFicha tipo,  posici
 {
 
 
-    posicion diferencia;
 
+    posicion diferencia;
     diferencia.Fila = nodoSobrevolado.Fila - nodoSeleccionado.Fila;
     diferencia.Columna = nodoSobrevolado.Columna - nodoSeleccionado.Columna;
-
 
     miTablero->casillasInt = miTablero->traduceTablero();
 
@@ -53,7 +52,7 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero, tipoFicha tipo,  posici
         case Peon: //PEON SELECCIONADO
 
 
-            return autorizaPeon(diferencia, nodoSobrevolado, nodoSeleccionado, miTablero);
+             return autorizaPeon(diferencia, nodoSobrevolado, nodoSeleccionado, miTablero);
             break;
 
         default:
@@ -102,32 +101,24 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
         for (int i = 1;ficha != 99; i++)
         {
             ficha = casillasInt[posRey+(i*12)];
-
-            if (i==1)
-            {
-                //REY
-                if(ficha == fichaRey)
-                {
-                    return true;
-                }
-            }
-
-            //REINA                             //TORRE
-            if(ficha == fichaReina || ficha == fichaTorre)
-            {
-
-                if(ficha == fichaTorre)std::cout << "TORRE NORTE" << std::endl;
-                else std::cout << "REINA NORTE" << std::endl;
-
-                return true;
-            }
-
-            //cualquier otra ficha en medio
             if(ficha != 0)
             {
 
+                //REY
+                if(i==1 && ficha == fichaRey)
+                    return true;
+
+
+                //REINA                             //TORRE
+                if(ficha == fichaReina || ficha == fichaTorre)
+                    return true;
+
+
+                //cualquier otra ficha en medio
+
                 break;
             }
+
         }
 
         //S
@@ -136,32 +127,24 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
         {
             ficha = casillasInt[posRey-(i*12)];
 
-            if (i==1)
-            {
-                //REY
-                if(ficha == fichaRey)
-                {
-                    std::cout << "REY SUR" << std::endl;
-
-                    return true;
-                }
-            }
-
-            //REINA                             //TORRE
-            if(ficha == fichaReina || ficha == fichaTorre)
-            {
-
-
-                if(ficha == fichaTorre)std::cout << "TORRE SUR " << std::endl;
-                else std::cout << "REINA SUR " << std::endl;
-                return true;
-            }
-
-            //ficha en medio
             if(ficha != 0)
             {
+                //REY
+                if(i==1 && ficha == fichaRey)
+                    return true;
+
+
+
+                //REINA                             //TORRE
+                if(ficha == fichaReina || ficha == fichaTorre)
+                    return true;
+
+
+                //ficha en medio
+
                 break;
             }
+
         }
 
         //E
@@ -171,33 +154,22 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
         {
             ficha = casillasInt[posRey+i];
 
-            if (i==1)
-            {
-                //REY
-                if(ficha == fichaRey)
-                {
-
-                    std::cout << "REY ESTE" << std::endl;
-                    return true;
-                }
-            }
-
-            //REINA                             //TORRE
-            if(ficha == fichaReina || ficha == fichaTorre)
-            {
-
-
-                if(ficha == fichaTorre)std::cout << "TORRE ESTE" << std::endl;
-                else std::cout << "REINA ESTE" << std::endl;
-
-                return true;
-            }
-
-            //ficha en medio
             if(ficha != 0)
             {
+                //REY
+                if(i==1 && ficha == fichaRey)
+                    return true;
+
+                //REINA                             //TORRE
+                if(ficha == fichaReina || ficha == fichaTorre)
+                    return true;
+
+
+                //ficha en medio
+
                 break;
             }
+
         }
 
         //O
@@ -205,73 +177,41 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
 
         for (int i = 1;ficha != 99; i++)
         {
-
             ficha = casillasInt[posRey-i];
 
-            if (i==1)
-            {
-                //REY
-                if(ficha == fichaRey)
-                {
-
-                    std::cout << "REY OESTE " << std::endl;
-                    return true;
-
-                }
-            }
-
-            //REINA                             //TORRE
-            if(ficha == fichaReina || ficha == fichaTorre)
-            {
-
-                if(ficha == fichaTorre)std::cout << "TORRE OESTE " << std::endl;
-                else std::cout << "REINA OESTE" << std::endl;
-
-                return true;
-
-            }
-            //ficha en medio
             if(ficha != 0)
             {
-                break;
+                //REY
+                if (i==1 && ficha == fichaRey)
+                    return true;
 
+                //REINA                             //TORRE
+                if(ficha == fichaReina || ficha == fichaTorre)
+                    return true;
+
+                //ficha en medio
+
+                break;
             }
         }
 
         //NE
-
-
         ficha= 0;
 
         for (int i = 1;ficha != 99; i++)
         {
             ficha = casillasInt[posRey+(i*11)];
-
-            if (i==1)
-            {
-                //REY                               //PEON NEGRO
-                if(ficha == fichaRey || (!turnoNegras && ficha == fichaPeon))
-                {
-                    if(ficha == fichaRey)std::cout << "REY NORESTE" << std::endl;
-                    else std::cout << "PEON NEGRO NORESTE " << std::endl;
-
-                    return true;
-                }
-            }
-
-            //REINA                             //ALFIL
-            if(ficha == fichaReina || ficha == fichaAlfil)
-            {
-                if(ficha == fichaAlfil)std::cout << "ALFIL NORESTE" << std::endl;
-                else std::cout << "REINA NORESTE" << std::endl;
-                return true;
-            }
-
-            //ficha en medio
             if(ficha != 0)
             {
-                break;
+                //REY                               //PEON NEGRO
+                if(i==1 && (ficha == fichaRey || (!turnoNegras && ficha == fichaPeon)))
+                    return true;
 
+                //REINA                             //ALFIL
+                else if(ficha == fichaReina || ficha == fichaAlfil)
+                    return true;
+
+                break;
             }
         }
 
@@ -281,27 +221,16 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
         for (int i = 1;ficha != 99; i++)
         {
             ficha = casillasInt[posRey+(i*13)];
-            if (i==1)
-            {
-                //REY                               //PEON NEGRO
-                if(ficha == fichaRey || (!turnoNegras && ficha ==fichaPeon))
-                {
-
-                    if(ficha == fichaRey)std::cout << "REY NOROESTE " << std::endl;
-                    else std::cout << "PEON NEGRO NOROESTE" << std::endl;
-                    return true;
-                }
-            }
-            //REINA                             //ALFIL
-            if(ficha == fichaReina || ficha == fichaAlfil)
-            {
-                if(ficha == fichaAlfil)std::cout << "ALFIL NOROESTE " << std::endl;
-                else std::cout << "REINA NOROESTE " << std::endl;
-                return true;
-            }
-            //ficha en medio
             if(ficha != 0)
             {
+                //REY                               //PEON NEGRO
+                if(i==1 && (ficha == fichaRey || (!turnoNegras && ficha ==fichaPeon)))
+                    return true;
+
+                //REINA                             //ALFIL
+                if(ficha == fichaReina || ficha == fichaAlfil)
+                    return true;
+
                 break;
             }
         }
@@ -312,46 +241,20 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
 
         for (int i = 1;ficha != 99; i++)
         {
-
             ficha = casillasInt[posRey-(i*11)];
 
-
-            if (i==1)
-            {
-                //REY                               //PEON BLANCO
-                if(ficha == fichaRey || (turnoNegras && ficha ==fichaPeon))
-                {
-
-                    if(ficha == fichaRey)std::cout << "REY SUDESTE" << std::endl;
-                    else std::cout << "PEON BLANCO SUDESTE " << std::endl;
-
-                    return true;
-
-                }
-            }
-
-            //REINA                             //ALFIL
-            if(ficha == fichaReina || ficha == fichaAlfil)
-            {
-
-                if(ficha == fichaAlfil)std::cout << "ALFIL SUDESTE" << std::endl;
-                else std::cout << "REINA SUDESTE" << std::endl;
-                return true;
-
-            }
-
-
-
-
-            //ficha en medio
             if(ficha != 0)
             {
+                //REY                               //PEON BLANCO
+                if(i==1 && (ficha == fichaRey || (turnoNegras && ficha ==fichaPeon)))
+                    return true;
+
+                //REINA                             //ALFIL
+                if(ficha == fichaReina || ficha == fichaAlfil)
+                    return true;
+
                 break;
-
             }
-
-
-
         }
 
         //SO
@@ -360,31 +263,16 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
         {
             ficha = casillasInt[posRey-(i*13)];
 
-            if (i==1)
-            {
-                //REY                               //PEON BLANCO
-                if(ficha == fichaRey || (turnoNegras && ficha ==fichaPeon))
-                {
-
-                    if(ficha == fichaRey)std::cout << "REY SUDOESTE" << std::endl;
-                    else std::cout << "PEON BLANCO SUDOESTE" << std::endl;
-                    return true;
-                }
-            }
-
-            //REINA                             //ALFIL
-            if(ficha == fichaReina || ficha == fichaAlfil)
-            {
-
-                if(ficha == fichaAlfil)std::cout << "ALFIL SUDOESTE " << std::endl;
-                else std::cout << "REINA SUDOESTE" << std::endl;
-                return true;
-
-            }
-
-            //ficha en medio
             if(ficha != 0)
             {
+                //REY                               //PEON BLANCO
+                if(i==1 && (ficha == fichaRey || (turnoNegras && ficha ==fichaPeon)))
+                    return true;
+
+                //REINA                             //ALFIL
+                if(ficha == fichaReina || ficha == fichaAlfil)
+                    return true;
+
                 break;
             }
         }
@@ -393,76 +281,55 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
         caballo= posRey-10;
         ficha = casillasInt[caballo];
         if(ficha == fichaCaballo)
-        {
-
             return true;
 
-        }
+
         caballo= posRey-14;
         ficha = casillasInt[caballo];
         if(ficha == fichaCaballo)
-        {
-
             return true;
 
-        }
+
         caballo= posRey-23;
         ficha = casillasInt[caballo];
         if(ficha == fichaCaballo)
-        {
-
             return true;
 
-        }
+
 
         caballo= posRey-25;
         ficha = casillasInt[caballo];
         if(ficha == fichaCaballo)
-        {
-
             return true;
-
-        }
 
         caballo= posRey+10;
         ficha = casillasInt[caballo];
-
         if(ficha == fichaCaballo)
-        {
-
             return true;
 
-        }
 
         caballo= posRey+14;
         ficha = casillasInt[caballo];
         if(ficha == fichaCaballo)
-        {
-
             return true;
 
-        }
+
         caballo= posRey+23;
         ficha = casillasInt[caballo];
         if(ficha == fichaCaballo)
-        {
-
             return true;
 
-        }
+
         caballo= posRey+25;
         ficha = casillasInt[caballo];
         if(ficha == fichaCaballo)
-        {
             return true;
-        }
     }
     return false;
 }
 
-bool Autorizaciones::autorizaPeon(posicion diferencia, posicion nodoSobrevolado, posicion seleccionado, TableroPrueba* miTablero)
+bool Autorizaciones::autorizaPeon (posicion diferencia, posicion nodoSobrevolado, posicion seleccionado, TableroPrueba* miTablero)
 {
-
     std::cout << "!!!!!!!!!!!AUTORIZA PEON!!!!!!!!!!!!!!" << std::endl;
 
 
@@ -474,96 +341,53 @@ bool Autorizaciones::autorizaPeon(posicion diferencia, posicion nodoSobrevolado,
 
     }
 
-
-    //if (diferencia.Fila < 0) diferencia.Fila = -diferencia.Fila;
-
-    //if (diferencia.Columna < 0) diferencia.Columna = -diferencia.Columna;
-
-    //if (turnoNegras)diferencia= -diferencia;
-
     int filaSobreTraducida = 24 + (nodoSobrevolado.Fila * 12);
 
-
     //std::cout << "!!!!!!!!DIFERENCIA: " <<   diferencia.Fila<<" col!!!!!!!!: " <<diferencia.Columna << std::endl;
-
-
     //std::cout << "!!!!!!!!FILa sobrevolada: " <<   nodoSobrevolado.Fila  << std::endl;
-
     //std::cout << "!!!!!!!!COL sobrevolada: " <<   nodoSobrevolado.Columna<< std::endl;
-
-
     //std::cout << "!!!!!!!!FILa seleccionada: " <<   seleccionado.Fila<<" traducida!!!!!!!!" <<filaSobreTraducida << std::endl;
-
     //std::cout << "!!!!!!!!COL seleccionada: " <<   seleccionado.Columna<<" traducida!!!!!!!!" <<seleccionado.Columna+2 << std::endl;
 
     if (diferencia.Columna == 0)
     {
-
-
         if (diferencia.Fila== 2
                 && ((seleccionado.Fila == 1 && !miTablero->turnoN) || (seleccionado.Fila == 6 && miTablero->turnoN)))
         {
-            std::cout << "!!!!!!!!SALTA 2!!!!!!!!!" << std::endl;
-
-
             //SALTA 2 CASILLAS (ESCAQUES)
-            if (miTablero->turnoN) return verificaCamino(diferencia.Fila, nodoSobrevolado, 2, miTablero->casillasInt);
-            else return verificaCamino(diferencia.Fila, nodoSobrevolado, 1, miTablero->casillasInt);
-
+            if (miTablero->turnoN)
+                return verificaCamino(diferencia.Fila, nodoSobrevolado, 2, miTablero->casillasInt);
+            else
+                return verificaCamino(diferencia.Fila, nodoSobrevolado, 1, miTablero->casillasInt);
         }
-
         else if (diferencia.Fila == 1)
         {
             //PASA UNA CASILLA
             if (miTablero->casillasInt[filaSobreTraducida + nodoSobrevolado.Columna+2] != 0)
-            {
-                std::cout << "!!!!!!!!NO PASA 1!!!!!!!!!" << std::endl;
-
                 return false;
-            }
-            else return true;
-
+            else
+                return true;
         }
-        //  else if(diferencia.Fila == 1 && (diferencia.Columna == 1)){
-
-
-        //}
     }else  if((diferencia.Fila == 1 &&( diferencia.Columna == -1
                                         || diferencia.Columna == 1)))
     {
-
-
         //COME
         if (miTablero->casillasInt[filaSobreTraducida + nodoSobrevolado.Columna+2] != 0)
-        {
             return true;
-        }else if(miTablero->alPaso >= 0)
+        else if(miTablero->alPaso >= 0)
         {
-
             //AL PASO
             posicion casillaLateral;
-            // int casillaLateral = (seleccionado.Fila*8) + seleccionado.Columna;
-
 
             casillaLateral.Fila = 24 + (seleccionado.Fila * 12);;
-
             casillaLateral.Columna = nodoSobrevolado.Columna;
-
             int posCasilla =casillaLateral.Fila + casillaLateral.Columna + 2;
 
             if (miTablero->alPaso == posCasilla)
-            {
-
                 return true;
-            }
-
         }
-
     }
-
-
     return false;
-
 }
 
 bool Autorizaciones::autorizaAlfil(posicion diferencia, posicion nodoSobrevolado, int* elTablero)
@@ -600,71 +424,27 @@ bool Autorizaciones::autorizaRey(posicion diferencia, posicion nodoSobrevolado, 
             && (diferencia.Columna==1||diferencia.Columna==-1||diferencia.Columna==0))
         return true;
     else{
-        //ENROQUE!!!
-        if( diferencia.Fila == 0)
+        //ENROQUE
+        if (diferencia.Fila == 0 && ((!miTablero->turnoN && nodoSobrevolado.Fila == 0) ||
+                                     (miTablero->turnoN && nodoSobrevolado.Fila == 7)))
         {
-            //  Casilla* casilla = NULL;
-            int casillaTorre = 0;
             int posCasilla = nodoSobrevolado.Fila*12; //ES SIEMPRE LA PRIMERA COLUMNA
 
-
-
-            if(diferencia.Columna == 2)
+            if(diferencia.Columna == 2) //derecha (enroque corto)
             {
-                //derecha (corto)
-                casillaTorre = miTablero->casillasInt[posCasilla+7];
-
+                if(miTablero->casillasInt[posCasilla+7] == Torre)
+                    return verificaCamino(diferencia.Columna+1, nodoSobrevolado, 4, miTablero->casillasInt);
 
             }
-            if(diferencia.Columna == -2)
+            else if(diferencia.Columna == -2)   //izquierda (enroque largo)
             {
 
-                //izquierda (largo)
-
-                casillaTorre = miTablero->casillasInt[posCasilla];
+                if(miTablero->casillasInt[posCasilla] == Torre)
+                    return verificaCamino(diferencia.Columna-2, nodoSobrevolado, 3, miTablero->casillasInt);
             }
-
-
-            if (casillaTorre != 0)
-            {
-
-                // Ficha* ficha =  static_cast<Ficha*>(casilla->getHijo(0));
-
-                if(casillaTorre == Torre)
-                {
-
-                    if ((!miTablero->turnoN && nodoSobrevolado.Fila == 0) ||
-                            (miTablero->turnoN && nodoSobrevolado.Fila == 7)){
-
-
-                        if(diferencia.Columna == 2)
-                        {
-
-                            return verificaCamino(diferencia.Columna+1, nodoSobrevolado, 4, miTablero->casillasInt);
-                        }
-
-
-                        if(diferencia.Columna == -2)
-                        {
-
-                            return verificaCamino(diferencia.Columna-2, nodoSobrevolado, 3, miTablero->casillasInt);
-                        }
-
-
-
-
-                    }
-                }
-
-            }
-
-
 
         }
-
-
         return false;
-
     }
 }
 
@@ -674,11 +454,11 @@ bool Autorizaciones::autorizaTorre(posicion diferencia, posicion nodoSobrevolado
 
     if (diferencia.Columna==0
             && diferencia.Fila < 0 ) //MOVIMIENTO A LA DERECHA
-        return verificaCamino(diferencia.Fila, nodoSobrevolado, 2, elTablero);
+        return verificaCamino(diferencia.Columna, nodoSobrevolado, 2, elTablero);
 
     else if (diferencia.Columna==0
              && diferencia.Fila > 0 )  //MOVIMIENTO A LA IZQUIERDA
-        return verificaCamino(diferencia.Fila, nodoSobrevolado, 1, elTablero);
+        return verificaCamino(diferencia.Columna, nodoSobrevolado, 1, elTablero);
 
     else if (diferencia.Fila==0
              && diferencia.Columna > 0 )  //MOVIMIENTO ARRIBA
@@ -691,25 +471,7 @@ bool Autorizaciones::autorizaTorre(posicion diferencia, posicion nodoSobrevolado
     else return false;
 }
 
-/*
 
-                                       //-------------------------------------------------------------------------------------
-                                       void Autorizaciones::FichaComestible()
-                                       {
-
-                                          Ogre::SceneNode* child = casillaOcupada(getNodoCasillaSobrevolada());
-
-                                           //Mira si la casilla está ocupada y por quién
-                                          // Ogre::SceneNode* child = static_cast<Ogre::SceneNode *> (_nodoNuevo->getChild(0));
-                                           Ogre::Entity* ent = static_cast<Ogre::Entity*>(child->getAttachedObject(0));
-
-                                           if((!escenaAjedrez->esTurnoNegras() && ent->getName()[1] == 'N')
-                                                   || (escenaAjedrez->esTurnoNegras() && ent->getName()[1] == 'B'))
-                                           {
-                                               escenaAjedrez->iluminaCasilla(escenaAjedrez->getNodoCasillaSobrevolada());
-                                           }
-                                       }
-                                       */
 
 bool Autorizaciones::autorizaCaballo(posicion diferencia)
 {
@@ -732,7 +494,6 @@ bool Autorizaciones::verificaCamino(int distancia, posicion _nodoNuevo, int cami
 
 
     }
-
 
     int colDestino = _nodoNuevo.Columna;//-(nuevo.z/10);
     int filaDestino =_nodoNuevo.Fila; //-(nuevo.x/10);
@@ -986,11 +747,6 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
     int casillaComeSec;
     int salto;
 
-
-    //FALTA AL PASO!!!!!!!!!!!!!!!!!!!!!
-
-
-
     if (miTablero->turnoN)
     {
         std::cout << "!!!!!!!!!!!TURNO NEGRAS EN PEON!!!!!!!!!!" << std::endl;
@@ -1028,11 +784,7 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
 
         if (miTablero->casillasInt[casillaCome] < 0)
         {
-
             std::cout << "NEGRAS COME 1"<< std::endl;
-
-
-
             aplicaMovimiento(*miTablero, casilla, casillaCome);
         }
 
@@ -1040,17 +792,9 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
         {
             std::cout << "NEGRAS COME AL PASO 1"<< std::endl;
 
-
-
             aplicaMovimiento(*miTablero, casilla, casillaCome);
-
         }
-
-
-
         if (miTablero->casillasInt[casillaComeSec] < 0)
-
-
         {
             std::cout << "NEGRAS COME 2"<< std::endl;
 
@@ -1058,12 +802,10 @@ void Autorizaciones::muevePeon(TableroPrueba* miTablero, int casilla)
             aplicaMovimiento(*miTablero, casilla, casillaComeSec);
         }
 
-        if ((miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaComeSec] == 0)){
+        if ((miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaComeSec] == 0))
+        {
             std::cout << "NEGRAS COME AL PASO 2"<< std::endl;
-
-
             aplicaMovimiento(*miTablero, casilla, casillaComeSec);
-
         }
 
     }else
@@ -1217,186 +959,79 @@ bool Autorizaciones::mueveAlfil(TableroPrueba* miTablero, int casilla)
 
 bool Autorizaciones::mueveCaballo(TableroPrueba* miTablero, int casilla)
 {
-    //HAY QUE HACERLO A PARTIR DE UNA POSICION
-
     int nuevaCasilla;
-
     nuevaCasilla = casilla-25;
-
-
     bool pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
 
     nuevaCasilla = casilla-23;
-
-
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
-
-
-
 
     nuevaCasilla = casilla+25;
-
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
-
-
 
     nuevaCasilla = casilla+23;
-
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
 
     if (pasa)
     {
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
-
-
 
     nuevaCasilla = casilla-10;
-
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
-
-
 
     nuevaCasilla = casilla-14;
-
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
-
-
 
     nuevaCasilla = casilla+10;
-
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
-
-
 
     nuevaCasilla = casilla+14;
-
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
-
-
-    /*
-    diferencia[0]=-dif2;
-    diferencia[1] = dif1;
-    diferencia[1] = -dif1;
-
-
-
-    diferencia[0] = dif2;
-    diferencia[1] = dif1;
-    diferencia[1] = -dif1;
-
-
-
-    diferencia[0] = dif1;
-    diferencia[1] = dif2;
-    diferencia[1] = -dif2;
-
-
-
-    diferencia[0] == -dif1;
-    diferencia[1] == dif2;
-    diferencia[1] == -dif2;
-*/
-    // std::list<int> lista;
-
-    //devuelve una lista con todas las nuevas posiciones?
 }
 
 bool Autorizaciones::mueveRey(TableroPrueba* miTablero, int casilla)
 {
     std::cout << "MUEVE REY"<< miTablero->turnoN<< std::endl;
 
-
-
     int nuevaCasilla;
-
-
-
     bool pasa = false;
-
-
 
     if (casilla < 36)
     {
@@ -1405,24 +1040,14 @@ bool Autorizaciones::mueveRey(TableroPrueba* miTablero, int casilla)
         nuevaCasilla = casilla-3;
 
         pasa = false;
-
         torre = miTablero->casillasInt[nuevaCasilla] == 4;
-
         if (torre && miTablero->casillasInt[casilla-2] == 0&& miTablero->casillasInt[casilla-1] == 0)
         {
-
             nuevaCasilla = casilla-2;
-
             miTablero->casillasInt[casilla-3] = 0;
-
-
             miTablero->casillasInt[casilla-1] = 4;
-
-
             std::cout << "APLICA MOVIMIENTO REY -3 (enroque)"<< std::endl;
-
             aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
         }
     }
 
@@ -1431,201 +1056,109 @@ bool Autorizaciones::mueveRey(TableroPrueba* miTablero, int casilla)
         //ENROQUE LARGO
         bool torre = false;
         nuevaCasilla = casilla+4;
-
         pasa = false;
         torre = miTablero->casillasInt[nuevaCasilla] == 4;
 
         if (torre && miTablero->casillasInt[casilla+2] == 0 && miTablero->casillasInt[casilla+1] == 0 && miTablero->casillasInt[casilla+3] == 0)
         {
-
             nuevaCasilla = casilla+2;
-
             miTablero->casillasInt[casilla+4] = 0;
-
-
             miTablero->casillasInt[casilla+1] = 4;
-
             std::cout << "APLICA MOVIMIENTO REY +4 (enroque)"<< std::endl;
-
             aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
         }
-
-
-
     }
 
     //IZQUIERDA
-
     pasa = false;
     nuevaCasilla = casilla-1;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa){
-
-
         std::cout << "APLICA MOVIMIENTO REY -1"<< std::endl;
-
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
 
     //DERECHA
     nuevaCasilla = casilla+1;
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
 
     if (pasa){
         //  miTablero->fichaMovida = "REY!!!!";
-
-
         std::cout << "APLICA MOVIMIENTO REY +1"<< std::endl;
-
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
-
     }
 
     //ATRAS
     nuevaCasilla = casilla-12;
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa){
-
-
         std::cout << "APLICA MOVIMIENTO REY -12"<< std::endl;
-
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
     }
 
     //ADELANTE
     nuevaCasilla = casilla+12;
-
     pasa = false;
-
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
-        //  TableroMovido->fichaMovida = "REY!!!!";
-
         std::cout << "APLICA MOVIMIENTO REY +12"<< std::endl;
-
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
-
-
     }
 
     //NE
     nuevaCasilla = casilla+13;
-
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         //    TableroMovido->fichaMovida = "REY!!!!";
-
         std::cout << "APLICA MOVIMIENTO REY +13"<< std::endl;
-
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
-
-
-
     }
 
     //NO
     nuevaCasilla = casilla+11;
-
     pasa = false;
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
-
         std::cout << "APLICA MOVIMIENTO REY +11"<< std::endl;
-
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
     }
-
 
     //SO
     nuevaCasilla = casilla-13;
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
         //   TableroMovido->fichaMovida = "REY!!!!";
-
         std::cout << "APLICA MOVIMIENTO REY -13"<< std::endl;
-
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
-
-
     }
-
 
     //SE
     nuevaCasilla = casilla-11;
     pasa = false;
-
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
     if (pasa)
     {
         //   TableroMovido->fichaMovida = "REY!!!!";
-
         std::cout << "APLICA MOVIMIENTO REY -11"<< std::endl;
-
         aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-
     }
-
-
-
 }
 
 void Autorizaciones::normalizaTablero(int* tablero)
 {
-
     for (int i=0; i<144;i++)
     {
         if (tablero[i] != 0 && tablero[i] != 99)
-        {
-
             tablero[i] = -tablero[i];
-
-        }
     }
-
 }
 
 
@@ -1634,8 +1167,6 @@ void Autorizaciones::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, i
 
     if(miTablero.casillasInt[casDestino] != 99)
     {
-
-
         TableroPrueba* TableroMovido = new TableroPrueba(miTablero);
 
         TableroMovido->alPaso = -1;
@@ -1666,14 +1197,11 @@ void Autorizaciones::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, i
 
             if ((casDestino - casOrigen  == 24) || casOrigen - casDestino == 24)
             {
-
                 TableroMovido->alPaso = casDestino;
                 std::cout << "!!!!!!!!!DOBLE SALTO EN IA!!!!!!:" <<TableroMovido->alPaso <<std::endl;
-
             }
 
         }
-
         //   std::cout << "!!!!!!!!!FICHA ORIGEN!!!!!!:" << fichaOrigen << std::endl;
 
         //     std::cout << "!!!!!!!!!FICHA DESTINO!!!!!!:" << miTablero.casillasInt[casDestino] << std::endl;
@@ -1685,14 +1213,12 @@ void Autorizaciones::aplicaMovimiento(TableroPrueba &miTablero, int casOrigen, i
         TableroMovido->movimiento[0] = casOrigen;
         TableroMovido->movimiento[1] = casDestino;
 
-
         //   std::cout << "!!!!!!LE METE AL VECTOR" << std::endl;
 
         if (evaluaJaque(TableroMovido->casillasInt, TableroMovido->turnoN))
         {
             delete TableroMovido;
             //  std::cout << "!!!!!HA EVALUADO UN JAQUE (DESPUES DE MOVER) POR LO QUE NO AÑADE AL VECTOR!!!" << std::endl;
-
         }else
         {
             TableroMovido->turnoN = !miTablero.turnoN;
