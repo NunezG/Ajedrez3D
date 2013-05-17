@@ -2,8 +2,9 @@
 #include "../../headers/Vistas/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez() :
+VistaAjedrez::VistaAjedrez(EscenaAjedrez* escena) :
     BaseVistas()
+  , escenaAjedrez(escena)
     , textoOverlay("VACIO")
 
 
@@ -48,7 +49,7 @@ bool VistaAjedrez::muestraInfo()
 
 bool VistaAjedrez::iniciaVentana()
 {
-    tablero = modelo->escenaAjedrez->getTablero();
+    //tablero = escenaAjedrez->getTablero();
 
     BaseVistas::iniciaVentana();
 
@@ -78,7 +79,7 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 
 
 
-        modelo->escenaAjedrez->rotacionCamara(Ogre::Degree(1));
+        escenaAjedrez->rotacionCamara(Ogre::Degree(1));
       //  escenaAjedrez->mueveCamaraIzquierda();
         //   mCamera->moveRelative(Ogre::Vector3(-1,0,0));//yaw(Ogre::Degree(-1.25f));
     }
@@ -86,7 +87,7 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
     if (arg.key == OIS::KC_D || arg.key == OIS::KC_RIGHT)
     {
 
-        modelo->escenaAjedrez->rotacionCamara(Ogre::Degree(-1));
+        escenaAjedrez->rotacionCamara(Ogre::Degree(-1));
 
 
       //  escenaAjedrez->mueveCamaraDerecha();
@@ -105,7 +106,7 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 { 
 
-    modelo->escenaAjedrez->noMueveCamara();
+    escenaAjedrez->noMueveCamara();
 
 
     return true;
@@ -115,66 +116,21 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 {
     CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
-    if (modelo->escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
+    if (escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
     {
-        modelo->escenaAjedrez->rotacionCamara(Ogre::Degree(mCursorPosition.d_x)); // con grados?
+        escenaAjedrez->rotacionCamara(Ogre::Degree(mCursorPosition.d_x)); // con grados?
     }
 
 
     else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
     {
         // the further the camera is, the faster it moves
-        modelo->escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
+        escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
     }
-    else if (tablero->fichaSeleccionada)
-    {
-
-       // int posx = arg.state.X.abs;   // Posicion del puntero
-      //  int posy = arg.state.Y.abs;   //  en pixeles.
-
-        Ogre::RaySceneQueryResult &result = modelo->escenaAjedrez->executeRay(mCursorPosition.d_x, mCursorPosition.d_y, 'C');
-
-        Ogre::RaySceneQueryResult::iterator it;
-        it = result.begin();
-
-        if (it != result.end())
-        {
-            Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
-
-            Casilla* casillaSobrevolada = static_cast<Casilla*>(tablero->getHijo(nodoSobrevolado->getName()));
-
-            Casilla* casillaSobreAnterior = tablero->getNodoCasillaSobrevolada();
-
-
-            if (casillaSobreAnterior==NULL || casillaSobrevolada->getNombre() != casillaSobreAnterior-> getNombre())
-            {
-                if (casillaSobreAnterior!=NULL){
-                    casillaSobreAnterior->apagaCasilla();
-                    tablero->setNodoCasillaSobrevolada(NULL);
-                }
-                tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
-
-
-                Casilla* nodoSeleccionado = tablero->getNodoCasillaSeleccionada();
-
-                // elTablero = miTablero;
-             //   posicion seleccionado = nodoSeleccionado->getPosicion();
-                // Ogre::Vector3 nuevo = nodoSobrevolado->getNodoOgre()->getPosition();
+    else escenaAjedrez-> autorizaCasillaSobrevolada();
 
 
 
-                // if(diferencia.Fila != 0)   diferencia= diferencia;
-                // else diferencia= diferenciaZ;
-
-                Ficha *mFicha = static_cast<Ficha*>(nodoSeleccionado->getHijo(0));
-                tipoFicha tipo = mFicha->tipo_Ficha;
-
-
-                //AUTORIZA
-                 static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->autorizaCasilla(tipo, nodoSeleccionado->getPosicion(), casillaSobrevolada->getPosicion());
-            }
-        }
-    }
 
     std::cout << "fin mousemoved" << std::endl;
 
@@ -197,22 +153,22 @@ bool VistaAjedrez::mueveCamara(float frecuencia)
 
 
 
-    if (tablero->rotacionCamara != Ogre::Degree(0))
+    if (escenaAjedrez->tablero->rotacionCamara != Ogre::Degree(0))
     {
 
 
         Ogre::Degree rot = Ogre::Degree(Ogre::Real(80.0f) * frecuencia);
 
         //Rota la camara
-        if (rot > tablero->rotacionCamara){
+        if (rot > escenaAjedrez->tablero->rotacionCamara){
 
-            modelo->escenaAjedrez->rotacionCamara(tablero->rotacionCamara);
-            tablero->rotacionCamara = Ogre::Real(0.0f);
+            escenaAjedrez->rotacionCamara(escenaAjedrez->tablero->rotacionCamara);
+            escenaAjedrez->tablero->rotacionCamara = Ogre::Real(0.0f);
 
 
         }else {
-            modelo->escenaAjedrez->rotacionCamara(rot);
-            tablero->rotacionCamara = tablero->rotacionCamara - rot;
+            escenaAjedrez->rotacionCamara(rot);
+            escenaAjedrez->tablero->rotacionCamara = escenaAjedrez->tablero->rotacionCamara - rot;
         }
 
     }
@@ -245,11 +201,9 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         // } else mask ='B';
 
 
-        tablero->fichaSeleccionada = false;
-
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
-        if (seleccionaFichaEnPosicion(mCursorPosition.d_x, mCursorPosition.d_y))
-            tablero->fichaSeleccionada = true;
+       escenaAjedrez->seleccionaFichaEnPosicion(mCursorPosition.d_x, mCursorPosition.d_y);
+
 
 
        // std::cout  << "FILA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Fila <<std::endl;
@@ -262,28 +216,13 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
    //     if (modelo->jugadorActual->esHumano())
     //    {
 
-
-        //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
-        if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
-        {
+        escenaAjedrez->mueveFicha();
 
 
-            tablero->getNodoCasillaSobrevolada()->apagaCasilla();
-
-
-
-            //CAMBIA EL MODELO, ESTO SE VERA REFLEJADO AUTOMATICAMENTE EN LA VISTA
-            static_cast<JugadorHumano*>(modelo->jugadorActual)->aplicaSeleccion();
-
-
-
-
-
-        }
 
            //   }
     }else {
-        modelo->escenaAjedrez->empezarModoCamara();
+        escenaAjedrez->empezarModoCamara();
 
     }
     //  mInputMan->injectMouseDown(arg, id);
@@ -299,7 +238,7 @@ bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID
 {
     bool mbMiddle= (id == OIS::MB_Middle);
 
-    if(mbMiddle) modelo->escenaAjedrez->acabarModoCamara();
+    if(mbMiddle) escenaAjedrez->acabarModoCamara();
 
 
     //  mInputMan->injectMouseUp(arg, id);
@@ -309,48 +248,3 @@ bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID
 
 
 
-
-
-bool VistaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
-{
-    if (tablero->getNodoCasillaSeleccionada() != NULL)
-    {  // Si habia alguno seleccionado...
-
-        Ficha* ficha = static_cast<Ficha*>(tablero->getNodoCasillaSeleccionada()->getHijo(0));
-        ficha->getNodoOgre()->showBoundingBox(false);
-        tablero->setNodoCasillaSeleccionada(NULL);
-    }
-
-    //EMPIEZA RAYO
-    Ogre::RaySceneQueryResult &result =modelo->escenaAjedrez->executeRay(posX,posY,'C');
-    Ogre::RaySceneQueryResult::iterator it;
-    it = result.begin();
-
-    if (it != result.end())
-    {
-
-        //Busca la casilla que tenga un hijo con ese nombre
-        Casilla* casilla = static_cast<Casilla*>(tablero->getHijo(it->movable->getParentSceneNode()->getName()));
-
-        if (casilla != NULL && !casilla->sinHijos())
-        {
-            Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
-
-            if ((tablero->getTurnoNegras()
-                 && ficha->esNegra)
-                    || (!tablero->getTurnoNegras() && !ficha->esNegra))
-            {
-
-
-
-                tablero->setNodoCasillaSeleccionada(casilla);
-
-                ficha->getNodoOgre()->showBoundingBox(true);
-                return true;
-            }
-
-        }
-    }
-    return false;
-
-}

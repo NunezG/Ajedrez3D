@@ -1,4 +1,4 @@
-#include "../../headers/Modelo/ObjetoOgre.h"
+#include "../../headers/ModeloVista/ObjetoOgre.h"
 
 
 

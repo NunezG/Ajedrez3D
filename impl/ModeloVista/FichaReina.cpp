@@ -1,10 +1,10 @@
-#include "../../headers/Modelo/FichaReina.h"
+#include "../../headers/ModeloVista/FichaReina.h"
 
 
 
 FichaReina::FichaReina(std::string nombre) :
    // FichaAlfil(esNegra),
-    Ficha("D_"+nombre, Reina)
+    Ficha("D_"+nombre, 5)
 
 
 

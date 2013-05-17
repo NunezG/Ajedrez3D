@@ -10,7 +10,7 @@
 class VistaAjedrez : public  BaseVistas
 {
 public:
-    VistaAjedrez();
+    VistaAjedrez(EscenaAjedrez* escena);
     ~VistaAjedrez(void);
 
     bool mueveCamara(float frecuencia);
@@ -28,7 +28,6 @@ public:
 
     bool iniciaVentana();
 
-    bool seleccionaFichaEnPosicion(int posX, int posY);
     bool muestraJaque();
 
     CEGUI::Window *ventanaJaque;
@@ -37,7 +36,8 @@ public:
 protected:
 
 
-Tablero* tablero;
+    EscenaAjedrez* escenaAjedrez;
+
 
     Ogre::String textoOverlay;
 };

@@ -51,7 +51,7 @@ void JugadorArtificial::calculaMovimiento(){
 
 
 
-    TableroPrueba* tableroPadre = new TableroPrueba();
+    ModeloTablero* tableroPadre = new ModeloTablero();
 
     std::cout << "TUDRNO DE MITABLERO:" << miTablero->turnoN<< std::endl;
 

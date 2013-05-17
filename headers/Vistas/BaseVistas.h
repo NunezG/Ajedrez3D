@@ -6,7 +6,7 @@
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 
-#include "../Modelo/Modelo.h"
+#include "../ModeloVista/EscenaAjedrez.h"
 
 
 class BaseVistas
@@ -36,7 +36,7 @@ public:
    // virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
     virtual bool esMenuInicio() = 0;
 
-    Modelo* modelo;
+    EscenaAjedrez* escena;
     bool jaqueMate();
 
     bool iniciaVentana();

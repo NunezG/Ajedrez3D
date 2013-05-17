@@ -13,7 +13,7 @@ class JugadorHumano : public Jugador
 public:
 
     ~JugadorHumano(void);
-    JugadorHumano(Tablero* tablero);
+    JugadorHumano(ModeloTablero* tablero);
 
     bool esHumano();
 
@@ -27,6 +27,7 @@ public:
 
     void sobreVuelaCasilla();
     void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
+    int* mueveTablero();
 
 protected:
 

@@ -1,4 +1,4 @@
-#include "../../headers/Modelo/Tablero.h"
+#include "../../headers/ModeloVista/Tablero.h"
 
 
 
@@ -643,32 +643,16 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
     }
 }
 
-int* Tablero::mueveYTraduceTablero()
-{
 
-    int* tableroTraducido = traduceTablero();
-
-    // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
-
-    int posFinal = 24+(getNodoCasillaSobrevolada()->getPosicion().Fila*12) + getNodoCasillaSobrevolada()->getPosicion().Columna+2;
-
-    int posInicial = 24+(getNodoCasillaSeleccionada()->getPosicion().Fila*12) + getNodoCasillaSeleccionada()->getPosicion().Columna+2;
-
-
-    tableroTraducido[posFinal]= tableroTraducido[posInicial];
-    tableroTraducido[posInicial] = 0;
-
-
-
-
-    return tableroTraducido;
-}
-
-int* Tablero::traduceTablero()
+ ModeloTablero* Tablero::traduceTablero()
 {
     //ESTO SE PUEDE CAMBIAR MUCHO
-    int *casillas = new int[144];
+  //  int *casillas = new int[144];
     int numCasilla = 0;
+
+    ModeloTablero* nuevoModeloT = new ModeloTablero();
+
+    nuevoModeloT->casillasInt = new int[144];
 
     //    Ogre::SceneNode* nodoTest = tablero->nodoCasillero;
 
@@ -686,7 +670,7 @@ int* Tablero::traduceTablero()
                     || (i < 2)
                     || (y < 2))
             {
-                casillas[(i*12)+y] = 99;
+                nuevoModeloT->casillasInt[(i*12)+y] = 99;
 
             }else
             {
@@ -706,15 +690,15 @@ int* Tablero::traduceTablero()
 
                     //Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
 
-                    casillas[numeroCasilla] = traduceFicha(ficha->tipo_Ficha);
+                    nuevoModeloT->casillasInt[numeroCasilla] = ficha->tipo_Ficha;
                     if (ficha->esNegra)
                     {
-                        casillas[numeroCasilla] = -casillas[numeroCasilla];
+                        nuevoModeloT->casillasInt[numeroCasilla] = -nuevoModeloT->casillasInt[numeroCasilla];
                     }
 
                     //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
 
-                }else casillas[numeroCasilla] = 0;
+                }else nuevoModeloT->casillasInt[numeroCasilla] = 0;
                 // casillas[numCasilla] = 0;
                 numCasilla++;
 
@@ -728,107 +712,18 @@ int* Tablero::traduceTablero()
 
     for(int i=0; i<12;i++)
     {
-        std::cout  << casillas[(i*12)+2]<<"    "<<casillas[(i*12)+3]<<"    "<<casillas[(i*12)+4]<<"    "<<casillas[(i*12)+5]<<"    "<<casillas[(i*12)+6]<<"    "<<casillas[(i*12)+7] <<"    " <<casillas[(i*12)+8]<<"    " << casillas[(i*12)+9]<<"    " << std::endl;
+        std::cout  << nuevoModeloT->casillasInt[(i*12)+2]<<"    "<<nuevoModeloT->casillasInt[(i*12)+3]<<"    "<<nuevoModeloT->casillasInt[(i*12)+4]<<"    "<<nuevoModeloT->casillasInt[(i*12)+5]<<"    "<<nuevoModeloT->casillasInt[(i*12)+6]<<"    "<<nuevoModeloT->casillasInt[(i*12)+7] <<"    " <<nuevoModeloT->casillasInt[(i*12)+8]<<"    " << nuevoModeloT->casillasInt[(i*12)+9]<<"    " << std::endl;
     }
 
     // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
 
-    return casillas;
+    return nuevoModeloT;
 
 }
 
-short Tablero::traduceFicha(tipoFicha tipo)
-{
-    switch (tipo)
-    {
-    case Peon:
-    {
-        return 1;
-    }
-    case Caballo:
-    {
-        return 2;
-    }
-    case Alfil:
-    {
-        return 3;
-    }
-    case Torre:
-    {
-        return 4;
-    }
-    case Reina:
-    {
-        return 5;
-    }
-    case Rey:
-    {
-        return 6;
-    }
-    default:
-    {
-        return 0;
-    }
-    }
-}
 
 
 
-
-TableroPrueba::TableroPrueba() :
-    //numeroHijos(0),
-    Score(0),
-    //fichaMovida(""),
-    vectorMov(0),
-    turnoN(false),
-    alPaso(0)
-
-
-{
-}
-
-TableroPrueba::TableroPrueba( const TableroPrueba& original ):
-  //  numeroHijos(0),
-    Score(0),
-    // fichaMovida(""),
-    vectorMov(0),
-    turnoN(!original.turnoN),
-    alPaso(original.alPaso)
-{
-
-   // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
-
-
-    casillasInt = new int[144];
-
-
-    for(int i=0; i<144;i++)
-    {
-
-
-        casillasInt[i] = original.casillasInt[i];
-    }
-}
-
-TableroPrueba::~TableroPrueba()
-{
-
-
-
-    for(int i = 0; i < vectorMov.size(); i++)
-    {
-
-        delete vectorMov.at(i);
-
-        vectorMov.at(i) = NULL;
-    }
-
-  //  numeroHijos=0;
-
-    vectorMov.clear();
-
-
-}
 
 
 /*

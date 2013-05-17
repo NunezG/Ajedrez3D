@@ -10,7 +10,7 @@ class JugadorArtificial : public Jugador
 public:
 
     ~JugadorArtificial(void);
-    JugadorArtificial(Tablero* tablero);
+    JugadorArtificial(ModeloTablero* tablero);
 
     bool esHumano();
     void mueveFicha(float time);

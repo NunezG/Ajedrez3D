@@ -1,9 +1,9 @@
-#include "../../headers/Modelo/FichaRey.h"
+#include "../../headers/ModeloVista/FichaRey.h"
 
 
 
 FichaRey::FichaRey(std::string nombre) :
-    Ficha("R_"+nombre, Rey)
+    Ficha("R_"+nombre, 6)
 
 
 

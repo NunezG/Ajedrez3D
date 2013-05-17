@@ -1,31 +1,42 @@
 #ifndef __Autorizaciones_
 #define __Autorizaciones_
-#include "Tablero.h"
+//#include "Tablero.h"
+#include "ModeloTablero.h"
 
 
 
 
+enum tipoFicha
+{
+    Vacio,
+    Peon,
+    Caballo,
+    Alfil,
+    Torre,
+    Reina,
+    Rey
+};
 
 
 class Autorizaciones
 {
 public:
 
-    static bool autorizaCasilla(Tablero* miTablero,  tipoFicha tipo,  posicion nodoSeleccionado,  posicion nodoSobrevolado);
+    static bool autorizaCasilla(ModeloTablero* miTablero,  tipoFicha tipo, int filaSel, int colSel,  int filaNueva, int colNueva);
     static bool evaluaJaque(int casillasInt[144], bool turnoNegras);
-    static void generaMovimientos(TableroPrueba* miTablero);
+    static void generaMovimientos(ModeloTablero* miTablero);
     static void normalizaTablero(int* tablero);
 
 private:
 
-    static bool autorizaRey(posicion diferencia, posicion nodoSobrevolado, TableroPrueba* miTablero);
-    static bool autorizaReina(posicion diferencia, posicion nodoSobrevolado,int* miTablero);
-    static bool autorizaPeon(posicion diferencia, posicion nodoSobrevolado, posicion seleccionado,TableroPrueba* miTablero);
-    static bool autorizaAlfil(posicion diferencia, posicion nodoSobrevolado, int* elTablero);
-    static bool autorizaTorre(posicion diferencia, posicion nodoSobrevolado, int* elTablero);
-    static bool autorizaCaballo(posicion diferencia);
+    static bool autorizaRey(int filaDif, int colDif,  int filaNueva, int colNueva, ModeloTablero* miTablero);
+    static bool autorizaReina(int filaDif, int colDif,  int filaNueva, int colNueva,int* miTablero);
+    static bool autorizaPeon(int filaDif, int colDif,  int filaNueva,int colNueva, posicion seleccionado,ModeloTablero* miTablero);
+    static bool autorizaAlfil(int filaDif, int colDif,  int filaNueva,int colNueva, int* elTablero);
+    static bool autorizaTorre(int filaDif, int colDif,  int filaNueva,int colNueva,int* elTablero);
+    static bool autorizaCaballo(int filaDif, int colDif);
 
-    static bool verificaCamino(int distancia, posicion _nodoNuevo, int camino, int* casillas);
+    static bool verificaCamino(int filaDif, int colDif,  int filaNueva,int colNueva, int camino, int* casillas);
 
 
 
@@ -35,20 +46,20 @@ private:
 
 
 
-    static void aplicaMovimiento(TableroPrueba& miTablero,const int casOrigen,const int casDestino);
+    static void aplicaMovimiento(ModeloTablero& miTablero,const int casOrigen,const int casDestino);
 
 
-    static bool mueveTorre(TableroPrueba* miTablero, const int casilla);
+    static bool mueveTorre(ModeloTablero* miTablero, const int casilla);
 
-    static bool mueveAlfil(TableroPrueba* miTablero, const int casilla);
+    static bool mueveAlfil(ModeloTablero* miTablero, const int casilla);
 
-    static bool mueveCaballo(TableroPrueba* miTablero,const int casilla);
+    static bool mueveCaballo(ModeloTablero* miTablero,const int casilla);
 
-    static bool mueveReina(TableroPrueba* miTablero,const int casilla);
+    static bool mueveReina(ModeloTablero* miTablero,const int casilla);
 
-    static void muevePeon(TableroPrueba* miTablero,const int casilla);
+    static void muevePeon(ModeloTablero* miTablero,const int casilla);
 
-    static bool mueveRey(TableroPrueba* miTablero, const int casilla);
+    static bool mueveRey(ModeloTablero* miTablero, const int casilla);
 
 
 };

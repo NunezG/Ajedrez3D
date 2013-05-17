@@ -4,7 +4,7 @@
 #include <vector>       // std::vector
 #include <iostream>
 #include <string>
-#include "Tablero.h"
+//#include "Tablero.h"
 #include "Autorizaciones.h"
 
 
@@ -28,7 +28,7 @@ public:
     ~ModuloIA(void);
 
 
-    bool construyeArbol(TableroPrueba* tableroPadre);
+    bool construyeArbol(ModeloTablero* tableroPadre);
 
 
 
@@ -36,9 +36,9 @@ public:
     bool BorraArbol();
 
 
-  //  TableroPrueba* tableroPadre;
+  //  ModeloTablero* tableroPadre;
 
-    TableroPrueba* tableroElegido;
+    ModeloTablero* tableroElegido;
     int casillaCambiada;
 
 
@@ -54,9 +54,9 @@ private:
 
     int evaulaTablero(const int casillasInt[144], bool turnoN);
 
-   // std::vector<TableroPrueba> vectorTableros;
+   // std::vector<ModeloTablero> vectorTableros;
 
-    int alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthleft );
+    int alphaBeta(ModeloTablero* table,int alpha,int beta,const int depthleft );
 
 
 

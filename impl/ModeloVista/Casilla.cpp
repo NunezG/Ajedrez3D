@@ -1,4 +1,4 @@
-#include "../../headers/Modelo/Casilla.h"
+#include "../../headers/ModeloVista/Casilla.h"
 
 Casilla::Casilla(std::string nombre) :
     esNegra(0)

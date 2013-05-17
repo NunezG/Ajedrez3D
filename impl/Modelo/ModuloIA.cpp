@@ -23,7 +23,7 @@ ModuloIA* ModuloIA::getCEGUISingletonPtr()
 }
 
 
-bool ModuloIA::construyeArbol(TableroPrueba* tableroPadre)
+bool ModuloIA::construyeArbol(ModeloTablero* tableroPadre)
 {
 
     /*
@@ -76,11 +76,11 @@ bool ModuloIA::construyeArbol(TableroPrueba* tableroPadre)
 
     }else
     {
-        TableroPrueba* tp = NULL;
+        ModeloTablero* tp = NULL;
         for (int i = 0; i< tableroPadre->vectorMov.size(); i++)
         {
 
-            //  std::vector<TableroPrueba*> vecRef = tablero->vectorMov;
+            //  std::vector<ModeloTablero*> vecRef = tablero->vectorMov;
 
             tp = tableroPadre->vectorMov.at(i);
 
@@ -124,7 +124,7 @@ bool ModuloIA::construyeArbol(TableroPrueba* tableroPadre)
 }
 
 
-int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthleft )
+int ModuloIA::alphaBeta(ModeloTablero* table,int alpha,int beta,const int depthleft )
 {
 
      std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
@@ -158,12 +158,12 @@ int ModuloIA::alphaBeta(TableroPrueba* table,int alpha,int beta,const int depthl
     // if (table->vectorMov != NULL) std::cout << "TAMAÑO DEL VECTOR DESPUES de todo(lleno): "<<  table->vectorMov->size()<< std::endl;
 
 
-    //for (vector<TableroPrueba>::iterator it = vectorMov.begin(); it!=vectorMov.end(); ++it) {
+    //for (vector<ModeloTablero>::iterator it = vectorMov.begin(); it!=vectorMov.end(); ++it) {
     //  cout << *it << endl;
     //}
     //  std::cout << "!!!!!!!!!!!!!!!!!!TAMAÑO VECTOR DE TABLEROS HIJO: "<< table->vectorMov->size()<< std::endl;
 
-    //TableroPrueba* tab;
+    //ModeloTablero* tab;
     //if (table->vectorMov != NULL){
     if (table->vectorMov.size() == 0)
     {

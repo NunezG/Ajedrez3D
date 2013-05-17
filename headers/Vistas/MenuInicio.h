@@ -20,9 +20,9 @@ public:
 
     bool esMenuInicio();
 
-    int numVentana;
 
 protected:
+    int posBoton;
 
     bool botonSalir(const CEGUI::EventArgs    &e);
     bool botonJuegoTurnos(const CEGUI::EventArgs &e);
@@ -64,6 +64,7 @@ protected:
 
     CEGUI::FrameWindow* fWnd;
 
+    CEGUI::Listbox* creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre,std::vector<std::string*> listaElementos, CEGUI::Listbox* listaReal);
 
 };
 

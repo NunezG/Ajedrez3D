@@ -10,16 +10,6 @@ enum ColorFicha
     Negro
 };
 
-enum tipoFicha
-{
-    Vacio,
-    Peon,
-    Caballo,
-    Alfil,
-    Torre,
-    Reina,
-    Rey
-};
 
 
 struct FichaPrueba{
@@ -41,7 +31,7 @@ public:
 
     ~Ficha(void);
     //constructor de copia
-    Ficha(  const Ficha& fichaOriginal, std::string nombre, tipoFicha tipo);
+    Ficha(const Ficha& fichaOriginal, std::string nombre, int tipo);
 
     void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
 
@@ -61,7 +51,7 @@ public:
 
 
     bool salto;
-    tipoFicha tipo_Ficha;
+    int tipo_Ficha;
 
 
 
@@ -69,7 +59,7 @@ public:
 protected:
 
 
-    Ficha(std::string nombre, tipoFicha tipo);
+    Ficha(std::string nombre, int tipo);
 
 
 
@@ -100,8 +90,8 @@ private:
 
     ObjetoOgre* objetoOgreAsociado;
 
-    static short CalculatePieceActionValue(tipoFicha pieceType);
-    static short CalculatePieceValue(tipoFicha pieceType);
+    static short CalculatePieceActionValue(int pieceType);
+    static short CalculatePieceValue(int pieceType);
 
 
 

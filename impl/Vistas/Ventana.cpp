@@ -264,7 +264,98 @@ bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 
 //-------------------------------------------------------------------------------------
 bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
-{
+{   
+    if( pantallaActual() == 0)
+    {
+        if(modelo->getNumPantalla() > 0)
+        {
+            //modelo->destruyeMenu();
+
+             resetOgre();
+
+             creaVista();
+
+             std::cout   << "   creavista" << std::endl;
+
+            vista->mWindow = mRoot->initialise(true, "Ajedrez 2 Jugadores");
+            std::cout   << "  root " << std::endl;
+
+            initOgre();
+            std::cout   << "   intit" << std::endl;
+
+            iniciaModeloAjedrez();
+
+            muestraAjedrez();
+
+            start();
+
+            // Load resources
+           // loadResources();
+        }
+    }
+
+    //
+
+    // else if(modelo->getNumPantalla() == 2)
+    //{
+    //   if (modelo->getTablero()->getTurnoNegras())
+    //  {
+    //         punteroVentana->capturaRaton = false;
+
+    //            calculaMovimiento();
+    //  esperaCalculo=true;
+    //   }//else punteroVentana->capturaRaton = true;
+    //}
+
+
+    //  if (modelo->getTablero()->getTurnoNegras())
+    // {
+
+
+
+    //  }
+
+
+    else if(pantallaActual() > 0)
+    {
+
+        modelo->mueveFicha(evt.timeSinceLastFrame);
+
+      //  if (modelo->getTablero()->getNodoCasillaSobrevolada() != NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->seleccionada)
+      //  {
+          //  std::cout << "ILUMINA UNA CASILLA" <<std::endl;
+
+           // static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+          //  static_cast<JugadorHumano*>(modelo->jugadores.at(modelo->getTablero()->getTurnoNegras()))->sobreVuelaCasilla();
+
+
+       // }
+
+    }
+
+    if(ventanaCerrada() /*|| EscenaAjedrez->getSalir()*/)
+        return false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     injectTimePulse(evt);
 
 
@@ -488,4 +579,127 @@ CEGUI::MouseButton Ventana::convertButton(OIS::MouseButtonID buttonID)
     default:
         return CEGUI::LeftButton;
     }
+}
+
+
+//-------------------------------------------------------------------------------------
+void Ventana::loadResources(void)
+{
+    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+bool Ventana::initOgre(void){
+
+
+    if (vista == NULL)
+    {
+        vista = new MenuInicio();
+        vista->mWindow = mRoot->initialise(true, "Root Prueba");
+
+    }
+    std::cout   << "   5 " << std::endl;
+
+
+    Ogre::Root::getSingletonPtr()->addFrameListener(this);
+
+
+    std::cout   << "   6 " << std::endl;
+
+    EmpiezaCEGUI();
+    CEGUIResources();
+    std::cout   << "   7 " << std::endl;
+
+
+    loadResources();
+
+    std::cout   << "   8 " << std::endl;
+
+
+}
+
+
+
+bool Ventana::resetOgre(void)
+{
+
+
+    // punteroVentana->destruyeMenu();
+
+    destruyeVista();
+
+
+    std::cout   << "   reset1 " << std::endl;
+
+    //APAGA
+    if (mRoot )delete mRoot;
+    mRoot = NULL;
+
+
+    std::cout   << "   reset2 " << std::endl;
+
+    //ENCIENDE
+    mRoot =new Ogre::Root("plugins.cfg");
+    // mTimer = mRoot->getTimer();
+
+
+    std::cout   << "   reset3 " << std::endl;
+
+
+
+
+
+
+}
+
+
+
+bool Ventana::start(void)
+{
+
+    mRoot->startRendering();
+
+}
+
+
+void Ventana::destroyScene(void)
+{
+
+
+    //  if modelo->   modelo->destruyeMenu();
+//MIRA ESTO!!!!!!!!!!!!!!!!
+  //  if (modelo->escenaAjedrez != NULL)
+  //  {
+        mRoot->removeFrameListener(this);
+        //mRoot->destroySceneManager(modelo->escenaAjedrez->mSceneMgr);
+        //  modelo->escenaAjedrez->destruyeTablero();
+
+
+
+        //MIRA A VER
+        //  mRoot->destroySceneManager(mSceneMgr);
+        delete mRoot;
+
+  //  }
+
+
+  //  delete punteroVentana;
+
+    //  if (mRoot)
+
+
+
+    //  modelo = NULL;
+
+
+    //delete mRoot;
+
+    // mTimer = NULL;
+
+
+    mRoot = NULL;
+
+    //
+
+    //    punteroVentana = NULL;
+
+
 }

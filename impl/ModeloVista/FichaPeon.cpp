@@ -1,9 +1,9 @@
-#include "../../headers/Modelo/FichaPeon.h"
+#include "../../headers/ModeloVista/FichaPeon.h"
 
 
 
 FichaPeon::FichaPeon(std::string nombre) :
-    Ficha("P_"+nombre, Peon)
+    Ficha("P_"+nombre, 1)
 
 
 

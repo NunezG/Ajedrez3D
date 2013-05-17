@@ -33,12 +33,20 @@
 
 
 
-class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener
+class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener,  public Ogre::FrameListener
 {
 public:
     Ventana(void);
 
      ~Ventana(void);
+
+    void loadResources(void);
+
+    void destroyScene(void);
+    bool start(void);
+
+    bool resetOgre(void);
+    bool initOgre(void);
 
     //Iniciación
     void iniciaIO(void);
@@ -56,7 +64,7 @@ public:
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     int mPantalla;
-    Modelo* modelo;
+  //  Modelo* modelo;
     BaseVistas* vista;
    // BaseApplication* Create(Ogre::String type);
 
@@ -66,6 +74,7 @@ public:
     void creaVista();
     bool CEGUIResources();
 
+    Ogre::Root *mRoot;
 
 private:
 

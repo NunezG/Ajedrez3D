@@ -1,8 +1,9 @@
 
-#include "../../headers/Vistas/EscenaAjedrez.h"
+#include "../../headers/ModeloVista/EscenaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-EscenaAjedrez::EscenaAjedrez(void) :
+EscenaAjedrez::EscenaAjedrez(/*Ogre::Root* root*/) :
+  //  mRoot(root),
     mCamera(0)
   //, mInputMan(0)
   , tablero(NULL)
@@ -39,8 +40,8 @@ return tablero;
 }
 
 
-
-void EscenaAjedrez::destruyeTablero(){
+void EscenaAjedrez::destruyeTablero()
+{
    //delete mSceneMgr;
 
     delete tablero;
@@ -50,7 +51,7 @@ void EscenaAjedrez::destruyeTablero(){
 
 }
 
-void EscenaAjedrez::setSceneManager(Ogre::Root* mRoot)
+void EscenaAjedrez::setSceneManager(/*Ogre::Root* mRoot*/)
 {
    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
 }
@@ -302,3 +303,135 @@ void EscenaAjedrez::acabarModoCamara()
     //mInputMan->salirModoCamara();
     mOrbiting = false;
 }
+
+void EscenaAjedrez::mueveFicha()
+{
+
+    //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
+    if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
+    {
+
+
+
+
+
+        tablero->getNodoCasillaSobrevolada()->apagaCasilla();
+        //CAMBIA EL MODELO, ESTO SE VERA REFLEJADO AUTOMATICAMENTE EN LA VISTA
+        static_cast<JugadorHumano*>(modelo->jugadorActual)->aplicaSeleccion();
+
+
+
+
+
+    }
+
+
+}
+
+
+
+bool EscenaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
+{
+    tablero->fichaSeleccionada = false;
+
+
+    if (tablero->getNodoCasillaSeleccionada() != NULL)
+    {  // Si habia alguno seleccionado...
+
+        Ficha* ficha = static_cast<Ficha*>(tablero->getNodoCasillaSeleccionada()->getHijo(0));
+        ficha->getNodoOgre()->showBoundingBox(false);
+        tablero->setNodoCasillaSeleccionada(NULL);
+    }
+
+    //EMPIEZA RAYO
+    Ogre::RaySceneQueryResult &result =executeRay(posX,posY,'C');
+    Ogre::RaySceneQueryResult::iterator it;
+    it = result.begin();
+
+    if (it != result.end())
+    {
+
+        //Busca la casilla que tenga un hijo con ese nombre
+        Casilla* casilla = static_cast<Casilla*>(tablero->getHijo(it->movable->getParentSceneNode()->getName()));
+
+        if (casilla != NULL && !casilla->sinHijos())
+        {
+            Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
+
+            if ((tablero->getTurnoNegras()
+                 && ficha->esNegra)
+                    || (!tablero->getTurnoNegras() && !ficha->esNegra))
+            {
+
+                tablero->setNodoCasillaSeleccionada(casilla);
+
+                ficha->getNodoOgre()->showBoundingBox(true);
+                 tablero->fichaSeleccionada = true;
+                 return true;
+            }
+
+        }
+    }
+    return false;
+
+}
+
+bool EscenaAjedrez::autorizaCasillaSobrevolada()
+{
+
+
+
+    if (tablero->fichaSeleccionada)
+{
+
+   // int posx = arg.state.X.abs;   // Posicion del puntero
+  //  int posy = arg.state.Y.abs;   //  en pixeles.
+
+    Ogre::RaySceneQueryResult &result = escenaAjedrez->executeRay(mCursorPosition.d_x, mCursorPosition.d_y, 'C');
+
+    Ogre::RaySceneQueryResult::iterator it;
+    it = result.begin();
+
+    if (it != result.end())
+    {
+        Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
+
+        Casilla* casillaSobrevolada = static_cast<Casilla*>(tablero->getHijo(nodoSobrevolado->getName()));
+
+        Casilla* casillaSobreAnterior = tablero->getNodoCasillaSobrevolada();
+
+
+        if (casillaSobreAnterior==NULL || casillaSobrevolada->getNombre() != casillaSobreAnterior-> getNombre())
+        {
+            if (casillaSobreAnterior!=NULL){
+                casillaSobreAnterior->apagaCasilla();
+                tablero->setNodoCasillaSobrevolada(NULL);
+            }
+            tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
+
+
+            Casilla* nodoSeleccionado = tablero->getNodoCasillaSeleccionada();
+
+            // elTablero = miTablero;
+         //   posicion seleccionado = nodoSeleccionado->getPosicion();
+            // Ogre::Vector3 nuevo = nodoSobrevolado->getNodoOgre()->getPosition();
+
+
+
+            // if(diferencia.Fila != 0)   diferencia= diferencia;
+            // else diferencia= diferenciaZ;
+
+            Ficha *mFicha = static_cast<Ficha*>(nodoSeleccionado->getHijo(0));
+            tipoFicha tipo = tipoFicha(mFicha->tipo_Ficha);
+
+
+            //AUTORIZA
+             static_cast<JugadorHumano*>(jugadores.at(tablero->getTurnoNegras()))->autorizaCasilla(tipo, nodoSeleccionado->getPosicion(), casillaSobrevolada->getPosicion());
+        }
+    }
+
+
+
+
+}
+

@@ -4,7 +4,6 @@
 //-------------------------------------------------------------------------------------
 MenuInicio::MenuInicio() :
     BaseVistas(),
-    numVentana(0),
     ventanaConfig(NULL),
     listaResoluciones(NULL)
 
@@ -134,13 +133,13 @@ bool MenuInicio::pantallaConfig()
 
 
     std::cout  << "listares1 "<< std::endl;
-    modelo->menu->posBoton =1;
+    posBoton =1;
 
 
 
     // modelo->menu->creaTexto("Prueba de texto",ventanaConfig);
 
-    listaResoluciones =   modelo->menu->creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaLista, this), "Lista_Resoluciones", listaElementos ,listaResoluciones);
+    listaResoluciones =   creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaLista, this), "Lista_Resoluciones", listaElementos ,listaResoluciones);
 
     listaResoluciones->subscribeEvent(CEGUI::Listbox::EventMouseClick, CEGUI::Event::Subscriber(&MenuInicio::seleccionaResolucion, this));
 
@@ -162,7 +161,7 @@ bool MenuInicio::pantallaConfig()
     std::cout  << "listares1 "<< std::endl;
 
 
-    listaDificultades =   modelo->menu->creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaDificultad, this), "Lista_Dificultad", listaElementos ,listaDificultades);
+    listaDificultades =   creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaDificultad, this), "Lista_Dificultad", listaElementos ,listaDificultades);
     std::cout  << "listaredddss "<< std::endl;
 
     listaDificultades->subscribeEvent(CEGUI::Listbox::EventMouseClick, CEGUI::Event::Subscriber(&MenuInicio::seleccionaDificultad, this));
@@ -440,6 +439,40 @@ bool MenuInicio::seleccionaDificultad(const CEGUI::EventArgs &e)
 
 }
 
+
+CEGUI::Listbox* MenuInicio::creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre, std::vector<std::string*> listaElementos, CEGUI::Listbox* listaReal)
+{
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** MENU DESPLEGABLE***");
+
+    CEGUI::colour col;
+
+    col.setBlue(100.0f);
+    col.setGreen(50.0f);
+    col.setRed(50.0f);
+    col.setAlpha(50.0f);
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** for***");
+
+    CEGUI::ListboxTextItem* elementoLista;
+
+    for (int i = 0; i < listaElementos.size(); i++)
+    {
+        elementoLista= new CEGUI::ListboxTextItem(std::string(*listaElementos.at(i)));
+
+        //elementoLista->setSelectionColours(col );
+
+        if (i== 1)elementoLista->setSelected(true);
+
+        listaReal->addItem(elementoLista);
+        listaReal->handleUpdatedItemData();
+    }
+
+    listaReal->subscribeEvent(CEGUI::Listbox::EventMouseMove, evento);
+
+        posBoton = posBoton+1;
+
+    return listaReal;
+}
 
 
 //-------------------------------------------------------------------------------------

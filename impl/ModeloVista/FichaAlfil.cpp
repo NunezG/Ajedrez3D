@@ -1,9 +1,9 @@
-#include "../../headers/Modelo/FichaAlfil.h"
+#include "../../headers/ModeloVista/FichaAlfil.h"
 
 
 
 FichaAlfil::FichaAlfil(std::string nombre) :
-    Ficha("A_"+nombre, Alfil)
+    Ficha("A_"+nombre, 3)
 
    // ,casilla(0)
 

@@ -2,10 +2,16 @@
 #define __Modelo_
 #include <Ogre.h>
 //#include "EscenaAjedrez.h"
-#include "ModeloMenu.h"
+
+#include "ModeloTablero.h"
+
+#include "../Modelo/JugadorArtificial.h"
+#include "../Modelo/JugadorHumano.h"
 
 
-#include "../Vistas/EscenaAjedrez.h"
+//#include "../Vistas/EscenaAjedrez.h"
+
+
 
 
 class Modelo
@@ -18,8 +24,6 @@ public:
 
     bool salirPulsado;
 
-    ModeloMenu* menu;
-
     int modoJuego;
 
     int numJugadores;
@@ -28,7 +32,7 @@ public:
 
 
     void mueveFicha(float time);
-    void creaJugador(bool blancas, bool humano);
+    void creaJugador(bool blancas, bool humano,ModeloTablero* tablero );
 
     bool getApagar();
     int getNumPantalla();
@@ -36,7 +40,6 @@ public:
 
 //    EscenaAjedrez* escena;
 
-    void construyeMenu();
 
     //Singleton
     static Modelo* getSingletonPtr();
@@ -47,12 +50,7 @@ public:
     void setSalir(bool salir);
 
 
-    void destruyeMenu();
-
-
-
-
-  EscenaAjedrez* escenaAjedrez;
+ // EscenaAjedrez* escenaAjedrez;
 
 
     ~Modelo(void);

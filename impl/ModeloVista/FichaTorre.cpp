@@ -1,9 +1,9 @@
-#include "../../headers/Modelo/FichaTorre.h"
+#include "../../headers/ModeloVista/FichaTorre.h"
 
 
 
 FichaTorre::FichaTorre( std::string nombre) :
-    Ficha("T_"+nombre, Torre)
+    Ficha("T_"+nombre, 4)
 
 
 

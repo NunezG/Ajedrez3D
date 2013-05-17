@@ -1,9 +1,9 @@
-#include "../../headers/Modelo/FichaCaballo.h"
+#include "../../headers/ModeloVista/FichaCaballo.h"
 
 
 
 FichaCaballo::FichaCaballo(std::string nombre) :
-    Ficha("C_"+nombre, Caballo)
+    Ficha("C_"+nombre, 2)
 
 
 

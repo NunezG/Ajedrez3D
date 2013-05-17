@@ -58,25 +58,7 @@ void Modelo::setNumPantalla(int pantalla)
     mPantalla = pantalla;
 }
 
-void Modelo::construyeMenu()
-{
 
-    menu = new ModeloMenu();
-
-}
-
-
-
-
-
-void Modelo::destruyeMenu(){
-
-    delete menu;
-
-
-    menu = NULL;
-
-}
 void Modelo::mueveFicha(float time)
 {
 
@@ -89,21 +71,19 @@ void Modelo::mueveFicha(float time)
 
 
 //tal vez sea mejor una factoria de jugadores
-void Modelo::creaJugador(bool blancas, bool humano )
+void Modelo::creaJugador(bool blancas, bool humano ,ModeloTablero* tablero )
 {
-
-    if (escenaAjedrez == NULL) escenaAjedrez  = EscenaAjedrez::getSingletonPtr();
 
    int num = numJugadores;
 
 
     if (humano){
-        jugadores.push_back(new JugadorHumano(escenaAjedrez->getTablero()));
+        jugadores.push_back(new JugadorHumano(tablero));
 
     }
     else {
 
-        jugadores.push_back(new JugadorArtificial(escenaAjedrez->getTablero()));
+        jugadores.push_back(new JugadorArtificial(tablero));
 
 
     }

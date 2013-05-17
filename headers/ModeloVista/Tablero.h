@@ -13,41 +13,7 @@
 #include "FichaPeon.h"
 #include "Casilla.h"
 
-
-
-
-struct TableroPrueba
-{
-
-    // StringClass(char *ptr);
-    TableroPrueba();
-    ~TableroPrueba();
-
-    //constructor de copia
-    TableroPrueba( const TableroPrueba& original );
-
-    std::vector<TableroPrueba*> vectorMov;
-
-    int Score;
-    //  Casilla* casillas[64];
-    int* casillasInt;
-    int movimiento[2];
-    //  int numeroHijos;
-
-    int alPaso;
-    bool turnoN;
-
-    // Ficha* fichasNegras[16];
-    // Ficha* fichasBlancas[16];
-    // int casillas[8][8];
-    //TableroPrueba* tableroHermano;
-    //TableroPrueba* tableroHijo;
-  //  std::string fichaMovida;
-
-private:
-
-};
-
+#include "../Modelo/Modelo.h"
 
 
 enum enColummas{
@@ -63,7 +29,7 @@ enum enColummas{
 };
 
 // ESTE SERÁ EL NODO USADO EN LOS ÁRBOLES
-class Tablero: public ObjetoOgre, public TableroPrueba
+class Tablero: public ObjetoOgre
 {
 public:
 
@@ -94,9 +60,8 @@ public:
 
     void actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
 
-    int* traduceTablero();
+     ModeloTablero* traduceTablero();
 
-    int* mueveYTraduceTablero();
 
 
    // std::string columnas;
@@ -126,7 +91,6 @@ private:
 
   // bool verificaCamino(int inicial[2], int final[2], int camino);
    int evaulaTablero(const int casillasInt[144]);
-   short traduceFicha(tipoFicha tipo);
 
    // int nivel;
 

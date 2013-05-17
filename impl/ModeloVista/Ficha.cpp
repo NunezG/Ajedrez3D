@@ -1,4 +1,4 @@
-#include "../../headers/Modelo/Ficha.h"
+#include "../../headers/ModeloVista/Ficha.h"
 
 
 
@@ -64,7 +64,7 @@ bool Ficha::setCasilla(int fila, int col)
 
 
 
-short Ficha::CalculatePieceValue(tipoFicha pieceType)
+short Ficha::CalculatePieceValue(int pieceType)
 {
     switch (pieceType)
     {
@@ -115,7 +115,7 @@ void Ficha::creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla,
 
 
 
-short Ficha::CalculatePieceActionValue(tipoFicha pieceType)
+short Ficha::CalculatePieceActionValue(int pieceType)
 {
     switch (pieceType)
     {

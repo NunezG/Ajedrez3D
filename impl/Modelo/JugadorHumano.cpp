@@ -49,6 +49,9 @@ void JugadorHumano::autorizaCasilla(tipoFicha tipo, posicion seleccionado, posic
     if (ventanaJaque != NULL)
         ventanaJaque->setVisible(false);
 
+    miTablero->casillasInt = miTablero->traduceTablero();
+
+    if (miTablero->getTurnoNegras())normalizaTablero(miTablero->casillasInt);
 
     autorizado = Autorizaciones::autorizaCasilla(miTablero, tipo, seleccionado, sobrevolado);
     
@@ -110,6 +113,29 @@ void JugadorHumano::autorizaCasilla(tipoFicha tipo, posicion seleccionado, posic
     
 }
 
+
+int* JugadorHumano::mueveTablero()
+{
+
+    int* tableroTraducido = traduceTablero();
+
+    // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
+
+    int posFinal = 24+(getNodoCasillaSobrevolada()->getPosicion().Fila*12) + getNodoCasillaSobrevolada()->getPosicion().Columna+2;
+
+    int posInicial = 24+(getNodoCasillaSeleccionada()->getPosicion().Fila*12) + getNodoCasillaSeleccionada()->getPosicion().Columna+2;
+
+
+    tableroTraducido[posFinal]= tableroTraducido[posInicial];
+    tableroTraducido[posInicial] = 0;
+
+
+
+
+    return tableroTraducido;
+}
+
+
 void JugadorHumano::aplicaSeleccion()
 {
     // esperaEleccion = false;
@@ -123,7 +149,7 @@ void JugadorHumano::aplicaSeleccion()
     
     if(miTablero->getTurnoNegras()) miTablero->casillasInt = miTablero->traduceTablero();
     
-    Autorizaciones::generaMovimientos(static_cast<TableroPrueba*>(miTablero));
+    Autorizaciones::generaMovimientos(static_cast<ModeloTablero*>(miTablero));
     
     std::cout << "cambiatur 7 "<< std::endl;
     

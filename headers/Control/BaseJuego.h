@@ -11,10 +11,11 @@
 
 //#include "MenuInicial.h"
 //#include <OgreRoot.h>
+#include "../Modelo/Modelo.h"
 
 
 
-class BaseJuego : public Ogre::FrameListener
+class BaseJuego
 {
 public:
     void go(void);
@@ -28,9 +29,7 @@ protected:
 
    // virtual void inicio(void) = 0;
 
-    void destroyScene(void);
     void setupResources(void);
-    void loadResources(void);
     bool setup();
     bool configureOpenGL();
     bool configureOgre(void);
@@ -39,8 +38,6 @@ protected:
 
     void agregaJugador();
 
-    bool resetOgre(void);
-    bool initOgre(void);
 
 
     //BUCLE PRINCIPAL
@@ -48,11 +45,9 @@ protected:
 
    // void destruyeTablero(void);
 
-    bool start(void);
 
     Ventana* punteroVentana;
 
-    Ogre::Root *mRoot;
     Modelo* modelo;
    // Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
    // Ogre::SceneManager* mSceneMgr;

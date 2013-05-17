@@ -136,7 +136,6 @@ set(HDRS
         ./headers/Vistas/MenuInicio.h
         ./headers/Vistas/BaseVistas.h
 
-        ./headers/Vistas/EscenaAjedrez.h
 
 
         # headers de modelo
@@ -150,30 +149,29 @@ set(HDRS
         ./headers/Modelo/Autorizaciones.h
 
         ./headers/Modelo/Modelo.h
-       ./headers/Modelo/Tablero.h
-       ./headers/Modelo/FichaRey.h
-       ./headers/Modelo/FichaReina.h
-       ./headers/Modelo/FichaPeon.h
-       ./headers/Modelo/FichaAlfil.h
-       ./headers/Modelo/FichaCaballo.h
-       ./headers/Modelo/FichaTorre.h
-       ./headers/Modelo/Ficha.h
-
-
-
-        ./headers/Modelo/ObjetoOgre.h
-
-        ./headers/Modelo/Casilla.h
+        ./headers/Modelo/ModeloTablero.h
 
         ./headers/Modelo/Jugador.h
         ./headers/Modelo/JugadorHumano.h
         ./headers/Modelo/JugadorArtificial.h
-        ./headers/Modelo/ModeloMenu.h
-
-
-
+       # ./headers/Modelo/ModeloMenu.h
 
         ./headers/Modelo/ModuloIA.h
+
+
+       ./headers/ModeloVista/Tablero.h
+       ./headers/ModeloVista/FichaRey.h
+       ./headers/ModeloVista/FichaReina.h
+       ./headers/ModeloVista/FichaPeon.h
+       ./headers/ModeloVista/FichaAlfil.h
+       ./headers/ModeloVista/FichaCaballo.h
+       ./headers/ModeloVista/FichaTorre.h
+       ./headers/ModeloVista/Ficha.h
+        ./headers/ModeloVista/ObjetoOgre.h
+        ./headers/ModeloVista/Casilla.h
+        ./headers/ModeloVista/EscenaAjedrez.h
+
+
 
 
 
@@ -188,55 +186,47 @@ set(SRCS
         ./impl/Control/BaseJuego.cpp
         ./impl/Control/ControlJuego.cpp
 
-
-        # VISTAS
+        # VISTA
        # ./impl/BaseOgre.cpp
         ./impl/Vistas/VistaAjedrez.cpp
         ./impl/Vistas/VistaAjedrezSolo.cpp
         ./impl/Vistas/Ventana.cpp
         ./impl/Vistas/MenuInicio.cpp
         ./impl/Vistas/BaseVistas.cpp
-        ./impl/Vistas/EscenaAjedrez.cpp
 
        # ./impl/CreacionJuego.cpp
        # ./impl/MenuInicial.cpp
 
-
-
-
-
         # implementaciones de modelo
-      #  ./imps/Modelo.h
 
 
 
+         #  MODELO
         ./impl/Modelo/Autorizaciones.cpp
-
         ./impl/Modelo/Modelo.cpp
-
-       ./impl/Modelo/Tablero.cpp
-       ./impl/Modelo/FichaRey.cpp
-       ./impl/Modelo/FichaReina.cpp
-       ./impl/Modelo/FichaPeon.cpp
-       ./impl/Modelo/FichaAlfil.cpp
-       ./impl/Modelo/FichaCaballo.cpp
-       ./impl/Modelo/FichaTorre.cpp
-       ./impl/Modelo/Ficha.cpp
-
-
-        ./impl/Modelo/ObjetoOgre.cpp
-
-
        ./impl/Modelo/Jugador.cpp
       ./impl/Modelo/JugadorHumano.cpp
        ./impl/Modelo/JugadorArtificial.cpp
-
-       ./impl/Modelo/Casilla.cpp
-
-       ./impl/Modelo/ModeloMenu.cpp
-
-
         ./impl/Modelo/ModuloIA.cpp
+
+        # MODELOVISTA
+       ./impl/ModeloVista/Tablero.cpp
+       ./impl/ModeloVista/FichaRey.cpp
+       ./impl/ModeloVista/FichaReina.cpp
+       ./impl/ModeloVista/FichaPeon.cpp
+       ./impl/ModeloVista/FichaAlfil.cpp
+       ./impl/ModeloVista/FichaCaballo.cpp
+       ./impl/ModeloVista/FichaTorre.cpp
+       ./impl/ModeloVista/Ficha.cpp
+        ./impl/ModeloVista/ObjetoOgre.cpp
+       ./impl/ModeloVista/Casilla.cpp
+        ./impl/ModeloVista/EscenaAjedrez.cpp
+
+
+
+     #  ./impl/Modelo/ModeloMenu.cpp
+
+
 
 
 

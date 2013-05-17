@@ -1,11 +1,6 @@
 #ifndef __EscenaAjedrez_
 #define __EscenaAjedrez_
 
-
-
-
-//#include "../Model o/Modelo.h"
-
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
@@ -21,12 +16,7 @@
 //#include "Tablero.h"
 
 
-#include "../Modelo/Tablero.h"
-
-
-#include "../Modelo/JugadorArtificial.h"
-#include "../Modelo/JugadorHumano.h"
-
+#include "../ModeloVista/Tablero.h"
 
 
 
@@ -55,7 +45,7 @@ public:
 
     Casilla* casillaOcupada(Casilla* nodoCasilla);
 
-    void setSceneManager(Ogre::Root* mRoot);
+    void setSceneManager(/*Ogre::Root* mRoot*/);
 
 
 
@@ -91,7 +81,15 @@ public:
 
  void empezarModoCamara();
  void acabarModoCamara();
+
+ void mueveFicha();
+ bool seleccionaFichaEnPosicion(int posX, int posY);
+ bool autorizaCasillaSobrevolada();
+
+
 private:   
+
+ Ogre::Root* mRoot;
    Ogre::RaySceneQuery *mRaySceneQuery;
 
 

@@ -3,7 +3,8 @@
 
 #include <CEGUI/CEGUISystem.h>
 #include "BaseJuego.h"
-#include "../Modelo/Modelo.h"
+#include "../ModeloVista/EscenaAjedrez.h"
+
 
 
 
@@ -31,7 +32,7 @@ private:
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 
-  //   EscenaAjedrez* escenaAjedrez;
+    EscenaAjedrez* escenaAjedrez;
 
 };
 
