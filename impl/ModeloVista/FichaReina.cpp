@@ -34,7 +34,7 @@ bool FichaReina::mueveFicha(){
 
 
 FichaReina::FichaReina( const Ficha& fichaOriginal, std::string nombre):
-    Ficha(fichaOriginal, "D_"+nombre, Reina)
+    Ficha(fichaOriginal, "D_"+nombre, 5)
 
 {
 

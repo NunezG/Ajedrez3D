@@ -72,7 +72,8 @@ public:
 
    void promocionaPeon();
 
- //  bool turnoNegras;
+   int alPaso;
+  bool turnoNegras;
    void cambiaTurno();
 
 private:
@@ -90,7 +91,6 @@ private:
    //void creaFichas();
 
   // bool verificaCamino(int inicial[2], int final[2], int camino);
-   int evaulaTablero(const int casillasInt[144]);
 
    // int nivel;
 

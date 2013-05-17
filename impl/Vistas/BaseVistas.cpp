@@ -1,7 +1,8 @@
 #include "../../headers/Vistas/BaseVistas.h"
 
-BaseVistas::BaseVistas():
-    mInputManager(0),
+BaseVistas::BaseVistas(ModeloVista* modeloV):
+    modeloVista(modeloV)
+    ,mInputManager(0),
     mMouse(0),
     mKeyboard(0)
     //modoJuego(0)
@@ -12,7 +13,7 @@ BaseVistas::BaseVistas():
     std::cout   << "AGREGA MODELO" << std::endl;
 
 
-    modelo = Modelo::getSingletonPtr();
+  //  modelo = Modelo::getSingletonPtr();
 
     Ogre::LogManager::getSingletonPtr()->logMessage("***CONFIGURA GRAFICOS**");
 
@@ -250,7 +251,7 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
 
 
 
-    renderSystem->setConfigOption("Video Mode", modelo->resolucion);
+    renderSystem->setConfigOption("Video Mode", modeloVista->resolucion);
 
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
         it != renderSystem->getConfigOptions().end(); it++)

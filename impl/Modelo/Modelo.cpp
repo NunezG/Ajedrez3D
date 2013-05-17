@@ -1,19 +1,16 @@
 #include "../../headers/Modelo/Modelo.h"
 
 Modelo::Modelo() :
-   mPantalla(0)
-  , salirPulsado(0)
-   , numJugadores(0)
+    numJugadores(0)
  ,nombreBlancas("Jugador 1")
  , nombreNegras("Jugador 2")
- , escenaAjedrez(NULL)
+
   //,  jugadores(NULL)
 
 
 
 
 {
-    resolucion = "800 x 600";
 
 //mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
 
@@ -32,38 +29,16 @@ Modelo::~Modelo()
 
 
 
-bool Modelo::getApagar()
+
+
+
+void Modelo::mueveJugador(bool turno)
 {
 
-    return mShutDown;
-
-}
-
-
-bool Modelo::getSalir(){
-    return salirPulsado;
-}
-
-void Modelo::setSalir(bool salir){
-    salirPulsado = salir;
-}
-int Modelo::getNumPantalla()
-{
-    return mPantalla;
-}
-
-
-void Modelo::setNumPantalla(int pantalla)
-{
-    mPantalla = pantalla;
-}
-
-
-void Modelo::mueveFicha(float time)
-{
+ //   escenaAjedrez->getTablero()->getTurnoNegras()
 
     //Jugador* jug = jugadores[0];
-    jugadores.at(escenaAjedrez->getTablero()->getTurnoNegras())->mueveFicha(time);
+    jugadores.at(turno)->mueveFicha();
 
 
 }

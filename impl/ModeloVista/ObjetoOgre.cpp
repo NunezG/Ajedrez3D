@@ -48,30 +48,17 @@ ObjetoOgre::~ObjetoOgre()
         nodoEscena = NULL;
 
     }
-
-
-
-
 }
 
 std::string ObjetoOgre::getNombre()
 {
-
-
     return nombreObjeto;
 }
-
 
 void ObjetoOgre::cambiaMaterial(std::string material)
 {
     entidad->setMaterialName(material);
-
 }
-
-
-
-
-
 
 bool ObjetoOgre::creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask)
 {

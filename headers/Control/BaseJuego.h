@@ -40,13 +40,12 @@ protected:
 
 
 
-    //BUCLE PRINCIPAL
-    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
 
    // void destruyeTablero(void);
 
 
     Ventana* punteroVentana;
+    ModeloVista* modeloVista;
 
     Modelo* modelo;
    // Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()

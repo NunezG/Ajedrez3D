@@ -93,9 +93,12 @@ void BaseJuego::setupResources(void)
 void BaseJuego::go(void)
 {
 
+
     modelo = Modelo::getSingletonPtr();
 
-    punteroVentana = new Ventana();
+    modeloVista = new ModeloVista(modelo);
+
+    punteroVentana = new Ventana(modeloVista);
 
     //if (!configureOgre())
     //      return;
@@ -104,7 +107,7 @@ void BaseJuego::go(void)
 
     punteroVentana->initOgre();
 
-    UN BUCLE WHILE QUE MIRE UNA VARIABLE (EN ESCENAAJEDREZ?) PARA RESETEAR LA VENTANA Y QUE MODELOVISTA NO CAMBIE??? CREA UNA BASE PARA ESCENAAJEDREZ Y MENUINICIAL???
+    //UN BUCLE WHILE QUE MIRE UNA VARIABLE (EN ESCENAAJEDREZ?) PARA RESETEAR LA VENTANA Y QUE MODELOVISTA NO CAMBIE???
 
 
     inicio();

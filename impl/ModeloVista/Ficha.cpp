@@ -2,7 +2,20 @@
 
 
 
-Ficha::Ficha(std::string nombre, tipoFicha tipo) :
+enum tipoFicha
+{
+    Vacio,
+    Peon,
+    Caballo,
+    Alfil,
+    Torre,
+    Reina,
+    Rey
+};
+
+
+
+Ficha::Ficha(std::string nombre, int tipo) :
     esNegra(0),
     muerta(0),
     tipo_Ficha(tipo),
@@ -38,7 +51,7 @@ Ficha::~Ficha()
 }
 
 
-Ficha::Ficha( const Ficha& fichaOriginal, std::string nombre, tipoFicha tipo ):
+Ficha::Ficha( const Ficha& fichaOriginal, std::string nombre, int tipo ):
     esNegra(fichaOriginal.esNegra),
     muerta(0),
     tipo_Ficha(tipo),

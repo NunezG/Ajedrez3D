@@ -2,17 +2,17 @@
 
 
 
-bool Autorizaciones::autorizaCasilla(Tablero* miTablero, tipoFicha tipo,  posicion nodoSeleccionado, posicion nodoSobrevolado)
+bool Autorizaciones::autorizaCasilla(ModeloTablero* miTablero,  tipoFicha tipo, int filaSel, int colSel,  int filaNueva, int colNueva)
 {
 
 
 
-    posicion diferencia;
-    diferencia.Fila = nodoSobrevolado.Fila - nodoSeleccionado.Fila;
-    diferencia.Columna = nodoSobrevolado.Columna - nodoSeleccionado.Columna;
+
+    int filaDif = filaNueva - filaSel;
+   int colDif = colNueva - colSel;
 
 
-    int fichaSobrevolada = miTablero->casillasInt[24+(nodoSobrevolado.Fila*12)+nodoSobrevolado.Columna+2];
+    int fichaSobrevolada = miTablero->casillasInt[24+(filaNueva*12)+colNueva+2];
     //MIRA SI ES COMESTIBLE (FICHA ENEMIGA)
 
 
@@ -23,33 +23,33 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero, tipoFicha tipo,  posici
         {
         case Rey: //REY SELECCIONADO
 
-            return autorizaRey(diferencia,nodoSobrevolado, miTablero);
+            return autorizaRey( filaDif, colDif,filaNueva,colNueva, miTablero);
             break;
 
         case Reina: //REINA SELECCIONADO
 
-            return autorizaReina(diferencia, nodoSobrevolado, miTablero->casillasInt);
+            return autorizaReina(filaDif, colDif,filaNueva,colNueva, miTablero->casillasInt);
             break;
 
         case Alfil: //ALFIL SELECCIONADO
 
-            return autorizaAlfil(diferencia, nodoSobrevolado, miTablero->casillasInt);
+            return autorizaAlfil(filaDif, colDif,filaNueva,colNueva, miTablero->casillasInt);
             break;
 
         case Torre: //TORRE SELECCIONADA
 
-            return autorizaTorre(diferencia, nodoSobrevolado, miTablero->casillasInt);
+            return autorizaTorre(filaDif, colDif,filaNueva,colNueva, miTablero->casillasInt);
             break;
 
         case Caballo: //CABALLO SELECCIONADO
 
-            return autorizaCaballo(diferencia);
+            return autorizaCaballo(filaDif, colDif);
             break;
 
         case Peon: //PEON SELECCIONADO
 
 
-             return autorizaPeon(diferencia, nodoSobrevolado, nodoSeleccionado, miTablero);
+             return autorizaPeon(filaDif, colDif, filaNueva,colNueva, filaSel, miTablero);
             break;
 
         default:
@@ -60,7 +60,7 @@ bool Autorizaciones::autorizaCasilla(Tablero* miTablero, tipoFicha tipo,  posici
 
     }
 
-    if (miTablero->getTurnoNegras())normalizaTablero(miTablero->casillasInt);
+    if (miTablero->turnoN)normalizaTablero(miTablero->casillasInt);
 
 
 }
@@ -325,7 +325,7 @@ bool Autorizaciones::evaluaJaque(int casillasInt[144], bool turnoNegras)
     return false;
 }
 
-bool Autorizaciones::autorizaPeon (int filaDif, int colDif,  int filaNueva, int colNueva,  posicion seleccionado, ModeloTablero* miTablero)
+bool Autorizaciones::autorizaPeon (int filaDif, int colDif,  int filaNueva, int colNueva,  int filaSel, ModeloTablero* miTablero)
 {
     std::cout << "!!!!!!!!!!!AUTORIZA PEON!!!!!!!!!!!!!!" << std::endl;
 
@@ -333,12 +333,12 @@ bool Autorizaciones::autorizaPeon (int filaDif, int colDif,  int filaNueva, int 
     if (miTablero->turnoN)
     {
         //Invierte el signo  de la diferencia de los peones negros
-        diferencia.Fila = -diferencia.Fila;
-        diferencia.Columna = -diferencia.Columna;
+        filaDif = -filaDif;
+        colDif = -colDif;
 
     }
 
-    int filaSobreTraducida = 24 + (nodoSobrevolado.Fila * 12);
+    int filaSobreTraducida = 24 + (filaNueva * 12);
 
     //std::cout << "!!!!!!!!DIFERENCIA: " <<   diferencia.Fila<<" col!!!!!!!!: " <<diferencia.Columna << std::endl;
     //std::cout << "!!!!!!!!FILa sobrevolada: " <<   nodoSobrevolado.Fila  << std::endl;
@@ -346,39 +346,40 @@ bool Autorizaciones::autorizaPeon (int filaDif, int colDif,  int filaNueva, int 
     //std::cout << "!!!!!!!!FILa seleccionada: " <<   seleccionado.Fila<<" traducida!!!!!!!!" <<filaSobreTraducida << std::endl;
     //std::cout << "!!!!!!!!COL seleccionada: " <<   seleccionado.Columna<<" traducida!!!!!!!!" <<seleccionado.Columna+2 << std::endl;
 
-    if (diferencia.Columna == 0)
+    if (colDif == 0)
     {
-        if (diferencia.Fila== 2
-                && ((seleccionado.Fila == 1 && !miTablero->turnoN) || (seleccionado.Fila == 6 && miTablero->turnoN)))
+        if (filaDif== 2
+                && ((filaSel == 1 && !miTablero->turnoN) || (filaSel == 6 && miTablero->turnoN)))
         {
             //SALTA 2 CASILLAS (ESCAQUES)
             if (miTablero->turnoN)
-                return verificaCamino(diferencia.Fila, filaNueva, colNueva, 2, miTablero->casillasInt);
+                return verificaCamino(filaDif, filaNueva, colNueva, 2, miTablero->casillasInt);
             else
-                return verificaCamino(diferencia.Fila, filaNueva, colNueva, 1, miTablero->casillasInt);
+                return verificaCamino(filaDif, filaNueva, colNueva, 1, miTablero->casillasInt);
         }
-        else if (diferencia.Fila == 1)
+        else if (filaDif == 1)
         {
             //PASA UNA CASILLA
-            if (miTablero->casillasInt[filaSobreTraducida + nodoSobrevolado.Columna+2] != 0)
+            if (miTablero->casillasInt[filaSobreTraducida + colNueva+2] != 0)
                 return false;
             else
                 return true;
         }
-    }else  if((diferencia.Fila == 1 &&( diferencia.Columna == -1
-                                        || diferencia.Columna == 1)))
+    }else  if((filaDif == 1 &&( colDif == -1
+                                        || colDif == 1)))
     {
         //COME
-        if (miTablero->casillasInt[filaSobreTraducida + nodoSobrevolado.Columna+2] != 0)
+        if (miTablero->casillasInt[filaSobreTraducida + colNueva+2] != 0)
             return true;
         else if(miTablero->alPaso >= 0)
         {
             //AL PASO
-            posicion casillaLateral;
+            int filaLateral;
+            int colLateral;
 
-            casillaLateral.Fila = 24 + (seleccionado.Fila * 12);;
-            casillaLateral.Columna = nodoSobrevolado.Columna;
-            int posCasilla =casillaLateral.Fila + casillaLateral.Columna + 2;
+            filaLateral = 24 + (filaSel * 12);
+            colLateral = colNueva;
+            int posCasilla = filaLateral + colLateral + 2;
 
             if (miTablero->alPaso == posCasilla)
                 return true;
@@ -389,55 +390,55 @@ bool Autorizaciones::autorizaPeon (int filaDif, int colDif,  int filaNueva, int 
 
 bool Autorizaciones::autorizaAlfil(int filaDif, int colDif,  int filaNueva, int colNueva,  int* elTablero)
 {
-    if (diferencia.Columna - diferencia.Fila == 0
-            && diferencia.Columna > 0) //Columnas DESCENDENTES Y Filas DESCENDENTES
-        return verificaCamino(diferencia.Columna, filaNueva, colNueva, 8, elTablero);
+    if (colDif - filaDif == 0
+            && colDif > 0) //Columnas DESCENDENTES Y Filas DESCENDENTES
+        return verificaCamino(colDif, filaNueva, colNueva, 8, elTablero);
 
-    else if (diferencia.Columna + diferencia.Fila == 0
-             && diferencia.Columna > 0) //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES (ARR DERECHA)
-        return verificaCamino(diferencia.Columna, filaNueva, colNueva, 7, elTablero);
+    else if (colDif + filaDif == 0
+             && colDif > 0) //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES (ARR DERECHA)
+        return verificaCamino(colDif, filaNueva, colNueva, 7, elTablero);
 
-    else if(diferencia.Columna + diferencia.Fila == 0
-            && diferencia.Columna < 0) //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES (ABAJO IZQUIERDA)
-        return verificaCamino(diferencia.Columna, filaNueva, colNueva, 6, elTablero);
+    else if(colDif + filaDif == 0
+            && colDif < 0) //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES (ABAJO IZQUIERDA)
+        return verificaCamino(colDif, filaNueva, colNueva, 6, elTablero);
 
-    else if(diferencia.Columna - diferencia.Fila == 0
-            && diferencia.Columna  < 0) //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES (ABAJO DERECHA)
-        return verificaCamino(diferencia.Columna, filaNueva, colNueva, 5, elTablero);
+    else if(colDif - filaDif == 0
+            && colDif  < 0) //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES (ABAJO DERECHA)
+        return verificaCamino(colDif, filaNueva, colNueva, 5, elTablero);
 
     else return false;
 }
 
 bool Autorizaciones::autorizaReina(int filaDif, int colDif,  int filaNueva, int colNueva, int* miTablero)
 {
-    if (autorizaAlfil(diferencia, filaNueva, colNueva, miTablero))
+    if (autorizaAlfil(filaDif, colDif, filaNueva, colNueva, miTablero))
         return true;
-    else return autorizaTorre(diferencia, filaNueva, colNueva, miTablero);
+    else return autorizaTorre(filaDif, colDif, filaNueva, colNueva, miTablero);
 }
 
 bool Autorizaciones::autorizaRey(int filaDif, int colDif,  int filaNueva, int colNueva, ModeloTablero* miTablero)
 {
-    if ((diferencia.Fila==1||diferencia.Fila==-1||diferencia.Fila==0)
-            && (diferencia.Columna==1||diferencia.Columna==-1||diferencia.Columna==0))
+    if ((filaDif==1||filaDif==-1||filaDif==0)
+            && (colDif==1||colDif==-1||colDif==0))
         return true;
     else{
         //ENROQUE
-        if (diferencia.Fila == 0 && ((!miTablero->turnoN && nodoSobrevolado.Fila == 0) ||
-                                     (miTablero->turnoN && nodoSobrevolado.Fila == 7)))
+        if (filaDif == 0 && ((!miTablero->turnoN && filaNueva == 0) ||
+                                     (miTablero->turnoN && filaNueva == 7)))
         {
-            int posCasilla = nodoSobrevolado.Fila*12; //ES SIEMPRE LA PRIMERA COLUMNA
+            int posCasilla = filaNueva * 12; //ES SIEMPRE LA PRIMERA COLUMNA
 
-            if(diferencia.Columna == 2) //derecha (enroque corto)
+            if(colDif == 2) //derecha (enroque corto)
             {
                 if(miTablero->casillasInt[posCasilla+7] == Torre)
-                    return verificaCamino(diferencia.Columna+1, filaNueva, colNueva, 4, miTablero->casillasInt);
+                    return verificaCamino(colDif+1, filaNueva, colNueva, 4, miTablero->casillasInt);
 
             }
-            else if(diferencia.Columna == -2)   //izquierda (enroque largo)
+            else if(colDif == -2)   //izquierda (enroque largo)
             {
 
                 if(miTablero->casillasInt[posCasilla] == Torre)
-                    return verificaCamino(diferencia.Columna-2, filaNueva, colNueva, 3, miTablero->casillasInt);
+                    return verificaCamino(colDif - 2, filaNueva, colNueva, 3, miTablero->casillasInt);
             }
 
         }
@@ -449,21 +450,21 @@ bool Autorizaciones::autorizaTorre(int filaDif, int colDif,  int filaNueva, int 
 {
 
 
-    if (diferencia/12 == 0
-            && diferencia.Fila < 0 ) //MOVIMIENTO A LA DERECHA
-        return verificaCamino(diferencia.Columna, filaNueva, colNueva, 2, elTablero);
+    if (colDif == 0
+            && filaDif < 0 ) //MOVIMIENTO A LA DERECHA
+        return verificaCamino(colDif, filaNueva, colNueva, 2, elTablero);
 
-    else if (diferencia.Columna==0
-             && diferencia.Fila > 0 )  //MOVIMIENTO A LA IZQUIERDA
-        return verificaCamino(diferencia.Columna, filaNueva, colNueva, 1, elTablero);
+    else if (colDif==0
+             && filaDif > 0 )  //MOVIMIENTO A LA IZQUIERDA
+        return verificaCamino(colDif, filaNueva, colNueva, 1, elTablero);
 
-    else if (diferencia.Fila==0
-             && diferencia.Columna > 0 )  //MOVIMIENTO ARRIBA
-        return verificaCamino(diferencia.Columna, filaNueva, colNueva, 4, elTablero);
+    else if (filaDif==0
+             && colDif > 0 )  //MOVIMIENTO ARRIBA
+        return verificaCamino(colDif, filaNueva, colNueva, 4, elTablero);
 
-    else if (diferencia.Fila==0
-             && diferencia.Columna < 0 ) //MOVIMIENTO ABAJO
-        return verificaCamino(diferencia.Columna, filaNueva, colNueva, 3, elTablero);
+    else if (filaDif==0
+             && colDif < 0 ) //MOVIMIENTO ABAJO
+        return verificaCamino(colDif, filaNueva, colNueva, 3, elTablero);
 
     else return false;
 }
@@ -472,11 +473,11 @@ bool Autorizaciones::autorizaTorre(int filaDif, int colDif,  int filaNueva, int 
 
 bool Autorizaciones::autorizaCaballo(int filaDif, int colDif)
 {
-    if (diferencia.Fila < 0) diferencia.Fila = -diferencia.Fila;
-    if (diferencia.Columna < 0) diferencia.Columna = -diferencia.Columna;
+    if (filaDif < 0) filaDif = -filaDif;
+    if (colDif < 0) colDif = -colDif;
 
-    if ((diferencia.Fila == 2 && diferencia.Columna == 1)
-            || (diferencia.Fila == 1 && diferencia.Columna == 2))
+    if ((filaDif == 2 && colDif == 1)
+            || (filaDif == 1 && colDif == 2))
         return true;
     else return false;
 }
@@ -492,8 +493,8 @@ bool Autorizaciones::verificaCamino(int distancia,  int filaNueva,int colNueva, 
 
     }
 
-    int colDestino = _nodoNuevo.Columna;//-(nuevo.z/10);
-    int filaDestino =_nodoNuevo.Fila; //-(nuevo.x/10);
+    int colDestino = colNueva;//-(nuevo.z/10);
+    int filaDestino =filaNueva; //-(nuevo.x/10);
 
 
     for (int i = 1; i < distancia; i++)

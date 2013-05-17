@@ -2,11 +2,7 @@
 #define __JugadorHumano_
 
 #include "Jugador.h"
-#include "../Modelo/Autorizaciones.h"
 
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 
 class JugadorHumano : public Jugador
 {
@@ -19,15 +15,13 @@ public:
 
 
     //void setVentana(Ventana* obj);
-    void mueveFicha(float time);
+    void mueveFicha();
 
-    void aplicaSeleccion();
+    int aplicaSeleccion(int filaSel, int colSel, int filaNueva, int colNueva);
 
-    void autorizaCasilla(tipoFicha tipo, posicion seleccionado, posicion sobrevolado);
+    int autorizaCasilla(tipoFicha tipo, int filaSel, int colSel, int filaNueva, int colNueva);
 
-    void sobreVuelaCasilla();
-    void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
-    int* mueveTablero();
+  //  void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 
 protected:
 
@@ -36,7 +30,6 @@ protected:
 
 private:  
 
-    CEGUI::Window *ventanaJaque;
    // Ventana* ventana;
 
 

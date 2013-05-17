@@ -6,7 +6,7 @@
 class VistaAjedrezSolo : public VistaAjedrez
 {
 public:
-    VistaAjedrezSolo();
+    VistaAjedrezSolo(ModeloVista* modeloV);
     ~VistaAjedrezSolo(void);
 
     // Ogre::FrameListener

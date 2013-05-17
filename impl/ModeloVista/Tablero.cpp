@@ -49,7 +49,7 @@ void Tablero::setAlPaso(int casilla)
 
 
 bool Tablero::getTurnoNegras(){
-    return turnoN;
+    return turnoNegras;
 }
 
 
@@ -360,56 +360,14 @@ bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
 }
 */
 
-int Tablero::evaulaTablero(const int casillasInt[144])
-{
-
-    bool BlackCheck;
-    bool BlackMate;
-    bool WhiteCheck;
-    bool WhiteMate;
-    bool StaleMate;
-
-
-    int suma = 0;
-
-
-    //EMPIEZA CONTANDO LAS FICHAS DEL TABLERO Y HACIENDO UNA SUMA SIMPLE...
-
-    for (int i = 2; i<10;i++)
-    {
-        for (int y = 2; y<10;y++)
-        {
-
-            //MIRA SI ATACAN A LA
-            if (turnoN){
-                if (casillasInt[(i*12)+y]  == 6)
-                {
-
-
-                    //    suma =  suma - valorFicha(tipoF(-casillasInt[(i*12)+y]));
-
-                }else if (casillasInt[(i*12)+y] > 0){
-
-                    //    suma =  suma + valorFicha(tipoF(casillasInt[(i*12)+y]));
-
-                }
-
-            }
-
-        }
-
-    }
-
-    // std::cout << "ESTE TABLERO HA ACUMULADO UN VALOR DE: " << suma<< std::endl;
-
-
-    return suma;
-}
-
 
 
 void Tablero::cambiaTurno()
 {
+
+
+
+
     //CAMBIA TURNO
     //NOTIFICAR A LAS VISTAS?? AL FUNCIONAR EN BUCLE EN REALIDAD NO HACE FALTA NOTIFICAR
     //COMPRUEBA JAQUE MATE
@@ -424,7 +382,7 @@ void Tablero::cambiaTurno()
 
     std::cout << "fin cambia "<< std::endl;
 
-    turnoN = !turnoN;
+   // getTurnoNegras() = !turnoN;
 
 }
 
@@ -642,6 +600,9 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
         ficha->getNodoOgre()->showBoundingBox(false);
     }
 }
+
+
+
 
 
  ModeloTablero* Tablero::traduceTablero()

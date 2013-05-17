@@ -1,6 +1,6 @@
 #include "../../headers/Modelo/JugadorArtificial.h"
 
-JugadorArtificial::JugadorArtificial(Tablero* tablero) :
+JugadorArtificial::JugadorArtificial(ModeloTablero* tablero) :
     Jugador(tablero)
   , dificultad(0)
 
@@ -14,7 +14,7 @@ JugadorArtificial::~JugadorArtificial()
 }
 
 
-void JugadorArtificial::mueveFicha(float time){
+void JugadorArtificial::mueveFicha(){
 
 
 
@@ -71,7 +71,7 @@ void JugadorArtificial::calculaMovimiento(){
     std::cout << "TRADUCIDO:" << tableroPadre->alPaso<< std::endl;
 
     ////////////////////////////////////////////////////////////////////////////////////7
-    tableroPadre->casillasInt = miTablero->traduceTablero();
+    tableroPadre->casillasInt = miTablero->casillasInt;
 
 
     //  tablero->Score = 2;
@@ -159,13 +159,13 @@ int* JugadorArtificial::mueveIA(int origen, int destino)
 
     std::cout  << "mueve" <<  destino << std::endl;
 
-    posicion orig;
-    orig.Fila = (origen/12)-2;
-    orig.Columna = (origen%12)-2;
 
-    posicion dest;
-    dest.Fila = (destino/12)-2;
-    dest.Columna = (destino%12)-2;
+    int filaOrigen = (origen/12)-2;
+    int colOrigen = (origen%12)-2;
+
+
+    int filaDestino = (destino/12)-2;
+    int colDestino = (destino%12)-2;
     //int columanOrigen = (origen%12)-2;
     // int filaOrigen =   ;
 
@@ -203,18 +203,14 @@ int* JugadorArtificial::mueveIA(int origen, int destino)
     //std::cout  << "origenBaseOcho "<< origenBaseOcho.str() << std::endl;
     //std::cout  << "destinoBaseOcho "<< destinoBaseOcho.str() << std::endl;
 
-    miTablero->actualizaTablero(orig,dest );
-
-    std::cout  << "cambiaturno " << std::endl;
-
-
-    miTablero->cambiaTurno();
-}
-
-
-void JugadorArtificial::sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada)
-{
+    miTablero->casillasInt == mueveTablero(filaOrigen, colOrigen, filaDestino, colDestino);
 
 }
+
+
+//void JugadorArtificial::sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada)
+//{
+
+//}
 
 

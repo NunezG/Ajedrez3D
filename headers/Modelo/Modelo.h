@@ -1,9 +1,9 @@
 #ifndef __Modelo_
 #define __Modelo_
-#include <Ogre.h>
+//#include <Ogre.h>
 //#include "EscenaAjedrez.h"
 
-#include "ModeloTablero.h"
+//#include "ModeloTablero.h"
 
 #include "../Modelo/JugadorArtificial.h"
 #include "../Modelo/JugadorHumano.h"
@@ -18,11 +18,9 @@ class Modelo
 {
 public:
 
-    std::string resolucion;
     std::string nombreBlancas;
     std::string nombreNegras;
 
-    bool salirPulsado;
 
     int modoJuego;
 
@@ -31,12 +29,10 @@ public:
     Jugador* jugadorActual;
 
 
-    void mueveFicha(float time);
+    void mueveJugador(bool turno);
     void creaJugador(bool blancas, bool humano,ModeloTablero* tablero );
 
-    bool getApagar();
-    int getNumPantalla();
-    void setNumPantalla(int pantalla);
+
 
 //    EscenaAjedrez* escena;
 
@@ -45,9 +41,6 @@ public:
     static Modelo* getSingletonPtr();
 
 
-    bool getSalir();
-
-    void setSalir(bool salir);
 
 
  // EscenaAjedrez* escenaAjedrez;
@@ -66,8 +59,6 @@ private:
     void operator=(const Modelo& miModelo) ;
     Modelo(const Modelo& miModelo);
 
-    bool mShutDown;
-    int mPantalla;
 
     unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
 

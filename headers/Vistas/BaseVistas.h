@@ -6,13 +6,20 @@
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 
+#include <CEGUI/CEGUISystem.h>
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
+
+
 #include "../ModeloVista/EscenaAjedrez.h"
 
+#include "../ModeloVista/ModeloVista.h"
 
 class BaseVistas
 {
 public:
-    BaseVistas(void);
+    BaseVistas(ModeloVista* modeloV);
     ~BaseVistas(void);
 
 
@@ -46,6 +53,7 @@ public:
 
     bool configuraGraficos(const char *desiredRenderer);
 
+    ModeloVista* modeloVista;
 
 
     //OIS Input devices

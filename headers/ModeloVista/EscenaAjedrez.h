@@ -16,6 +16,12 @@
 //#include "Tablero.h"
 
 
+#include <CEGUI/CEGUISystem.h>
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
+
+
 #include "../ModeloVista/Tablero.h"
 
 
@@ -28,12 +34,11 @@ class  EscenaAjedrez
 {
 public:
 
+      EscenaAjedrez(Modelo* mod);
     ~EscenaAjedrez(void);
 
-    //Singleton
-    static EscenaAjedrez* getSingletonPtr();
-
     void createScene();
+    void sobreVuelaCasilla();
 
     // void createCamera(void);
 
@@ -84,22 +89,23 @@ public:
 
  void mueveFicha();
  bool seleccionaFichaEnPosicion(int posX, int posY);
- bool autorizaCasillaSobrevolada();
+ bool autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
+ void esperaJugador();
 
+ void apagaAvisos();
+
+ CEGUI::Window *ventanaJaque;
 
 private:   
 
  Ogre::Root* mRoot;
    Ogre::RaySceneQuery *mRaySceneQuery;
 
+   Modelo* modelo;
+
 
    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
-    //Ogre::Entity *entTablero;
-     //Singleton;
-     EscenaAjedrez(void);
-     void operator=(const EscenaAjedrez& escena ) ;
-     EscenaAjedrez(const EscenaAjedrez& escena);
 
     void creaIluminacion();
     void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);

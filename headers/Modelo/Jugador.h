@@ -1,8 +1,9 @@
 #ifndef __Jugador_
 #define __Jugador_
 
-#include "ModeloTablero.h"
+//#include "ModeloTablero.h"
 
+#include "../Modelo/Autorizaciones.h"
 
 class Jugador
 {
@@ -15,9 +16,10 @@ public:
    // ModeloTablero tableroInicial;
     bool jugadorNegras;
 
-    virtual void mueveFicha(float time) = 0;
+    virtual void mueveFicha() = 0;
 //bool esperaEleccion;
-    virtual void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada) = 0;
+    //virtual void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada) = 0;
+    int* mueveTablero( int filaSel, int colSel, int filaNueva, int colNueva );
 
 protected:
 

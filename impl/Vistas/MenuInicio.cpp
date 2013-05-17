@@ -2,9 +2,9 @@
 #include "../../headers/Vistas/MenuInicio.h"
 
 //-------------------------------------------------------------------------------------
-MenuInicio::MenuInicio() :
-    BaseVistas(),
-    ventanaConfig(NULL),
+MenuInicio::MenuInicio(ModeloVista* modeloV) :
+    BaseVistas(modeloV)
+,    ventanaConfig(NULL),
     listaResoluciones(NULL)
 
 {
@@ -218,25 +218,16 @@ bool MenuInicio::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 {
-    modelo->setSalir(true);
+    modeloVista->setSalir(true);
     return true;
 }
 
 bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 {
 
+    modeloVista->cambiaPantalla(1);
 
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
-    wmgr.getWindow("MenuInicio/VentanaMenu")->setVisible(false);
-    // wmgr.getWindow("Demo")->setVisible(false);
-
-    wmgr.getWindow("MenuInicio")->setVisible(false);
-
-    wmgr.destroyWindow("MenuInicio/VentanaMenu");
-    wmgr.destroyWindow("MenuInicio");
-
-    modelo->setNumPantalla(1);
     //modoJuego = 1;
     return true;
 }
@@ -244,19 +235,7 @@ bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 bool MenuInicio::botonJuegoSolo(const CEGUI::EventArgs &e)
 {
 
-
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-
-    wmgr.getWindow("MenuInicio/VentanaMenu")->setVisible(false);
-    // wmgr.getWindow("Demo")->setVisible(false);
-
-    wmgr.getWindow("MenuInicio")->setVisible(false);
-
-    wmgr.destroyWindow("MenuInicio/VentanaMenu");
-    wmgr.destroyWindow("MenuInicio");
-
-    modelo->setNumPantalla(2);
-    //  modoJuego = 2;
+   modeloVista->cambiaPantalla(2);
     return true;
 }
 
@@ -288,7 +267,7 @@ bool MenuInicio::botonAplicarCambios(const CEGUI::EventArgs &e)
         if(item->isSelected()){
            // std::cout  << "SE HA APLICADO Y SELECCIONADO LA RESOLUCION ("<< item->getText() <<  ")" << std::endl;
 
-            modelo->resolucion = item->getText().c_str();
+            modeloVista->resolucion = item->getText().c_str();
             //  renderSystem->setConfigOption("Video Mode", modelo->resolucion);
 
 

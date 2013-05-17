@@ -13,12 +13,12 @@ public:
     JugadorArtificial(ModeloTablero* tablero);
 
     bool esHumano();
-    void mueveFicha(float time);
+    void mueveFicha();
     //void setVentana(Ventana* obj);
 
     int dificultad;
 
-    void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
+   // void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 
 
 private:

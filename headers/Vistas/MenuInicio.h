@@ -2,15 +2,12 @@
 #define __MenuInicio_
 #include "BaseVistas.h"
 
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-#include <Ogre.h>
 
 class MenuInicio : public BaseVistas
 {
 public:
 
-    MenuInicio();//Ventana* mFrameListener);
+    MenuInicio(ModeloVista* modeloV);//Ventana* mFrameListener);
     ~MenuInicio(void);
 
    // CEGUI::FrameWindow* createGUI(void);

@@ -2,10 +2,6 @@
 #define __Ventana_
 
 
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
-
 #include <iostream>
 
 #include <Ogre.h>
@@ -36,7 +32,7 @@
 class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener,  public Ogre::FrameListener
 {
 public:
-    Ventana(void);
+    Ventana(ModeloVista* modeloVista);
 
      ~Ventana(void);
 
@@ -64,7 +60,6 @@ public:
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     int mPantalla;
-  //  Modelo* modelo;
     BaseVistas* vista;
    // BaseApplication* Create(Ogre::String type);
 
@@ -77,6 +72,8 @@ public:
     Ogre::Root *mRoot;
 
 private:
+
+    ModeloVista* modeloVista;
 
     bool injectTimePulse(const Ogre::FrameEvent& evt);
 

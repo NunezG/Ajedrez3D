@@ -2,9 +2,8 @@
 #include "../../headers/Vistas/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez(EscenaAjedrez* escena) :
-    BaseVistas()
-  , escenaAjedrez(escena)
+VistaAjedrez::VistaAjedrez(ModeloVista* modeloV) :
+    BaseVistas(modeloV)
     , textoOverlay("VACIO")
 
 
@@ -114,6 +113,11 @@ bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 
 bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 {
+
+    escenaAjedrez->apagaAvisos();
+
+
+
     CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
     if (escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
@@ -127,7 +131,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         // the further the camera is, the faster it moves
         escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
     }
-    else escenaAjedrez-> autorizaCasillaSobrevolada();
+    else escenaAjedrez-> autorizaCasillaSobrevolada(mCursorPosition);
 
 
 
@@ -179,11 +183,6 @@ bool VistaAjedrez::mueveCamara(float frecuencia)
 bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {  
 
-    //!!!!!!!!!!!!!!!!!!!BUSCA EN EL VECTOR DE HIJOS DEL TABLERO EL QUE COINCIDA EN EL NOMBRE (O TAMBIEN LA POSICION?)
-    //
-    //
-    //
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
@@ -203,7 +202,6 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
 
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
        escenaAjedrez->seleccionaFichaEnPosicion(mCursorPosition.d_x, mCursorPosition.d_y);
-
 
 
        // std::cout  << "FILA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Fila <<std::endl;

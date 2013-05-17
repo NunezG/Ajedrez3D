@@ -1,7 +1,7 @@
 #ifndef __ControlJuego_
 #define __ControlJuego_
 
-#include <CEGUI/CEGUISystem.h>
+
 #include "BaseJuego.h"
 #include "../ModeloVista/EscenaAjedrez.h"
 
@@ -17,7 +17,6 @@ public:
     //Singleton
     static ControlJuego& getControlSingleton();
 
-    bool iniciaModeloAjedrez();
 
 private:
 
@@ -26,10 +25,6 @@ private:
     ControlJuego(const ControlJuego& control);
     ControlJuego(void);
 
-
-
-    //BUCLE PRINCIPAL
-    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 
     EscenaAjedrez* escenaAjedrez;

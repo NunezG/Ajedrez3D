@@ -2,9 +2,8 @@
 
 
 
-JugadorHumano::JugadorHumano(Tablero* tablero) :
+JugadorHumano::JugadorHumano(ModeloTablero* tablero) :
     Jugador(tablero)
-  , ventanaJaque(NULL)
   
   
   
@@ -22,7 +21,11 @@ JugadorHumano::~JugadorHumano()
 //ventana = obj;
 //}
 
-void JugadorHumano::mueveFicha(float time){
+void JugadorHumano::mueveFicha()
+{
+
+
+
     
     //HA CAPTUURADO MOVIMIENTO??
     
@@ -34,26 +37,20 @@ void JugadorHumano::mueveFicha(float time){
     
 }
 
-void JugadorHumano::sobreVuelaCasilla(){
-    miTablero->getNodoCasillaSobrevolada()->iluminaCasilla();
-    //  miTablero->getNodoCasillaSobrevolada()->seleccionada = false;
 
-}
 
-void JugadorHumano::autorizaCasilla(tipoFicha tipo, posicion seleccionado, posicion sobrevolado){
+//return: 1 para autorizado, 2 para no autorizado, 3 para jaque
+int JugadorHumano::autorizaCasilla(tipoFicha tipo, int filaSel, int colSel, int filaNueva, int colNueva){
     
     //Autoriza la casilla sobrevolada para mover ficha (no mira si la casilla está ocupada)
     bool autorizado= true;
 
 
-    if (ventanaJaque != NULL)
-        ventanaJaque->setVisible(false);
+   // miTablero->casillasInt = miTablero->traduceTablero();
 
-    miTablero->casillasInt = miTablero->traduceTablero();
+    if (miTablero->turnoN)Autorizaciones::normalizaTablero(miTablero->casillasInt);
 
-    if (miTablero->getTurnoNegras())normalizaTablero(miTablero->casillasInt);
-
-    autorizado = Autorizaciones::autorizaCasilla(miTablero, tipo, seleccionado, sobrevolado);
+    autorizado = Autorizaciones::autorizaCasilla(miTablero, tipo, filaSel, colSel, filaNueva, colNueva);
     
     std::cout << "autorizado en autorizacasilla: "<<autorizado << std::endl;
 
@@ -64,48 +61,35 @@ void JugadorHumano::autorizaCasilla(tipoFicha tipo, posicion seleccionado, posic
 
         //si esta ocupado y no es comestible
 
-        int* tableroInt = miTablero->mueveYTraduceTablero();
+        int* tableroInt = mueveTablero(filaSel, colSel, filaNueva, colNueva);
         
-        if(!miTablero->getTurnoNegras())Autorizaciones::normalizaTablero(tableroInt);
+        if(!miTablero->turnoN)Autorizaciones::normalizaTablero(tableroInt);
+        else return 0;
 
         std::cout << "evalua jaque" << std::endl;
         
         //EVALUA JAQUE
-        if (!Autorizaciones::evaluaJaque(tableroInt, !miTablero->getTurnoNegras()))
+        if (!Autorizaciones::evaluaJaque(tableroInt, !miTablero->turnoN))
         {
+
             
             // miTablero->getNodoCasillaSobrevolada()->seleccionada = true;
             //ILUMINA LA CASILLA
-            sobreVuelaCasilla();
+
 
             std::cout << "ES COMESTIBLE" << std::endl;
+            return 1;
         }else
         {
 
             std::cout << "JAQUE AL REY" << std::endl;
 
-            //  ventanaJaque = NULL;
-
-            if (!CEGUI::WindowManager::getSingleton().isWindowPresent("Jaque"))
-            {
-                std::cout << "VENTANA YA EXISTE" << std::endl;
-
-                ventanaJaque = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueCEED.layout");
-                //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
-
-                CEGUI::System::getSingleton().getGUISheet()->addChildWindow(ventanaJaque);
-            }else {
-                ventanaJaque = CEGUI::WindowManager::getSingleton().getWindow("Jaque");
-                ventanaJaque->setVisible(true);
-
-            }
-
 
             
             
             
-            
-            
+            return 3;
+
         }
     }
     std::cout << "sale de autorizado" << std::endl;
@@ -114,40 +98,21 @@ void JugadorHumano::autorizaCasilla(tipoFicha tipo, posicion seleccionado, posic
 }
 
 
-int* JugadorHumano::mueveTablero()
-{
 
-    int* tableroTraducido = traduceTablero();
-
-    // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
-
-    int posFinal = 24+(getNodoCasillaSobrevolada()->getPosicion().Fila*12) + getNodoCasillaSobrevolada()->getPosicion().Columna+2;
-
-    int posInicial = 24+(getNodoCasillaSeleccionada()->getPosicion().Fila*12) + getNodoCasillaSeleccionada()->getPosicion().Columna+2;
-
-
-    tableroTraducido[posFinal]= tableroTraducido[posInicial];
-    tableroTraducido[posInicial] = 0;
-
-
-
-
-    return tableroTraducido;
-}
-
-
-void JugadorHumano::aplicaSeleccion()
+int JugadorHumano::aplicaSeleccion( int filaSel, int colSel, int filaNueva, int colNueva)
 {
     // esperaEleccion = false;
-    miTablero->actualizaTablero(miTablero->getNodoCasillaSeleccionada()->getPosicion(), miTablero->getNodoCasillaSobrevolada()->getPosicion());
-    miTablero->fichaSeleccionada = false;
-    std::cout << "cambiatur 4 "<< std::endl;
-    std::cout << "cambiatur 5 "<< std::endl;
+
+    miTablero->casillasInt == mueveTablero( filaSel,  colSel,  filaNueva,  colNueva);
+
+
     
     std::cout << "cambiatur 6"<< std::endl;
-    miTablero->cambiaTurno();
+   // miTablero->cambiaTurno();
     
-    if(miTablero->getTurnoNegras()) miTablero->casillasInt = miTablero->traduceTablero();
+    miTablero->turnoN = miTablero->turnoN;
+
+   // if(miTablero->getTurnoNegras()) miTablero->casillasInt = miTablero->traduceTablero();
     
     Autorizaciones::generaMovimientos(static_cast<ModeloTablero*>(miTablero));
     
@@ -156,13 +121,15 @@ void JugadorHumano::aplicaSeleccion()
     if (miTablero->vectorMov.size() == 0)
     {
         std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
+
+        return 2;
         
-        std::cout << "JAQUE EVALUADO!!"<< std::endl;
-        CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueMateCEED.layout");
-        CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
+
         
-    }else {
-        miTablero->rotacionCamara = Ogre::Real(180.0f);
+    }else
+    {
+        return 1;
+
     }
     
     
@@ -176,8 +143,8 @@ bool JugadorHumano::esHumano()
     return true;
 }
 
-void JugadorHumano::sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada)
-{
+//void JugadorHumano::sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada)
+//{
     /*if(miTablero->fichaSeleccionada)
         {
         
@@ -199,4 +166,4 @@ void JugadorHumano::sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada)
         }
 */
     
-}
+//}

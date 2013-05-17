@@ -259,7 +259,8 @@ int ModuloIA::evaulaTablero(const int casillasInt[144], bool turnoN)
         }
 
     }
-   if(turnoN){
+   if(turnoN)
+   {
        std::cout << "turno  negras suma: " << suma<< std::endl;
 
        suma = -suma;

@@ -1,8 +1,8 @@
 #include "../../headers/Vistas/Ventana.h"
 
-Ventana::Ventana() :
+Ventana::Ventana(ModeloVista* modeloVista) :
     //mLastStatUpdateTime(0),
-
+    modeloVista(modeloVista),
     mPantalla(0),
     sys(0),
     // mRoot(Ogre::Root::getSingletonPtr()),
@@ -11,7 +11,7 @@ Ventana::Ventana() :
     vista(NULL)
   //capturaRaton(true)
 {
-    modelo = Modelo::getSingletonPtr();
+  //  modeloVista = Modelo::getSingletonPtr();
 
 }
 
@@ -216,7 +216,7 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 
     if (evt.key == OIS::KC_ESCAPE)// Pulsa Esc
     {
-        modelo->setSalir(true);
+        modeloVista->setSalir(true);
     }else if (evt.key == OIS::KC_SYSRQ)   // take a screenshot
     {
         // mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
@@ -267,7 +267,7 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {   
     if( pantallaActual() == 0)
     {
-        if(modelo->getNumPantalla() > 0)
+        if(modeloVista->getNumPantalla() > 0)
         {
             //modelo->destruyeMenu();
 
@@ -283,7 +283,12 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
             initOgre();
             std::cout   << "   intit" << std::endl;
 
-            iniciaModeloAjedrez();
+            modeloVista->iniciaModeloAjedrez();
+
+           //VistaAjedrez* laVista = static_cast<VistaAjedrez*>(this);
+
+            modeloVista->escena->createViewports(vista->mWindow);
+
 
             muestraAjedrez();
 
@@ -319,7 +324,7 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
     else if(pantallaActual() > 0)
     {
 
-        modelo->mueveFicha(evt.timeSinceLastFrame);
+        modeloVista->escena->esperaJugador();
 
       //  if (modelo->getTablero()->getNodoCasillaSobrevolada() != NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->seleccionada)
       //  {
@@ -369,21 +374,11 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
 
-    if(!(modelo->jugadores.size()>0 && !modelo->jugadores.at(modelo->escenaAjedrez->getTablero()->getTurnoNegras())->esHumano()))
+    if(modeloVista->getNumPantalla() > 0 && vista != NULL)
     {
-
-
         vista->capture();
 
-
-
-        if(vista != NULL && !vista->esMenuInicio())
-        {
-
-            vista->mueveCamara(evt.timeSinceLastFrame);
-        }
-
-
+        vista->mueveCamara(evt.timeSinceLastFrame);
     }
 
     // }
@@ -455,17 +450,17 @@ void Ventana::creaVista()
 {
 
 
-    if (modelo->getNumPantalla() == 1)
+    if (modeloVista->getNumPantalla() == 1)
     {
         mPantalla = 1;
-        vista= new VistaAjedrez();
+        vista= new VistaAjedrez(modeloVista);
 
 
     }
-    else if (modelo->getNumPantalla() == 2)
+    else if (modeloVista->getNumPantalla() == 2)
     {
         mPantalla = 2;
-        vista= new VistaAjedrezSolo();
+        vista= new VistaAjedrezSolo(modeloVista);
 
     }
 
@@ -592,7 +587,7 @@ bool Ventana::initOgre(void){
 
     if (vista == NULL)
     {
-        vista = new MenuInicio();
+        vista = new MenuInicio(modeloVista);
         vista->mWindow = mRoot->initialise(true, "Root Prueba");
 
     }

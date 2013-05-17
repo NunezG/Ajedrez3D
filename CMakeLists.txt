@@ -170,6 +170,7 @@ set(HDRS
         ./headers/ModeloVista/ObjetoOgre.h
         ./headers/ModeloVista/Casilla.h
         ./headers/ModeloVista/EscenaAjedrez.h
+        ./headers/ModeloVista/ModeloVista.h
 
 
 
@@ -221,6 +222,7 @@ set(SRCS
         ./impl/ModeloVista/ObjetoOgre.cpp
        ./impl/ModeloVista/Casilla.cpp
         ./impl/ModeloVista/EscenaAjedrez.cpp
+        ./impl/ModeloVista/ModeloVista.cpp
 
 
 

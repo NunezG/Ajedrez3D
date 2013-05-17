@@ -31,12 +31,12 @@ private:
 
     static bool autorizaRey(int filaDif, int colDif,  int filaNueva, int colNueva, ModeloTablero* miTablero);
     static bool autorizaReina(int filaDif, int colDif,  int filaNueva, int colNueva,int* miTablero);
-    static bool autorizaPeon(int filaDif, int colDif,  int filaNueva,int colNueva, posicion seleccionado,ModeloTablero* miTablero);
+    static bool autorizaPeon(int filaDif, int colDif,  int filaNueva, int colNueva,  int filaSel, ModeloTablero* miTablero);
     static bool autorizaAlfil(int filaDif, int colDif,  int filaNueva,int colNueva, int* elTablero);
     static bool autorizaTorre(int filaDif, int colDif,  int filaNueva,int colNueva,int* elTablero);
     static bool autorizaCaballo(int filaDif, int colDif);
 
-    static bool verificaCamino(int filaDif, int colDif,  int filaNueva,int colNueva, int camino, int* casillas);
+    static bool verificaCamino(int distancia,  int filaNueva,int colNueva, int camino, int* casillas);
 
 
 

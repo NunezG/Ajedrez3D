@@ -1,5 +1,10 @@
 #ifndef __ModeloTablero_
 #define __ModeloTablero_
+#include <algorithm>    // std::for_each
+#include <vector>       // std::vector
+#include <iostream>
+#include <string>
+
 
 struct ModeloTablero
 {   

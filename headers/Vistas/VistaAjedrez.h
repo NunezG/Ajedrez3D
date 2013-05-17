@@ -10,7 +10,7 @@
 class VistaAjedrez : public  BaseVistas
 {
 public:
-    VistaAjedrez(EscenaAjedrez* escena);
+    VistaAjedrez(ModeloVista* modeloV);
     ~VistaAjedrez(void);
 
     bool mueveCamara(float frecuencia);
@@ -30,12 +30,14 @@ public:
 
     bool muestraJaque();
 
-    CEGUI::Window *ventanaJaque;
     bool muestraInfo();
+
+  //  CEGUI::Window *ventanaJaque;
+
 
 protected:
 
-
+    ModeloVista* modeloVista;
     EscenaAjedrez* escenaAjedrez;
 
 
