@@ -34,7 +34,7 @@ class  EscenaAjedrez
 {
 public:
 
-      EscenaAjedrez(Modelo* mod);
+    EscenaAjedrez(Modelo* mod);
     ~EscenaAjedrez(void);
 
     void createScene();
@@ -65,53 +65,52 @@ public:
 
     //std::vector<Tablero*> HistorialMovimientos;
 
-   Tablero* tablero;
-   Ogre::SceneManager* mSceneMgr;
-   Ogre::Camera* mCamera;
+    Tablero* tablero;
+    Ogre::SceneManager* mSceneMgr;
+    Ogre::Camera* mCamera;
 
-   Tablero* getTablero();
+    Tablero* getTablero();
 
-   Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
-   Ogre::RaySceneQuery* createRayQuery(void);
+    Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
+    Ogre::RaySceneQuery* createRayQuery(void);
 
 
 
-   bool vaIzquierda();
-   bool vaDerecha();
- bool esModoCamara();
- void mueveCamaraIzquierda();
- void mueveCamaraDerecha();
+    bool vaIzquierda();
+    bool vaDerecha();
+    bool esModoCamara();
+    void mueveCamaraIzquierda();
+    void mueveCamaraDerecha();
 
- void noMueveCamara();
+    void noMueveCamara();
 
- void empezarModoCamara();
- void acabarModoCamara();
+    void empezarModoCamara();
+    void acabarModoCamara();
 
- void mueveFicha();
- bool seleccionaFichaEnPosicion(int posX, int posY);
- bool autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
- void esperaJugador();
+    bool mueveFicha();
+    bool seleccionaFichaEnPosicion(int posX, int posY);
+    bool autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
+    void esperaJugador();
 
- void apagaAvisos();
+    void apagaAvisos();
 
- CEGUI::Window *ventanaJaque;
+    CEGUI::Window *ventanaJaque;
 
 private:   
 
- Ogre::Root* mRoot;
-   Ogre::RaySceneQuery *mRaySceneQuery;
+    Ogre::RaySceneQuery *mRaySceneQuery;
 
-   Modelo* modelo;
+    Modelo* modelo;
 
 
-   Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
+    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
 
     void creaIluminacion();
     void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);
 
 
-   // bool turnoNegras;
+    // bool turnoNegras;
 
     // InputMan::SdkCameraMan* mInputMan;
 
@@ -127,7 +126,7 @@ private:
     bool mGoingRight;
 
     bool mOrbiting;
-  //  Modelo* modelo;
+    //  Modelo* modelo;
 
 };
 

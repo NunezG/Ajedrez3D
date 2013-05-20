@@ -1,27 +1,45 @@
 #include "../../headers/Vistas/BaseVistas.h"
 
-BaseVistas::BaseVistas(ModeloVista* modeloV):
+BaseVistas::BaseVistas(ModeloVista* modeloV, Ogre::Root* mRoot, std::string label):
     modeloVista(modeloV)
     ,mInputManager(0),
     mMouse(0),
     mKeyboard(0)
+
     //modoJuego(0)
-
-
 {  
-
-    std::cout   << "AGREGA MODELO" << std::endl;
-
-
   //  modelo = Modelo::getSingletonPtr();
+
+    //escena = modeloV->escena;
 
     Ogre::LogManager::getSingletonPtr()->logMessage("***CONFIGURA GRAFICOS**");
 
     configuraGraficos("OpenGL");
 
+    mWindow = mRoot->initialise(true,label);
+  //  mWindow = mRoot->initialise(true,label);
+
+   // *renderer = myRenderer;
+
+    iniciaOIS();
+
+    CEGUI::OgreRenderer& myRenderer = CEGUI::OgreRenderer::bootstrapSystem(*mWindow);
+
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("***boootrss**");
+
+ //  myRenderer  = CEGUI  ::OgreRenderer::bootstrapSystem(*mWindow);
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("***CONFIGURA GRAFICOS**");
+
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+    CEGUI::Window *sheet= wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
+
+    CEGUI::System* sys = CEGUI::System::getSingletonPtr();
+    sys->setGUISheet(sheet);
+    sys->renderGUI();
+
     Ogre::LogManager::getSingletonPtr()->logMessage("***ACABA**");
-
-
 
    // iniciaVentana();
 }
@@ -29,24 +47,35 @@ BaseVistas::BaseVistas(ModeloVista* modeloV):
 BaseVistas::~BaseVistas()
 {
 
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+
+    wmgr.getWindow("MenuInicio/VentanaMenu")->setVisible(false);
+    // wmgr.getWindow("Demo")->setVisible(false);
+
+    wmgr.getWindow("MenuInicio")->setVisible(false);
+
+    wmgr.destroyWindow("MenuInicio/VentanaMenu");
+    wmgr.destroyWindow("MenuInicio");
+
+
     std::cout << "delete window"<< std::endl;
+    CEGUI::OgreRenderer::destroySystem();
 
 
    // delete mWindow;
         std::cout << "delete window 2"<< std::endl;
 
    // mWindow = 0;
-
-
-
 }
 
-Ogre::RenderWindow* BaseVistas::getVentana(){
+Ogre::RenderWindow* BaseVistas::getVentana()
+{
     return mWindow;
 }
 
 
-void BaseVistas::capture(){
+void BaseVistas::capture()
+{
     //Need to capture/update each device
     mKeyboard->capture();
 
@@ -60,35 +89,22 @@ int BaseVistas::getFPS()
     return ((int)stats.lastFPS);
 }
 
-bool BaseVistas::iniciaVentana()
+bool BaseVistas::iniciaOIS()
 {
-
-
-
-
     Ogre::LogManager::getSingletonPtr()->logMessage("***INICIAVENTAAN EN BASE**");
 
-
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
-
+    //INICIA OIS
     OIS::ParamList pl;
     size_t windowHnd = 0;
     std::ostringstream windowHndStr;
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** ventanica ***");
 
     mWindow->getCustomAttribute("WINDOW", &windowHnd);
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** ventanica  2222 ***");
-
     windowHndStr << windowHnd;
     pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing mInputManager ***"+windowHndStr.str());
-
     mInputManager = OIS::InputManager::createInputSystem( pl );
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing 2");
 
     mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing 3");
 
     mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing 4");
@@ -96,8 +112,6 @@ bool BaseVistas::iniciaVentana()
 
     //Set initial mouse clipping size
     windowResized();
-
-
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** sale de inicio cegui");
 
@@ -154,9 +168,6 @@ void BaseVistas::windowClosed()
 
 }
 
-
-
-
 bool BaseVistas::configuraGraficos(const char *desiredRenderer)
 {
 
@@ -180,14 +191,6 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
                         archName, typeName, secName);
         }
     }
-
-
-
-
-
-
-
-
 
 
     Ogre::LogManager::getSingletonPtr()->logMessage("***CONFIGURA GRAAAAAAAAAAAAA**");
@@ -234,9 +237,6 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
     Ogre::Root::getSingleton().setRenderSystem(renderSystem);
 
 
-
-
-
     // Manually set some configuration options (optional)
 
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
@@ -265,10 +265,6 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
 
     return true;
 }
-
-
-
-
 
 
 bool BaseVistas::jaqueMate()

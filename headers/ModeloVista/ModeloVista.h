@@ -25,22 +25,26 @@ void cambiaPantalla(int pantallaNueva);
 int getNumPantalla();
 void setNumPantalla(int pantalla);
 
-bool mShutDown;
-int mPantalla;
-
-bool getSalir();
-
 void setSalir(bool salir);
 bool iniciaModeloAjedrez();
 
 EscenaAjedrez* escena;
 std::string resolucion;
 bool getApagar();
+void setApagar(bool apaga);
+
+
+//Jugador* jugadorActual;
+
+
+
+bool preparaEscena();
 
 private:   
-bool salirPulsado;
 
 
+bool mShutDown;
+int mPantalla;
 
 };
 

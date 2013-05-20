@@ -6,7 +6,7 @@ ModeloVista::ModeloVista(Modelo* modelo):
     modelo(modelo)
     , mPantalla(0)
    , escena(NULL)
- , salirPulsado(0)
+   , mShutDown(0)
 
 {
 }
@@ -19,9 +19,6 @@ ModeloVista::~ModeloVista(void)
     // if (mInputMan) delete mInputMan;
 }
 
-
-
-
 bool ModeloVista::getApagar()
 {
 
@@ -29,17 +26,16 @@ bool ModeloVista::getApagar()
 
 }
 
+
+void ModeloVista::setApagar(bool apaga)
+{
+
+    mShutDown = apaga;
+
+}
 void ModeloVista::cambiaPantalla(int pantallaNueva)
 {
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
-    wmgr.getWindow("MenuInicio/VentanaMenu")->setVisible(false);
-    // wmgr.getWindow("Demo")->setVisible(false);
-
-    wmgr.getWindow("MenuInicio")->setVisible(false);
-
-    wmgr.destroyWindow("MenuInicio/VentanaMenu");
-    wmgr.destroyWindow("MenuInicio");
 
     setNumPantalla(pantallaNueva);
 }
@@ -54,14 +50,10 @@ void ModeloVista::setNumPantalla(int pantalla)
     mPantalla = pantalla;
 }
 
-bool ModeloVista::getSalir()
-{
-    return salirPulsado;
-}
 
 void ModeloVista::setSalir(bool salir)
 {
-    salirPulsado = salir;
+    mShutDown = salir;
 }
 
 //------------------------------------------------------------------------------------
@@ -70,30 +62,43 @@ bool ModeloVista::iniciaModeloAjedrez()
     escena  = new EscenaAjedrez(modelo);
 
     // mR-aySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
-    modelo->creaJugador(true, true, escena->getTablero()->traduceTablero());
+    modelo->creaJugador(true, true);
+
+    //jugadorActual = modelo->jugadores.at(0);
+
 
     if (getNumPantalla() == 1)
     {
-        modelo->creaJugador(false, true, escena->getTablero()->traduceTablero());
+        modelo->creaJugador(false, true);
     }else {
 
-        modelo->creaJugador(false, false, escena->getTablero()->traduceTablero());
+        modelo->creaJugador(false, false);
     }
+  }
 
-    escena->setSceneManager(/*mRoot*/);
+
+
+
+bool ModeloVista::preparaEscena()
+{
+    std::cout   << "   iniciamodelo1" << std::endl;
+
+
+    escena->setSceneManager();
+    std::cout   << "   iniciamodelo2" << std::endl;
+
     escena->createCamera();
+    std::cout   << "   iniciamodelo3" << std::endl;
 
     escena->createRayQuery();
+    std::cout   << "   iniciamodelo4" << std::endl;
 
    // escenaAjedrez->createCamera();
     //mInputMan->setTopSpeed(100);
 
-
-
     // Set default mipmap level (NB some APIs ignore this)
-    Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+    std::cout   << "   iniciamodelo5" << std::endl;
 
-    escena->createScene();
 
     return true;
 }

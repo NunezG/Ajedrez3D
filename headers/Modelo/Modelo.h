@@ -8,11 +8,7 @@
 #include "../Modelo/JugadorArtificial.h"
 #include "../Modelo/JugadorHumano.h"
 
-
 //#include "../Vistas/EscenaAjedrez.h"
-
-
-
 
 class Modelo
 {
@@ -21,18 +17,13 @@ public:
     std::string nombreBlancas;
     std::string nombreNegras;
 
-
     int modoJuego;
 
     int numJugadores;
     std::vector<Jugador*> jugadores;
-    Jugador* jugadorActual;
-
 
     void mueveJugador(bool turno);
-    void creaJugador(bool blancas, bool humano,ModeloTablero* tablero );
-
-
+    void creaJugador(bool blancas, bool humano);
 
 //    EscenaAjedrez* escena;
 
@@ -40,14 +31,12 @@ public:
     //Singleton
     static Modelo* getSingletonPtr();
 
-
-
-
  // EscenaAjedrez* escenaAjedrez;
 
 
     ~Modelo(void);
 
+    static bool evaluaJaque(int casillasInt[144], bool turnoNegras);
 
 protected:
 

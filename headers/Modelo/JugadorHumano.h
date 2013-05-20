@@ -2,6 +2,7 @@
 #define __JugadorHumano_
 
 #include "Jugador.h"
+#include "../Modelo/Autorizaciones.h"
 
 
 class JugadorHumano : public Jugador
@@ -9,7 +10,7 @@ class JugadorHumano : public Jugador
 public:
 
     ~JugadorHumano(void);
-    JugadorHumano(ModeloTablero* tablero);
+    JugadorHumano();
 
     bool esHumano();
 
@@ -17,13 +18,18 @@ public:
     //void setVentana(Ventana* obj);
     void mueveFicha();
 
-    int aplicaSeleccion(int filaSel, int colSel, int filaNueva, int colNueva);
+    int aplicaSeleccion(int* tablero, int filaSel, int colSel, int filaNueva, int colNueva, bool turnoNegras, int alPaso);
 
-    int autorizaCasilla(tipoFicha tipo, int filaSel, int colSel, int filaNueva, int colNueva);
+   int autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, int colSel, int filaNueva, int colNueva, bool turnoNegras, int alPaso);
 
   //  void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 
+
+
+
 protected:
+
+
 
 
 

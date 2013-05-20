@@ -2,23 +2,27 @@
 #include "../../headers/Vistas/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez(ModeloVista* modeloV) :
-    BaseVistas(modeloV)
+VistaAjedrez::VistaAjedrez(ModeloVista* modeloV, Ogre::Root* mRoot) :
+    BaseVistas(modeloV, mRoot, "Root Ajedrez")
     , textoOverlay("VACIO")
 
 
 
 {
+    std::cout   << "   ESCNA EN VISTAAJEDREZ" << std::endl;
+
 
   //  modelo =Modelo::getSingletonPtr();
+
+  //  mWindow = mRoot->initialise(true, "Root Ajedrez");
 
 
 
    // escenaAjedrez = EscenaAjedrez::getSingletonPtr();
-
-
+  //  BaseVistas::iniciaOIS();
+    escenaAjedrez = modeloV->escena;
+//escena
     std::cout   << "   creaTablero" << std::endl;
-
 
 
 
@@ -28,9 +32,6 @@ VistaAjedrez::VistaAjedrez(ModeloVista* modeloV) :
 VistaAjedrez::~VistaAjedrez(void)
 {    
 }
-
-
-
 
 bool VistaAjedrez::muestraInfo()
 {
@@ -44,30 +45,22 @@ bool VistaAjedrez::muestraInfo()
 
 }
 
-
-
 bool VistaAjedrez::iniciaVentana()
 {
     //tablero = escenaAjedrez->getTablero();
 
-    BaseVistas::iniciaVentana();
 
     Ogre::LogManager::getSingletonPtr()->logMessage("***SALE DE INICIA VENTANA DE LA BASE Y EMPIEZA CEGUI**");
 
 }
-
 
 bool VistaAjedrez::muestraJaque()
 {
     CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueCEED.layout");
   //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
-
     CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
-
 }
-
-
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
@@ -75,9 +68,6 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 
     if (arg.key == OIS::KC_A || arg.key == OIS::KC_LEFT)
     {
-
-
-
         escenaAjedrez->rotacionCamara(Ogre::Degree(1));
       //  escenaAjedrez->mueveCamaraIzquierda();
         //   mCamera->moveRelative(Ogre::Vector3(-1,0,0));//yaw(Ogre::Degree(-1.25f));
@@ -114,20 +104,30 @@ bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 {
 
-    escenaAjedrez->apagaAvisos();
 
+
+    std::cout << "mousemov"<< std::endl;
 
 
     CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
+    std::cout << "mm"<< std::endl;
+
+
+if (escenaAjedrez == NULL) std::cout << "escena NULL"<< std::endl;
+
     if (escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
     {
+        std::cout << "camara" << std::endl;
+
         escenaAjedrez->rotacionCamara(Ogre::Degree(mCursorPosition.d_x)); // con grados?
     }
 
 
     else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
     {
+        std::cout << "Z" << std::endl;
+
         // the further the camera is, the faster it moves
         escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
     }
@@ -214,9 +214,9 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
    //     if (modelo->jugadorActual->esHumano())
     //    {
 
-        escenaAjedrez->mueveFicha();
+        bool resultado = escenaAjedrez->mueveFicha();
 
-
+        //if (resultado == true) modeloVista->cambiaTurno();
 
            //   }
     }else {

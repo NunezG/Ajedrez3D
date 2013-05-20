@@ -39,27 +39,22 @@ public:
     void loadResources(void);
 
     void destroyScene(void);
+    //Iniciación
+
     bool start(void);
 
     bool resetOgre(void);
     bool initOgre(void);
 
-    //Iniciación
-    void iniciaIO(void);
-    bool EmpiezaCEGUI();
 
     //Pantallas
     bool MuestraMenu();
-    VistaAjedrez* muestraAjedrez();
-    bool muestraAjedrezSolo();
-
-    bool iniciaMenu();
 
     int pantallaActual();
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-    int mPantalla;
+  //  int mPantalla;
     BaseVistas* vista;
    // BaseApplication* Create(Ogre::String type);
 
@@ -71,12 +66,10 @@ public:
 
     Ogre::Root *mRoot;
 
+
 private:
 
     ModeloVista* modeloVista;
-
-    bool injectTimePulse(const Ogre::FrameEvent& evt);
-
 
 
     // OIS::KeyListener

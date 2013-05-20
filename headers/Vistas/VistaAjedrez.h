@@ -10,7 +10,7 @@
 class VistaAjedrez : public  BaseVistas
 {
 public:
-    VistaAjedrez(ModeloVista* modeloV);
+    VistaAjedrez(ModeloVista* modeloV,  Ogre::Root* mRoot);
     ~VistaAjedrez(void);
 
     bool mueveCamara(float frecuencia);

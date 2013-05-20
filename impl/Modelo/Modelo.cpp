@@ -34,31 +34,48 @@ Modelo::~Modelo()
 
 void Modelo::mueveJugador(bool turno)
 {
-
  //   escenaAjedrez->getTablero()->getTurnoNegras()
 
     //Jugador* jug = jugadores[0];
-    jugadores.at(turno)->mueveFicha();
+    std::cout << "mueveJugador"<< std::endl;
+    std::cout << "jugadores.size()"<< jugadores.size()<<std::endl;
+    Jugador* jugador = NULL;
 
+    if (jugadores.size() == 2)
+    {
+       jugador = jugadores.at(turno);
+       std::cout << "mueveficha"<< std::endl;
+        if(jugador == NULL)
+            std::cout << "NO HA ENCONTRADO JUGADOR PERO SIGUE"<< std::endl;
+else {
+
+            std::cout << "HA ENCONTRADO UN JUGADOR DE TIPO: "<<std::endl;
+             std::cout << jugador->jugadorNegras   <<std::endl;
+             std::cout  << jugador->esHumano()  <<std::endl;
+
+             jugador->mueveFicha();
+
+        }
+
+    }
+    std::cout << "sale"<< std::endl;
 
 }
 
-
-
 //tal vez sea mejor una factoria de jugadores
-void Modelo::creaJugador(bool blancas, bool humano ,ModeloTablero* tablero )
+void Modelo::creaJugador(bool blancas, bool humano)
 {
 
    int num = numJugadores;
 
-
+//HAY QUE CAMBIAR LO DE MODELOTABKERO PORQUE LOS JUGADORES ESTAN EN UN VECTOR Y ESE ES EL PROBLEMA
     if (humano){
-        jugadores.push_back(new JugadorHumano(tablero));
+        jugadores.push_back(new JugadorHumano());
 
     }
     else {
 
-        jugadores.push_back(new JugadorArtificial(tablero));
+        jugadores.push_back(new JugadorArtificial());
 
 
     }
@@ -74,7 +91,6 @@ void Modelo::creaJugador(bool blancas, bool humano ,ModeloTablero* tablero )
 
     }
 
-    if (numJugadores == 0) jugadorActual = jugadores.at(0);
 
     numJugadores++;
 }

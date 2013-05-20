@@ -63,9 +63,11 @@ void EscenaAjedrez::sobreVuelaCasilla(){
 }
 
 
-void EscenaAjedrez::setSceneManager(/*Ogre::Root* mRoot*/)
+void EscenaAjedrez::setSceneManager()
 {
-    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
+
+
+    mSceneMgr = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
 }
 
 
@@ -315,24 +317,25 @@ void EscenaAjedrez::esperaJugador()
 
 }
 
-void EscenaAjedrez::mueveFicha()
+bool EscenaAjedrez::mueveFicha()
 {
     //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
     if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
     {
         tablero->getNodoCasillaSobrevolada()->apagaCasilla();
         tablero->fichaSeleccionada = false;
-        int resultado = static_cast<JugadorHumano*>(modelo->jugadorActual)->aplicaSeleccion(tablero->getNodoCasillaSeleccionada()->getPosicion().Fila, tablero->getNodoCasillaSeleccionada()->getPosicion().Columna,tablero->getNodoCasillaSobrevolada()->getPosicion().Fila, tablero->getNodoCasillaSobrevolada()->getPosicion().Columna);
+        int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->aplicaSeleccion(tablero->traduceTablero(), tablero->getNodoCasillaSeleccionada()->getPosicion().Fila, tablero->getNodoCasillaSeleccionada()->getPosicion().Columna,tablero->getNodoCasillaSobrevolada()->getPosicion().Fila, tablero->getNodoCasillaSobrevolada()->getPosicion().Columna,tablero->getTurnoNegras(), tablero->getAlPaso());
 
 
         if (resultado == 1)
         {//FICHA MOVIDA
 
-
             tablero->actualizaTablero(tablero->getNodoCasillaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion());
 
-             tablero->rotacionCamara = Ogre::Real(180.0f);
-             tablero->cambiaTurno();
+            tablero->rotacionCamara = Ogre::Real(180.0f);
+            tablero->cambiaTurno();
+
+           return true;
 
 
         }else if (resultado == 2)
@@ -341,15 +344,19 @@ void EscenaAjedrez::mueveFicha()
             CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueMateCEED.layout");
             CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
 
+            return false;
 
         }
 
 
     }
+    return false;
 }
 
 bool EscenaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
 {
+    apagaAvisos();
+
     tablero->fichaSeleccionada = false;
 
 
@@ -397,10 +404,14 @@ bool EscenaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
 bool EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
 {
 
+    std::cout << "autor" << std::endl;
 
 
     if (tablero->fichaSeleccionada)
     {
+        std::cout << "ifffffffffff" << std::endl;
+
+        // escenaAjedrez->apagaAvisos();
 
         // int posx = arg.state.X.abs;   // Posicion del puntero
         //  int posy = arg.state.Y.abs;   //  en pixeles.
@@ -445,16 +456,14 @@ bool EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
                 //tablero->validacasilla();
 
                 //AUTORIZA
-                int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->autorizaCasilla(tipo, nodoSeleccionado->getPosicion().Fila,nodoSeleccionado->getPosicion().Columna, casillaSobrevolada->getPosicion().Fila, casillaSobrevolada->getPosicion().Columna);
-
+                int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->autorizaCasilla(tablero->traduceTablero(),tipo, nodoSeleccionado->getPosicion().Fila,nodoSeleccionado->getPosicion().Columna, casillaSobrevolada->getPosicion().Fila, casillaSobrevolada->getPosicion().Columna, tablero->getTurnoNegras(), tablero->getAlPaso());
 
                 //  ventanaJaque = NULL;
                 if (resultado == 1)
                 {
                     sobreVuelaCasilla();
-
-
-                }else if (resultado == 3)
+                }
+                else if (resultado == 3)
                 {
                     //JAQUE
                     if (!CEGUI::WindowManager::getSingleton().isWindowPresent("Jaque"))
@@ -465,29 +474,31 @@ bool EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
                         //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
                         CEGUI::System::getSingleton().getGUISheet()->addChildWindow(ventanaJaque);
-                    }else {
+                    }else
+                    {
                         ventanaJaque = CEGUI::WindowManager::getSingleton().getWindow("Jaque");
                         ventanaJaque->setVisible(true);
-
                     }
-
-
                 }
-
-
             }
         }
-
-
-
-
     }
 }
-    void EscenaAjedrez::apagaAvisos()
-    {
 
-        if (ventanaJaque != NULL && ventanaJaque->isVisible())
-            ventanaJaque->setVisible(false);
+
+void EscenaAjedrez::apagaAvisos()
+{
+
+    std::cout << "entra apagaavisos"<< std::endl;
+
+    if (ventanaJaque != NULL && ventanaJaque->isVisible()){
+        std::cout << "apagaavisos dentro"<< std::endl;
+
+        ventanaJaque->setVisible(false);
 
     }
+
+    std::cout << "sale apagaavisos"<< std::endl;
+
+}
 

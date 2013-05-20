@@ -49,6 +49,8 @@ public:
 
 
     bool getTurnoNegras();
+    //bool setTurnoNegras(bool turno);
+
    // void setTurnoNegras(bool turno);
 
 
@@ -60,7 +62,7 @@ public:
 
     void actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
 
-     ModeloTablero* traduceTablero();
+     int* traduceTablero();
 
 
 
@@ -73,12 +75,12 @@ public:
    void promocionaPeon();
 
    int alPaso;
-  bool turnoNegras;
    void cambiaTurno();
 
 private:
 
 
+   bool turnoNegras;
 
    void creaCasillas();
 

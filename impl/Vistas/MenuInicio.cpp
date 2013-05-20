@@ -2,13 +2,16 @@
 #include "../../headers/Vistas/MenuInicio.h"
 
 //-------------------------------------------------------------------------------------
-MenuInicio::MenuInicio(ModeloVista* modeloV) :
-    BaseVistas(modeloV)
+MenuInicio::MenuInicio(ModeloVista* modeloV, Ogre::Root* mRoot) :
+    BaseVistas(modeloV, mRoot,  "Root Menu")
 ,    ventanaConfig(NULL),
     listaResoluciones(NULL)
 
 {
+   // modeloV
   //  iniciaVista();
+    // BaseVistas::iniciaOIS();
+
 }
 //-------------------------------------------------------------------------------------
 MenuInicio::~MenuInicio(void)
@@ -24,12 +27,17 @@ bool MenuInicio::iniciaVentana()
     Ogre::LogManager::getSingletonPtr()->logMessage("***INICIAVENTAAN EN MENU INICIO**");
 
 
-    BaseVistas::iniciaVentana();
+    //BaseVistas::iniciaVentana();
+
+    return true;
+}
+
+bool MenuInicio::pantallaInicio()
+{
     CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuInicioAjedrezCEED.layout");
     //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
 
-    CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
 
     // CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 
@@ -48,18 +56,17 @@ bool MenuInicio::iniciaVentana()
 
     */
 
-
-
     //ENLAZA LOS BOTONES
     newWindow->getChild("MenuInicio/VentanaMenu")->getChild("MenuInicio/VentanaMenu/Salir")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonSalir, this));
     newWindow->getChild("MenuInicio/VentanaMenu")->getChild("MenuInicio/VentanaMenu/UnJugador")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonJuegoSolo, this));
     newWindow->getChild("MenuInicio/VentanaMenu")->getChild("MenuInicio/VentanaMenu/DosJugadores")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonJuegoTurnos, this));
     newWindow->getChild("MenuInicio/VentanaMenu")->getChild("MenuInicio/VentanaMenu/Configura")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonConfig, this));
 
-
+    CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
 
     return true;
 }
+
 
 
 bool MenuInicio::pantallaConfig()
@@ -219,6 +226,7 @@ bool MenuInicio::frameRenderingQueued(const Ogre::FrameEvent& evt)
 bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 {
     modeloVista->setSalir(true);
+    mWindow->setVisible(false);
     return true;
 }
 

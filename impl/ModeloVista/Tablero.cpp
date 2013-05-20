@@ -5,7 +5,7 @@
 Tablero::Tablero() :
     ObjetoOgre("Tablero")
   //,alPaso(0)
-  //, turnoNegras(false)
+  , turnoNegras(false)
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , peonesPromocionados(0)
@@ -382,7 +382,7 @@ void Tablero::cambiaTurno()
 
     std::cout << "fin cambia "<< std::endl;
 
-   // getTurnoNegras() = !turnoN;
+    turnoNegras = !turnoNegras;
 
 }
 
@@ -605,15 +605,15 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 
 
 
- ModeloTablero* Tablero::traduceTablero()
+ int* Tablero::traduceTablero()
 {
     //ESTO SE PUEDE CAMBIAR MUCHO
   //  int *casillas = new int[144];
     int numCasilla = 0;
 
-    ModeloTablero* nuevoModeloT = new ModeloTablero();
+  //  ModeloTablero* nuevoModeloT = new ModeloTablero();
 
-    nuevoModeloT->casillasInt = new int[144];
+    int* casillasInt = new int[144];
 
     //    Ogre::SceneNode* nodoTest = tablero->nodoCasillero;
 
@@ -631,7 +631,7 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
                     || (i < 2)
                     || (y < 2))
             {
-                nuevoModeloT->casillasInt[(i*12)+y] = 99;
+                casillasInt[(i*12)+y] = 99;
 
             }else
             {
@@ -651,15 +651,15 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 
                     //Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
 
-                    nuevoModeloT->casillasInt[numeroCasilla] = ficha->tipo_Ficha;
+                    casillasInt[numeroCasilla] = ficha->tipo_Ficha;
                     if (ficha->esNegra)
                     {
-                        nuevoModeloT->casillasInt[numeroCasilla] = -nuevoModeloT->casillasInt[numeroCasilla];
+                        casillasInt[numeroCasilla] = -casillasInt[numeroCasilla];
                     }
 
                     //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
 
-                }else nuevoModeloT->casillasInt[numeroCasilla] = 0;
+                }else casillasInt[numeroCasilla] = 0;
                 // casillas[numCasilla] = 0;
                 numCasilla++;
 
@@ -673,12 +673,12 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 
     for(int i=0; i<12;i++)
     {
-        std::cout  << nuevoModeloT->casillasInt[(i*12)+2]<<"    "<<nuevoModeloT->casillasInt[(i*12)+3]<<"    "<<nuevoModeloT->casillasInt[(i*12)+4]<<"    "<<nuevoModeloT->casillasInt[(i*12)+5]<<"    "<<nuevoModeloT->casillasInt[(i*12)+6]<<"    "<<nuevoModeloT->casillasInt[(i*12)+7] <<"    " <<nuevoModeloT->casillasInt[(i*12)+8]<<"    " << nuevoModeloT->casillasInt[(i*12)+9]<<"    " << std::endl;
+        std::cout  << casillasInt[(i*12)+2]<<"    "<<casillasInt[(i*12)+3]<<"    "<<casillasInt[(i*12)+4]<<"    "<<casillasInt[(i*12)+5]<<"    "<<casillasInt[(i*12)+6]<<"    "<<casillasInt[(i*12)+7] <<"    " <<casillasInt[(i*12)+8]<<"    " << casillasInt[(i*12)+9]<<"    " << std::endl;
     }
 
     // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
 
-    return nuevoModeloT;
+    return casillasInt;
 
 }
 

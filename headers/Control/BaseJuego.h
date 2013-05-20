@@ -34,7 +34,6 @@ protected:
     bool configureOpenGL();
     bool configureOgre(void);
     void chooseSceneManager(void);
-    void inicio(void);
 
     void agregaJugador();
 

@@ -12,6 +12,7 @@ BaseJuego::BaseJuego(void): punteroVentana(NULL)
 //-------------------------------------------------------------------------------------
 BaseJuego::~BaseJuego(void)
 {
+
     // delete mRoot;
 }
 
@@ -31,28 +32,6 @@ bool BaseJuego::configureOpenGL()
 
 }
 
-void BaseJuego::inicio(void){
-
-  //  modelo->construyeMenu();
-
-
-
-
-
-
-
-    punteroVentana->MuestraMenu();
-
-
-
-
-
-
-    //punteroVentana->iniciaVista();
-    // iniciaModeloAjedrez();
-
-
-}
 
 
 
@@ -92,8 +71,6 @@ void BaseJuego::setupResources(void)
 //-------------------------------------------------------------------------------------
 void BaseJuego::go(void)
 {
-
-
     modelo = Modelo::getSingletonPtr();
 
     modeloVista = new ModeloVista(modelo);
@@ -105,15 +82,30 @@ void BaseJuego::go(void)
 
     punteroVentana->resetOgre();
 
+
     punteroVentana->initOgre();
+
+
+
+    punteroVentana->CEGUIResources();
+    punteroVentana->MuestraMenu();
+
 
     //UN BUCLE WHILE QUE MIRE UNA VARIABLE (EN ESCENAAJEDREZ?) PARA RESETEAR LA VENTANA Y QUE MODELOVISTA NO CAMBIE???
 
 
-    inicio();
+        while(!modeloVista->getApagar())
+        {
+            std::cout << "incia ffff" << std::endl;
 
-    
-    punteroVentana->start();
+            punteroVentana->start();
+            std::cout << "acaba ffff" << std::endl;
+
+
+        }
+
+
+    std::cout << "acaba del todo" << std::endl;
 
 
     // clean up (despues de ejeucion)

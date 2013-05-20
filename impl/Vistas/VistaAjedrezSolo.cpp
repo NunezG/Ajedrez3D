@@ -2,8 +2,8 @@
 #include "../../headers/Vistas/VistaAjedrezSolo.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrezSolo::VistaAjedrezSolo(ModeloVista* modeloV)
-    : VistaAjedrez(modeloV)
+VistaAjedrezSolo::VistaAjedrezSolo(ModeloVista* modeloV,  Ogre::Root* mRoot)
+    : VistaAjedrez(modeloV, mRoot)
 
 {
 }

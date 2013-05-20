@@ -19,7 +19,7 @@
 class BaseVistas
 {
 public:
-    BaseVistas(ModeloVista* modeloV);
+    BaseVistas(ModeloVista* modeloV, Ogre::Root* mRoot, std::string label);
     ~BaseVistas(void);
 
 
@@ -43,10 +43,10 @@ public:
    // virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
     virtual bool esMenuInicio() = 0;
 
-    EscenaAjedrez* escena;
+   // EscenaAjedrez* escena;
     bool jaqueMate();
 
-    bool iniciaVentana();
+    bool iniciaOIS();
     int getFPS();
     void capture();
     Ogre::RenderWindow* getVentana();
@@ -61,6 +61,7 @@ public:
     OIS::Keyboard* mKeyboard;
     OIS::InputManager* mInputManager;
 
+    CEGUI::OgreRenderer* renderer;
 private:
 
  //bool salir;

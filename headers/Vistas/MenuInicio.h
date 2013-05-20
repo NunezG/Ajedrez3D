@@ -7,7 +7,7 @@ class MenuInicio : public BaseVistas
 {
 public:
 
-    MenuInicio(ModeloVista* modeloV);//Ventana* mFrameListener);
+    MenuInicio(ModeloVista* modeloV, Ogre::Root* mRoot);//Ventana* mFrameListener);
     ~MenuInicio(void);
 
    // CEGUI::FrameWindow* createGUI(void);
@@ -17,7 +17,7 @@ public:
 
     bool esMenuInicio();
 
-
+    bool pantallaInicio();
 protected:
     int posBoton;
 

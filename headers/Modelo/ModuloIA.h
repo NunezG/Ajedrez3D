@@ -8,17 +8,6 @@
 #include "Autorizaciones.h"
 
 
-enum tipoF
-{
-    Vac,
-    Pe,
-    Cab,
-    Alf,
-    Tor,
-    Rein,
-    Re
-};
-
 
 class ModuloIA
 {
@@ -28,17 +17,9 @@ public:
     ~ModuloIA(void);
 
 
-    bool construyeArbol(ModeloTablero* tableroPadre);
-
-
-
-
-    bool BorraArbol();
-
 
   //  ModeloTablero* tableroPadre;
 
-    ModeloTablero* tableroElegido;
     int casillaCambiada;
 
 
@@ -52,11 +33,11 @@ private:
     bool WhiteMate;
     bool StaleMate;
 
-    int evaulaTablero(const int casillasInt[144], bool turnoN);
 
    // std::vector<ModeloTablero> vectorTableros;
 
-    int alphaBeta(ModeloTablero* table,int alpha,int beta,const int depthleft );
+
+
 
 
 
@@ -66,8 +47,6 @@ private:
     void operator=(const ModuloIA& frameListener ) ;
     ModuloIA(const ModuloIA& ModuloIA);
 
-
-    short valorFicha(const tipoF tipo);
 
 
 };
