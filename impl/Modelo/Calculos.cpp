@@ -285,7 +285,7 @@ int* Calculos::mueveTablero(int* tablero, int filaSel, int colSel, int filaNueva
 }
 
 
-void Calculos::normalizaTablero(int* tablero)
+int* Calculos::normalizaTablero(int* tablero)
 {
     for (int i=0; i<144;i++)
     {

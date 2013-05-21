@@ -60,7 +60,7 @@ public:
     void setNodoCasillaSeleccionada(Casilla* nodo);
     void setNodoCasillaSobrevolada(Casilla* nodo);
 
-    void actualizaTablero(posicion casillaOrigen,posicion casillaDestino);
+    void actualizaTablero();
 
      int* traduceTablero();
 

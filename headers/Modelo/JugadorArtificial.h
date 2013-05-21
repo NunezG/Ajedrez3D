@@ -3,7 +3,6 @@
 
 #include "Jugador.h"
 //#include "../Modelo/ModuloIA.h"
-#include "Movimientos.h"
 
 
 class JugadorArtificial : public Jugador

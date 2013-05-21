@@ -446,7 +446,7 @@ void Tablero::promocionaPeon()
 
 }
 
-void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
+void Tablero::actualizaTablero()
 {
     //NOTIFICAR A LAS VISTAS??
 
@@ -455,8 +455,10 @@ void Tablero::actualizaTablero(posicion casillaOrigen,posicion casillaDestino)
 
 
 
-    Casilla* nodoCasillaTemporal = static_cast<Casilla*>(getHijo((casillaOrigen.Fila*8)+casillaOrigen.Columna));
-    Casilla* casillaDestinoTemp = static_cast<Casilla*>(getHijo((casillaDestino.Fila*8)+casillaDestino.Columna));
+//tablero->getNodoCasillaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion()
+
+    Casilla* nodoCasillaTemporal = getNodoCasillaSeleccionada();
+    Casilla* casillaDestinoTemp = getNodoCasillaSobrevolada();
 
 
     if (!nodoCasillaTemporal->sinHijos())

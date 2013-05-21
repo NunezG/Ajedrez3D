@@ -40,28 +40,33 @@ void JugadorHumano::mueveFicha()
 
 
 
-int JugadorHumano::aplicaSeleccion(int* tablero, int filaSel, int colSel, int filaNueva, int colNueva, bool turnoNegras, int alPaso)
+int JugadorHumano::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSel, int filaNueva, int colNueva)
 {
-    // esperaEleccion = false;
 
-    tablero == Autorizaciones::mueveTablero( tablero, filaSel,  colSel,  filaNueva,  colNueva);
+
+
+
+
+    tablero->casillasInt == Autorizaciones::mueveTablero( tablero->casillasInt, filaSel,  colSel,  filaNueva,  colNueva);
 
 
     
     std::cout << "cambiatur 6"<< std::endl;
     // tablero->cambiaTurno();
     
-    turnoNegras = turnoNegras;
+    tablero->turnoN = !tablero->turnoN;
 
-    // if(tablero->getTurnoNegras()) tablero->casillasInt = tablero->traduceTablero();
+    if(tablero->turnoN) tablero->casillasInt = Movimientos::normalizaTablero(tablero->casillasInt);
     
 
     
     std::cout << "cambiatur 7 "<< std::endl;
     
-    if (Autorizaciones::verificaJaqueMate(tablero, turnoNegras, alPaso))
+    if (Movimientos::verificaJaqueMate(tablero))
     {
         std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
+
+        //SE EVALUA EL JAQUE Y SI EL REY NO ESTA EN JAQUE ES QUE ES AHOGADO
 
         return 2;
         
@@ -106,8 +111,8 @@ int JugadorHumano::autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, in
 
         int* tableroInt = Autorizaciones::mueveTablero(tablero, filaSel, colSel, filaNueva, colNueva);
 
-        if(!turnoNegras)Autorizaciones::normalizaTablero(tableroInt);
-        else return 0;
+        //if(turnoNegras)Autorizaciones::normalizaTablero(tableroInt);
+        // else return 0;
 
         std::cout << "evalua jaque" << std::endl;
 
@@ -139,4 +144,3 @@ int JugadorHumano::autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, in
 
 
 }
-

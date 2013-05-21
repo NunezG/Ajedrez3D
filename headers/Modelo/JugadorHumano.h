@@ -18,7 +18,7 @@ public:
     //void setVentana(Ventana* obj);
     void mueveFicha();
 
-    int aplicaSeleccion(int* tablero, int filaSel, int colSel, int filaNueva, int colNueva, bool turnoNegras, int alPaso);
+    int aplicaSeleccion(ModeloTablero* tablero,int filaSel,int colSel, int filaNueva, int colNueva);
 
    int autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, int colSel, int filaNueva, int colNueva, bool turnoNegras, int alPaso);
 
@@ -28,7 +28,6 @@ public:
 
 
 protected:
-
 
 
 

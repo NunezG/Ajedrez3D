@@ -2,7 +2,7 @@
 
 
 
-void Movimientos::generaMovimientos(ModeloTablero* miTablero)
+void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 {
     // ModeloTablero nuevoTablero;
     //  std::cout << "!!!!!!!!!!!!!!!!!!GENERA MOVI!!!!!!!!!!!!!!!!!!!" << std::endl;
@@ -41,7 +41,7 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveRey(miTablero, (i*12)+y);
+                mueveRey(miTablero, (i*12)+y, testJaque);
 
             }
 
@@ -51,7 +51,7 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveReina(miTablero, (i*12)+y);
+                mueveReina(miTablero, (i*12)+y, testJaque);
 
             }
 
@@ -61,7 +61,7 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveTorre(miTablero, (i*12)+y);
+                mueveTorre(miTablero, (i*12)+y, testJaque);
 
             }
 
@@ -72,7 +72,7 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveAlfil(miTablero, (i*12)+y);
+                mueveAlfil(miTablero, (i*12)+y, testJaque);
 
             }
 
@@ -82,7 +82,7 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveCaballo(miTablero, (i*12)+y);
+                mueveCaballo(miTablero, (i*12)+y, testJaque);
 
             }
 
@@ -94,7 +94,7 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
                 //ENCUENTRA REY BLANCO
 
-                muevePeon(miTablero, (i*12)+y);
+                muevePeon(miTablero, (i*12)+y, testJaque);
                 //   std::cout << "!!!!!!!!!!!!!!!!!!ACABA MUEVE PEON!!!!!!!!!!!!!!!!!!!" << std::endl;
 
 
@@ -122,87 +122,13 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
 
 
-bool Movimientos::mueveTorre(ModeloTablero* miTablero,const int casilla)
+bool Movimientos::mueveReina(ModeloTablero* miTablero, int casilla, bool testJaque)
 {
-    //mueve a todas las casillas posibles
-
-    //mira si esta ocupada
-
-    int nuevaCasilla = casilla-1;
-    bool come = false;
-    bool pasa = false;
-
-    while(nuevaCasilla%12 >2)
-    {
-
-        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
-        if (pasa)
-        {
-            come = miTablero->casillasInt[nuevaCasilla] != 0;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-            if (come) break;
-        } else break;
-
-        nuevaCasilla = nuevaCasilla-1;
-    }
-
-    nuevaCasilla = casilla+1;
-    pasa = false;
-    while(nuevaCasilla%12 <10)
-    {
-        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
-        if (pasa)
-        {
-            come = miTablero->casillasInt[nuevaCasilla] != 0;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-            if (come) break;
-
-        } else break;
-        nuevaCasilla = nuevaCasilla+1;
-    }
-
-    nuevaCasilla = casilla-12;
-    pasa = false;
-    while(nuevaCasilla/12 > 2)
-    {
-        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
-        if (pasa)
-        {
-            come = miTablero->casillasInt[nuevaCasilla] != 0;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-            if (come) break;
-
-        } else break;
-        nuevaCasilla = nuevaCasilla-12;
-    }
-
-    nuevaCasilla = casilla+12;
-    pasa = false;
-    while(nuevaCasilla/12 < 10)
-    {
-        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
-
-        if (pasa)
-        {
-            come = miTablero->casillasInt[nuevaCasilla] != 0;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
-            if (come) break;
-        } else break;
-        nuevaCasilla = nuevaCasilla+12;
-    }
+    mueveTorre(miTablero, casilla, testJaque);
+    mueveAlfil(miTablero, casilla, testJaque);
 }
 
-
-bool Movimientos::mueveReina(ModeloTablero* miTablero, int casilla)
-{
-    mueveTorre(miTablero, casilla);
-    mueveAlfil(miTablero, casilla);
-}
-
-void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
+bool Movimientos::muevePeon(ModeloTablero* miTablero, int casilla, bool testJaque)
 {
     int nuevaCasilla;
     int casillaCome;
@@ -223,7 +149,12 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
         {
             std::cout << "!!!!!!!!!!!SALTA  NEGRAS!!!!!!!!" << std::endl;
 
-            aplicaMovimiento(*miTablero, casilla, salto);
+            if(aplicaMovimiento(*miTablero, casilla, salto))
+            {
+                if (testJaque) return true;
+            }
+
+
         }
 
         if(miTablero->casillasInt[nuevaCasilla] == 0)
@@ -238,7 +169,11 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
             }
             std::cout << "!!!!!!MUEVE NORMAL NEGRAS!!!!!!" << std::endl;
 
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+
+            }
         }
 
         //   nuevaCasilla = casilla+1;
@@ -247,27 +182,40 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
         if (miTablero->casillasInt[casillaCome] < 0)
         {
             std::cout << "NEGRAS COME 1"<< std::endl;
-            aplicaMovimiento(*miTablero, casilla, casillaCome);
+            if( aplicaMovimiento(*miTablero, casilla, casillaCome))
+            {
+                if (testJaque) return true;
+            }
+
         }
 
         if(miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaCome] == 0)
         {
             std::cout << "NEGRAS COME AL PASO 1"<< std::endl;
 
-            aplicaMovimiento(*miTablero, casilla, casillaCome);
+            if(aplicaMovimiento(*miTablero, casilla, casillaCome))
+            {
+                if (testJaque) return true;
+            }
         }
         if (miTablero->casillasInt[casillaComeSec] < 0)
         {
             std::cout << "NEGRAS COME 2"<< std::endl;
 
 
-            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+            if (aplicaMovimiento(*miTablero, casilla, casillaComeSec))
+            {
+                if (testJaque) return true;
+            }
         }
 
         if ((miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaComeSec] == 0))
         {
             std::cout << "NEGRAS COME AL PASO 2"<< std::endl;
-            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+            if (aplicaMovimiento(*miTablero, casilla, casillaComeSec))
+            {
+                if (testJaque) return true;
+            }
         }
 
     }else
@@ -284,7 +232,10 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
         {
             std::cout << "!BLANCAS SALTAN!!!!!!" << std::endl;
 
-            aplicaMovimiento(*miTablero, casilla, salto);
+            if (aplicaMovimiento(*miTablero, casilla, salto))
+            {
+                if (testJaque) return true;
+            }
         }
 
 
@@ -296,7 +247,10 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
             }
             std::cout << "!!!!!!!!!!! BLANCAS AVANZA!!!!!!!!!!" << std::endl;
 
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+            }
         }
         //   std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
         //std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
@@ -306,7 +260,10 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
             std::cout << "BLANCAS COME 1"<< std::endl;
 
 
-            aplicaMovimiento(*miTablero, casilla, casillaCome);
+            if (aplicaMovimiento(*miTablero, casilla, casillaCome))
+            {
+                if (testJaque) return true;
+            }
         }
 
         if ((miTablero->alPaso == casilla-1 && miTablero->casillasInt[casillaCome] == 0 ))
@@ -314,7 +271,10 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
             std::cout << "BLANCAS COME AL PASO 1"<< std::endl;
 
 
-            aplicaMovimiento(*miTablero, casilla, casillaCome);
+            if(aplicaMovimiento(*miTablero, casilla, casillaCome))
+            {
+                if (testJaque) return true;
+            }
         }
 
 
@@ -323,7 +283,10 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
             std::cout << "BLANCAS COME 2"<< std::endl;
 
 
-            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+            if( aplicaMovimiento(*miTablero, casilla, casillaComeSec))
+            {
+                if (testJaque) return true;
+            }
         }
 
 
@@ -332,7 +295,10 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
             std::cout << " BLANCAS COME AL PASO 2, casilla: "<< casilla << " CASILLA COME SEC: "<<casillaComeSec << " ALPASO: "<<miTablero->alPaso<<std::endl;
 
 
-            aplicaMovimiento(*miTablero, casilla, casillaComeSec);
+            if(aplicaMovimiento(*miTablero, casilla, casillaComeSec))
+            {
+                if (testJaque) return true;
+            }
         }
     }
 
@@ -347,7 +313,7 @@ void Movimientos::muevePeon(ModeloTablero* miTablero, int casilla)
     //  }
 }
 
-bool Movimientos::mueveAlfil(ModeloTablero* miTablero, int casilla)
+bool Movimientos::mueveAlfil(ModeloTablero* miTablero, int casilla, bool testJaque)
 {
     int nuevaCasilla = casilla-13;
 
@@ -361,7 +327,11 @@ bool Movimientos::mueveAlfil(ModeloTablero* miTablero, int casilla)
         if (pasa)
         {
             come = miTablero->casillasInt[nuevaCasilla] != 0;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+
+            }
             if (come) break;
 
         } else break;
@@ -378,7 +348,11 @@ bool Movimientos::mueveAlfil(ModeloTablero* miTablero, int casilla)
         if (pasa)
         {
             come = miTablero->casillasInt[nuevaCasilla] != 0;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+
+            }
             if (come) break;
 
         } else break;
@@ -395,7 +369,11 @@ bool Movimientos::mueveAlfil(ModeloTablero* miTablero, int casilla)
         if (pasa)
         {
             come = miTablero->casillasInt[nuevaCasilla] != 0;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+
+            }
             if (come) break;
         } else break;
 
@@ -411,7 +389,11 @@ bool Movimientos::mueveAlfil(ModeloTablero* miTablero, int casilla)
         if (pasa)
         {
             come = miTablero->casillasInt[nuevaCasilla] != 0;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+
+            }
             if (come) break;
         } else break;
 
@@ -419,7 +401,7 @@ bool Movimientos::mueveAlfil(ModeloTablero* miTablero, int casilla)
     }
 }
 
-bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
+bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla, bool testJaque)
 {
     int nuevaCasilla;
     nuevaCasilla = casilla-25;
@@ -427,7 +409,10 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa)
     {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     nuevaCasilla = casilla-23;
@@ -435,7 +420,10 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa)
     {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     nuevaCasilla = casilla+25;
@@ -443,7 +431,10 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa)
     {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     nuevaCasilla = casilla+23;
@@ -452,7 +443,10 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
 
     if (pasa)
     {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     nuevaCasilla = casilla-10;
@@ -460,7 +454,10 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa)
     {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     nuevaCasilla = casilla-14;
@@ -468,7 +465,10 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa)
     {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     nuevaCasilla = casilla+10;
@@ -476,7 +476,10 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa)
     {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     nuevaCasilla = casilla+14;
@@ -484,11 +487,16 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa)
     {
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if(aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
+
+    return false;
 }
 
-bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
+bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla, bool testJaque)
 {
     std::cout << "MUEVE REY"<< miTablero->turnoN<< std::endl;
 
@@ -509,7 +517,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
             miTablero->casillasInt[casilla-3] = 0;
             miTablero->casillasInt[casilla-1] = 4;
             std::cout << "APLICA MOVIMIENTO REY -3 (enroque)"<< std::endl;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+            }
         }
     }
 
@@ -527,7 +538,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
             miTablero->casillasInt[casilla+4] = 0;
             miTablero->casillasInt[casilla+1] = 4;
             std::cout << "APLICA MOVIMIENTO REY +4 (enroque)"<< std::endl;
-            aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+            if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+            }
         }
     }
 
@@ -537,7 +551,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa){
         std::cout << "APLICA MOVIMIENTO REY -1"<< std::endl;
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     //DERECHA
@@ -548,7 +565,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
     if (pasa){
         //  miTablero->fichaMovida = "REY!!!!";
         std::cout << "APLICA MOVIMIENTO REY +1"<< std::endl;
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     //ATRAS
@@ -557,7 +577,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
     pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
     if (pasa){
         std::cout << "APLICA MOVIMIENTO REY -12"<< std::endl;
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     //ADELANTE
@@ -567,7 +590,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
     if (pasa)
     {
         std::cout << "APLICA MOVIMIENTO REY +12"<< std::endl;
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     //NE
@@ -578,7 +604,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
     {
         //    TableroMovido->fichaMovida = "REY!!!!";
         std::cout << "APLICA MOVIMIENTO REY +13"<< std::endl;
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     //NO
@@ -588,7 +617,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
     if (pasa)
     {
         std::cout << "APLICA MOVIMIENTO REY +11"<< std::endl;
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     //SO
@@ -599,7 +631,10 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
     {
         //   TableroMovido->fichaMovida = "REY!!!!";
         std::cout << "APLICA MOVIMIENTO REY -13"<< std::endl;
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 
     //SE
@@ -610,13 +645,100 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla)
     {
         //   TableroMovido->fichaMovida = "REY!!!!";
         std::cout << "APLICA MOVIMIENTO REY -11"<< std::endl;
-        aplicaMovimiento(*miTablero, casilla, nuevaCasilla);
+        if (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+        {
+            if (testJaque) return true;
+        }
     }
 }
 
 
 
-void Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int casDestino)
+
+
+
+
+bool Movimientos::mueveTorre(ModeloTablero* miTablero,const int casilla, bool testJaque)
+{
+    //mueve a todas las casillas posibles
+    //mira si esta ocupada
+    int nuevaCasilla = casilla-1;
+    bool come = false;
+    bool pasa = false;
+
+    while(nuevaCasilla%12 >2)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            if  (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+            }
+            else if (come) break;
+        }else break;
+        nuevaCasilla = nuevaCasilla-1;
+    }
+
+    nuevaCasilla = casilla+1;
+    pasa = false;
+    while(nuevaCasilla%12 <10)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            if  (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+            }
+            else if (come) break;
+        }else break;
+        nuevaCasilla = nuevaCasilla+1;
+    }
+
+    nuevaCasilla = casilla-12;
+    pasa = false;
+    while(nuevaCasilla/12 > 2)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            if  (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+            }
+            else if (come) break;
+        }else break;
+
+        nuevaCasilla = nuevaCasilla-12;
+    }
+
+    nuevaCasilla = casilla+12;
+    pasa = false;
+    while(nuevaCasilla/12 < 10)
+    {
+        pasa = miTablero->casillasInt[nuevaCasilla] <= 0;
+        if (pasa)
+        {
+            come = miTablero->casillasInt[nuevaCasilla] != 0;
+            if  (aplicaMovimiento(*miTablero, casilla, nuevaCasilla))
+            {
+                if (testJaque) return true;
+            }
+            else if (come) break;
+        }else break;
+        nuevaCasilla = nuevaCasilla+12;
+    }
+}
+
+
+
+
+bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int casDestino)
 {
 
     if(miTablero.casillasInt[casDestino] != 99)
@@ -672,14 +794,61 @@ void Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
         if (evaluaJaque(TableroMovido->casillasInt, TableroMovido->turnoN))
         {
             delete TableroMovido;
+            return false;
             //  std::cout << "!!!!!HA EVALUADO UN JAQUE (DESPUES DE MOVER) POR LO QUE NO AÑADE AL VECTOR!!!" << std::endl;
         }else
         {
             TableroMovido->turnoN = !miTablero.turnoN;
 
             miTablero.vectorMov.push_back(TableroMovido);
+            return true;
 
             // miTablero.numeroHijos++;
         }
     }
+    return false;
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//MOVIMIENTOS DE HUMANO QUE HABRA QUE CAMBIAR
+
+
+
+
+
+
+
+
+
+
+
+bool Movimientos::verificaJaqueMate(ModeloTablero* tablero)
+{
+
+    generaMovimientos(tablero, true);
+
+
+}
+
+
+
+
+
+
+

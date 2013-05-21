@@ -330,7 +330,7 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
     //  std::cout << "mira el vector"<< std::endl;
 
 
-    Movimientos::generaMovimientos(table);
+    Movimientos::generaMovimientos(table, false);
     // if (table->vectorMov != NULL) std::cout << "TAMAÑO DEL VECTOR DESPUES de todo(lleno): "<<  table->vectorMov->size()<< std::endl;
 
 

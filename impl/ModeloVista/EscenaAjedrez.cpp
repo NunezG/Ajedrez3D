@@ -324,18 +324,42 @@ bool EscenaAjedrez::mueveFicha()
     {
         tablero->getNodoCasillaSobrevolada()->apagaCasilla();
         tablero->fichaSeleccionada = false;
-        int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->aplicaSeleccion(tablero->traduceTablero(), tablero->getNodoCasillaSeleccionada()->getPosicion().Fila, tablero->getNodoCasillaSeleccionada()->getPosicion().Columna,tablero->getNodoCasillaSobrevolada()->getPosicion().Fila, tablero->getNodoCasillaSobrevolada()->getPosicion().Columna,tablero->getTurnoNegras(), tablero->getAlPaso());
 
+        ModeloTablero* tableroModelo = new ModeloTablero();
+
+        tableroModelo->casillasInt = tablero->traduceTablero();
+
+        tableroModelo->alPaso = tablero->getAlPaso();
+
+        tableroModelo->turnoN = tablero->getTurnoNegras();
+
+        int filaSel=tablero->getNodoCasillaSeleccionada()->getPosicion().Fila;
+
+
+        int colSel = tablero->getNodoCasillaSeleccionada()->getPosicion().Columna;
+
+        int filaNueva = tablero->getNodoCasillaSobrevolada()->getPosicion().Fila;
+
+
+        int colNueva = tablero->getNodoCasillaSobrevolada()->getPosicion().Columna;
+
+
+
+
+        int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))-> aplicaSeleccion(tableroModelo, filaSel, colSel, filaNueva, colNueva);
+        delete tableroModelo;
 
         if (resultado == 1)
         {//FICHA MOVIDA
 
-            tablero->actualizaTablero(tablero->getNodoCasillaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion());
+
+
+            tablero->actualizaTablero();
 
             tablero->rotacionCamara = Ogre::Real(180.0f);
             tablero->cambiaTurno();
 
-           return true;
+            return true;
 
 
         }else if (resultado == 2)
@@ -409,7 +433,6 @@ bool EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
 
     if (tablero->fichaSeleccionada)
     {
-        std::cout << "ifffffffffff" << std::endl;
 
         // escenaAjedrez->apagaAvisos();
 
