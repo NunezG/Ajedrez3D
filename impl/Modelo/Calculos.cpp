@@ -3,7 +3,7 @@
 
 
 
-bool Calculos::evaluaJaque(int casillasInt[144], bool turnoNegras)
+bool Calculos::evaluaJaque(int* casillasInt, bool turnoNegras)
 {
     int posRey = 999;
     int fichaRey = -6;
@@ -14,10 +14,15 @@ bool Calculos::evaluaJaque(int casillasInt[144], bool turnoNegras)
     int fichaCaballo = -2;
     int fichaTorre = -4;
 
+    std::cout << "jaque "<< std::endl;
+
+
+
     for (int i=0; i<144;i++)
     {
         if (casillasInt[i] == -fichaRey)
         {
+            std::cout << "posrey " << i<<std::endl;
 
             posRey = i;
         }
@@ -278,9 +283,13 @@ int* Calculos::mueveTablero(int* tablero, int filaSel, int colSel, int filaNueva
 
 int* Calculos::normalizaTablero(int* tablero)
 {
+     int* tableroNormalizado = tablero;
+
     for (int i=0; i<144;i++)
     {
-        if (tablero[i] != 0 && tablero[i] != 99)
-            tablero[i] = -tablero[i];
+        if (tableroNormalizado[i] != 0 && tableroNormalizado[i] != 99)
+            tableroNormalizado[i] = -tableroNormalizado[i];
     }
+
+    return tableroNormalizado;
 }

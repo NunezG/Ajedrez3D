@@ -98,6 +98,7 @@ void BaseJuego::go(void)
         {
             std::cout << "incia ffff" << std::endl;
 
+            sleep(0.5);
             punteroVentana->start();
             std::cout << "acaba ffff" << std::endl;
 

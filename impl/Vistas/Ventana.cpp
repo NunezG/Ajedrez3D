@@ -68,18 +68,14 @@ bool Ventana::CEGUIResources()
     return true;
 }
 
-
-int Ventana::pantallaActual(){
-    if (vista->esMenuInicio()){
-
+int Ventana::pantallaActual()
+{
+    if (vista->esMenuInicio())
+    {
         return 0;
 
     }else return 1;
-
 }
-
-
-
 
 bool Ventana::MuestraMenu()
 {

@@ -36,7 +36,6 @@ public:
 
     ~Modelo(void);
 
-    static bool evaluaJaque(int casillasInt[144], bool turnoNegras);
 
 protected:
 

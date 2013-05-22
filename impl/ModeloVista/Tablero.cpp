@@ -193,7 +193,7 @@ void Tablero::creaVasallos()
         if (i%2 == 0)
         {
             objeto->creaModelo3D(mSceneMgr,"Alfil",BLANCAS);
-            posCasilla = (2+3*(i/2));
+            posCasilla = (2*8+3*(i/2));
         }
         else
         {
@@ -224,7 +224,7 @@ void Tablero::creaNobleza()
         if (i%2 == 0)
         {
             objeto->creaModelo3D(mSceneMgr,"Reina",BLANCAS);
-            posCasilla = 3;
+            posCasilla = 3*8+3;
         }else
         {
             objeto->creaModelo3D(mSceneMgr,"Reina",NEGRAS);
@@ -248,7 +248,7 @@ void Tablero::creaNobleza()
         {
             objeto->creaModelo3D(mSceneMgr,"Rey",NEGRAS);
             objeto->cambiaMaterial("MaterialFichaNegra");
-            posCasilla = 4+(7*8);
+            posCasilla = 4+(4*8);
             objeto->rota(180);
             objeto->trasladar(70,70);
         }
@@ -283,7 +283,7 @@ void Tablero::creaPeones()
             // objeto->trasladar(70,70);
             posCasilla = (i/2)+(6*8);
         }
-        getHijo(posCasilla)->agregaHijo(objeto);
+      //  getHijo(posCasilla)->agregaHijo(objeto);
     }
 }
 /*

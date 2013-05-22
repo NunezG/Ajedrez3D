@@ -25,7 +25,6 @@ private:
     static bool verificaCamino(int distancia,  int filaNueva,int colNueva, int camino, int* casillas);
 
 
-  //  bool evaluaJaque(const int casillasInt[144], bool turnoNegras);
 
 
 };

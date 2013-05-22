@@ -92,11 +92,17 @@ public:
     bool autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
     void esperaJugador();
 
-    void apagaAvisos();
+    void apagaLayout();
 
-    CEGUI::Window *ventanaJaque;
+
+    void muestraLayout(std::string nombreLayout);
+
+
 
 private:   
+
+    CEGUI::Window *ventanaEmergente;
+
 
     Ogre::RaySceneQuery *mRaySceneQuery;
 

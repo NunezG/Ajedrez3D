@@ -27,8 +27,6 @@
 #include "VistaAjedrez.h"
 #include "VistaAjedrezSolo.h"
 
-
-
 class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener,  public Ogre::FrameListener
 {
 public:
@@ -46,7 +44,6 @@ public:
     bool resetOgre(void);
     bool initOgre(void);
 
-
     //Pantallas
     bool MuestraMenu();
 
@@ -58,7 +55,6 @@ public:
     BaseVistas* vista;
    // BaseApplication* Create(Ogre::String type);
 
-
     bool ventanaCerrada();
     void destruyeVista();
     void creaVista();
@@ -66,11 +62,9 @@ public:
 
     Ogre::Root *mRoot;
 
-
 private:
 
     ModeloVista* modeloVista;
-
 
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
@@ -80,7 +74,6 @@ private:
     bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
-
 
   //  Ogre::SceneManager* mSceneMgr;
   //  Ogre::Root* mRoot;
@@ -92,6 +85,5 @@ private:
    // MenuInicio* menu;
 
 };
-
 
 #endif

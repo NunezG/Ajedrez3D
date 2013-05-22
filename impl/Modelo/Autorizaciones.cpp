@@ -188,8 +188,6 @@ bool Autorizaciones::autorizaRey(int filaDif, int colDif,  int filaNueva, int co
 
 bool Autorizaciones::autorizaTorre(int filaDif, int colDif,  int filaNueva, int colNueva,  int* elTablero)
 {
-
-
     if (colDif == 0
             && filaDif < 0 ) //MOVIMIENTO A LA ABAJO
         return verificaCamino(filaDif, filaNueva, colNueva, 1, elTablero);

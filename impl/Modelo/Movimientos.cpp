@@ -22,95 +22,115 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
     int caballo = 2;
     int peon = 1;
 
-    if (miTablero->turnoN)
-        normalizaTablero(miTablero->casillasInt);
-
 
 
     for (int i = 2; i<10;i++)
     {
         for (int y = 2; y<10;y++)
         {
-            // std::cout << "FOR"<< miTablero->casillasInt[(i*12)+y] << std::endl;
+          //   std::cout << "FOR "<< miTablero->casillasInt[(i*12)+y] << std::endl;
 
 
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
             if (miTablero->casillasInt[(i*12)+y] == rey)
             {
+                std::cout << "!!!!!!!!!REY!!!!!!!!   " <<std::endl;
 
 
                 //ENCUENTRA REY BLANCO
 
                 if (mueveRey(miTablero, (i*12)+y, testJaque))
                 {
+
+                    std::cout << "!!!!!!!!!HA MOVIDO EL REY!!!!!!!!!!   " <<std::endl;
+
+
                     if (testJaque) return false;
 
                 }
 
-            }
+            }else
 
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
             if (miTablero->casillasInt[(i*12)+y] == reina)
             {
 
+                std::cout << "!!!!!!!!!REINA!!!!!!!!!   " <<std::endl;
+
                 //ENCUENTRA REY BLANCO
 
                 if (mueveReina(miTablero, (i*12)+y, testJaque))
                 {
-                    {
+
+                    std::cout << "!!!!!!!!!HA MOVIDO LA REINA!!!!!!!!!!   " <<std::endl;
+
+
                         if (testJaque) return false;
 
-                    }
+
                 }
 
-            }
+            }else
 
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
             if (miTablero->casillasInt[(i*12)+y] == torre)
             {
 
+                std::cout << "!!!!!!!!!TORRE!!!!!!!!!   " <<std::endl;
+
+
                 //ENCUENTRA REY BLANCO
 
                 if (mueveTorre(miTablero, (i*12)+y, testJaque))
                 {
-                    {
+                    std::cout << "!!!!!!!!!HA MOVIDO LA TORRE!!!!!!!!!!   " <<std::endl;
+
                         if (testJaque) return false;
 
-                    }
+
                 }
 
-            }
+            }else
 
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
             if (miTablero->casillasInt[(i*12)+y] == alfil)
             {
+                std::cout << "!!!!!!!!!ALFIL!!!!!!!!   " <<std::endl;
 
 
                 //ENCUENTRA REY BLANCO
 
                 if (mueveAlfil(miTablero, (i*12)+y, testJaque))
                 {
-                    {
+
+                    std::cout << "!!!!!!!!!HA MOVIDO EL ALFIL!!!!!!!!!!   " <<std::endl;
+
                         if (testJaque) return false;
 
-                    }
+
                 }
 
-            }
+            }else
 
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
             if (miTablero->casillasInt[(i*12)+y] == caballo)
             {
 
+
+                std::cout << "!!!!!!!!!CABALLO!!!!!!!!!!   " <<std::endl;
+
                 //ENCUENTRA REY BLANCO
 
                 if (mueveCaballo(miTablero, (i*12)+y, testJaque))
                 {
+
+                    std::cout << "!!!!!!!!!HA MOVIDO EL CABALLO!!!!!!!!!!   " <<std::endl;
+
                     if (testJaque) return false;
 
                 }
 
-            }
+            }else
 
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
             if (miTablero->casillasInt[(i*12)+y] == peon)
@@ -122,6 +142,8 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 
                 if (muevePeon(miTablero, (i*12)+y, testJaque))
                 {
+                    std::cout << "!!!!!!!!!HA MOVIDO EL PEON!!!!!!!!!!   " <<std::endl;
+
                     if (testJaque) return false;
 
                 }
@@ -134,7 +156,7 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
         }
     }
 
-
+std::cout << "!!!!!!!!RETORNO!!!!!!!!   " <<std::endl;
 
     if (miTablero->vectorMov.size() == 0)
         return true; //JAQUE MATE O AHOGADO
@@ -869,8 +891,13 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
 bool Movimientos::verificaJaqueMate(ModeloTablero* tablero)
 {
 
-    return generaMovimientos(tablero, true);
 
+
+    bool JaqueMate = generaMovimientos(tablero, true);
+
+
+
+    return JaqueMate;
 
 }
 
