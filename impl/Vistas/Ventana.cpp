@@ -91,21 +91,18 @@ bool Ventana::MuestraMenu()
 
 bool Ventana::ventanaCerrada()
 {
-    std::cout << "VETNTANA CERRADAO"<< std::endl;
 
     //  VistaAjedrez* miVista = static_cast<VistaAjedrez*>(vista);
     if (vista->mWindow->isClosed() || !vista->mWindow->isVisible())
     {
         //CIERRA LA VENTANA
 
-        std::cout << "POZI!!!!!!!!"<< std::endl;
 
         delete vista;
         vista = NULL;
 
         return true;
     }
-    std::cout << "PONO"<< std::endl;
 
 
     return false;
@@ -113,7 +110,6 @@ bool Ventana::ventanaCerrada()
 
 bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 {
-    std::cout << "KEYPRESSED"<< std::endl;
 
     if(!vista->esMenuInicio())
     {
@@ -126,7 +122,6 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
     if (evt.key == OIS::KC_ESCAPE)// Pulsa Esc
     {
         modeloVista->setSalir(true);
-        std::cout << "ESCAPE"<< std::endl;
         vista->mWindow->setVisible(false);
         modeloVista->setApagar(true);
     }
@@ -140,7 +135,6 @@ bool Ventana::keyPressed(const OIS::KeyEvent& evt)
 
 bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 {
-    std::cout << "KEYRELEASED"<< std::endl;
 
     if(!vista->esMenuInicio()){
         vista->keyReleased(evt);
@@ -154,12 +148,10 @@ bool Ventana::keyReleased(const OIS::KeyEvent& evt)
 bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 {   
 
-    std::cout << "MOUSEMOVEd"<< std::endl;
 
     sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
 
 
-    std::cout << "MOUSEMOVEd2"<< std::endl;
 
     //  if(mPantalla > 0)
     //   {
@@ -274,7 +266,8 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
             vista->mueveCamara(evt.timeSinceLastFrame);
         }
     }
-    std::cout << "SALE"<< std::endl;
+
+    std::cout << "SI QUITO ESTO NO VA"<< std::endl;
 
     // }
 }
@@ -366,7 +359,6 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
 
 
-    std::cout << "mousePressed"<< std::endl;
 
     sys->injectMouseButtonDown(convertButton(id));
 
@@ -383,7 +375,6 @@ bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 
 bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
-    std::cout << "mouseReleased"<< std::endl;
 
 
     sys->injectMouseButtonUp(convertButton(id));
@@ -441,7 +432,6 @@ bool Ventana::initOgre(void)
 
     if (vista == NULL)
     {
-        std::cout   << "  menu inicio " << std::endl;
 
         vista = new MenuInicio(modeloVista, mRoot);
 

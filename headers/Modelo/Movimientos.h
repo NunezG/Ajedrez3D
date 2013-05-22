@@ -10,7 +10,7 @@
 class Movimientos : public Calculos
 {
 public:
-    static void generaMovimientos(ModeloTablero* miTablero, bool testJaque);
+    static bool generaMovimientos(ModeloTablero* miTablero, bool testJaque);
     static bool verificaJaqueMate(ModeloTablero* tablero);
 
 private:

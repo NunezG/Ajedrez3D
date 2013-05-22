@@ -2,95 +2,65 @@
 
 Modelo::Modelo() :
     numJugadores(0)
- ,nombreBlancas("Jugador 1")
- , nombreNegras("Jugador 2")
-
+  ,nombreBlancas("Jugador 1")
+  , nombreNegras("Jugador 2")
   //,  jugadores(NULL)
-
-
-
-
-{
-
-//mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
-
+{   
+    //mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");  
 }
+
 Modelo::~Modelo()
 {
-    for (int i=0; i<jugadores.size();i++){
+    for (int i=0; i<jugadores.size();i++)
+    {
         delete jugadores.at(i);
         jugadores.at(i) = NULL;
     }
     jugadores.clear();
-
-
-
 }
-
-
-
-
-
 
 void Modelo::mueveJugador(bool turno)
 {
- //   escenaAjedrez->getTablero()->getTurnoNegras()
-
+    //   escenaAjedrez->getTablero()->getTurnoNegras()
+    
     //Jugador* jug = jugadores[0];
     std::cout << "mueveJugador"<< std::endl;
     std::cout << "jugadores.size()"<< jugadores.size()<<std::endl;
     Jugador* jugador = NULL;
-
+    
     if (jugadores.size() == 2)
     {
-       jugador = jugadores.at(turno);
-       std::cout << "mueveficha"<< std::endl;
-        if(jugador == NULL)
-            std::cout << "NO HA ENCONTRADO JUGADOR PERO SIGUE"<< std::endl;
-else {
-
-            std::cout << "HA ENCONTRADO UN JUGADOR DE TIPO: "<<std::endl;
-             std::cout << jugador->jugadorNegras   <<std::endl;
-             std::cout  << jugador->esHumano()  <<std::endl;
-
-             jugador->mueveFicha();
-
+        jugador = jugadores.at(turno);
+        if(jugador != NULL)
+        {
+            jugador->mueveFicha();
         }
-
     }
-    std::cout << "sale"<< std::endl;
-
 }
 
 //tal vez sea mejor una factoria de jugadores
 void Modelo::creaJugador(bool blancas, bool humano)
-{
-
-   int num = numJugadores;
-
-//HAY QUE CAMBIAR LO DE MODELOTABKERO PORQUE LOS JUGADORES ESTAN EN UN VECTOR Y ESE ES EL PROBLEMA
-    if (humano){
+{ 
+    int num = numJugadores;
+    
+    //HAY QUE CAMBIAR LO DE MODELOTABKERO PORQUE LOS JUGADORES ESTAN EN UN VECTOR Y ESE ES EL PROBLEMA
+    if (humano)
+    {
         jugadores.push_back(new JugadorHumano());
-
     }
-    else {
-
+    else
+    {
         jugadores.push_back(new JugadorArtificial());
-
-
     }
-
+    
     if (blancas)
     {
         jugadores.at(num)->jugadorNegras = 0;
-
-
-    }else {
-
-        jugadores.at(num)->jugadorNegras = 1;
-
     }
-
+    else
+    {
+        jugadores.at(num)->jugadorNegras = 1;
+    }
 
     numJugadores++;
 }

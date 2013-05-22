@@ -349,12 +349,15 @@ bool EscenaAjedrez::mueveFicha()
         int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))-> aplicaSeleccion(tableroModelo, filaSel, colSel, filaNueva, colNueva);
         delete tableroModelo;
 
+        tablero->actualizaTablero();
+
+
         if (resultado == 1)
         {//FICHA MOVIDA
 
 
 
-            tablero->actualizaTablero();
+         //   tablero->actualizaTablero();
 
             tablero->rotacionCamara = Ogre::Real(180.0f);
             tablero->cambiaTurno();

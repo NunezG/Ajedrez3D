@@ -54,9 +54,9 @@ int JugadorHumano::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSe
     std::cout << "cambiatur 6"<< std::endl;
     // tablero->cambiaTurno();
     
-    tablero->turnoN = !tablero->turnoN;
+   tablero->turnoN = !tablero->turnoN;
 
-    if(tablero->turnoN) tablero->casillasInt = Movimientos::normalizaTablero(tablero->casillasInt);
+//    if(tablero->turnoN) tablero->casillasInt = Movimientos::normalizaTablero(tablero->casillasInt);
     
 
     
@@ -64,21 +64,32 @@ int JugadorHumano::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSe
     
     if (Movimientos::verificaJaqueMate(tablero))
     {
-        std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
+        std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS PARA EL TURNO SIGUIENTE(JAQUE MATE O AHOGADO)!!!: " << std::endl;
 
         //SE EVALUA EL JAQUE Y SI EL REY NO ESTA EN JAQUE ES QUE ES AHOGADO
+        //EVALUA JAQUE
+        if (Autorizaciones::evaluaJaque(tablero->casillasInt, tablero->turnoN))
+        {
+            std::cout << "!!!!!!!!!DEVUELVE JAQUE MATE! " << std::endl;
 
-        return 2;
-        
+            //JAQUE MATE
+            return 2;
+        }
+        else{
+            std::cout << "!!!!!!!!!DEVUELVE REY AHOGADO! " << std::endl;
 
-        
+            return 3; //AHOGADO, RESULTADO EN TABLAS
+        }
+
     }else
     {
-        return 1;
+        std::cout << "!!!!!!!!!!!!!!!!!!NO HAY JAQUE Y MUEVE BIEN!!!: " << std::endl;
 
+        //Mueve sin jaque
+        return 1;
     }
-    
-    
+    return 0;
+
     std::cout << "FIN cambiatur 4 "<< std::endl;
 }
 

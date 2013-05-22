@@ -2,10 +2,10 @@
 
 
 
-void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
+bool Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 {
     // ModeloTablero nuevoTablero;
-    //  std::cout << "!!!!!!!!!!!!!!!!!!GENERA MOVI!!!!!!!!!!!!!!!!!!!" << std::endl;
+     std::cout << "!!!!!!!!!!!!!!!!!!GENERA MOVI!!!!!!!!!!!!!!!!!!!   " << miTablero->turnoN<<std::endl;
 
     //BUSCA EN EL TABLERO LAS FICHAS Y SEGUN SU TIPO VA GENERANDO LOS MOVIMIENTOS
 
@@ -22,9 +22,9 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
     int caballo = 2;
     int peon = 1;
 
-    if (miTablero->turnoN){
+    if (miTablero->turnoN)
         normalizaTablero(miTablero->casillasInt);
-    }
+
 
 
     for (int i = 2; i<10;i++)
@@ -41,7 +41,11 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveRey(miTablero, (i*12)+y, testJaque);
+                if (mueveRey(miTablero, (i*12)+y, testJaque))
+                {
+                    if (testJaque) return false;
+
+                }
 
             }
 
@@ -51,7 +55,13 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveReina(miTablero, (i*12)+y, testJaque);
+                if (mueveReina(miTablero, (i*12)+y, testJaque))
+                {
+                    {
+                        if (testJaque) return false;
+
+                    }
+                }
 
             }
 
@@ -61,7 +71,13 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveTorre(miTablero, (i*12)+y, testJaque);
+                if (mueveTorre(miTablero, (i*12)+y, testJaque))
+                {
+                    {
+                        if (testJaque) return false;
+
+                    }
+                }
 
             }
 
@@ -72,7 +88,13 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveAlfil(miTablero, (i*12)+y, testJaque);
+                if (mueveAlfil(miTablero, (i*12)+y, testJaque))
+                {
+                    {
+                        if (testJaque) return false;
+
+                    }
+                }
 
             }
 
@@ -82,7 +104,11 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 
                 //ENCUENTRA REY BLANCO
 
-                mueveCaballo(miTablero, (i*12)+y, testJaque);
+                if (mueveCaballo(miTablero, (i*12)+y, testJaque))
+                {
+                    if (testJaque) return false;
+
+                }
 
             }
 
@@ -94,7 +120,11 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 
                 //ENCUENTRA REY BLANCO
 
-                muevePeon(miTablero, (i*12)+y, testJaque);
+                if (muevePeon(miTablero, (i*12)+y, testJaque))
+                {
+                    if (testJaque) return false;
+
+                }
                 //   std::cout << "!!!!!!!!!!!!!!!!!!ACABA MUEVE PEON!!!!!!!!!!!!!!!!!!!" << std::endl;
 
 
@@ -104,14 +134,12 @@ void Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
         }
     }
 
-    if (miTablero->turnoN){
-        normalizaTablero(miTablero->casillasInt);
-    }
 
-    if (miTablero->vectorMov.size() == 0){
-        std::cout << "JAQUE MATE O AHOGADO!!!!!!!!!!: "<< std::endl;
 
-    }
+    if (miTablero->vectorMov.size() == 0)
+        return true; //JAQUE MATE O AHOGADO
+
+
     //  std::cout << "generamov"<< std::endl;
 
 
@@ -841,7 +869,7 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
 bool Movimientos::verificaJaqueMate(ModeloTablero* tablero)
 {
 
-    generaMovimientos(tablero, true);
+    return generaMovimientos(tablero, true);
 
 
 }

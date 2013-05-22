@@ -5,18 +5,14 @@
 
 bool Calculos::evaluaJaque(int casillasInt[144], bool turnoNegras)
 {
-
-
-
     int posRey = 999;
-    int fichaRey = 6;
+    int fichaRey = -6;
 
-    int fichaReina = 5;
-    int fichaPeon = 1;
-    int fichaAlfil = 3;
-    int fichaCaballo = 2;
-    int fichaTorre = 4;
-
+    int fichaReina = -5;
+    int fichaPeon = -1;
+    int fichaAlfil = -3;
+    int fichaCaballo = -2;
+    int fichaTorre = -4;
 
     for (int i=0; i<144;i++)
     {
@@ -26,10 +22,8 @@ bool Calculos::evaluaJaque(int casillasInt[144], bool turnoNegras)
             posRey = i;
         }
     }
-
     if (posRey != 999)
     {
-
         //N
         int ficha= 0;
         for (int i = 1;ficha != 99; i++)
@@ -37,16 +31,13 @@ bool Calculos::evaluaJaque(int casillasInt[144], bool turnoNegras)
             ficha = casillasInt[posRey+(i*12)];
             if(ficha != 0)
             {
-
                 //REY
                 if(i==1 && ficha == fichaRey)
                     return true;
 
-
                 //REINA                             //TORRE
                 if(ficha == fichaReina || ficha == fichaTorre)
                     return true;
-
 
                 //cualquier otra ficha en medio
 
