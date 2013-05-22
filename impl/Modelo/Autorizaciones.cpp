@@ -10,7 +10,18 @@ bool Autorizaciones::autoriza(int* tablero,  tipoFicha tipo, int filaSel, int co
     int filaDif = filaNueva - filaSel;
     int colDif = colNueva - colSel;
 
-    int fichaSobrevolada = tablero[24+(filaNueva*12)+colNueva+2];
+
+    std::cout << "!!!!!!!!!!!AUTORIZA!!!!!!!!!!!!!!"<< std::endl;
+    std::cout << "!!!!!!!!!!!FILA!!!!!!!!!!!!!!" << filaNueva << std::endl;
+    std::cout << "!!!!!!!!!!!COLUMNA!!!!!!!!!!!!!!" << colNueva << std::endl;
+
+
+
+    int fichaSobrevolada = tablero[24 + (filaNueva*12)+colNueva+2];
+    std::cout << "!!!!!!!!!!!fichaSOBREVOLADA!!!!!!!!!!!!!!" << 24 + (filaNueva*12)+colNueva+2 << std::endl;
+
+    std::cout << "!!!!!!!!!!!ficha!!!!!!!!!!!!!!" << fichaSobrevolada << std::endl;
+
     //MIRA SI ES COMESTIBLE (FICHA ENEMIGA)
 
     if(fichaSobrevolada <= 0)
@@ -51,7 +62,7 @@ bool Autorizaciones::autoriza(int* tablero,  tipoFicha tipo, int filaSel, int co
             return false;
             break;
         }
-    }
+    }else return false;
    // if (turnoNegas)normalizaTablero(tablero);
 }
 
@@ -180,19 +191,19 @@ bool Autorizaciones::autorizaTorre(int filaDif, int colDif,  int filaNueva, int 
 
 
     if (colDif == 0
-            && filaDif < 0 ) //MOVIMIENTO A LA DERECHA
-        return verificaCamino(colDif, filaNueva, colNueva, 2, elTablero);
+            && filaDif < 0 ) //MOVIMIENTO A LA ABAJO
+        return verificaCamino(filaDif, filaNueva, colNueva, 1, elTablero);
 
     else if (colDif==0
-             && filaDif > 0 )  //MOVIMIENTO A LA IZQUIERDA
-        return verificaCamino(colDif, filaNueva, colNueva, 1, elTablero);
+             && filaDif > 0 )  //MOVIMIENTO A LA ARRIBA
+        return verificaCamino(filaDif, filaNueva, colNueva, 2, elTablero);
 
     else if (filaDif==0
-             && colDif > 0 )  //MOVIMIENTO ARRIBA
+             && colDif > 0 )  //MOVIMIENTO IZQUIERDA
         return verificaCamino(colDif, filaNueva, colNueva, 4, elTablero);
 
     else if (filaDif==0
-             && colDif < 0 ) //MOVIMIENTO ABAJO
+             && colDif < 0 ) //MOVIMIENTO DERECHA
         return verificaCamino(colDif, filaNueva, colNueva, 3, elTablero);
 
     else return false;
@@ -211,8 +222,11 @@ bool Autorizaciones::autorizaCaballo(int filaDif, int colDif)
     else return false;
 }
 
-bool Autorizaciones::verificaCamino(int distancia,  int filaNueva,int colNueva, int camino, int* casillas)
+bool Autorizaciones::verificaCamino(int distancia, int filaDestino,int colDestino, int camino, int* casillas)
 {
+    std::cout << "!!!!!!!!!!!VERIFICA!!!!!!!!!!!!!!CAMINO: " << camino<<std::endl;
+
+
     bool invertido;
     if (distancia < 0)
     {
@@ -220,13 +234,13 @@ bool Autorizaciones::verificaCamino(int distancia,  int filaNueva,int colNueva, 
         distancia = -distancia;
     }
 
-    int colDestino = colNueva;//-(nuevo.z/10);
-    int filaDestino =filaNueva; //-(nuevo.x/10);
+    //int colDestino = colNueva;//-(nuevo.z/10);
+  //  int filaDestino = filaNueva; //-(nuevo.x/10);
 
     for (int i = 1; i < distancia; i++)
     {
-        if (camino == 1) filaDestino = filaDestino-1;  // ABAJO
-        else if (camino == 2) filaDestino = filaDestino+1; // ARRIBA
+        if (camino == 1) filaDestino = filaDestino+1;  // ABAJO
+        else if (camino == 2) filaDestino = filaDestino-1; // ARRIBA
         else if (camino == 3) colDestino = colDestino+1; // DERECHA
         else if (camino == 4) colDestino = colDestino-1; // IZQUIERDA
         else if (camino == 5)
@@ -251,11 +265,11 @@ bool Autorizaciones::verificaCamino(int distancia,  int filaNueva,int colNueva, 
         }
 
 
+        std::cout << "!!!!!!!!!!!VERIF!!!!!!!!!!!!!!" <<24+(filaDestino*12) + colDestino+2 <<std::endl;
+        std::cout << "!!!!!!!!!!!CASILLA!!!!!!!!!!!!!!" <<casillas[24+(filaDestino*12) + colDestino+2]<<std::endl;
 
         if (casillas[24+(filaDestino*12) + colDestino+2] != 0)
             return false;
     }
     return true;
 }
-
-
