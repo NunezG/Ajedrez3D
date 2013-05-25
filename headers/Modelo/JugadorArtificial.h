@@ -13,7 +13,7 @@ public:
     JugadorArtificial();
 
     bool esHumano();
-    void mueveFicha();
+    int* mueveFicha(ModeloTablero* tablero);
     //void setVentana(Ventana* obj);
 
     int dificultad;
@@ -23,7 +23,6 @@ public:
 
 private:
     void calculaMovimiento();
-    int* mueveIA(int origen, int destino);
 
     int evaluaTablero(const int casillasInt[144], bool turnoN);
 
@@ -36,7 +35,7 @@ private:
 
 
     ModeloTablero* tableroElegido;
-ModeloTablero* miTablero;
+//ModeloTablero* miTablero;
 
    // bool BorraArbol();
 

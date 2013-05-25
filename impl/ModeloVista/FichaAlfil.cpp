@@ -19,13 +19,6 @@ FichaAlfil::~FichaAlfil()
 }
 
 
-bool FichaAlfil::mueveFicha(){
-
-
-
-
-
-}
 
 
 

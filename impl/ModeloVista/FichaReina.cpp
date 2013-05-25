@@ -24,13 +24,6 @@ FichaReina::~FichaReina()
 
 
 
-bool FichaReina::mueveFicha(){
-
-
-
-
-
-}
 
 
 FichaReina::FichaReina( const Ficha& fichaOriginal, std::string nombre):

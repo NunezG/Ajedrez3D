@@ -87,7 +87,7 @@ public:
     void empezarModoCamara();
     void acabarModoCamara();
 
-    bool mueveFicha();
+    bool aplicaCambio(int* movimiento);
     bool seleccionaFichaEnPosicion(int posX, int posY);
     bool autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
     void esperaJugador();

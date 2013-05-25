@@ -14,14 +14,9 @@ JugadorArtificial::~JugadorArtificial()
 }
 
 
-void JugadorArtificial::mueveFicha(){
-
-
-
+int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
+{
     std::cout << "ARTIF MUEVE FICHA " << std::endl;
-
-
-    std::cout << "CALCULA MOVIMIENTO" << std::endl;
 
     // Modelo* modelo = Modelo::getSingletonPtr();
 
@@ -29,22 +24,21 @@ void JugadorArtificial::mueveFicha(){
 
     ModeloTablero* tableroPadre = new ModeloTablero();
 
-    std::cout << "TUDRNO DE MITABLERO:" << miTablero->turnoN<< std::endl;
+    std::cout << "TUDRNO DE MITABLERO:" << tablero->turnoN<< std::endl;
 
-    tableroPadre->turnoN = miTablero->turnoN;
+    tableroPadre->turnoN = tablero->turnoN;
 
-    std::cout << "CONSTRUYE ARBOL CO ALPASO:" << miTablero->alPaso<< std::endl;
+    std::cout << "CONSTRUYE ARBOL CO ALPASO:" << tablero->alPaso<< std::endl;
 
-
-    int fila = (miTablero->alPaso/8)+2;
-    int col= (miTablero->alPaso%8)+2;
+    int fila = (tablero->alPaso/8)+2;
+    int col= (tablero->alPaso%8)+2;
 
     tableroPadre->casillasInt = new int[144];
     tableroPadre->alPaso = ((fila*12)+col);
     std::cout << "TRADUCIDO:" << tableroPadre->alPaso<< std::endl;
 
     ////////////////////////////////////////////////////////////////////////////////////7
-    tableroPadre->casillasInt = miTablero->casillasInt;
+    tableroPadre->casillasInt = tablero->casillasInt;
 
     //  tablero->Score = 2;
     /*
@@ -63,11 +57,33 @@ void JugadorArtificial::mueveFicha(){
         //    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
         //    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
 
-        mueveIA(tableroElegido->movimiento[0],tableroElegido->movimiento[1]);
+        //   mueveIA(tableroElegido->movimiento[0],tableroElegido->movimiento[1]);
 
-        tableroElegido = NULL;
 
-    }else{
+        //ACTIVA LA IA
+
+        int filaOrigen = (tableroElegido->movimiento[0]/12)-2;
+        int colOrigen = (tableroElegido->movimiento[0]%12)-2;
+
+
+        int filaDestino = (tableroElegido->movimiento[1]/12)-2;
+        int colDestino = (tableroElegido->movimiento[1]%12)-2;
+
+
+
+
+
+
+        //aplicaSeleccion(tablero, filaOrigen, colOrigen, filaDestino, colDestino);
+
+      //  tablero->casillasInt == Movimientos::mueveTablero(tablero->casillasInt, filaOrigen, colOrigen, filaDestino, colDestino);
+
+
+
+     //   tableroElegido = NULL;
+
+    }else
+    {
 
 
 
@@ -117,6 +133,10 @@ void JugadorArtificial::mueveFicha(){
     //    tableroInicial
 
 
+    tablero->movimiento = tableroElegido->movimiento;
+
+    return tableroElegido->movimiento;
+
 }
 
 
@@ -133,61 +153,6 @@ bool JugadorArtificial::esHumano()
 }
 
 
-
-int* JugadorArtificial::mueveIA(int origen, int destino)
-{
-
-    std::cout  << "mueve" <<  origen << std::endl;
-
-    std::cout  << "mueve" <<  destino << std::endl;
-
-
-    int filaOrigen = (origen/12)-2;
-    int colOrigen = (origen%12)-2;
-
-
-    int filaDestino = (destino/12)-2;
-    int colDestino = (destino%12)-2;
-    //int columanOrigen = (origen%12)-2;
-    // int filaOrigen =   ;
-
-    // std::stringstream origenBaseOcho;
-
-    //char letra = tablero->columnas[columanOrigen];
-
-
-    //std::cout  << "letra: "<< letra << std::endl;
-
-    //origenBaseOcho.str("");
-
-    //origenBaseOcho<< filaOrigen;
-    // origenBaseOcho<< letra ;
-
-    // char columna = ;
-
-
-    //char letraDestino = tablero->columnas[columanDestino];
-
-    //std::cout  << "letraDestino: "<< letraDestino << std::endl;
-
-
-    //std::stringstream destinoBaseOcho;
-
-    //destinoBaseOcho.str("");
-
-    //destinoBaseOcho<<filaDestino;
-    //destinoBaseOcho <<letraDestino;
-
-    //std::cout  << "columanOrigen "<< columanOrigen << std::endl;
-
-    //std::cout  << "filaOrigen " << filaOrigen << std::endl;
-
-    //std::cout  << "origenBaseOcho "<< origenBaseOcho.str() << std::endl;
-    //std::cout  << "destinoBaseOcho "<< destinoBaseOcho.str() << std::endl;
-
-    miTablero->casillasInt == Movimientos::mueveTablero(miTablero->casillasInt, filaOrigen, colOrigen, filaDestino, colDestino);
-
-}
 
 
 //void JugadorArtificial::sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada)

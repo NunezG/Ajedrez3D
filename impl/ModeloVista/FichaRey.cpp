@@ -21,14 +21,6 @@ FichaRey::~FichaRey()
 
 
 
-
-bool FichaRey::mueveFicha(){
-
-
-
-
-}
-
 bool FichaRey::autorizaFicha(int diferencia[2])
 {
 

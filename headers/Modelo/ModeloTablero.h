@@ -20,7 +20,7 @@ struct ModeloTablero
     int Score;
     //  Casilla* casillas[64];
     int* casillasInt;
-    int movimiento[2];
+    int* movimiento;
     //  int numeroHijos;
 
     int alPaso;

@@ -11,7 +11,6 @@ public:
     ~FichaReina(void);
     FichaReina(std::string nombre);
 
-    bool mueveFicha();
     bool autorizaFicha(int diferencia[2]);
 
     //Copia los datos del peón para promocionarlo

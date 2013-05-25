@@ -22,7 +22,6 @@ public:
     int numJugadores;
     std::vector<Jugador*> jugadores;
 
-    void mueveJugador(bool turno);
     void creaJugador(bool blancas, bool humano);
 
 //    EscenaAjedrez* escena;

@@ -20,13 +20,6 @@ FichaPeon::~FichaPeon()
 }
 
 
-bool FichaPeon::mueveFicha(){
-
-
-
-
-}
-
 bool FichaPeon::autorizaFicha(int diferencia[2]){
 
 

@@ -108,12 +108,12 @@ message("ACABA FINDÇCEGUI.")
 if(NOT CEGUI_FOUND)
 message(SEND_ERROR "Failed to find CEGUI.")
 endif()
-#message("INICIA CEGUIOGRE.")
-#find_package(CEGUIOGRE REQUIRED)
-#message("ACABA CEGUIOGRE.")
-#if(NOT CEGUIOGRE_FOUND)
-#message(SEND_ERROR "Failed to find CEGUIOGRE.")
-#endif()
+message("INICIA CEGUIOGRE.")
+find_package(CEGUIOGRE REQUIRED)
+message("ACABA CEGUIOGRE.")
+if(NOT CEGUIOGRE_FOUND)
+message("Failed to find CEGUIOGRE.")
+endif()
 
 # FIN NUEVA SECCIÓN
 

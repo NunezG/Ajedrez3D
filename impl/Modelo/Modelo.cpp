@@ -19,24 +19,7 @@ Modelo::~Modelo()
     jugadores.clear();
 }
 
-void Modelo::mueveJugador(bool turno)
-{
-    //   escenaAjedrez->getTablero()->getTurnoNegras()
-    
-    //Jugador* jug = jugadores[0];
-    std::cout << "mueveJugador"<< std::endl;
-    std::cout << "jugadores.size()"<< jugadores.size()<<std::endl;
-    Jugador* jugador = NULL;
-    
-    if (jugadores.size() == 2)
-    {
-        jugador = jugadores.at(turno);
-        if(jugador != NULL)
-        {
-            jugador->mueveFicha();
-        }
-    }
-}
+
 
 //tal vez sea mejor una factoria de jugadores
 void Modelo::creaJugador(bool blancas, bool humano)

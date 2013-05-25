@@ -12,7 +12,6 @@ public:
 
 protected:
 
-    bool mueveFicha();
     bool autorizaFicha(int diferencia[2]);
 
 

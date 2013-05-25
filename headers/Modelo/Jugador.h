@@ -18,9 +18,15 @@ public:
 
    // ModeloTablero tableroInicial;
 
-    virtual void mueveFicha() = 0;
+    virtual int* mueveFicha(ModeloTablero* tablero) = 0;
 //bool esperaEleccion;
     //virtual void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada) = 0;
+    int aplicaSeleccion(ModeloTablero* tablero,int filaSel,int colSel, int filaNueva, int colNueva);
+
+
+    std::string getNombre();
+    void setNombre( std::string unNombre);
+
 
 
     bool jugadorNegras;
@@ -28,8 +34,9 @@ public:
 protected:
 
 
-   //ModeloTablero* miTablero;
+   ModeloTablero* miTablero;
 
+    std::string nombre;
     int* resgistroTablero;
     int alPaso;
   //  bool turnoNegras;

@@ -11,7 +11,6 @@ public:
     FichaTorre(std::string nombre);
 
 protected:
-    bool mueveFicha();
     bool autorizaFicha(int diferencia[2]);
 
 private:  

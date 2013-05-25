@@ -26,6 +26,12 @@ bool ModeloVista::getApagar()
 
 }
 
+void ModeloVista::cambiaTurno()
+{
+    escena->tablero->cambiaTurno();
+
+}
+
 
 void ModeloVista::setApagar(bool apaga)
 {

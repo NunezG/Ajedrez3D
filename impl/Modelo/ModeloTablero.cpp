@@ -6,7 +6,8 @@ ModeloTablero::ModeloTablero() :
     //fichaMovida(""),
     vectorMov(0),
     turnoN(false),
-    alPaso(0)
+    alPaso(0),
+    movimiento(NULL)
 {
 }
 

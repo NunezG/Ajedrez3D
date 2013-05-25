@@ -16,7 +16,6 @@ protected:
 
 //    bool setCasilla(int cas[2]);
 
-    bool mueveFicha();
     bool autorizaFicha(int diferencia[2]);
 
 

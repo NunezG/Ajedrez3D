@@ -36,6 +36,7 @@ void setApagar(bool apaga);
 
 //Jugador* jugadorActual;
 
+void cambiaTurno();
 
 
 bool preparaEscena();

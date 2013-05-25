@@ -214,11 +214,10 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
    //     if (modelo->jugadorActual->esHumano())
     //    {
 
-        bool resultado = escenaAjedrez->mueveFicha();
+        int* resutaldoParaQuepase = new int(9999);
 
-        //if (resultado == true) modeloVista->cambiaTurno();
+        escenaAjedrez->aplicaCambio(resutaldoParaQuepase);
 
-           //   }
     }else {
         escenaAjedrez->empezarModoCamara();
 

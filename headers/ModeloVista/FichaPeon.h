@@ -12,7 +12,6 @@ public:
 
 private:  
 
-    bool mueveFicha();
     bool autorizaFicha(int diferencia[2]);
 };
 

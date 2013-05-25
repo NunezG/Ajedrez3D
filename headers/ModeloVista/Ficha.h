@@ -37,7 +37,6 @@ public:
 
 
 
-    virtual bool mueveFicha() = 0;
     virtual bool autorizaFicha(int diferencia[2]) = 0;
 
   //  virtual bool setEntidad(Ogre::Entity* entidad);
