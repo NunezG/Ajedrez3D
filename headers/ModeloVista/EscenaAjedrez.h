@@ -101,6 +101,8 @@ public:
 
 private:   
 
+
+    ModeloTablero* tableroModelo;
     CEGUI::Window *ventanaEmergente;
 
 

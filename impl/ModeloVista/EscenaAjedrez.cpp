@@ -16,6 +16,7 @@ EscenaAjedrez::EscenaAjedrez(Modelo* mod) :
   , mGoingRight(false)
   , columnas("ABCDEFGH")
   , ventanaEmergente(NULL)
+  ,tableroModelo(NULL)
 
 
 {
@@ -56,10 +57,11 @@ void EscenaAjedrez::destruyeTablero()
 }
 
 
-void EscenaAjedrez::sobreVuelaCasilla(){
-    tablero->getNodoCasillaSobrevolada()->iluminaCasilla();
-    //  miTablero->getNodoCasillaSobrevolada()->seleccionada = false;
+void EscenaAjedrez::sobreVuelaCasilla()
+{
 
+
+    //  miTablero->getNodoCasillaSobrevolada()->seleccionada = false;
 }
 
 
@@ -312,26 +314,32 @@ void EscenaAjedrez::acabarModoCamara()
 void EscenaAjedrez::esperaJugador()
 {
 
-    std::cout << "jugadores.size()"<< modelo->jugadores.size()<<std::endl;
+    std::cout << "espera"<<std::endl;
+   // std::cout << "jugadores.size()"<< modelo->jugadores.size()<<std::endl;
+
+    if (tableroModelo == NULL)
+    {
+        tableroModelo = new ModeloTablero();
+
+        tableroModelo->casillasInt = tablero->traduceTablero();
+
+        tableroModelo->alPaso = tablero->getAlPaso();
+
+        tableroModelo->turnoN = tablero->getTurnoNegras();
 
 
-    ModeloTablero* tableroModelo = new ModeloTablero();
-
-    tableroModelo->casillasInt = tablero->traduceTablero();
-
-    tableroModelo->alPaso = tablero->getAlPaso();
-
-    tableroModelo->turnoN = tablero->getTurnoNegras();
+    }
 
 
-    Jugador* jugador = NULL;
 
     if (modelo->jugadores.size() == 2)
     {
-        jugador = modelo->jugadores.at(tableroModelo->turnoN);
+        Jugador* jugador = modelo->jugadores.at(tableroModelo->turnoN);
         if(jugador != NULL)
         {
-           /* tableroModelo = */jugador->mueveFicha(tableroModelo);
+            /* tableroModelo = */jugador->mueveFicha(tableroModelo);
+
+            std::cout  << "miramov " << std::endl;
 
 
             //HAY RESULTADO
@@ -342,9 +350,13 @@ void EscenaAjedrez::esperaJugador()
 
 
                 aplicaCambio(tableroModelo->movimiento);
+                std::cout  << "delete tablromov" << std::endl;
 
+                delete tableroModelo;
+                tableroModelo == NULL;
+                std::cout  << "ACABA EL MOV!!! " << std::endl;
 
-                 }
+            }
 
 
 
@@ -362,7 +374,10 @@ void EscenaAjedrez::esperaJugador()
     //MIRA LAS DIFERENCIAS:
 
 
-    delete tableroModelo;
+
+
+
+    std::cout  << "finespera " << std::endl;
 
     //   modelo->mueveJugador(tablero->getTurnoNegras());
 
@@ -372,13 +387,13 @@ void EscenaAjedrez::esperaJugador()
 
 //bool EscenaAjedrez::mueveTableroEscena()
 //{
-    //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
-    //if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
- //   {
-        // bool resultado = escenaAjedrez->aplicaCambio();
+//MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
+//if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
+//   {
+// bool resultado = escenaAjedrez->aplicaCambio();
 
 
-      //  modelo->jugadores.at(tablero->getTurnoNegras())->
+//  modelo->jugadores.at(tablero->getTurnoNegras())->
 
 //    }
 
@@ -406,17 +421,13 @@ bool EscenaAjedrez::aplicaCambio(int* movimiento)
 
     tableroModelo->turnoN = tablero->getTurnoNegras();
 
+    int filaSel;
+    int colSel;
 
-    int filaSel = (movimiento[0]/12)-2;
-    int colSel = (movimiento[0]%12)-2;
+    int filaNueva;
+    int colNueva;
 
-
-    int filaNueva = (movimiento[1]/12)-2;
-    int colNueva = (movimiento[1]%12)-2;
-
-
-
-    if (modelo->jugadores.at(tablero->getTurnoNegras())->esHumano())
+    if (movimiento == NULL)
     {
 
         filaSel=tablero->getNodoCasillaSeleccionada()->getPosicion().Fila;
@@ -427,9 +438,17 @@ bool EscenaAjedrez::aplicaCambio(int* movimiento)
 
         colNueva = tablero->getNodoCasillaSobrevolada()->getPosicion().Columna;
 
+    }else
+    {
+       filaSel = (movimiento[0]/12)-2;
+
+       colSel = (movimiento[0]%12)-2;
+
+      filaNueva = (movimiento[1]/12)-2;
+
+      colNueva = (movimiento[1]%12)-2;
+
     }
-
-
 
     //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA
     int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))-> aplicaSeleccion(tableroModelo, filaSel, colSel, filaNueva, colNueva);
@@ -461,7 +480,11 @@ bool EscenaAjedrez::aplicaCambio(int* movimiento)
         //   tablero->actualizaTablero();
 
         tablero->rotacionCamara = Ogre::Real(180.0f);
+        std::cout << "cambia turno" << std::endl;
+
         tablero->cambiaTurno();
+        std::cout << "sale" << std::endl;
+
         return true;
 
     }
@@ -569,16 +592,15 @@ bool EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
             Casilla* casillaSobrevolada = static_cast<Casilla*>(tablero->getHijo(nodoSobrevolado->getName()));
 
             Casilla* casillaSobreAnterior = tablero->getNodoCasillaSobrevolada();
+            apagaLayout();
 
 
             if (casillaSobreAnterior==NULL || casillaSobrevolada->getNombre() != casillaSobreAnterior-> getNombre())
             {
                 if (casillaSobreAnterior!=NULL){
-                    apagaLayout();
                     casillaSobreAnterior->apagaCasilla();
                     tablero->setNodoCasillaSobrevolada(NULL);
                 }
-                tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
 
 
                 Casilla* nodoSeleccionado = tablero->getNodoCasillaSeleccionada();
@@ -603,7 +625,8 @@ bool EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
                 //  ventanaEmergente = NULL;
                 if (resultado == 1)
                 {
-                    sobreVuelaCasilla();
+                    tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
+                    tablero->getNodoCasillaSobrevolada()->iluminaCasilla();
                 }
                 else if (resultado == 3)
                 {

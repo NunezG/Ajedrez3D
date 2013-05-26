@@ -14,7 +14,7 @@ bool Calculos::evaluaJaque(int* casillasInt, bool turnoNegras)
     int fichaCaballo = -2;
     int fichaTorre = -4;
 
-    std::cout << "jaque "<< std::endl;
+    std::cout << " dentro de jaque "<< std::endl;
 
 
 

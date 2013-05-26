@@ -21,6 +21,7 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
 {
     // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
     casillasInt = new int[144];
+    movimiento = new int[2];
 
     for(int i=0; i<144;i++)
     {

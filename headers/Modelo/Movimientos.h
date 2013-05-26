@@ -15,7 +15,7 @@ public:
 
 private:
 
-    static bool aplicaMovimiento(ModeloTablero& miTablero,const int casOrigen,const int casDestino);
+    static bool aplicaMovimiento(ModeloTablero& miTablero,const int casOrigen,const int casDestino, bool testJaque);
 
   //  static bool miraJaque = false;
 

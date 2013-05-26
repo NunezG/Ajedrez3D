@@ -248,7 +248,7 @@ void Tablero::creaNobleza()
         {
             objeto->creaModelo3D(mSceneMgr,"Rey",NEGRAS);
             objeto->cambiaMaterial("MaterialFichaNegra");
-            posCasilla = 4+(4*8);
+            posCasilla = 4+(5*8);
             objeto->rota(180);
             objeto->trasladar(70,70);
         }
