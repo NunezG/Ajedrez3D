@@ -64,6 +64,19 @@ void Tablero::setNodoCasillaSobrevolada(Casilla* nodo)
     _nodoNuevo = nodo;
 }
 
+void Tablero::setNodoCasillaSeleccionada(int posicion)
+{
+    if (posicion < 0) _selectedNode = NULL;
+    else _selectedNode = static_cast<Casilla*>(getHijo(posicion));
+
+}
+void Tablero::setNodoCasillaSobrevolada(int posicion)
+{
+    if (posicion < 0) _nodoNuevo = NULL;
+    else _nodoNuevo = static_cast<Casilla*>(getHijo(posicion));
+}
+
+
 bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
 {
     mSceneMgr = sceneMgr;
@@ -75,7 +88,7 @@ bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
 
     creaVasallos();
     creaNobleza();
-      creaPeones();
+    creaPeones();
 
 
 }
@@ -283,7 +296,7 @@ void Tablero::creaPeones()
             // objeto->trasladar(70,70);
             posCasilla = (i/2)+(6*8);
         }
-      //  getHijo(posCasilla)->agregaHijo(objeto);
+        //  getHijo(posCasilla)->agregaHijo(objeto);
     }
 }
 /*
@@ -376,8 +389,8 @@ void Tablero::cambiaTurno()
 
 
 
-    setNodoCasillaSobrevolada(NULL);
-    setNodoCasillaSeleccionada(NULL);
+    setNodoCasillaSobrevolada(-1);
+    setNodoCasillaSeleccionada(-1);
 
 
     std::cout << "fin cambia "<< std::endl;
@@ -455,7 +468,7 @@ void Tablero::actualizaTablero()
 
 
 
-//tablero->getNodoCasillaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion()
+    //tablero->getNodoCasillaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion()
 
     Casilla* nodoCasillaTemporal = getNodoCasillaSeleccionada();
     Casilla* casillaDestinoTemp = getNodoCasillaSobrevolada();
@@ -476,7 +489,7 @@ void Tablero::actualizaTablero()
 
         // columna = tablero->columnas[casillaDestino[0]];
 
-        setNodoCasillaSeleccionada(nodoCasillaTemporal);
+      //  setNodoCasillaSeleccionada(nodoCasillaTemporal);
 
 
         //BORRA FICHA ENEMIGA DE LA CASILLA NUEVA
@@ -499,15 +512,15 @@ void Tablero::actualizaTablero()
         //  nodoCasillas
         //tableroElegido->casillasInt;
 
-        setNodoCasillaSobrevolada(casillaDestinoTemp);
+      //  setNodoCasillaSobrevolada(casillaDestinoTemp);
 
         if (ficha->tipo_Ficha ==Rey)
         {
 
-            int difCol = getNodoCasillaSobrevolada()->getPosicion().Columna - getNodoCasillaSeleccionada()->getPosicion().Columna;
+            int difCol = casillaDestinoTemp->getPosicion().Columna - nodoCasillaTemporal->getPosicion().Columna;
             // if (difCol<0 ) difCol = -difCol;
 
-            int fila =getNodoCasillaSobrevolada()->getPosicion().Fila;
+            int fila =casillaDestinoTemp->getPosicion().Fila;
 
 
             if (difCol == 2)
@@ -516,7 +529,7 @@ void Tablero::actualizaTablero()
                 Ficha* fichaTorre = static_cast<Ficha*>(casillaTorre->getHijo(0));
                 casillaTorre->eliminaHijo(0);
 
-                casillaTorre = static_cast<Casilla*>(getHijo((fila*8) +getNodoCasillaSobrevolada()->getPosicion().Columna-1));
+                casillaTorre = static_cast<Casilla*>(getHijo((fila*8) +casillaDestinoTemp->getPosicion().Columna-1));
                 casillaTorre->agregaHijo(fichaTorre);
             }
 
@@ -528,7 +541,7 @@ void Tablero::actualizaTablero()
                 Ficha* fichaTorre = static_cast<Ficha*>(casillaTorre->getHijo(0));
                 casillaTorre->eliminaHijo(0);
 
-                casillaTorre = static_cast<Casilla*>(getHijo((fila*8) +getNodoCasillaSobrevolada()->getPosicion().Columna+1));
+                casillaTorre = static_cast<Casilla*>(getHijo((fila*8) +casillaDestinoTemp->getPosicion().Columna+1));
                 casillaTorre->agregaHijo(fichaTorre);
             }
 
@@ -540,34 +553,34 @@ void Tablero::actualizaTablero()
 
 
 
-         //   std::cout  << "fila seleccionada:" << getNodoCasillaSeleccionada()->getPosicion().Fila<< std::endl;
+            //   std::cout  << "fila seleccionada:" << getNodoCasillaSeleccionada()->getPosicion().Fila<< std::endl;
 
-         //   std::cout  << "col seleccionada:" << getNodoCasillaSeleccionada()->getPosicion().Columna<< std::endl;
+            //   std::cout  << "col seleccionada:" << getNodoCasillaSeleccionada()->getPosicion().Columna<< std::endl;
 
-         //   std::cout  << "fila sobrevolada:" << getNodoCasillaSobrevolada()->getPosicion().Fila<< std::endl;
+            //   std::cout  << "fila sobrevolada:" << getNodoCasillaSobrevolada()->getPosicion().Fila<< std::endl;
 
-         //   std::cout  << "col sobrevolada:" << getNodoCasillaSobrevolada()->getPosicion().Columna<< std::endl;
+            //   std::cout  << "col sobrevolada:" << getNodoCasillaSobrevolada()->getPosicion().Columna<< std::endl;
 
 
-            int dif = getNodoCasillaSobrevolada()->getPosicion().Fila - getNodoCasillaSeleccionada()->getPosicion().Fila;
+            int dif = casillaDestinoTemp->getPosicion().Fila - nodoCasillaTemporal->getPosicion().Fila;
 
-          //  std::cout  << "dif:" << dif<< std::endl;
+            //  std::cout  << "dif:" << dif<< std::endl;
 
-            int difCol = getNodoCasillaSobrevolada()->getPosicion().Columna - getNodoCasillaSeleccionada()->getPosicion().Columna;
-          //  std::cout  << "difcol: " << difCol<<std::endl;
+            int difCol = casillaDestinoTemp->getPosicion().Columna - nodoCasillaTemporal->getPosicion().Columna;
+            //  std::cout  << "difcol: " << difCol<<std::endl;
 
             if (dif < 0 ) dif = -dif;
             if (difCol<0 ) difCol = -difCol;
 
 
-          //  std::cout  << "COMPRUEBA ALPASO: " <<alPaso<<std::endl;
+            //  std::cout  << "COMPRUEBA ALPASO: " <<alPaso<<std::endl;
 
             if(alPaso > 0 && dif == 1 && difCol == 1)
             {
 
                 //SOLO COMER AL PASO
-                int fila =getNodoCasillaSeleccionada()->getPosicion().Fila;
-                int columna =getNodoCasillaSobrevolada()->getPosicion().Columna;
+                int fila =nodoCasillaTemporal->getPosicion().Fila;
+                int columna =casillaDestinoTemp->getPosicion().Columna;
 
                 if (alPaso = 24+(fila*12)+columna+2)
                 {
@@ -591,8 +604,8 @@ void Tablero::actualizaTablero()
 
             if( dif == 2){
 
-                setAlPaso(24+(getNodoCasillaSobrevolada()->getPosicion().Fila*12) +  getNodoCasillaSobrevolada()->getPosicion().Columna+2);
-             //   std::cout  << "ALPASO EN TABLERO: " <<alPaso<<std::endl;
+                setAlPaso(24+(casillaDestinoTemp->getPosicion().Fila*12) +  casillaDestinoTemp->getPosicion().Columna+2);
+                //   std::cout  << "ALPASO EN TABLERO: " <<alPaso<<std::endl;
 
             }
 
@@ -607,13 +620,13 @@ void Tablero::actualizaTablero()
 
 
 
- int* Tablero::traduceTablero()
+int* Tablero::traduceTablero()
 {
     //ESTO SE PUEDE CAMBIAR MUCHO
-  //  int *casillas = new int[144];
+    //  int *casillas = new int[144];
     int numCasilla = 0;
 
-  //  ModeloTablero* nuevoModeloT = new ModeloTablero();
+    //  ModeloTablero* nuevoModeloT = new ModeloTablero();
 
     int* casillasInt = new int[144];
 
@@ -653,11 +666,13 @@ void Tablero::actualizaTablero()
 
                     //Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
 
-                    casillasInt[numeroCasilla] = ficha->tipo_Ficha;
-                    if (ficha->esNegra)
+
+
+                    //ESTO ASEGURA QUE LAS FICHAS CORRESPONDIENTES AL TURNO SEAN POSITIVAS
+                    if (ficha->esNegra && !getTurnoNegras() || !ficha->esNegra && getTurnoNegras())
                     {
-                        casillasInt[numeroCasilla] = -casillasInt[numeroCasilla];
-                    }
+                        casillasInt[numeroCasilla] = -ficha->tipo_Ficha;;
+                    }else casillasInt[numeroCasilla] = ficha->tipo_Ficha;
 
                     //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
 

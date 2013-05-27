@@ -24,9 +24,11 @@ JugadorHumano::~JugadorHumano()
 int* JugadorHumano::mueveFicha(ModeloTablero* tablero)
 {
 
+
+
     if (miTablero == NULL)
         miTablero = tablero;
-    std::cout << "mueveficha dentro de humano"<< std::endl;
+   // std::cout << "mueveficha dentro de humano"<< std::endl;
 
     
     //HA CAPTUURADO MOVIMIENTO??
@@ -63,7 +65,6 @@ int JugadorHumano::autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, in
 
     // tablero->casillasInt = tablero->traduceTablero();
 
-    if (turnoNegras)tablero = Autorizaciones::normalizaTablero(tablero);
 
     autorizado = Autorizaciones::autoriza(tablero, tipo, filaSel, colSel, filaNueva, colNueva, turnoNegras, alPaso);
 

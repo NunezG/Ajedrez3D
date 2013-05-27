@@ -22,23 +22,26 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 
     //ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
 
-    ModeloTablero* tableroPadre = new ModeloTablero();
+ //   ModeloTablero* tableroPadre = new ModeloTablero();
 
     std::cout << "TUDRNO DE MITABLERO:" << tablero->turnoN<< std::endl;
 
-    tableroPadre->turnoN = tablero->turnoN;
+  //  tableroPadre->turnoN = tablero->turnoN;
 
     std::cout << "CONSTRUYE ARBOL CO ALPASO:" << tablero->alPaso<< std::endl;
+//VERIFICA ALPASO SI ES EN BASE 8 o 12
 
-    int fila = (tablero->alPaso/8)+2;
+
+  /*  int fila = (tablero->alPaso/8)+2;
     int col= (tablero->alPaso%8)+2;
 
-    tableroPadre->casillasInt = new int[144];
+  //  tableroPadre->casillasInt = new int[144];
     tableroPadre->alPaso = ((fila*12)+col);
-    std::cout << "TRADUCIDO:" << tableroPadre->alPaso<< std::endl;
+    */
+    std::cout << "TRADUCIDO:" << tablero->alPaso<< std::endl;
 
     ////////////////////////////////////////////////////////////////////////////////////7
-    tableroPadre->casillasInt = tablero->casillasInt;
+  //  tableroPadre->casillasInt = tablero->casillasInt;
 
     //  tablero->Score = 2;
     /*
@@ -47,7 +50,7 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
         tableroPadre->casillasInt[i] = listaCasillas[i];
     }
    */
-    bool result = construyeArbol(tableroPadre);
+    bool result = construyeArbol(tablero);
 
     std::cout  << "IFFF " << std::endl;
 
@@ -62,18 +65,14 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 
         //ACTIVA LA IA
 
-        int filaOrigen = (tableroElegido->movimiento[0]/12)-2;
+     /*   int filaOrigen = (tableroElegido->movimiento[0]/12)-2;
         int colOrigen = (tableroElegido->movimiento[0]%12)-2;
 
 
         int filaDestino = (tableroElegido->movimiento[1]/12)-2;
         int colDestino = (tableroElegido->movimiento[1]%12)-2;
 
-
-
-
-
-
+*/
         //aplicaSeleccion(tablero, filaOrigen, colOrigen, filaDestino, colDestino);
 
       //  tablero->casillasInt == Movimientos::mueveTablero(tablero->casillasInt, filaOrigen, colOrigen, filaDestino, colDestino);
@@ -93,10 +92,10 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 
     //  std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
 
-    delete tableroPadre;
+   // delete tableroPadre;
 
     //  std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
-    tableroPadre = NULL;
+  //  tableroPadre = NULL;
 
     //modulo = NULL;
 
@@ -131,6 +130,9 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 
 
     //    tableroInicial
+
+
+    std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< tableroElegido->movimiento[0] <<   " Y 2 "<< tableroElegido->movimiento[1]<< std::endl;
 
 
     tablero->movimiento = tableroElegido->movimiento;
@@ -193,10 +195,9 @@ bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
     //std::cout << "BORRA TABLEROELEGIDO "<< std::endl;
 
     // delete [] tableroElegido;
-    std::cout << "CONSTRUYE ARBOL2222222222" << std::endl;
+    std::cout << "CONSTRUYE ARBOL PARA TURNO (ESNEGRA?):"<< tableroPadre->turnoN<< std::endl;
 
     tableroElegido = NULL;
-    std::cout << "CONSTRUYE ARBOL33333333333" << std::endl;
 
     int resultado = alphaBeta(tableroPadre,-50000, 50000, 2);
 

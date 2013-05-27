@@ -114,19 +114,19 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 
 
 
-    std::cout << "mousemov"<< std::endl;
+   // std::cout << "mousemov"<< std::endl;
 
 
     CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
-    std::cout << "mm"<< std::endl;
+ //   std::cout << "mm"<< std::endl;
 
 
     if (escenaAjedrez == NULL) std::cout << "escena NULL"<< std::endl;
 
     if (escenaAjedrez->esModoCamara())   // yaw around the target, and pitch locally
     {
-        std::cout << "camara" << std::endl;
+  //      std::cout << "camara" << std::endl;
 
         escenaAjedrez->rotacionCamara(Ogre::Degree(mCursorPosition.d_x)); // con grados?
     }
@@ -134,7 +134,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 
     else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
     {
-        std::cout << "Z" << std::endl;
+   //     std::cout << "Z" << std::endl;
 
         // the further the camera is, the faster it moves
         escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
@@ -144,7 +144,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 
 
 
-    std::cout << "fin mousemoved" << std::endl;
+  //  std::cout << "fin mousemoved" << std::endl;
 
     //  mInputMan->injectMouseMove(arg); //CAMBIA NOMBRE POR MUEVECAMARA
 
@@ -206,6 +206,9 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         // } else mask ='B';
 
 
+
+
+
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
         escenaAjedrez->seleccionaFichaEnPosicion(mCursorPosition.d_x, mCursorPosition.d_y);
 
@@ -222,8 +225,12 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         //    {
 
         //  int* resutaldoParaQuepase = new int(9999);
+        std::cout << "BOTON DERECHO CON  CASILLA SOBREVOLADA"<< std::endl;
 
-        escenaAjedrez->aplicaCambio(NULL);
+
+        escenaAjedrez->tableroModelo->movimiento[0] = 24+(escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Columna + 2;
+        escenaAjedrez->tableroModelo->movimiento[1] = 24+(escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;
+
 
     }else if (id == OIS::MB_Middle)
     {

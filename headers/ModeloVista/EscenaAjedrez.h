@@ -64,7 +64,7 @@ public:
     Ogre::String columnas;
 
     //std::vector<Tablero*> HistorialMovimientos;
-
+    ModeloTablero* tableroModelo;
     Tablero* tablero;
     Ogre::SceneManager* mSceneMgr;
     Ogre::Camera* mCamera;
@@ -87,8 +87,9 @@ public:
     void empezarModoCamara();
     void acabarModoCamara();
 
-    bool aplicaCambio(int* movimiento);
+    bool aplicaCambio();
     bool seleccionaFichaEnPosicion(int posX, int posY);
+    Casilla* seleccionaCasillaEnPosicion(int posX, int posY);
     bool autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
     void esperaJugador();
 
@@ -102,7 +103,6 @@ public:
 private:   
 
 
-    ModeloTablero* tableroModelo;
     CEGUI::Window *ventanaEmergente;
 
 

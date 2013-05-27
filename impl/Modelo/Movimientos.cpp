@@ -5,7 +5,7 @@
 bool Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
 {
     // ModeloTablero nuevoTablero;
-    std::cout << "!!!!!!!!!!!!!!!!!!GENERA MOVI!!!!!!!!!!!!!!!!!!!   " << miTablero->turnoN<<std::endl;
+    std::cout << "!!!!!!!!!!!!!!!!!!GENERA MOVI!!!!!!!!!!!!!!!!!!!   " << miTablero->turnoN << " JAQUE? "<< testJaque<<std::endl;
 
     //BUSCA EN EL TABLERO LAS FICHAS Y SEGUN SU TIPO VA GENERANDO LOS MOVIMIENTOS
 
@@ -29,6 +29,12 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero, bool testJaque)
         for (int y = 2; y<10;y++)
         {
             //   std::cout << "FOR "<< miTablero->casillasInt[(i*12)+y] << std::endl;
+
+            if (miTablero->casillasInt[(i*12)+y] > 0)
+            {
+                std::cout << "!!!ENCUENTRA FICHA EN: " <<  (i*12)+y <<std::endl;
+
+            }
 
 
             // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
@@ -804,7 +810,7 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
 
         TableroMovido->alPaso = -1;
 
-        int fichaOrigen = miTablero.casillasInt[casOrigen];
+        int fichaOrigen = TableroMovido->casillasInt[casOrigen];
 
         std::cout << "casOrigen "<<casOrigen <<std::endl;
         std::cout << "casDestino "<<casDestino <<std::endl;
@@ -813,22 +819,22 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
 
         if (fichaOrigen == 1)
         {
-            if (miTablero.casillasInt[casDestino] == 0)
+            if (TableroMovido->casillasInt[casDestino] == 0)
             {
 
-                if ((miTablero.alPaso == casDestino-12
+                if ((TableroMovido->alPaso == casDestino-12
                      && (casOrigen == casDestino-13
                          || casOrigen == casDestino-11))
-                        ||( miTablero.alPaso == casDestino+12
+                        ||( TableroMovido->alPaso == casDestino+12
                             &&(casOrigen == casDestino+13
                                || casOrigen == casDestino+11 )))
                 {
-                    std::cout << "!!!!!!!!!COME AL PASO!!!!!!:" << miTablero.alPaso << std::endl;
+                    std::cout << "!!!!!!!!!COME AL PASO!!!!!!:" << TableroMovido->alPaso << std::endl;
                     std::cout << "ORIGEN:" << casOrigen<< std::endl;
 
                     std::cout << "DESTINO:" <<casDestino << std::endl;
 
-                    TableroMovido->casillasInt[miTablero.alPaso] == 0;
+                    TableroMovido->casillasInt[TableroMovido->alPaso] == 0;
                     TableroMovido->casillasInt[1] == 0;
                 }
             }
@@ -851,11 +857,13 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
         TableroMovido->movimiento[0] = casOrigen;
         TableroMovido->movimiento[1] = casDestino;
 
-          std::cout << "!!!!MIRA SI JAQUE" << std::endl;
+        std::cout << "!!!!MIRA SI JAQUE AL APLICAR EL MOVIMIENTO:" << std::endl;
+        if (testJaque) std::cout << "!!ESTA EN TESTJAQUE!!" << std::endl;
+
 
         if (evaluaJaque(TableroMovido->casillasInt, TableroMovido->turnoN))
         {
-            std::cout << "!!!!!!EVALUA JAQUE Y BORRA TABLERO!!!!!!:" <<std::endl;
+            std::cout << "!!!!!!HA ENCONTRADO JAQUE Y BORRA TABLERO!!!!!!:" <<std::endl;
 
             delete TableroMovido;
             return false;
@@ -866,7 +874,7 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
             {
                 std::cout << "!!!!AGREGA A VECTOR!!!!:"  <<std::endl;
 
-                TableroMovido->turnoN = !miTablero.turnoN;
+                //   TableroMovido->turnoN = !miTablero.turnoN;
 
                 miTablero.vectorMov.push_back(TableroMovido);
             }else delete TableroMovido;

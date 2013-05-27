@@ -171,9 +171,64 @@ bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {   
 
+    sys->injectTimePulse(evt.timeSinceLastFrame);
+
+
+
+    if(ventanaCerrada() /*|| EscenaAjedrez->getSalir()*/)
+    {
+        //std::cout << "VENTANA CERRADA"<< std::endl;
+
+        // shutdown = true;
+        return false;
+    }
+
+
+
+    //  if (capturaRaton){
+    //    }
+    // statUpdate(evt);
+
+
+    //  if (modelo->getTablero()->jugadores[modelo->getTablero()->getTurnoNegras()]->esHumano())
+    //   {
+
+   // std::cout << "f4"<< std::endl;
+
+    if (vista != NULL)
+    {
+        sleep(0.5);
+
+     //   std::cout << "f4bis"<< std::endl;
+
+        vista->capture();
+     //  std::cout << "f4bis2"<< std::endl;
+
+        if(modeloVista->getNumPantalla() > 0)
+        {
+            vista->mueveCamara(evt.timeSinceLastFrame);
+        }
+      //  std::cout << "f4bis3"<< std::endl;
+
+    }
+
+
+
+
+
+
+
+
+
+
+  //  std::cout << "f4bis3"<< std::endl;
+
+
 
     if( pantallaActual() == 0)
     {
+
+        sleep(0.5);
 
         if(modeloVista->getNumPantalla() > 0)
         {
@@ -198,6 +253,7 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
             // Load resources
             // loadResources();
         }
+
     }
 
     //
@@ -235,36 +291,13 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
         // }
     }
 
-    if(ventanaCerrada() /*|| EscenaAjedrez->getSalir()*/)
-    {
-        // shutdown = true;
-        return false;
-    }
 
+  //  std::cout << "f3"<< std::endl;
 
-    sys->injectTimePulse(evt.timeSinceLastFrame);
+//Ogre::LogManager::getSingletonPtr()->logMessage("*SI QUITO ESTO NO VA");
+  //std::cout << "SI QUITO ESTO NO VA"<< std::endl;
 
-    //  if (capturaRaton){
-    //    }
-    // statUpdate(evt);
-
-
-    //  if (modelo->getTablero()->jugadores[modelo->getTablero()->getTurnoNegras()]->esHumano())
-    //   {
-
-
-    if (vista != NULL)
-    {
-        vista->capture();
-
-        if(modeloVista->getNumPantalla() > 0)
-        {
-            vista->mueveCamara(evt.timeSinceLastFrame);
-        }
-    }
-
-    std::cout << "SI QUITO ESTO NO VA"<< std::endl;
-
+return true;
     // }
 }
 
@@ -320,7 +353,7 @@ void Ventana::destruyeVista()
     }
 
 
-    std::cout << "pasa"<< std::endl;
+  //  std::cout << "pasa"<< std::endl;
 
 
 }
@@ -426,15 +459,6 @@ bool Ventana::initOgre(void)
 {
 
 
-    if (vista == NULL)
-    {
-
-        vista = new MenuInicio(modeloVista, mRoot);
-
-
-    }
-    std::cout   << "   5 " << std::endl;
-
     mRoot->addFrameListener(this);
 
     //Register as a Window listener
@@ -446,16 +470,13 @@ bool Ventana::initOgre(void)
     vista->mMouse->setEventCallback(this);
     vista->mKeyboard->setEventCallback(this);
 
-    std::cout   << " 6 " << std::endl;
 
     // EmpiezaCEGUI();
 
 
     loadResources();
 
-    std::cout   << "   rendergui" << std::endl;
 
-    std::cout   << "   finrender" << std::endl;
 
 }
 
@@ -470,7 +491,7 @@ bool Ventana::resetOgre(void)
     destruyeVista();
 
 
-    std::cout   << "   reset1 " << std::endl;
+   // std::cout   << "   reset1 " << std::endl;
 
     //APAGA
     if (mRoot ){
@@ -479,14 +500,14 @@ bool Ventana::resetOgre(void)
         mRoot = NULL;
     }
 
-    std::cout   << "   reset2 " << std::endl;
+  //  std::cout   << "   reset2 " << std::endl;
 
     //ENCIENDE
     mRoot =new Ogre::Root("plugins.cfg");
     // mTimer = mRoot->getTimer();
 
 
-    std::cout   << "   reset3 " << std::endl;
+  //  std::cout   << "   reset3 " << std::endl;
 
 }
 

@@ -7,7 +7,7 @@ Jugador::Jugador() :
     nombre(""),
     miTablero(NULL)
 
-//esperaEleccion(false)
+  //esperaEleccion(false)
 
 
 
@@ -48,32 +48,32 @@ void Jugador::setNombre( std::string unNombre)
 int Jugador::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSel, int filaNueva, int colNueva)
 {
 
-    int* casillas = tablero->casillasInt;
+    tablero->casillasInt == Calculos::mueveTablero( tablero->casillasInt, filaSel,  colSel,  filaNueva,  colNueva);
 
-
-
-    casillas == Calculos::mueveTablero( casillas, filaSel,  colSel,  filaNueva,  colNueva);
-
-    std::cout << "cambiatur 6"<< std::endl;
+    std::cout << "cambiatur 6"<< tablero->turnoN<<std::endl;
     // tablero->cambiaTurno();
 
 
 
     //    if(tablero->turnoN) tablero->casillasInt = Movimientos::normalizaTablero(tablero->casillasInt);
 
-    std::cout << "cambiatur 7 "<< std::endl;
 
     //CAMBIA DE TURNO
-    tablero->turnoN = !tablero->turnoN;
+
+    ModeloTablero* turnoSiguiente = new ModeloTablero(*tablero);
+    //   tablero->turnoN = !tablero->turnoN;
     bool Jaque = false;
 
+    //   if (turnoNegras)tablero = Calculos::normalizaTablero(tablero);
 
 
-    if (tablero->turnoN)
-       casillas = Calculos::normalizaTablero(casillas);
+    std::cout << "cambiatur 7 "<< turnoSiguiente->turnoN<<std::endl;
 
-    if (Calculos::evaluaJaque(casillas, tablero->turnoN))
+    if (Calculos::evaluaJaque(turnoSiguiente->casillasInt, turnoSiguiente->turnoN))
     {//JAQUE AL REY
+
+        std::cout << "!!!!HA EVALUADO JAQUE AL MOVER FICHA" << std::endl;
+
 
         Jaque = true;
 
@@ -81,8 +81,9 @@ int Jugador::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSel, int
     std::cout << "!!!!!!pasa! " << std::endl;
 
     //MIRA TODOS LOS MOVIMIENTOS POSIBLES DEL TURNO CONTRARIO
-    if (Movimientos::verificaJaqueMate(tablero))
+    if (Movimientos::verificaJaqueMate(turnoSiguiente))
     {
+        delete turnoSiguiente;
         std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS PARA EL TURNO SIGUIENTE(JAQUE MATE O AHOGADO)!!!: " << std::endl;
 
         //SE EVALUA EL JAQUE Y SI EL REY NO ESTA EN JAQUE ES QUE ES AHOGADO
@@ -101,16 +102,20 @@ int Jugador::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSel, int
             return 3;
         }
 
-    }else if (Jaque)
-    {//Jaque asecas
-        return 4;
-    }
-    else
+    }else
     {
-        std::cout << "!!!!!!!!!!!!!!!!!!NO HAY JAQUE Y MUEVE BIEN!!!: " << std::endl;
+        delete turnoSiguiente;
+        if (Jaque)
+        {//Jaque asecas
+            return 4;
+        }
+        else
+        {
+            std::cout << "!!!!!!!!!!!!!!!!!!NO HAY JAQUE Y MUEVE BIEN!!!: " << std::endl;
 
-        //Mueve sin jaque
-        return 1;
+            //Mueve sin jaque
+            return 1;
+        }
     }
 
 

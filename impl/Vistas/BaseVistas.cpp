@@ -257,10 +257,10 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
         it != renderSystem->getConfigOptions().end(); it++)
     {
         std::pair<const std::basic_string<char>,Ogre::ConfigOption> CO = *it;
-        std::cout << "LAS OPCIONES: " <<CO.first<<" " <<CO.second.currentValue << std::endl;
+       // std::cout << "LAS OPCIONES: " <<CO.first<<" " <<CO.second.currentValue << std::endl;
     }
 
-    std::cout << " SALE DE GRAFICOS" << std::endl;
+  //  std::cout << " SALE DE GRAFICOS" << std::endl;
 
 
     return true;

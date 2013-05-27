@@ -23,7 +23,9 @@ class Calculos
 public:
     static bool evaluaJaque(int* casillasInt, bool turnoNegras);
     static int* mueveTablero( int* tablero, int filaSel, int colSel, int filaNueva, int colNueva );
-    static int* normalizaTablero(int* tablero);
+    void cambiaTurnoModeloTablero();
+
+ //   static int* normalizaTablero(int* tablero);
 private:
 
 

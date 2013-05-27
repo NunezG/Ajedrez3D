@@ -60,6 +60,9 @@ public:
     void setNodoCasillaSeleccionada(Casilla* nodo);
     void setNodoCasillaSobrevolada(Casilla* nodo);
 
+    void setNodoCasillaSeleccionada(int posicion);
+    void setNodoCasillaSobrevolada(int posicion);
+
     void actualizaTablero();
 
      int* traduceTablero();
@@ -76,6 +79,10 @@ public:
 
    int alPaso;
    void cambiaTurno();
+
+
+
+
 
 private:
 

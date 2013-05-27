@@ -29,10 +29,14 @@ void Modelo::creaJugador(bool blancas, bool humano)
     //HAY QUE CAMBIAR LO DE MODELOTABKERO PORQUE LOS JUGADORES ESTAN EN UN VECTOR Y ESE ES EL PROBLEMA
     if (humano)
     {
+        std::cout << "CREA UN JUGADOR HUMANO" << std::endl;
+
         jugadores.push_back(new JugadorHumano());
     }
     else
     {
+        std::cout << "CREA UN JUGADOR ARTIFICIAL" << std::endl;
+
         jugadores.push_back(new JugadorArtificial());
     }
     
