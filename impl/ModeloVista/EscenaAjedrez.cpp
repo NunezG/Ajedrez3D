@@ -322,7 +322,7 @@ void EscenaAjedrez::esperaJugador()
 
         std::cout << "NUEVO TABLERO QUE CORRESPONDE CON CAMBIO DE TURNO"<<std::endl;
 
-
+        apagaLayout();
         tableroModelo = new ModeloTablero();
 
         tableroModelo->casillasInt = tablero->traduceTablero();
@@ -491,11 +491,19 @@ bool EscenaAjedrez::aplicaCambio()
     {
 
 
-        std::cout << "tableroModelo->movimiento[0]: "<< tableroModelo->movimiento[0] << " tableroModelo->movimiento[0]/12: "<< tableroModelo->movimiento[0]/12 << " tableroModelo->movimiento[0]%12 " << tableroModelo->movimiento[0]%12 << std::endl;
+        std::cout << "tableroModelo->movimiento[0] en escenaajedrez al aplicar: "<< tableroModelo->movimiento[0] << " tableroModelo->movimiento[0]/12: "<< tableroModelo->movimiento[0]/12 << " tableroModelo->movimiento[0]%12 " << tableroModelo->movimiento[0]%12 << std::endl;
+        std::cout << "tableroModelo->movimiento[1]en escenaajedrez al aplicar: "<< tableroModelo->movimiento[1] << " tableroModelo->movimiento[1]/12: "<< tableroModelo->movimiento[1]/12 << " tableroModelo->movimiento[1]%12 " << tableroModelo->movimiento[1]%12 << std::endl;
+
+
 
         std::cout << "SELECT 1 FILA: "<< (filaSel*8)+colSel <<std::endl;
 
+
+
         tablero->setNodoCasillaSeleccionada((filaSel * 8) + colSel);
+
+
+        std::cout << "nombre: "<< tablero->getNodoCasillaSeleccionada()->getNombre()<<std::endl;
 
     //    seleccionaFichaEnPosicion(filaSel, colSel);
 
@@ -505,6 +513,7 @@ bool EscenaAjedrez::aplicaCambio()
 
         tablero->setNodoCasillaSobrevolada((filaNueva * 8) + colNueva);
 
+        std::cout << "nombre: "<< tablero->getNodoCasillaSobrevolada()->getNombre()<<std::endl;
 
 
         //tablero->setNodoCasillaSobrevolada(seleccionaCasillaEnPosicion(filaNueva, colNueva));
@@ -740,7 +749,8 @@ void EscenaAjedrez::apagaLayout()
     //CEGUI::System::getSingleton().getGUISheet()->cleanupChildren();
 
 
-    if (ventanaEmergente != NULL && ventanaEmergente->isVisible()){
+    if (ventanaEmergente != NULL && ventanaEmergente->isVisible())
+    {
         //   std::cout << "apagaavisos dentro"<< std::endl;
 
         ventanaEmergente->setVisible(false);

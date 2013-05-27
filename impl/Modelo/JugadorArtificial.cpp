@@ -22,17 +22,17 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 
     //ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
 
- //   ModeloTablero* tableroPadre = new ModeloTablero();
+    //   ModeloTablero* tableroPadre = new ModeloTablero();
 
     std::cout << "TUDRNO DE MITABLERO:" << tablero->turnoN<< std::endl;
 
-  //  tableroPadre->turnoN = tablero->turnoN;
+    //  tableroPadre->turnoN = tablero->turnoN;
 
     std::cout << "CONSTRUYE ARBOL CO ALPASO:" << tablero->alPaso<< std::endl;
-//VERIFICA ALPASO SI ES EN BASE 8 o 12
+    //VERIFICA ALPASO SI ES EN BASE 8 o 12
 
 
-  /*  int fila = (tablero->alPaso/8)+2;
+    /*  int fila = (tablero->alPaso/8)+2;
     int col= (tablero->alPaso%8)+2;
 
   //  tableroPadre->casillasInt = new int[144];
@@ -41,7 +41,7 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
     std::cout << "TRADUCIDO:" << tablero->alPaso<< std::endl;
 
     ////////////////////////////////////////////////////////////////////////////////////7
-  //  tableroPadre->casillasInt = tablero->casillasInt;
+    //  tableroPadre->casillasInt = tablero->casillasInt;
 
     //  tablero->Score = 2;
     /*
@@ -65,7 +65,7 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 
         //ACTIVA LA IA
 
-     /*   int filaOrigen = (tableroElegido->movimiento[0]/12)-2;
+        /*   int filaOrigen = (tableroElegido->movimiento[0]/12)-2;
         int colOrigen = (tableroElegido->movimiento[0]%12)-2;
 
 
@@ -75,11 +75,11 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 */
         //aplicaSeleccion(tablero, filaOrigen, colOrigen, filaDestino, colDestino);
 
-      //  tablero->casillasInt == Movimientos::mueveTablero(tablero->casillasInt, filaOrigen, colOrigen, filaDestino, colDestino);
+        //  tablero->casillasInt == Movimientos::mueveTablero(tablero->casillasInt, filaOrigen, colOrigen, filaDestino, colDestino);
 
 
 
-     //   tableroElegido = NULL;
+        //   tableroElegido = NULL;
 
     }else
     {
@@ -92,10 +92,10 @@ int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 
     //  std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
 
-   // delete tableroPadre;
+    // delete tableroPadre;
 
     //  std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
-  //  tableroPadre = NULL;
+    //  tableroPadre = NULL;
 
     //modulo = NULL;
 
@@ -199,11 +199,11 @@ bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
 
     tableroElegido = NULL;
 
-    int resultado = alphaBeta(tableroPadre,-50000, 50000, 2);
+    int resultado = alphaBeta(tableroPadre,-50000, 50000, 3);
 
     std::cout << "RESULTADO DE ALFABETA ANTES: "<< resultado<< std::endl;
 
-    if (tableroPadre->turnoN) resultado = -resultado;
+    resultado = -resultado;
 
     std::cout << "RESULTADO DE ALFABETA DESPUES: "<< resultado<< std::endl;
 
@@ -323,10 +323,8 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
 
         score = -alphaBeta(table->vectorMov.at(i), -beta,-alpha, depthleft - 1 );
         std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
-        table->Score = score;
 
         std::cout << "!!!!!!!!!!!!!!!!!SCORE: "<< score<< std::endl;
-
 
         if( score >= beta )
         {
@@ -336,13 +334,15 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
             std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
             //DEJA DE CALCULAR HEURISTICAS
             //  table->Score = score;
-            return beta;   //  fail hard beta-cutoff
+            table->Score = score;
+            return score;   //  fail hard beta-cutoff
 
-        }else if( score > alpha )
+        }
+        if( score > alpha )
         {
-            std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha <<std::endl;
+            std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
 
-
+            table->Score = score;
             alpha = score; // alpha acts like max in MiniMax
         } else std::cout << "!!!!!!!!!!!!!SCORE NO ES MAYOR QUE BETA NI ALFA:" << " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
 
@@ -354,7 +354,6 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
 
     // delete [] tab;
     //
-
 
     return alpha;
 }
@@ -383,6 +382,7 @@ int JugadorArtificial::evaluaTablero(const int casillasInt[144], bool turnoN)
     {
         for (int y = 2; y<10;y++)
         {
+            //Busca las fichas del mismo color del turno
             if (casillasInt[(i*12)+y] < 0)
             {
                 //if(casillasInt[(i*12)+y] == -6){
@@ -401,13 +401,14 @@ int JugadorArtificial::evaluaTablero(const int casillasInt[144], bool turnoN)
         }
 
     }
-    if(turnoN)
-    {
-        std::cout << "turno  negras suma: " << suma<< std::endl;
+    //if(!turnoN)
+    //{
+    //SI EL NODO TERMINAL ES TURNO BLANCAS SE INVIERTE LA SUMA, ASI LA SUMA POSITIVA ES LA DE LAS NEGRAS
+    //  std::cout << "turno  blancas suma: " << suma<< std::endl;
 
-        suma = -suma;
+    //   suma = -suma;
 
-    }
+    //}
 
     if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma<< " y turnoN:"<<turnoN   <<std::endl;
 

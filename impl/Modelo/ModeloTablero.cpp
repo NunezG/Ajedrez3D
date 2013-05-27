@@ -46,11 +46,8 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
 ModeloTablero::~ModeloTablero()
 {
 
-    std::cout  << "delete tablromovIN" << std::endl;
 
-    std::cout  << "vectorMov.empty()" <<vectorMov.empty()<<std::endl;
 
-    std::cout  << "vectorMov.size()" <<vectorMov.size()<<std::endl;
 
     if (!vectorMov.empty())
     {
@@ -67,7 +64,6 @@ ModeloTablero::~ModeloTablero()
     }
 
 
-    std::cout  << "fin" <<std::endl;
 
 }
 

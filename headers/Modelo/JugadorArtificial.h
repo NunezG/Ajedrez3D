@@ -26,7 +26,7 @@ private:
 
     int evaluaTablero(const int casillasInt[144], bool turnoN);
 
-    int alphaBeta(ModeloTablero* table,int alpha,int beta,const int depthleft );
+    int alphaBeta(ModeloTablero* table,const int alpha,const int beta,const int depthleft );
 
     short valorFicha(const tipoFicha tipo);
 
