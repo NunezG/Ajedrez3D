@@ -83,31 +83,22 @@ void BaseJuego::go(void)
     //if (!configureOgre())
     //      return;
 
-    punteroVentana->resetOgre();
-    sleep(0.5);
-
-    punteroVentana->vista = new MenuInicio(modeloVista, punteroVentana->mRoot);
-
-
-    punteroVentana->CEGUIResources();
-    sleep(0.5);
-
-    punteroVentana->MuestraMenu();
-    sleep(0.5);
-
-
-    punteroVentana->initOgre();
-    sleep(0.5);
-
-
-
     //UN BUCLE WHILE QUE MIRE UNA VARIABLE (EN ESCENAAJEDREZ?) PARA RESETEAR LA VENTANA Y QUE MODELOVISTA NO CAMBIE???
 
         while(!modeloVista->getApagar())
         {
+            punteroVentana->resetOgre();
+
+            punteroVentana->creaVista();
+
+            punteroVentana->CEGUIResources();
+
+            punteroVentana->initOgre();
+
+            punteroVentana->muestraVentana();
+
            // std::cout << "incia ffff" << std::endl;
 
-            sleep(0.5);
             punteroVentana->start();
            // std::cout << "acaba ffff" << std::endl;
         }

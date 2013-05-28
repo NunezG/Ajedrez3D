@@ -225,7 +225,7 @@ bool MenuInicio::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 {
-    modeloVista->setSalir(true);
+    modeloVista->setApagar(true);
     mWindow->setVisible(false);
     return true;
 }
@@ -234,6 +234,7 @@ bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 {
 
     modeloVista->cambiaPantalla(1);
+    mWindow->setVisible(false);
 
 
     //modoJuego = 1;
@@ -244,6 +245,8 @@ bool MenuInicio::botonJuegoSolo(const CEGUI::EventArgs &e)
 {
 
    modeloVista->cambiaPantalla(2);
+   mWindow->setVisible(false);
+
     return true;
 }
 
@@ -262,14 +265,12 @@ bool MenuInicio::botonVolver(const CEGUI::EventArgs &e)
 
 bool MenuInicio::botonAplicarCambios(const CEGUI::EventArgs &e)
 {
-
     for(int i=0; i<listaResoluciones->getItemCount(); i++)
     {
 
         CEGUI::ListboxItem* item = static_cast<CEGUI::ListboxItem*>(listaResoluciones->getListboxItemFromIndex(i));
 
       //  std::cout  << "item: " <<item->getText() <<std::endl;
-
 
         // If the item is selected then it maintains its selected colour
         if(item->isSelected()){
@@ -278,11 +279,11 @@ bool MenuInicio::botonAplicarCambios(const CEGUI::EventArgs &e)
             modeloVista->resolucion = item->getText().c_str();
             //  renderSystem->setConfigOption("Video Mode", modelo->resolucion);
 
-
         }
     }
-    ventanaConfig->hide();
 
+    ventanaConfig->hide();
+    modeloVista->setSalir(true);
 
     return true;
 }

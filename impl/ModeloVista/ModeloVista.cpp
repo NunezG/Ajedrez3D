@@ -44,6 +44,10 @@ void ModeloVista::cambiaPantalla(int pantallaNueva)
 
 
     setNumPantalla(pantallaNueva);
+
+    setSalir(true);
+
+
 }
 
 int ModeloVista::getNumPantalla()
@@ -59,7 +63,13 @@ void ModeloVista::setNumPantalla(int pantalla)
 
 void ModeloVista::setSalir(bool salir)
 {
-    mShutDown = salir;
+    reiniciar = salir;
+}
+
+
+bool ModeloVista::getSalir()
+{
+    return reiniciar;
 }
 
 //------------------------------------------------------------------------------------
@@ -81,6 +91,40 @@ bool ModeloVista::iniciaModeloAjedrez()
         modelo->creaJugador(false, false);
     }
   }
+
+
+
+
+//bool ModeloVista::reiniciaVista()
+//{
+
+
+  //  if(getNumPantalla() > 0)
+   // {
+        // iniciaModeloAjedrez();
+
+        //resetOgre();
+
+        //creaVista();
+
+        //initOgre();
+      //  modeloVista->preparaEscena();
+
+      //  escena->createViewports(vista->mWindow);
+
+       // CEGUIResources();
+
+      //  escena->createScene();
+
+        //   Ogre::WindowEventUtilities::addWindowEventListener(vista->mWindow, this);
+
+        //return false;
+        // Load resources
+        // loadResources();
+    //}
+
+
+//}
 
 
 

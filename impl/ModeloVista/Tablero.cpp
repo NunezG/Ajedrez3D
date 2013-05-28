@@ -296,7 +296,7 @@ void Tablero::creaPeones()
             // objeto->trasladar(70,70);
             posCasilla = (i/2)+(6*8);
         }
-        //  getHijo(posCasilla)->agregaHijo(objeto);
+         getHijo(posCasilla)->agregaHijo(objeto);
     }
 }
 /*

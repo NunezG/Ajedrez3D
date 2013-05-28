@@ -26,6 +26,8 @@ int getNumPantalla();
 void setNumPantalla(int pantalla);
 
 void setSalir(bool salir);
+bool getSalir();
+
 bool iniciaModeloAjedrez();
 
 EscenaAjedrez* escena;
@@ -38,6 +40,7 @@ void setApagar(bool apaga);
 
 void cambiaTurno();
 
+bool reiniciaVista();
 
 bool preparaEscena();
 
@@ -46,7 +49,7 @@ private:
 
 bool mShutDown;
 int mPantalla;
-
+bool reiniciar;
 };
 
 #endif

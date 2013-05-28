@@ -45,7 +45,7 @@ public:
     bool initOgre(void);
 
     //Pantallas
-    bool MuestraMenu();
+    bool muestraVentana();
 
     int pantallaActual();
 
