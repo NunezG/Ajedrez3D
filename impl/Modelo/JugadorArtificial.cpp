@@ -269,7 +269,7 @@ bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
 int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const int depthleft )
 {
 
-    std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
+    //std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
     //  std::cout << "!!!!!!!!!!!!!!!!!!NIIVEL: "<< depthleft<< std::endl;
 
     int score;
@@ -280,7 +280,7 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
         int ev = evaluaTablero(table->casillasInt, table->turnoN);
 
         table->Score = ev;
-        std::cout << "EVALUACION DEVUELVE: "<< table->Score<<" NIVEL"<< depthleft<< std::endl;
+        if (ev != 0)std::cout << "EVALUACION DEVUELVE: "<< table->Score<< std::endl;
 
 
         //   std::cout << "ENCUENTRA UN NODO TERMINAL: "<< table->Score<< std::endl;
@@ -309,7 +309,7 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
     //if (table->vectorMov != NULL){
     if (table->vectorMov.size() == 0)
     {
-        std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
+       // std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
 
         return 0;
 
@@ -319,19 +319,19 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
     {
 
 
-        std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
+       // std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
 
         score = -alphaBeta(table->vectorMov.at(i), -beta,-alpha, depthleft - 1 );
-        std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
+      //  std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
 
-        std::cout << "!!!!!!!!!!!!!!!!!SCORE: "<< score<< std::endl;
+       // std::cout << "!!!!!!!!!!!!!!!!!SCORE: "<< score<< std::endl;
 
         if( score >= beta )
         {
             //  table->Score =  score;
 
             // table->Score = score;
-            std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
+           // std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
             //DEJA DE CALCULAR HEURISTICAS
             //  table->Score = score;
             table->Score = score;
@@ -340,11 +340,11 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
         }
         if( score > alpha )
         {
-            std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
+          //  std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
 
             table->Score = score;
             alpha = score; // alpha acts like max in MiniMax
-        } else std::cout << "!!!!!!!!!!!!!SCORE NO ES MAYOR QUE BETA NI ALFA:" << " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
+        } //else std::cout << "!!!!!!!!!!!!!SCORE NO ES MAYOR QUE BETA NI ALFA:" << " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
 
     }
     // }else std::cout << "EL VECTOR ES NULL"<< std::endl;
@@ -410,7 +410,7 @@ int JugadorArtificial::evaluaTablero(const int casillasInt[144], bool turnoN)
 
     //}
 
-    if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma<< " y turnoN:"<<turnoN   <<std::endl;
+    //if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma<< " y turnoN:"<<turnoN   <<std::endl;
 
 
     return suma;

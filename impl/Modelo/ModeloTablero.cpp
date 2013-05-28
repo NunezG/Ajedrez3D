@@ -6,7 +6,7 @@ ModeloTablero::ModeloTablero() :
     //fichaMovida(""),
     //vectorMov(NULL),
     turnoN(false),
-    alPaso(0),
+    alPaso(-1),
     movimiento(NULL)
 {
     //vectorMov.clear();
@@ -18,7 +18,7 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
     // fichaMovida(""),
     //  vectorMov(NULL),
     turnoN(!original.turnoN),
-    alPaso(original.alPaso)
+    alPaso(-1)
 {
 
 

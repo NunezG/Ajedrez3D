@@ -14,17 +14,12 @@ bool Calculos::evaluaJaque(int* casillasInt, bool turnoNegras)
     int fichaCaballo = -2;
     int fichaTorre = -4;
 
-    std::cout << " dentro de jaque "<< std::endl;
-
-
-
     for (int i=0; i<144;i++)
     {
      //  if (casillasInt[i] != 99) std::cout << "jaque mira la casilla:  " << i<< " valor: "<< casillasInt[i] <<std::endl;
 
         if (casillasInt[i] == -fichaRey)
         {
-            std::cout << "posrey " << i<<std::endl;
 
             posRey = i;
             break;
