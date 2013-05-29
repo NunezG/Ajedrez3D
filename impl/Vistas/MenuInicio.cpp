@@ -125,8 +125,6 @@ bool MenuInicio::pantallaConfig()
 
     }
 
-
-
     //  std::string string1 = "240 x 480";
 
     listaElementos.push_back(new std::string("240 x 480"));
@@ -282,7 +280,13 @@ bool MenuInicio::botonAplicarCambios(const CEGUI::EventArgs &e)
         }
     }
 
+    ventanaConfig->getChild("Configuracion/VentanaConf")->getChild("Configuracion/VentanaConf/Jugadores")->getChild("Configuracion/VentanaConf/Jugadores/EditNegras")->getText().c_str();
+
+
+
+
     ventanaConfig->hide();
+    mWindow->setVisible(false);
     modeloVista->setSalir(true);
 
     return true;

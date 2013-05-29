@@ -13,7 +13,7 @@ public:
     JugadorArtificial();
 
     bool esHumano();
-    int* mueveFicha(ModeloTablero* tablero);
+    void mueveFicha(ModeloTablero* tablero);
     //void setVentana(Ventana* obj);
 
     int dificultad;
@@ -34,7 +34,7 @@ private:
     bool construyeArbol(ModeloTablero* tableroPadre);
 
 
-    ModeloTablero* tableroElegido;
+//    ModeloTablero* tableroElegido;
 //ModeloTablero* miTablero;
 
    // bool BorraArbol();

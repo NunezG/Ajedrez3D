@@ -47,6 +47,7 @@ bool preparaEscena();
 private:   
 
 
+
 bool mShutDown;
 int mPantalla;
 bool reiniciar;

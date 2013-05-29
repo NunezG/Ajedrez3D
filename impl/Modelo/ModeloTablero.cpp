@@ -7,8 +7,12 @@ ModeloTablero::ModeloTablero() :
     //vectorMov(NULL),
     turnoN(false),
     alPaso(-1),
-    movimiento(NULL)
+    nodoInicial(true)
 {
+    jugada = new int[2];
+    jugada[0] = -1;
+    jugada[1] = -1;
+
     //vectorMov.clear();
 }
 
@@ -19,12 +23,16 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
     //  vectorMov(NULL),
     turnoN(!original.turnoN),
     alPaso(-1)
+  , nodoInicial(false)
+
 {
 
 
     // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
     casillasInt = new int[144];
-    movimiento = new int[2];
+    jugada = new int[2];
+    jugada[0] = -1;
+    jugada[1] = -1;
 
     for(int i=0; i<144;i++)
     {
@@ -45,25 +53,21 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
 
 ModeloTablero::~ModeloTablero()
 {
-
-
-
-
     if (!vectorMov.empty())
     {
 
         for(int i = 0; i < vectorMov.size(); i++)
         {
-            delete vectorMov.at(i);
+            if (vectorMov.at(i) != NULL)
+            {
+                delete vectorMov.at(i);
 
-            vectorMov.at(i) = NULL;
+                vectorMov.at(i) = NULL;
+            }
         }
 
         //  numeroHijos=0;
         vectorMov.clear();
     }
 
-
-
 }
-

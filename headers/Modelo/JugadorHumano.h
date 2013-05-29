@@ -16,7 +16,7 @@ public:
 
 
     //void setVentana(Ventana* obj);
-    int* mueveFicha(ModeloTablero* tablero);
+    void mueveFicha(ModeloTablero* tablero);
 
 
    int autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, int colSel, int filaNueva, int colNueva, bool turnoNegras, int alPaso);

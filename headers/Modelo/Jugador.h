@@ -18,7 +18,7 @@ public:
 
    // ModeloTablero tableroInicial;
 
-    virtual int* mueveFicha(ModeloTablero* tablero) = 0;
+    virtual void mueveFicha(ModeloTablero* tablero) = 0;
 //bool esperaEleccion;
     //virtual void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada) = 0;
     int aplicaSeleccion(ModeloTablero* tablero,int filaSel,int colSel, int filaNueva, int colNueva);

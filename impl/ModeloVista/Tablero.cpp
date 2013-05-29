@@ -11,6 +11,7 @@ Tablero::Tablero() :
   , peonesPromocionados(0)
   ,    fichaSeleccionada(false)
   , rotacionCamara(0)
+
 {
 
 

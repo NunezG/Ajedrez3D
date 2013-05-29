@@ -21,9 +21,10 @@ JugadorHumano::~JugadorHumano()
 //ventana = obj;
 //}
 
-int* JugadorHumano::mueveFicha(ModeloTablero* tablero)
+void JugadorHumano::mueveFicha(ModeloTablero* tablero)
 {
 
+ //   std::cout << "HUMANO MUEVE FICHA " << std::endl;
 
 
     if (miTablero == NULL)

@@ -339,8 +339,8 @@ void EscenaAjedrez::esperaJugador()
       //     casillas = Calculos::normalizaTablero(casillas);
 
 
-        tableroModelo->movimiento = new int[2];
-        tableroModelo->movimiento[0] = -99;
+      //  tableroModelo->jugada = new int[2];
+       // tableroModelo->jugada[0] = -1;
     }
 
 
@@ -352,18 +352,18 @@ void EscenaAjedrez::esperaJugador()
         Jugador* jugador = modelo->jugadores.at(tableroModelo->turnoN);
         if(jugador != NULL)
         {
-            // std::cout  << "mueveficha " << std::endl;
+           //  std::cout  << "mueveficha " << std::endl;
 
             /* tableroModelo = */jugador->mueveFicha(tableroModelo);
 
-            // std::cout  << "miramov " << std::endl;
+         //   std::cout  << "miramov " << std::endl;
 
 
             //HAY RESULTADO
-            if(tableroModelo->movimiento[0] != -99)
+            if(tableroModelo->jugada[0] != -1)
             {
 
-                // std::cout  << "HA DETECTADO UN MOVIMIENTO EN EL BUCLE!!! " << std::endl;
+                std::cout  << "HA DETECTADO UN MOVIMIENTO EN EL BUCLE!!! " << std::endl;
 
 
                 aplicaCambio();
@@ -459,21 +459,21 @@ bool EscenaAjedrez::aplicaCambio()
 
     }else
     {*/
-    std::cout << "tableroModelo->movimiento[0] " << tableroModelo->movimiento[0]<< std::endl;
-    std::cout << "tableroModelo->movimiento[1] " << tableroModelo->movimiento[1]<< std::endl;
+    std::cout << "tableroModelo->jugada[0] " << tableroModelo->jugada[0]<< std::endl;
+    std::cout << "tableroModelo->jugada[1] " << tableroModelo->jugada[1]<< std::endl;
 
-    filaSel = (tableroModelo->movimiento[0]/12)-2;
-
-
+    filaSel = (tableroModelo->jugada[0]/12)-2;
 
 
-    colSel = (tableroModelo->movimiento[0]%12)-2;
 
-    filaNueva = (tableroModelo->movimiento[1]/12)-2;
 
-    colNueva = (tableroModelo->movimiento[1]%12)-2;
+    colSel = (tableroModelo->jugada[0]%12)-2;
 
-    std::cout << " ficha que se va a mover: " <<tableroModelo->casillasInt[tableroModelo->movimiento[0]]<< std::endl;
+    filaNueva = (tableroModelo->jugada[1]/12)-2;
+
+    colNueva = (tableroModelo->jugada[1]%12)-2;
+
+    std::cout << " ficha que se va a mover: " <<tableroModelo->casillasInt[tableroModelo->jugada[0]]<< std::endl;
 
 
     // }
@@ -491,8 +491,8 @@ bool EscenaAjedrez::aplicaCambio()
     {
 
 
-        std::cout << "tableroModelo->movimiento[0] en escenaajedrez al aplicar: "<< tableroModelo->movimiento[0] << " tableroModelo->movimiento[0]/12: "<< tableroModelo->movimiento[0]/12 << " tableroModelo->movimiento[0]%12 " << tableroModelo->movimiento[0]%12 << std::endl;
-        std::cout << "tableroModelo->movimiento[1]en escenaajedrez al aplicar: "<< tableroModelo->movimiento[1] << " tableroModelo->movimiento[1]/12: "<< tableroModelo->movimiento[1]/12 << " tableroModelo->movimiento[1]%12 " << tableroModelo->movimiento[1]%12 << std::endl;
+        std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
+        std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
 
 
 

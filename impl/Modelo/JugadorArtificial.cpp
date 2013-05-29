@@ -14,130 +14,26 @@ JugadorArtificial::~JugadorArtificial()
 }
 
 
-int* JugadorArtificial::mueveFicha(ModeloTablero* tablero)
+void JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 {
-    std::cout << "ARTIF MUEVE FICHA " << std::endl;
+  //  std::cout << "ARTIF MUEVE FICHA " << std::endl;
+  //  std::cout << "TUDRNO DE MITABLERO:" << tablero->turnoN<< std::endl;
 
-    // Modelo* modelo = Modelo::getSingletonPtr();
-
-    //ModuloIA* modulo = ModuloIA::getCEGUISingletonPtr();
-
-    //   ModeloTablero* tableroPadre = new ModeloTablero();
-
-    std::cout << "TUDRNO DE MITABLERO:" << tablero->turnoN<< std::endl;
-
-    //  tableroPadre->turnoN = tablero->turnoN;
-
-    std::cout << "CONSTRUYE ARBOL CO ALPASO:" << tablero->alPaso<< std::endl;
-    //VERIFICA ALPASO SI ES EN BASE 8 o 12
-
-
-    /*  int fila = (tablero->alPaso/8)+2;
-    int col= (tablero->alPaso%8)+2;
-
-  //  tableroPadre->casillasInt = new int[144];
-    tableroPadre->alPaso = ((fila*12)+col);
-    */
-    std::cout << "TRADUCIDO:" << tablero->alPaso<< std::endl;
-
-    ////////////////////////////////////////////////////////////////////////////////////7
-    //  tableroPadre->casillasInt = tablero->casillasInt;
-
-    //  tablero->Score = 2;
-    /*
-    for (int i = 0; i<144; i++)
-    {
-        tableroPadre->casillasInt[i] = listaCasillas[i];
-    }
-   */
     bool result = construyeArbol(tablero);
 
     std::cout  << "IFFF " << std::endl;
 
-    if (result == true && tableroElegido != NULL)
+    if (result == true && tablero->jugada[0] != -1)
     {
         std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
-        //    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[0]<< std::endl;
-        //    std::cout  << "MAS MOVIMIENTOSS: "<< modulo->tableroElegido->movimiento[1]<< std::endl;
-
-        //   mueveIA(tableroElegido->movimiento[0],tableroElegido->movimiento[1]);
-
-
-        //ACTIVA LA IA
-
-        /*   int filaOrigen = (tableroElegido->movimiento[0]/12)-2;
-        int colOrigen = (tableroElegido->movimiento[0]%12)-2;
-
-
-        int filaDestino = (tableroElegido->movimiento[1]/12)-2;
-        int colDestino = (tableroElegido->movimiento[1]%12)-2;
-
-*/
-        //aplicaSeleccion(tablero, filaOrigen, colOrigen, filaDestino, colDestino);
-
-        //  tablero->casillasInt == Movimientos::mueveTablero(tablero->casillasInt, filaOrigen, colOrigen, filaDestino, colDestino);
-
-
-
-        //   tableroElegido = NULL;
+        std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< tablero->jugada[0] <<   " Y 2 "<< tablero->jugada[1]<< std::endl;
 
     }else
     {
-
-
-
         std::cout  << "NO HAY FICHA EN CONTROL, SE SUPONE JAQUE MATE O AHOGADO " << std::endl;
 
     }
 
-    //  std::cout  << "DELETE TABLEROPADRE EN COTROL: "<<  std::endl;
-
-    // delete tableroPadre;
-
-    //  std::cout  << "NULEA MODULO EN COTROL: "<<  std::endl;
-    //  tableroPadre = NULL;
-
-    //modulo = NULL;
-
-    //   std::cout   << "BORRA TABLERO " << std::endl;
-
-
-    //  delete modulo->tableroElegido;
-
-
-    //   std::cout  << "NULLEA TABLERO " << std::endl;
-
-
-    //  modulo->tableroElegido = NULL;
-
-    //modulo->ejecutaMovimiento(mod);
-
-    //INICIA LA IA PARA CALCULAR LA FICHA A MOVER
-
-    //PRIMERO HAZLO CON EL TABLERO Y LUEGO TE OCUPAS DE LAS FICHAS
-    //EMPEZAMOS POR TODOS LOS MOVIMIENTOS DE TODOS LOS PEONES
-    //ModuloIA modulo;
-
-    // modelo->escena->tablero->movimientosPeon();
-
-
-
-    // tableroInicial.casillas = ...
-
-    //Recorre todas las fichas (negras) del tablero y crea un tablero para cada movimiento de cada ficha (estos seran lso hermanos)
-
-    //Recorre todas las fichas (blancas) de cada tablero creado y crea un tablero para cada movimiento de cada ficha
-
-
-    //    tableroInicial
-
-
-    std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< tableroElegido->movimiento[0] <<   " Y 2 "<< tableroElegido->movimiento[1]<< std::endl;
-
-
-    tablero->movimiento = tableroElegido->movimiento;
-
-    return tableroElegido->movimiento;
 
 }
 
@@ -169,48 +65,33 @@ bool JugadorArtificial::esHumano()
 bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
 {
 
-    /*
- *
-0 = Vacio
-99 = Fuera del tablero
-1 = (Blancas) Peon
-2 =(Blancas) Caballo
-3 =(Blancas) Alfil
-4 = (Blancas) Torre
-5 = (Blancas) Reina
-6 = (Blancas) Rey
 
--1 = (Negras) Peon
--2 =(Negras) Caballo
--3 =(Negras) Alfil
--4 = (Negras) Torre
--5 = (Negras) Reina
--6 = (Negras) Rey
-*/
-
-    //  std::cout << "BORRA VECTORMOV "<< std::endl;
+    std::cout << "CONST ARBOL"<< std::endl;
 
 
-    // tableroElegido->vectorMov->clear();
-    //std::cout << "BORRA TABLEROELEGIDO "<< std::endl;
-
-    // delete [] tableroElegido;
-    std::cout << "CONSTRUYE ARBOL PARA TURNO (ESNEGRA?):"<< tableroPadre->turnoN<< std::endl;
-
-    tableroElegido = NULL;
+    std::cout << "ORIGEN ANTES: "<< tableroPadre->jugada[0]<< std::endl;
+    std::cout << "DEST ANTES: "<< tableroPadre->jugada[1]<< std::endl;
 
     int resultado = alphaBeta(tableroPadre,-50000, 50000, 3);
 
+
+    std::cout << "FIN CONST ARBOL"<< std::endl;
+
+
+    std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< tableroPadre->jugada[0]<< std::endl;
+    std::cout << "DEST DE ALFABETA!!!!: "<< tableroPadre->jugada[1]<< std::endl;
+
+
+
     std::cout << "RESULTADO DE ALFABETA ANTES: "<< resultado<< std::endl;
 
-    resultado = -resultado;
+  //  resultado = -resultado;
 
     std::cout << "RESULTADO DE ALFABETA DESPUES: "<< resultado<< std::endl;
 
-
     std::cout << "NUMERO NODOS TABLERO INICIAL: "<< tableroPadre->vectorMov.size()<< std::endl;
 
-    if (tableroPadre->vectorMov.size() == 0)
+    if (tableroPadre->jugada[0] == -1)
     {
         std::cout << "NO HAY TABLEROS EN EL VECTOR POR LO QUE ES UN JAQUE MATE O UN AHOGADO, HABRA QUE DIFERENCIAR"<< std::endl;
 
@@ -218,46 +99,27 @@ bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
 
     }else
     {
-        ModeloTablero* tp = NULL;
+     /*   ModeloTablero* tp = NULL;
         for (int i = 0; i< tableroPadre->vectorMov.size(); i++)
         {
-
-            //  std::vector<ModeloTablero*> vecRef = tablero->vectorMov;
-
             tp = tableroPadre->vectorMov.at(i);
 
             std::cout << "EL ESCORE DE TP: "<< tp->Score<< std::endl;
 
             if ( tp->Score == resultado)
             {
-                std::cout << "ELEGIDO "<< std::endl;
+                std::cout << "TABLERO ELEGIDO"<< std::endl;
 
-                tableroElegido = tp;
-                //std::cout << tableroElegido->fichaMovida<< std::endl;
+                for(int i=2; i<10;i++)
+                    std::cout << tp->casillasInt[(i*12)+2]<<"    "<<tp->casillasInt[(i*12)+3]<<"    "<<tp->casillasInt[(i*12)+4]<<"    "<<tp->casillasInt[(i*12)+5]<<"    "<<tp->casillasInt[(i*12)+6]<<"    "<<tp->casillasInt[(i*12)+7]<<"    "<<tp->casillasInt[(i*12)+8]<<"    "<<tp->casillasInt[(i*12)+9]<<std::endl;
+
+                tableroPadre->movimiento = tp->movimiento;
+
                 break;
             }
 
         }
-        //  delete [] tp;
-
-        // std::cout << "acaba bucle"<< std::endl;
-
-        //  std::cout << "MOVIMIENTOSS: "<<      tableroElegido->movimiento[0] << std::endl;
-        //std::cout << "MOVIMIENTOSS: "<<      tableroElegido->movimiento[1] << std::endl;
-
-        // std::cout << "Turno NEGRAS del tablero (0 blancas, bien porque se elige un hijo del inicial): "<<  tableroElegido->turnoN  << std::endl;
-
-        std::cout << "TABLERO ELEGIDO"<< std::endl;
-
-
-        for(int i=2; i<10;i++){
-
-
-            std::cout << tableroElegido->casillasInt[(i*12)+2]<<"    "<<tableroElegido->casillasInt[(i*12)+3]<<"    "<<tableroElegido->casillasInt[(i*12)+4]<<"    "<<tableroElegido->casillasInt[(i*12)+5]<<"    "<<tableroElegido->casillasInt[(i*12)+6]<<"    "<<tableroElegido->casillasInt[(i*12)+7]<<"    "<<tableroElegido->casillasInt[(i*12)+8]<<"    "<<tableroElegido->casillasInt[(i*12)+9]<<std::endl;
-
-
-        }
-
+*/
     }
     std::cout << "retorno"<< std::endl;
 
@@ -269,7 +131,7 @@ bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
 int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const int depthleft )
 {
 
-    //std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
+   // std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
     //  std::cout << "!!!!!!!!!!!!!!!!!!NIIVEL: "<< depthleft<< std::endl;
 
     int score;
@@ -280,45 +142,31 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
         int ev = evaluaTablero(table->casillasInt, table->turnoN);
 
         table->Score = ev;
-        if (ev != 0)std::cout << "EVALUACION DEVUELVE: "<< table->Score<< std::endl;
+
+       if (ev != 0)std::cout << "EVALUACION DEVUELVE: "<< table->Score<< std::endl;
 
 
         //   std::cout << "ENCUENTRA UN NODO TERMINAL: "<< table->Score<< std::endl;
 
-        return table->Score;
+        //////////////////////////////se puede hacer delete table aqui???????????????????
+
+
+
+        return ev;
     }
 
-    //PROBLEMA: ¿Puede haber varios resultados identicos de la evaluacion? ¿entonces coge el primero o el ultimo?
-    //OTRO: el tran numero de nodos hijo (siblings?)
-
-    //MIRA A VER SI SE PUEDEN GENERAR LOS MOVIMIENTOS DE UNO EN UNO??
-
-    //  std::cout << "mira el vector"<< std::endl;
-
-
     Movimientos::generaMovimientos(table, false);
-    // if (table->vectorMov != NULL) std::cout << "TAMAÑO DEL VECTOR DESPUES de todo(lleno): "<<  table->vectorMov->size()<< std::endl;
 
-
-    //for (vector<ModeloTablero>::iterator it = vectorMov.begin(); it!=vectorMov.end(); ++it) {
-    //  cout << *it << endl;
-    //}
     //  std::cout << "!!!!!!!!!!!!!!!!!!TAMAÑO VECTOR DE TABLEROS HIJO: "<< table->vectorMov->size()<< std::endl;
 
-    //ModeloTablero* tab;
-    //if (table->vectorMov != NULL){
     if (table->vectorMov.size() == 0)
     {
        // std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
-
         return 0;
-
     }
 
     for (int i = 0; i < table->vectorMov.size();i++)
     {
-
-
        // std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
 
         score = -alphaBeta(table->vectorMov.at(i), -beta,-alpha, depthleft - 1 );
@@ -326,35 +174,74 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
 
        // std::cout << "!!!!!!!!!!!!!!!!!SCORE: "<< score<< std::endl;
 
+
+
+
+
+
+
+
         if( score >= beta )
         {
-            //  table->Score =  score;
-
-            // table->Score = score;
            // std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
             //DEJA DE CALCULAR HEURISTICAS
-            //  table->Score = score;
-            table->Score = score;
-            return score;   //  fail hard beta-cutoff
+            /////////////TAL VEZ se pueda hacer el delete del elemento de vectormov aqui??????
+          //  table->Score = score;
 
+
+
+
+         //   std::cout << "DELETE TABLE DEL VECTOR EN BETA "<< std::endl;
+    //problema: se borran los del primer nivel
+
+            delete table->vectorMov.at(i);
+            table->vectorMov.at(i) = NULL;
+        //   std::cout << "DELETE TABLE OK"<< std::endl;
+
+
+            return score;   //  fail hard beta-cutoff
         }
         if( score > alpha )
         {
-          //  std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
-
+           std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
             table->Score = score;
+            //LE PASA EL MOVIMIENTO A SU PADRE SOLO SI EL PADRE ES EL INICIAL
+
+
+
+            if (table->nodoInicial)
+            {
+                std::cout << "!!!!!!!!!!!!!!!!!! actualiza JUGADA en nodo INCIAL: "<< i << std::endl;
+
+
+
+                table->jugada = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada;
+
+
+                std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa ORIGEN: "<< table->jugada[0]  << std::endl;
+
+                std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa DESTINO: "<< table->jugada[1]   << std::endl;
+
+            }
+
+
+
+
             alpha = score; // alpha acts like max in MiniMax
-        } //else std::cout << "!!!!!!!!!!!!!SCORE NO ES MAYOR QUE BETA NI ALFA:" << " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
+        }
 
+
+
+       // std::cout << "DELETE TABLE DEL VECTOR AL FINAL "<< std::endl;
+//problema: se borran los del primer nivel
+
+        delete table->vectorMov.at(i);
+        table->vectorMov.at(i) = NULL;
+
+      // std::cout << "DELETE TABLE OK"<< std::endl;
     }
-    // }else std::cout << "EL VECTOR ES NULL"<< std::endl;
 
-
-    // std::cout << "!!!!!!!!!!!!!!!!!FIN ALFABETA"<< std::endl;
-
-    // delete [] tab;
-    //
-
+     table->vectorMov.clear();
     return alpha;
 }
 
@@ -364,19 +251,6 @@ int JugadorArtificial::evaluaTablero(const int casillasInt[144], bool turnoN)
     //   BlackCheck = false;
 
     //EMPIEZA CONTANDO LAS FICHAS DEL TABLERO Y HACIENDO UNA SUMA SIMPLE...
-
-
-    //EVALUA JAQUE PARA NEGRAS
-
-    //  BlackCheck = evaluaJaque(casillasInt, turnoN);
-
-
-    //   if(BlackCheck)
-    //   {
-    //      return 0;
-    //   std::cout << "EVALUA UN JAQUE COMO TERMINAL: "<< std::endl;
-
-    //  }
 
     for (int i = 2; i<10;i++)
     {
