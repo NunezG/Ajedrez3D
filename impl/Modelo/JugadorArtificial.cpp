@@ -72,7 +72,7 @@ bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
     std::cout << "ORIGEN ANTES: "<< tableroPadre->jugada[0]<< std::endl;
     std::cout << "DEST ANTES: "<< tableroPadre->jugada[1]<< std::endl;
 
-    int resultado = alphaBeta(tableroPadre,-70000, 70000, 4);
+    int resultado = alphaBeta(tableroPadre,-70000, 70000, 6);
 
 
     std::cout << "FIN CONST ARBOL"<< std::endl;
@@ -149,10 +149,10 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
         //   std::cout << "ENCUENTRA UN NODO TERMINAL: "<< table->Score<< std::endl;
 
         //////////////////////////////se puede hacer delete table aqui???????????????????
-      //  std::cout << "!!!!!borra en nodo final"<< std::endl;
+        //  std::cout << "!!!!!borra en nodo final"<< std::endl;
 
-     //   delete  table;
-       // table = NULL;
+        //   delete  table;
+        // table = NULL;
         //std::cout << "!!!!!fin"<< std::endl;
 
         return ev;
@@ -170,36 +170,40 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
 
     for (int i = 0; i < table->vectorMov.size();i++)
     {
+        bool betaBreak = false;
         // std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
 
-        score = -alphaBeta(table->vectorMov.at(i), -beta,-alpha, depthleft - 1 );
-        //  std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
-
-        //  std::cout << "!!!!!!!!!!!!!FOR"<< std::endl;
-
-
-        if( score >= beta )
+        if (!betaBreak)
         {
-            // std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
-            //DEJA DE CALCULAR HEURISTICAS
-            /////////////TAL VEZ se pueda hacer el delete del elemento de vectormov aqui??????
-            //  table->Score = score;
+            score = -alphaBeta(table->vectorMov.at(i), -beta,-alpha, depthleft - 1 );
+            //  std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
 
-            //problema: se borran los del primer nivel
-            //  delete table;
-            // table = NULL;
+            //  std::cout << "!!!!!!!!!!!!!FOR"<< std::endl;
 
 
-            delete table->vectorMov.at(i);
-            table->vectorMov.at(i) = NULL;
+            if( score >= beta )
+            {
+                // std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
+                //DEJA DE CALCULAR HEURISTICAS
+                /////////////TAL VEZ se pueda hacer el delete del elemento de vectormov aqui??????
+                //  table->Score = score;
 
-            return score;   //  fail hard beta-cutoff
-        }
-        else if( score > alpha )
-        {
-            //   std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
-            // table->Score = score;
-            //LE PASA EL MOVIMIENTO A SU PADRE SOLO SI EL PADRE ES EL INICIAL
+                //problema: se borran los del primer nivel
+                //  delete table;
+                // table = NULL;
+
+
+                delete table->vectorMov.at(i);
+                table->vectorMov.at(i) = NULL;
+
+                betaBreak = true;
+                //  fail hard beta-cutoff
+            }
+            else if( score > alpha )
+            {
+                //   std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
+                // table->Score = score;
+                //LE PASA EL MOVIMIENTO A SU PADRE SOLO SI EL PADRE ES EL INICIAL
 
 
                 //      std::cout << "!!nodo inicial"<< std::endl;
@@ -225,14 +229,15 @@ int JugadorArtificial::alphaBeta(ModeloTablero* table,int alpha,int beta,const i
                 //   std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa DESTINO: "<< table->jugada[1]   << std::endl;
 
 
-            // std::cout << "!!!!!!!!!!!!!!!!!! FIN actualiza alfa: "<< std::endl;
+                // std::cout << "!!!!!!!!!!!!!!!!!! FIN actualiza alfa: "<< std::endl;
 
-            alpha = score; // alpha acts like max in MiniMax
+                alpha = score; // alpha acts like max in MiniMax
+            }
         }
 
-        //problema: se borran los del primer nivel
+            //problema: se borran los del primer nivel
 
-        // std::cout << "!!FINFOR "  << std::endl;
+            // std::cout << "!!FINFOR "  << std::endl;
 
 
         delete table->vectorMov.at(i);
