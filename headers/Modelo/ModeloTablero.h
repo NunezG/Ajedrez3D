@@ -35,7 +35,7 @@ struct ModeloTablero
 
     std::vector<ModeloTablero*> vectorMov;
 
-    int Score;
+    //int Score;
     //  Casilla* casillas[64];
     int* casillasInt;
     int* jugada;

@@ -2,7 +2,7 @@
 
 ModeloTablero::ModeloTablero() :
     //numeroHijos(0),
-    Score(0),
+    //Score(0),
     //fichaMovida(""),
     //vectorMov(NULL),
     turnoN(false),
@@ -18,7 +18,7 @@ ModeloTablero::ModeloTablero() :
 
 ModeloTablero::ModeloTablero( const ModeloTablero& original ):
     //  numeroHijos(0),
-    Score(0),
+    //Score(0),
     // fichaMovida(""),
     //  vectorMov(NULL),
     turnoN(!original.turnoN),
@@ -53,13 +53,17 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
 
 ModeloTablero::~ModeloTablero()
 {
+
     if (!vectorMov.empty())
     {
+
 
         for(int i = 0; i < vectorMov.size(); i++)
         {
             if (vectorMov.at(i) != NULL)
             {
+
+
                 delete vectorMov.at(i);
 
                 vectorMov.at(i) = NULL;
@@ -68,6 +72,7 @@ ModeloTablero::~ModeloTablero()
 
         //  numeroHijos=0;
         vectorMov.clear();
+
     }
 
 }
