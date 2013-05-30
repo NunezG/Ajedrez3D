@@ -81,7 +81,7 @@ int Jugador::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSel, int
     std::cout << "!!!!!!pasa! " << std::endl;
 
     //MIRA TODOS LOS MOVIMIENTOS POSIBLES DEL TURNO CONTRARIO
-    if (Movimientos::generaMovimientos(turnoSiguiente, true))
+    if (Movimientos::pruebaJaqueMate(turnoSiguiente))
     {
         delete turnoSiguiente;
         std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS PARA EL TURNO SIGUIENTE(JAQUE MATE O AHOGADO)!!!: " << std::endl;

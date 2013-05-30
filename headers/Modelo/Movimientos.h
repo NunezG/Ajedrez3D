@@ -6,11 +6,20 @@
 class Movimientos : public Calculos
 {
 public:
-    static bool generaMovimientos(ModeloTablero* miTablero, bool testJaque);
+    static bool generaMovimientos(ModeloTablero* miTablero, tipoFicha tipo);
     static bool verificaJaqueMate(ModeloTablero* tablero);
+
+    static bool pruebaJaqueMate(ModeloTablero* miTablero);
+
 
 private:
     static bool aplicaMovimiento(ModeloTablero& miTablero,const int casOrigen,const int casDestino, bool testJaque);
+
+
+    static bool mueveFicha(ModeloTablero* miTablero, bool testJaque, int casilla, tipoFicha tipo);
+
+
+
 
   //  static bool miraJaque = false;
 
