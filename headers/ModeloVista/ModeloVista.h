@@ -6,7 +6,8 @@
 //#include "../Vistas/VistaAjedrez.h"
 
 
-
+#include "JugadorArtificial.h"
+#include "JugadorHumano.h"
 
 
 class  ModeloVista
@@ -18,8 +19,10 @@ public:
     //Singleton
     static ModeloVista* getSingletonPtr();
 Modelo* modelo;
+int numJugadores;
 
 void cambiaPantalla(int pantallaNueva);
+bool botonIzquierdo();
 
 
 int getNumPantalla();
@@ -29,6 +32,7 @@ void setSalir(bool salir);
 bool getSalir();
 
 bool iniciaModeloAjedrez();
+
 
 EscenaAjedrez* escena;
 std::string resolucion;
@@ -43,6 +47,12 @@ void cambiaTurno();
 bool reiniciaVista();
 
 bool preparaEscena();
+
+void creaJugador(bool blancas, bool humano);
+
+std::vector<Jugador*> jugadores;
+
+void miraCambios();
 
 private:   
 

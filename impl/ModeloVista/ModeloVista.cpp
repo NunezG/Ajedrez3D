@@ -4,17 +4,30 @@
 //-------------------------------------------------------------------------------------
 ModeloVista::ModeloVista(Modelo* modelo):
     modelo(modelo)
-    , mPantalla(0)
-   , escena(NULL)
-   , mShutDown(0)
+  , mPantalla(0)
+  , escena(NULL)
+  , mShutDown(0)
+  ,  numJugadores(0)
+
 
 {
+    resolucion = "800 x 600";
+
+
+
 }
 
 //-------------------------------------------------------------------------------------
 ModeloVista::~ModeloVista(void)
 {
-    resolucion = "800 x 600";
+
+
+    for (int i=0; i<jugadores.size();i++)
+    {
+        delete jugadores.at(i);
+        jugadores.at(i) = NULL;
+    }
+    jugadores.clear();
 
     // if (mInputMan) delete mInputMan;
 }
@@ -28,7 +41,7 @@ bool ModeloVista::getApagar()
 
 void ModeloVista::cambiaTurno()
 {
-   // escena->tablero->cambiaTurno();
+    // escena->tablero->cambiaTurno();
 
 }
 
@@ -75,57 +88,125 @@ bool ModeloVista::getSalir()
 //------------------------------------------------------------------------------------
 bool ModeloVista::iniciaModeloAjedrez()
 {
-    escena  = new EscenaAjedrez(modelo);
+    escena  = new EscenaAjedrez();
+
+
+
+    if (tableroModelo == NULL)
+    {
+        std::cout << "NUEVO TABLEROMODELO"<<std::endl;
+        escena->apagaVentanaEmergente();
+        tableroModelo = new ModeloTablero();
+
+        tableroModelo->casillasInt = tablero->traduceTablero();
+
+        tableroModelo->alPaso = tablero->getAlPaso();
+
+        tableroModelo->turnoN = tablero->getTurnoNegras();
+
+        std::cout << "NTURNO: "<< tableroModelo->turnoN <<std::endl;
+        //  if (tableroModelo->turnoN)
+        //     casillas = Calculos::normalizaTablero(casillas);
+
+        //  tableroModelo->jugada = new int[2];
+        // tableroModelo->jugada[0] = -1;
+    }
+
 
     // mR-aySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
-    modelo->creaJugador(true, true);
+    creaJugador(true, true);
 
     //jugadorActual = modelo->jugadores.at(0);
 
 
     if (getNumPantalla() == 1)
     {
-        modelo->creaJugador(false, true);
-    }else {
+        creaJugador(false, true);
+    }else
+        {
 
-        modelo->creaJugador(false, false);
+        creaJugador(false, false);
     }
-  }
+}
+
+
+//------------------------------------------------------------------------------------
+bool ModeloVista::iniciaJugadores()
+{
 
 
 
+
+}
 
 //bool ModeloVista::reiniciaVista()
 //{
 
 
-  //  if(getNumPantalla() > 0)
-   // {
-        // iniciaModeloAjedrez();
+//  if(getNumPantalla() > 0)
+// {
+// iniciaModeloAjedrez();
 
-        //resetOgre();
+//resetOgre();
 
-        //creaVista();
+//creaVista();
 
-        //initOgre();
-      //  modeloVista->preparaEscena();
+//initOgre();
+//  modeloVista->preparaEscena();
 
-      //  escena->createViewports(vista->mWindow);
+//  escena->createViewports(vista->mWindow);
 
-       // CEGUIResources();
+// CEGUIResources();
 
-      //  escena->createScene();
+//  escena->createScene();
 
-        //   Ogre::WindowEventUtilities::addWindowEventListener(vista->mWindow, this);
+//   Ogre::WindowEventUtilities::addWindowEventListener(vista->mWindow, this);
 
-        //return false;
-        // Load resources
-        // loadResources();
-    //}
+//return false;
+// Load resources
+// loadResources();
+//}
 
 
 //}
 
+
+
+
+
+
+//tal vez sea mejor una factoria de jugadores
+void ModeloVista::creaJugador(bool blancas, bool humano)
+{
+    int num = numJugadores;
+
+
+
+    //HAY QUE CAMBIAR LO DE MODELOTABKERO PORQUE LOS JUGADORES ESTAN EN UN VECTOR Y ESE ES EL PROBLEMA
+    if (humano)
+    {
+        std::cout << "CREA UN JUGADOR HUMANO" << std::endl;
+
+        jugadores.push_back(new JugadorHumano(escena));
+    }
+    else
+    {
+        std::cout << "CREA UN JUGADOR ARTIFICIAL" << std::endl;
+
+        jugadores.push_back(new JugadorArtificial(escena));
+    }
+
+    if (blancas)
+    {
+        jugadores.at(num)->jugadorNegras = 0;
+    }
+    else
+    {
+        jugadores.at(num)->jugadorNegras = 1;
+    }
+
+    numJugadores++;
+}
 
 
 
@@ -143,7 +224,7 @@ bool ModeloVista::preparaEscena()
     escena->createRayQuery();
     std::cout   << "   iniciamodelo4" << std::endl;
 
-   // escenaAjedrez->createCamera();
+    // escenaAjedrez->createCamera();
     //mInputMan->setTopSpeed(100);
 
     // Set default mipmap level (NB some APIs ignore this)
@@ -152,3 +233,34 @@ bool ModeloVista::preparaEscena()
 
     return true;
 }
+
+
+
+
+bool ModeloVista::botonIzquierdo()
+{
+    if(escena->tablero->getNodoCasillaSobrevolada() != NULL)
+    static_cast<Jugador*>(jugadores.at(escena->tablero->getTurnoNegras()))->activaMovimiento();
+
+}
+
+
+
+void ModeloVista::miraCambios()
+{
+
+    if (jugadores.size() == 2)
+    {
+        Jugador* jugador = jugadores.at(escena->tablero->getTurnoNegras());
+        if(jugador != NULL)
+        {
+            //  std::cout  << "mueveficha " << std::endl;
+            jugador->esperaJugador();
+
+
+        }
+
+
+    }
+}
+

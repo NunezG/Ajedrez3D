@@ -89,8 +89,6 @@ private:
 
     ObjetoOgre* objetoOgreAsociado;
 
-    static short CalculatePieceActionValue(int pieceType);
-    static short CalculatePieceValue(int pieceType);
 
 
 

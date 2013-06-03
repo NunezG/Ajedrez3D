@@ -409,7 +409,7 @@ void Tablero::promocionaPeon()
         //PROMOCIONA PEON
         Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
 
-        if(ficha->tipo_Ficha == Peon
+        if(ficha->tipo_Ficha == 1
                 && ((!getTurnoNegras()
                      && getNodoCasillaSobrevolada()->getPosicion().Fila == 7)
                     || (getTurnoNegras()
@@ -515,7 +515,7 @@ void Tablero::actualizaTablero()
 
       //  setNodoCasillaSobrevolada(casillaDestinoTemp);
 
-        if (ficha->tipo_Ficha ==Rey)
+        if (ficha->tipo_Ficha == 6)
         {
 
             int difCol = casillaDestinoTemp->getPosicion().Columna - nodoCasillaTemporal->getPosicion().Columna;
@@ -548,7 +548,7 @@ void Tablero::actualizaTablero()
 
         }
 
-        if (ficha->tipo_Ficha ==Peon)
+        if (ficha->tipo_Ficha == 1)
         {
 
 

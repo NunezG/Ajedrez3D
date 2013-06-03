@@ -44,7 +44,6 @@ public:
     virtual bool esMenuInicio() = 0;
 
    // EscenaAjedrez* escena;
-    bool jaqueMate();
 
     bool iniciaOIS();
     int getFPS();
@@ -62,6 +61,7 @@ public:
     OIS::InputManager* mInputManager;
 
     CEGUI::OgreRenderer* renderer;
+
 private:
 
  //bool salir;

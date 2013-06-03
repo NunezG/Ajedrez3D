@@ -234,12 +234,15 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
         //  std::cout << "f4bis3"<< std::endl;
 
+      //  vista->actualizaGUI();
 
-        if(pantallaActual() > 0)
-        {
+
+     //   if(pantallaActual() > 0)
+     //   {
           //  std::cout << "ESPERA" <<std::endl;
 
-            modeloVista->escena->esperaJugador();
+         //   modeloVista->escena->miraCambios();
+
 
             //  if (modelo->getTablero()->getNodoCasillaSobrevolada() != NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->seleccionada)
             //  {
@@ -248,7 +251,7 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
             // static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
             //  static_cast<JugadorHumano*>(modelo->jugadores.at(modelo->getTablero()->getTurnoNegras()))->sobreVuelaCasilla();
             // }
-        }
+      //  }
     }
     //  std::cout << "f4bis3"<< std::endl;
     //  if( pantallaActual() == 0)

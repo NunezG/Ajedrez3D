@@ -28,7 +28,6 @@ public:
 
     bool iniciaVentana();
 
-    bool muestraJaque();
 
     bool muestraInfo();
 

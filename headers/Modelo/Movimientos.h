@@ -4,16 +4,6 @@
 //#include "Calculos.h"
 #include "ModeloTablero.h"
 
-enum tipoFicha
-{
-    Vacio,
-    Peon,
-    Caballo,
-    Alfil,
-    Torre,
-    Reina,
-    Rey
-};
 
 class Movimientos
 {

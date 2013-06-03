@@ -97,10 +97,7 @@ void BaseJuego::go(void)
 
             punteroVentana->muestraVentana();
 
-           // std::cout << "incia ffff" << std::endl;
-
             punteroVentana->start();
-           // std::cout << "acaba ffff" << std::endl;
         }
 
     std::cout << "acaba del todo" << std::endl;

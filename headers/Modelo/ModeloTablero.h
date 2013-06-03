@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+
+
 /*
 *
 0 = Vacio
@@ -23,6 +25,18 @@
 -5 = (enemiga) Reina
 -6 = (enemiga) Rey
 */
+
+enum tipoFicha
+{
+    Vacio,
+    Peon,
+    Caballo,
+    Alfil,
+    Torre,
+    Reina,
+    Rey
+};
+
 
 struct ModeloTablero
 {   
@@ -54,6 +68,9 @@ struct ModeloTablero
     int* mueveTablero();
 
     bool evaluaJaque();
+
+
+
 
 private:
 

@@ -152,10 +152,6 @@ set(HDRS
         ./headers/Modelo/Modelo.h
         ./headers/Modelo/ModeloTablero.h
 
-        ./headers/Modelo/Jugador.h
-        ./headers/Modelo/JugadorHumano.h
-        ./headers/Modelo/JugadorArtificial.h
-
         ./headers/Modelo/ArbolBusqueda.h
 
 
@@ -176,6 +172,9 @@ set(HDRS
         ./headers/ModeloVista/Casilla.h
         ./headers/ModeloVista/EscenaAjedrez.h
         ./headers/ModeloVista/ModeloVista.h
+        ./headers/ModeloVista/Jugador.h
+        ./headers/ModeloVista/JugadorHumano.h
+        ./headers/ModeloVista/JugadorArtificial.h
 
 
 
@@ -214,9 +213,7 @@ set(SRCS
 
         ./impl/Modelo/Modelo.cpp
         ./impl/Modelo/ModeloTablero.cpp
-       ./impl/Modelo/Jugador.cpp
-      ./impl/Modelo/JugadorHumano.cpp
-       ./impl/Modelo/JugadorArtificial.cpp
+
        ./impl/Modelo/ArbolBusqueda.cpp
 
 
@@ -235,7 +232,9 @@ set(SRCS
        ./impl/ModeloVista/Casilla.cpp
         ./impl/ModeloVista/EscenaAjedrez.cpp
         ./impl/ModeloVista/ModeloVista.cpp
-
+       ./impl/ModeloVista/Jugador.cpp
+      ./impl/ModeloVista/JugadorHumano.cpp
+       ./impl/ModeloVista/JugadorArtificial.cpp
 
 
      #  ./impl/Modelo/ModeloMenu.cpp

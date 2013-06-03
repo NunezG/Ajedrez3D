@@ -22,7 +22,7 @@
 #include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 
 
-#include "../ModeloVista/Tablero.h"
+#include "Tablero.h"
 
 
 
@@ -34,11 +34,10 @@ class  EscenaAjedrez
 {
 public:
 
-    EscenaAjedrez(Modelo* mod);
+    EscenaAjedrez();
     ~EscenaAjedrez(void);
 
     void createScene();
-    void sobreVuelaCasilla();
 
     // void createCamera(void);
 
@@ -48,11 +47,9 @@ public:
 
     void setTarget(Ogre::SceneNode* target);
 
-    Casilla* casillaOcupada(Casilla* nodoCasilla);
+  //  Casilla* casillaOcupada(Casilla* nodoCasilla);
 
     void setSceneManager(/*Ogre::Root* mRoot*/);
-
-
 
     void DistanciaCamara(int distanciaRelativa);
 
@@ -64,7 +61,6 @@ public:
     Ogre::String columnas;
 
     //std::vector<Tablero*> HistorialMovimientos;
-    ModeloTablero* tableroModelo;
     Tablero* tablero;
     Ogre::SceneManager* mSceneMgr;
     Ogre::Camera* mCamera;
@@ -87,35 +83,29 @@ public:
     void empezarModoCamara();
     void acabarModoCamara();
 
-    bool aplicaCambio();
     bool seleccionaFichaEnPosicion(int posX, int posY);
     Casilla* seleccionaCasillaEnPosicion(int posX, int posY);
-    bool autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
-    void esperaJugador();
-
-    void apagaLayout();
+    std::string autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
 
 
-    void muestraLayout(std::string nombreLayout);
+    void apagaVentanaEmergente();
 
-    bool activaMovimiento();
+    void muestraVentanaEmergente(std::string nombreLayout);
+
 
 private:   
 
 
-    CEGUI::Window *ventanaEmergente;
-
-
     Ogre::RaySceneQuery *mRaySceneQuery;
-
-    Modelo* modelo;
-
+    //Modelo* modelo;
 
     Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
 
 
     void creaIluminacion();
     void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);
+
+    CEGUI::Window *ventanaEmergente;
 
 
     // bool turnoNegras;

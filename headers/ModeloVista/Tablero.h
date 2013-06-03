@@ -13,7 +13,10 @@
 #include "FichaPeon.h"
 #include "Casilla.h"
 
-#include "../Modelo/Modelo.h"
+
+
+
+
 
 
 enum enColummas{

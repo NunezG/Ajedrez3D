@@ -2,36 +2,30 @@
 #define __JugadorArtificial_
 
 #include "Jugador.h"
-//#include "../Modelo/ModuloIA.h"
+#include "../Modelo/ArbolBusqueda.h"
 
 
 class JugadorArtificial : public Jugador
 {
 public:
 
-    ~JugadorArtificial(void);
-    JugadorArtificial();
+    ~JugadorArtificial();
+    JugadorArtificial(EscenaAjedrez* miEscena);
 
     bool esHumano();
-    void mueveFicha(ModeloTablero* tablero);
+    void mueveFicha();
     //void setVentana(Ventana* obj);
 
     int dificultad;
 
    // void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 
+    bool activaMovimiento();
+    bool casillaSobrevolada(const std::string nombreCasilla);
 
 private:
     void calculaMovimiento();
 
-    int evaluaTablero(const int casillasInt[144], bool turnoN);
-
-    int alphaBeta(ModeloTablero* table,const int alpha,const int beta,const int depthleft );
-
-    short valorFicha(const tipoFicha tipo);
-
-
-    bool construyeArbol(ModeloTablero* tableroPadre);
 
 
 //    ModeloTablero* tableroElegido;

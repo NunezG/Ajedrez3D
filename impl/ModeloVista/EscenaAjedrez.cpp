@@ -2,10 +2,10 @@
 #include "../../headers/ModeloVista/EscenaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-EscenaAjedrez::EscenaAjedrez(Modelo* mod) :
+EscenaAjedrez::EscenaAjedrez() :
     //  mRoot(root),
-    modelo(mod)
-  , mCamera(0)
+    // modelo(mod)
+    mCamera(0)
   //, mInputMan(0)
   , tablero(0)
   , mTarget(0)
@@ -16,7 +16,6 @@ EscenaAjedrez::EscenaAjedrez(Modelo* mod) :
   , mGoingRight(false)
   , columnas("ABCDEFGH")
   , ventanaEmergente(0)
-  ,tableroModelo(0)
 
 
 {
@@ -32,9 +31,13 @@ EscenaAjedrez::~EscenaAjedrez(void)
 {
     mSceneMgr->destroyQuery(mRaySceneQuery);
 
+
+
     // if (mInputMan) delete mInputMan;
 
 }
+
+
 
 
 
@@ -57,12 +60,6 @@ void EscenaAjedrez::destruyeTablero()
 }
 
 
-void EscenaAjedrez::sobreVuelaCasilla()
-{
-
-
-    //  miTablero->getNodoCasillaSobrevolada()->seleccionada = false;
-}
 
 
 void EscenaAjedrez::setSceneManager()
@@ -310,55 +307,6 @@ void EscenaAjedrez::acabarModoCamara()
     mOrbiting = false;
 }
 
-void EscenaAjedrez::esperaJugador()
-{
-    //  std::cout << "espera"<<std::endl;
-    // std::cout << "jugadores.size()"<< modelo->jugadores.size()<<std::endl;
-    if (tableroModelo == NULL)
-    {
-        std::cout << "NUEVO TABLERO QUE CORRESPONDE CON CAMBIO DE TURNO"<<std::endl;
-        apagaLayout();
-        tableroModelo = new ModeloTablero();
-
-        tableroModelo->casillasInt = tablero->traduceTablero();
-
-        tableroModelo->alPaso = tablero->getAlPaso();
-
-        tableroModelo->turnoN = tablero->getTurnoNegras();
-
-        std::cout << "NTURNO: "<< tableroModelo->turnoN <<std::endl;
-        //  if (tableroModelo->turnoN)
-        //     casillas = Calculos::normalizaTablero(casillas);
-
-        //  tableroModelo->jugada = new int[2];
-        // tableroModelo->jugada[0] = -1;
-    }
-
-    if (modelo->jugadores.size() == 2)
-    {
-        Jugador* jugador = modelo->jugadores.at(tableroModelo->turnoN);
-        if(jugador != NULL)
-        {
-            //  std::cout  << "mueveficha " << std::endl;
-            /* tableroModelo = */jugador->mueveFicha(tableroModelo);
-            //   std::cout  << "miramov " << std::endl;
-            //HAY RESULTADO
-            if(tableroModelo->jugadaAutorizada)
-            {
-
-                std::cout  << "HA AUTORIZADO UN MOVIMIENTO EN EL BUCLE!!! " << std::endl;
-                aplicaCambio();
-                //  tableroModelo->movimiento[0] = -99;
-                // std::cout  << "BORRA tablromov" << std::endl;
-            }
-            // tablero->setNodoCasillaSeleccionada();
-            // tablero->setNodoCasillaSobrevolada();
-            //  tablero->actualizaTablero();
-        }
-    }
-    //   modelo->mueveJugador(tablero->getTurnoNegras());
-
-}
 //bool EscenaAjedrez::mueveTableroEscena()
 //{
 //MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
@@ -373,151 +321,12 @@ void EscenaAjedrez::esperaJugador()
 
 //}
 
-bool EscenaAjedrez::activaMovimiento()
-{
-    tableroModelo->jugadaAutorizada = true;
-}
-
-bool EscenaAjedrez::aplicaCambio()
-{
-    std::cout << "APLICA YA EL MOVIMIENTO DEFINITIVO" << std::endl;
-
-    if (tablero->getNodoCasillaSobrevolada() != NULL)
-        tablero->getNodoCasillaSobrevolada()->apagaCasilla();
-
-    tablero->fichaSeleccionada = false;
-
-    // ModeloTablero* tableroModelo = new ModeloTablero();
-
-    //  tableroModelo->casillasInt = tablero->traduceTablero();
-
-    //  tableroModelo->alPaso = tablero->getAlPaso();
-
-    //  tableroModelo->turnoN = tablero->getTurnoNegras();
-
-    int filaSel;
-    int colSel;
-
-    int filaNueva;
-    int colNueva;
-
-    /* if (tableroModelo->movimiento == NULL)
-    {
-
-        filaSel=tablero->getNodoCasillaSeleccionada()->getPosicion().Fila;
-
-        colSel = tablero->getNodoCasillaSeleccionada()->getPosicion().Columna;
-
-        filaNueva = tablero->getNodoCasillaSobrevolada()->getPosicion().Fila;
-
-        colNueva = tablero->getNodoCasillaSobrevolada()->getPosicion().Columna;
-
-    }else
-    {*/
-    std::cout << "tableroModelo->jugada[0] " << tableroModelo->jugada[0]<< std::endl;
-    std::cout << "tableroModelo->jugada[1] " << tableroModelo->jugada[1]<< std::endl;
-
-    filaSel = (tableroModelo->jugada[0]/12)-2;
-
-    colSel = (tableroModelo->jugada[0]%12)-2;
-
-    filaNueva = (tableroModelo->jugada[1]/12)-2;
-
-    colNueva = (tableroModelo->jugada[1]%12)-2;
-
-    std::cout << " ficha que se va a mover: " <<tableroModelo->casillasInt[tableroModelo->jugada[0]]<< std::endl;
-
-    // }
-
-    //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA
-    int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))-> aplicaSeleccion(tableroModelo);
-    std::cout << "ACTUALIZA TABLERO1" << std::endl;
-
-    delete tableroModelo;
-    //  std::cout  << "nullea tablromov" << std::endl;
-    tableroModelo = NULL;
-    //  std::cout  << "ACABA EL MOV!!! " << std::endl;
 
 
-    //JUGADOR ARTIFICIAL
-    if (tablero->getNodoCasillaSeleccionada() == NULL)
-    {
-        // std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
-        // std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
 
-        std::cout << "SELECT 1 FILA: "<< (filaSel*8)+colSel <<std::endl;
 
-        tablero->setNodoCasillaSeleccionada((filaSel * 8) + colSel);
 
-        std::cout << "nombre: "<< tablero->getNodoCasillaSeleccionada()->getNombre()<<std::endl;
 
-        //    seleccionaFichaEnPosicion(filaSel, colSel);
-
-        std::cout << "SELECT 2 FILA: "<< (filaNueva * 8) + colNueva <<std::endl;
-
-        tablero->setNodoCasillaSobrevolada((filaNueva * 8) + colNueva);
-
-        std::cout << "nombre: "<< tablero->getNodoCasillaSobrevolada()->getNombre()<<std::endl;
-
-        //tablero->setNodoCasillaSobrevolada(seleccionaCasillaEnPosicion(filaNueva, colNueva));
-    }
-    std::cout << "ACTUALIZA TABLERO2" << std::endl;
-
-    tablero->actualizaTablero();
-
-    if (resultado == 1 || resultado == 4)
-    {//FICHA MOVIDA
-
-        if (resultado == 4)
-        {//JAQUE AL REY
-            //JAQUE
-            if (!CEGUI::WindowManager::getSingleton().isWindowPresent("Jaque"))
-            {
-                std::cout << "JAQUE AL APLICAR CAMBIO" << std::endl;
-                ventanaEmergente = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueCEED.layout");
-                //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
-
-                CEGUI::System::getSingleton().getGUISheet()->addChildWindow(ventanaEmergente);
-            }else
-            {
-                ventanaEmergente = CEGUI::WindowManager::getSingleton().getWindow("Jaque");
-                ventanaEmergente->setVisible(true);
-            }
-        }
-        //   tablero->actualizaTablero();
-
-        tablero->rotacionCamara = Ogre::Real(180.0f);
-        std::cout << "cambia turno" << std::endl;
-
-        tablero->cambiaTurno();
-        std::cout << "sale" << std::endl;
-
-        return true;
-    }
-    else if (resultado == 2)
-    {//JAQUE MATE
-        std::cout << "JAQUE EVALUADO!!"<< std::endl;
-        CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueMateCEED.layout");
-        CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
-
-        return false;
-
-    }else if (resultado == 3)
-    {
-        //REY AHOGADO (TABLAS)
-        std::cout << "REY AHOGADO (TABLAS)!!"<< std::endl;
-
-        ventanaEmergente = CEGUI::WindowManager::getSingleton().loadWindowLayout("TablasCEED.layout");
-        CEGUI::System::getSingleton().getGUISheet()->addChildWindow(ventanaEmergente);
-    }
-    return false;
-}
-
-void EscenaAjedrez::muestraLayout(std::string nombreLayout)
-{
-    ventanaEmergente = CEGUI::WindowManager::getSingleton().getWindow(nombreLayout);
-    ventanaEmergente->setVisible(true);
-}
 
 bool EscenaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
 {
@@ -583,7 +392,9 @@ Casilla* EscenaAjedrez::seleccionaCasillaEnPosicion(int posX, int posY)
     // return false;
 }
 
-bool EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
+
+
+std::string EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
 {
     if (tablero->fichaSeleccionada)
     {
@@ -603,102 +414,51 @@ bool EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
         {
             Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
 
-            Casilla* casillaSobrevolada = static_cast<Casilla*>(tablero->getHijo(nodoSobrevolado->getName()));
 
-            Casilla* casillaSobreAnterior = tablero->getNodoCasillaSobrevolada();
-            apagaLayout();
 
-            std::cout << "autorizaCasillaSobrevolada 1111"<<   casillaSobrevolada->getNombre()  << std::endl;
-            std::cout << "autorizaCasillaSobrevolada ANTERIOR: "<<   casillaSobreAnterior  << std::endl;
+            return nodoSobrevolado->getName();
+        //    jugadores.at(tablero->getTurnoNegras())->
 
-            if (!casillaSobreAnterior || casillaSobrevolada->getNombre() != casillaSobreAnterior-> getNombre())
-            {
-                if (casillaSobreAnterior)
-                {
-                    casillaSobreAnterior->apagaCasilla();
-                    //tablero->setNodoCasillaSobrevolada(-1);
-                }
-
-                tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
-
-                std::cout << "entra"<< std::endl;
-
-                Casilla* nodoSeleccionado = tablero->getNodoCasillaSeleccionada();
-                std::cout << "NPMBRE SELECT: "<<  nodoSeleccionado->getNombre() << std::endl;
-
-                // elTablero = miTablero;
-                //   posicion seleccionado = nodoSeleccionado->getPosicion();
-                // Ogre::Vector3 nuevo = nodoSobrevolado->getNodoOgre()->getPosition();
-                std::cout << "entra 2"<< std::endl;
-
-                // if(diferencia.Fila != 0)   diferencia= diferencia;
-                // else diferencia= diferenciaZ;
-
-                Ficha *mFicha = static_cast<Ficha*>(nodoSeleccionado->getHijo(0));
-                tipoFicha tipo = tipoFicha(mFicha->tipo_Ficha);
-
-                std::cout << "entra3"<< std::endl;
-
-                //tablero->validacasilla();
-
-                //   tableroModelo->casillasInt = tablero->traduceTablero();
-                std::cout << "jugada inicia"<< std::endl;
-
-                std::cout << "jug1: " <<tableroModelo->jugada[0] << std::endl;
-                std::cout << "jug2: " <<nodoSeleccionado->getPosicion().Fila <<"jug2: "<<nodoSeleccionado->getPosicion().Columna << std::endl;
-                std::cout  <<"jug2: "<<nodoSeleccionado->getPosicion().Columna << std::endl;
-
-                tableroModelo->jugada[0] = 24+ (nodoSeleccionado->getPosicion().Fila*12) + nodoSeleccionado->getPosicion().Columna + 2;
-
-                std::cout << "jugada final"<< std::endl;
-                tableroModelo->jugada[1] = 24+ (casillaSobrevolada->getPosicion().Fila*12) + casillaSobrevolada->getPosicion().Columna + 2;
-
-                std::cout << "autorizaCasillaSobrevolada  2 222"<< std::endl;
-                //AUTORIZA
-                int resultado = static_cast<JugadorHumano*>(modelo->jugadores.at(tablero->getTurnoNegras()))->autorizaCasilla(tableroModelo,tipo);
-
-                std::cout << "autorizaCasillaSobrevolada   333"<< std::endl;
-
-                //  ventanaEmergente = NULL;
-                if (resultado == 1)
-                {
-                    std::cout << "CASILLA AUTORIZADA" << std::endl;
-                    tablero->getNodoCasillaSobrevolada()->iluminaCasilla();
-                }else
-                {
-                    tableroModelo->jugada[0] = -1;
-                    tableroModelo->jugada[1] = -1;
-
-                    if (resultado == 3)
-                    {
-                        std::cout << "JAQUE AL SOBREVOLAR CASILLA" << std::endl;
-
-                        //JAQUE
-                        if (!CEGUI::WindowManager::getSingleton().isWindowPresent("Jaque"))
-                        {
-                            ventanaEmergente = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueCEED.layout");
-                            //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
-
-                            CEGUI::System::getSingleton().getGUISheet()->addChildWindow(ventanaEmergente);
-                        }else
-                        {
-                            ventanaEmergente = CEGUI::WindowManager::getSingleton().getWindow("Jaque");
-                            ventanaEmergente->setVisible(true);
-                        }
-                    }
-                }
-            }else  std::cout << "NO COMPRUEBA YA QUE ES LA MISMA CASILLA"<< std::endl;
         }
+    }
+    return "";
+
+}
+
+
+
+
+void EscenaAjedrez::muestraVentanaEmergente(std::string nombreLayout)
+{
+    if (!CEGUI::WindowManager::getSingleton().isWindowPresent(nombreLayout))
+    {
+
+        ventanaEmergente = CEGUI::WindowManager::getSingleton().loadWindowLayout(nombreLayout+"CEED.layout");
+        //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
+
+        CEGUI::System::getSingleton().getGUISheet()->addChildWindow(ventanaEmergente);
+    }else
+    {
+        ventanaEmergente = CEGUI::WindowManager::getSingleton().getWindow(nombreLayout);
+        ventanaEmergente->setVisible(true);
     }
 }
 
-void EscenaAjedrez::apagaLayout()
+
+
+
+
+
+
+
+
+void EscenaAjedrez::apagaVentanaEmergente()
 {
     //CEGUI::System::getSingleton().getGUISheet()->cleanupChildren();
     if (ventanaEmergente != NULL && ventanaEmergente->isVisible())
     {
         //   std::cout << "apagaavisos dentro"<< std::endl;
         ventanaEmergente->setVisible(false);
+        CEGUI::WindowManager::getSingleton().destroyWindow(ventanaEmergente->getName());
     }
 }
-

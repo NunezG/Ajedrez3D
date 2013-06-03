@@ -38,13 +38,6 @@ bool VistaAjedrez::iniciaVentana()
     Ogre::LogManager::getSingletonPtr()->logMessage("***SALE DE INICIA VENTANA DE LA BASE Y EMPIEZA CEGUI**");
 }
 
-bool VistaAjedrez::muestraJaque()
-{
-    CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("JaqueCEED.layout");
-    //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
-
-    CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
-}
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
@@ -109,7 +102,23 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         // the further the camera is, the faster it moves
         escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
     }
-    else escenaAjedrez-> autorizaCasillaSobrevolada(mCursorPosition);
+    else {
+
+
+        std::string casilla = escenaAjedrez-> autorizaCasillaSobrevolada(mCursorPosition);
+
+        if (casilla != "")
+        {
+
+            if (static_cast<Jugador*>(modeloVista->jugadores.at(modeloVista->escena->tablero->getTurnoNegras()))->casillaSobrevolada(casilla))
+               modeloVista->escena->apagaVentanaEmergente();
+
+        }
+
+
+
+
+    }
 
   //  std::cout << "fin mousemoved" << std::endl;
 
@@ -173,15 +182,14 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         //  std::cout  << "COLUMNA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Columna <<std::endl;
 
     }
-    else if (id == OIS::MB_Right &&
-               escenaAjedrez->tablero->getNodoCasillaSobrevolada() != NULL)
+    else if (id == OIS::MB_Right)
     {
         //     if (modelo->jugadorActual->esHumano())
         //    {
         //  int* resutaldoParaQuepase = new int(9999);
         std::cout << "BOTON DERECHO CON  CASILLA SOBREVOLADA"<< std::endl;
 
-         escenaAjedrez->activaMovimiento();
+         modeloVista->botonIzquierdo();
 
        // escenaAjedrez->tableroModelo->jugada[0] = 24+(escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Columna + 2;
        // escenaAjedrez->tableroModelo->jugada[1] = 24+(escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;

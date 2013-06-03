@@ -4,44 +4,52 @@
 #include <vector>       // std::vector
 #include <iostream>
 #include <string>
-#include "Movimientos.h"
+
+#include "../Modelo/ModeloTablero.h"
+#include "EscenaAjedrez.h"
+
+#include "../Modelo/Movimientos.h"
 
 
 
 class Jugador
 {
 public:
-    ~Jugador(void);
-    Jugador();
+    ~Jugador();
+    Jugador(EscenaAjedrez* miEscena);
 
     virtual bool esHumano() = 0;
 
    // ModeloTablero tableroInicial;
 
-    virtual void mueveFicha(ModeloTablero* tablero) = 0;
+    virtual void mueveFicha() = 0;
 //bool esperaEleccion;
     //virtual void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada) = 0;
-    int aplicaSeleccion(ModeloTablero* tablero);
-
+    int aplicaSeleccion();
 
     std::string getNombre();
     void setNombre( std::string unNombre);
 
-
-
     bool jugadorNegras;
+    void esperaJugador();
+    ModeloTablero* tableroModelo;
+
+    bool aplicaCambio();
+
+    bool activaMovimiento();
+
+    bool casillaSobrevolada(const std::string nombreCasilla);
+
+
 
 protected:
-
-
-   ModeloTablero* miTablero;
+   EscenaAjedrez* escena;
+   Tablero* tablero;
 
     std::string nombre;
     int* resgistroTablero;
     int alPaso;
   //  bool turnoNegras;
-
-
 
 private:
 };
