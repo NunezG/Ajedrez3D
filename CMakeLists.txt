@@ -145,7 +145,7 @@ set(HDRS
 
 
 
-       ./headers/Modelo/Calculos.h
+   #    ./headers/Modelo/Calculos.h
        ./headers/Modelo/Autorizaciones.h
         ./headers/Modelo/Movimientos.h
 
@@ -155,6 +155,10 @@ set(HDRS
         ./headers/Modelo/Jugador.h
         ./headers/Modelo/JugadorHumano.h
         ./headers/Modelo/JugadorArtificial.h
+
+        ./headers/Modelo/ArbolBusqueda.h
+
+
        # ./headers/Modelo/ModeloMenu.h
 
       #  ./headers/Modelo/ModuloIA.h
@@ -204,7 +208,7 @@ set(SRCS
 
 
          #  MODELO
-       ./impl/Modelo/Calculos.cpp
+  #     ./impl/Modelo/Calculos.cpp
        ./impl/Modelo/Autorizaciones.cpp
        ./impl/Modelo/Movimientos.cpp
 
@@ -213,6 +217,9 @@ set(SRCS
        ./impl/Modelo/Jugador.cpp
       ./impl/Modelo/JugadorHumano.cpp
        ./impl/Modelo/JugadorArtificial.cpp
+       ./impl/Modelo/ArbolBusqueda.cpp
+
+
       #    ./impl/Modelo/ModuloIA.cpp
 
         # MODELOVISTA

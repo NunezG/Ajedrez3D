@@ -44,13 +44,16 @@ struct ModeloTablero
     int alPaso;
     bool turnoN;
     bool nodoInicial;
-
+    bool jugadaAutorizada;
     // Ficha* fichasNegras[16];
     // Ficha* fichasBlancas[16];
     // int casillas[8][8];
     //ModeloTablero* tableroHermano;
     //ModeloTablero* tableroHijo;
     //  std::string fichaMovida;
+    int* mueveTablero();
+
+    bool evaluaJaque();
 
 private:
 

@@ -25,6 +25,8 @@ void JugadorArtificial::mueveFicha(ModeloTablero* tablero)
 
     if (result == true && tablero->jugada[0] != -1)
     {
+        tablero->jugadaAutorizada = true;
+
         std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
         std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< tablero->jugada[0] <<   " Y 2 "<< tablero->jugada[1]<< std::endl;
 
@@ -59,9 +61,6 @@ bool JugadorArtificial::esHumano()
 //}
 
 
-
-
-
 bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
 {
 
@@ -72,7 +71,7 @@ bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
     std::cout << "ORIGEN ANTES: "<< tableroPadre->jugada[0]<< std::endl;
     std::cout << "DEST ANTES: "<< tableroPadre->jugada[1]<< std::endl;
 
-    int resultado = alphaBeta(tableroPadre,-70000, 70000, 5);
+    int resultado = alphaBeta(tableroPadre,-70000, 70000, 3);
 
 
     std::cout << "FIN CONST ARBOL"<< std::endl;
@@ -99,6 +98,10 @@ bool JugadorArtificial::construyeArbol(ModeloTablero* tableroPadre)
 
     }else
     {
+
+
+        tableroPadre->jugadaAutorizada = true;
+
         /*   ModeloTablero* tp = NULL;
         for (int i = 0; i< tableroPadre->vectorMov.size(); i++)
         {

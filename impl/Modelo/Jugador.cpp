@@ -45,10 +45,10 @@ void Jugador::setNombre( std::string unNombre)
 }
 
 
-int Jugador::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSel, int filaNueva, int colNueva)
+int Jugador::aplicaSeleccion(ModeloTablero* tablero)
 {
 
-    tablero->casillasInt == Calculos::mueveTablero( tablero->casillasInt, filaSel,  colSel,  filaNueva,  colNueva);
+    tablero->casillasInt == tablero->mueveTablero();
 
     std::cout << "cambiatur 6"<< tablero->turnoN<<std::endl;
     // tablero->cambiaTurno();
@@ -69,7 +69,7 @@ int Jugador::aplicaSeleccion(ModeloTablero* tablero, int filaSel,int colSel, int
 
     std::cout << "cambiatur 7 "<< turnoSiguiente->turnoN<<std::endl;
 
-    if (Calculos::evaluaJaque(turnoSiguiente->casillasInt, turnoSiguiente->turnoN))
+    if (turnoSiguiente->evaluaJaque())
     {//JAQUE AL REY
 
         std::cout << "!!!!HA EVALUADO JAQUE AL MOVER FICHA" << std::endl;

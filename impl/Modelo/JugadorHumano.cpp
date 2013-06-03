@@ -57,7 +57,7 @@ bool JugadorHumano::esHumano()
 }
 
 //return: 1 para autorizado, 2 para no autorizado, 3 para jaque
-int JugadorHumano::autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, int colSel, int filaNueva, int colNueva, bool turnoNegras, int alPaso)
+int JugadorHumano::autorizaCasilla(ModeloTablero* tablero, tipoFicha tipo)
 {
 
     //Autoriza la casilla sobrevolada para mover ficha (no mira si la casilla está ocupada)
@@ -67,7 +67,7 @@ int JugadorHumano::autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, in
     // tablero->casillasInt = tablero->traduceTablero();
 
 
-    autorizado = Autorizaciones::autoriza(tablero, tipo, filaSel, colSel, filaNueva, colNueva, turnoNegras, alPaso);
+    autorizado = Autorizaciones::autoriza(tablero, tipo);
 
     //  if (turnoNegras)tablero = Autorizaciones::normalizaTablero(tablero);
     std::cout << "autorizado en autorizacasilla: "<<autorizado << std::endl;
@@ -79,7 +79,7 @@ int JugadorHumano::autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, in
 
         //si esta ocupado y no es comestible
 
-        int* tableroInt = Autorizaciones::mueveTablero(tablero, filaSel, colSel, filaNueva, colNueva);
+        int* tableroInt = tablero->mueveTablero();
 
         //if(turnoNegras)Autorizaciones::normalizaTablero(tableroInt);
         // else return 0;
@@ -93,7 +93,7 @@ int JugadorHumano::autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, in
         std::cout << "evalua " << std::endl;
 
         //EVALUA JAQUE
-        if (!Autorizaciones::evaluaJaque(tableroInt, turnoNegras))
+        if (!tablero->evaluaJaque())
         {
 
 

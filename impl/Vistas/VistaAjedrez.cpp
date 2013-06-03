@@ -5,27 +5,18 @@
 VistaAjedrez::VistaAjedrez(ModeloVista* modeloV, Ogre::Root* mRoot) :
     BaseVistas(modeloV, mRoot, "Root Ajedrez")
   , textoOverlay("VACIO")
-
-
-
 {
     std::cout   << "   ESCNA EN VISTAAJEDREZ" << std::endl;
-
 
     //  modelo =Modelo::getSingletonPtr();
 
     //  mWindow = mRoot->initialise(true, "Root Ajedrez");
-
-
 
     // escenaAjedrez = EscenaAjedrez::getSingletonPtr();
     //  BaseVistas::iniciaOIS();
     escenaAjedrez = modeloV->escena;
     //escena
     std::cout   << "   creaTablero" << std::endl;
-
-
-
 
 }
 
@@ -35,23 +26,16 @@ VistaAjedrez::~VistaAjedrez(void)
 
 bool VistaAjedrez::muestraInfo()
 {
-
-
     CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("InfoAjedrezCEED.layout");
     //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
-
     CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
-
 }
 
 bool VistaAjedrez::iniciaVentana()
 {
     //tablero = escenaAjedrez->getTablero();
-
-
     Ogre::LogManager::getSingletonPtr()->logMessage("***SALE DE INICIA VENTANA DE LA BASE Y EMPIEZA CEGUI**");
-
 }
 
 bool VistaAjedrez::muestraJaque()
@@ -65,7 +49,6 @@ bool VistaAjedrez::muestraJaque()
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 {    
-
     if (arg.key == OIS::KC_A || arg.key == OIS::KC_LEFT)
     {
         escenaAjedrez->rotacionCamara(Ogre::Degree(1));
@@ -73,9 +56,7 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
         //   mCamera->moveRelative(Ogre::Vector3(-1,0,0));//yaw(Ogre::Degree(-1.25f));
     }else if (arg.key == OIS::KC_D || arg.key == OIS::KC_RIGHT)
     {
-
         escenaAjedrez->rotacionCamara(Ogre::Degree(-1));
-
 
         //  escenaAjedrez->mueveCamaraDerecha();
 
@@ -92,8 +73,6 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
     {
         // IMPLEMENTAR PAUSA
     }
-
-
     return true;
 }
 
@@ -102,25 +81,17 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
 
 bool VistaAjedrez::keyReleased( const OIS::KeyEvent &arg )
 { 
-
     escenaAjedrez->noMueveCamara();
-
-
     return true;
 }
 
 bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 {
-
-
-
-   // std::cout << "mousemov"<< std::endl;
-
+    std::cout << "mousemov"<< std::endl;
 
     CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
  //   std::cout << "mm"<< std::endl;
-
 
     if (escenaAjedrez == NULL) std::cout << "escena NULL"<< std::endl;
 
@@ -131,7 +102,6 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
         escenaAjedrez->rotacionCamara(Ogre::Degree(mCursorPosition.d_x)); // con grados?
     }
 
-
     else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
     {
    //     std::cout << "Z" << std::endl;
@@ -141,9 +111,6 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     }
     else escenaAjedrez-> autorizaCasillaSobrevolada(mCursorPosition);
 
-
-
-
   //  std::cout << "fin mousemoved" << std::endl;
 
     //  mInputMan->injectMouseMove(arg); //CAMBIA NOMBRE POR MUEVECAMARA
@@ -151,10 +118,12 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     return true;
 }
 
-bool VistaAjedrez::salir(){
+bool VistaAjedrez::salir()
+{
 
 }
-bool VistaAjedrez::esMenuInicio(){
+bool VistaAjedrez::esMenuInicio()
+{
 
     return false;
 }
@@ -162,27 +131,21 @@ bool VistaAjedrez::esMenuInicio(){
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::mueveCamara(float frecuencia)
 {   
-
-
-
     if (escenaAjedrez->tablero->rotacionCamara != Ogre::Degree(0))
     {
-
-
         Ogre::Degree rot = Ogre::Degree(Ogre::Real(80.0f) * frecuencia);
 
         //Rota la camara
-        if (rot > escenaAjedrez->tablero->rotacionCamara){
-
+        if (rot > escenaAjedrez->tablero->rotacionCamara)
+        {
             escenaAjedrez->rotacionCamara(escenaAjedrez->tablero->rotacionCamara);
             escenaAjedrez->tablero->rotacionCamara = Ogre::Real(0.0f);
-
-
-        }else {
+        }
+        else
+        {
             escenaAjedrez->rotacionCamara(rot);
             escenaAjedrez->tablero->rotacionCamara = escenaAjedrez->tablero->rotacionCamara - rot;
         }
-
     }
 
     return true;
@@ -190,8 +153,6 @@ bool VistaAjedrez::mueveCamara(float frecuencia)
 
 bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {  
-
-
     CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
     //int posx = arg.state.X.abs;   // Posicion del puntero
@@ -205,46 +166,34 @@ bool VistaAjedrez::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID 
         //        mask = 'N';  // Podemos elegir todo
         // } else mask ='B';
 
-
-
-
-
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
         escenaAjedrez->seleccionaFichaEnPosicion(mCursorPosition.d_x, mCursorPosition.d_y);
-
 
         // std::cout  << "FILA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Fila <<std::endl;
         //  std::cout  << "COLUMNA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Columna <<std::endl;
 
-
-
-    } else if (id == OIS::MB_Right &&
+    }
+    else if (id == OIS::MB_Right &&
                escenaAjedrez->tablero->getNodoCasillaSobrevolada() != NULL)
     {
         //     if (modelo->jugadorActual->esHumano())
         //    {
-
         //  int* resutaldoParaQuepase = new int(9999);
         std::cout << "BOTON DERECHO CON  CASILLA SOBREVOLADA"<< std::endl;
 
+         escenaAjedrez->activaMovimiento();
 
-        escenaAjedrez->tableroModelo->jugada[0] = 24+(escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Columna + 2;
-        escenaAjedrez->tableroModelo->jugada[1] = 24+(escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;
-
+       // escenaAjedrez->tableroModelo->jugada[0] = 24+(escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Columna + 2;
+       // escenaAjedrez->tableroModelo->jugada[1] = 24+(escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;
 
     }else if (id == OIS::MB_Middle)
     {
         escenaAjedrez->empezarModoCamara();
-
     }
     //  mInputMan->injectMouseDown(arg, id);
 
     return true;
 }
-
-
-
-
 
 bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
@@ -257,6 +206,3 @@ bool VistaAjedrez::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID
 
     return true;
 }
-
-
-

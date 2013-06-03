@@ -98,7 +98,7 @@ public:
 
     void muestraLayout(std::string nombreLayout);
 
-
+    bool activaMovimiento();
 
 private:   
 

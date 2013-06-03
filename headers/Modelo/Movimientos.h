@@ -1,9 +1,21 @@
 #ifndef __Movimientos_
 #define __Movimientos_
 //#include "Tablero.h"
-#include "Calculos.h"
+//#include "Calculos.h"
+#include "ModeloTablero.h"
 
-class Movimientos : public Calculos
+enum tipoFicha
+{
+    Vacio,
+    Peon,
+    Caballo,
+    Alfil,
+    Torre,
+    Reina,
+    Rey
+};
+
+class Movimientos
 {
 public:
     static bool generaMovimientos(ModeloTablero* miTablero, tipoFicha tipo);
@@ -11,9 +23,12 @@ public:
 
     static bool pruebaJaqueMate(ModeloTablero* miTablero);
 
+    static bool pruebaCamino(ModeloTablero* miTablero, int salto);
+
+ //   void cambiaTurnoModeloTablero();
 
 private:
-    static bool aplicaMovimiento(ModeloTablero& miTablero,const int casOrigen,const int casDestino, bool testJaque);
+    static bool aplicaMovimiento(ModeloTablero& miTablero,const int casOrigen,const int casDestino);
 
 
     static bool mueveFicha(ModeloTablero* miTablero, bool testJaque, int casilla, tipoFicha tipo);

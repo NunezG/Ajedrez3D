@@ -108,11 +108,11 @@ void Ventana::creaVista()
 
 bool Ventana::muestraVentana()
 {
-  if (modeloVista->getNumPantalla() == 0)
-   static_cast<MenuInicio*>(vista)->pantallaInicio();
+    if (modeloVista->getNumPantalla() == 0)
+        static_cast<MenuInicio*>(vista)->pantallaInicio();
     else modeloVista->escena->createScene();
 
-return true;
+    return true;
 }
 
 
@@ -202,20 +202,14 @@ bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
 //-------------------------------------------------------------------------------------
 bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {   
-
-
-
-
-
     if(ventanaCerrada() /*|| EscenaAjedrez->getSalir()*/)
     {
         //std::cout << "VENTANA CERRADA"<< std::endl;
-
         // shutdown = true;
         return false;
     }
 
- sys->injectTimePulse(evt.timeSinceLastFrame);
+    sys->injectTimePulse(evt.timeSinceLastFrame);
 
     //  if (capturaRaton){
     //    }
@@ -229,8 +223,6 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     if (vista != NULL)
     {
-        sleep(0.5);
-
         //   std::cout << "f4bis"<< std::endl;
 
         vista->capture();
@@ -242,31 +234,27 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
         //  std::cout << "f4bis3"<< std::endl;
 
+
+        if(pantallaActual() > 0)
+        {
+          //  std::cout << "ESPERA" <<std::endl;
+
+            modeloVista->escena->esperaJugador();
+
+            //  if (modelo->getTablero()->getNodoCasillaSobrevolada() != NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->seleccionada)
+            //  {
+            //  std::cout << "ILUMINA UNA CASILLA" <<std::endl;
+
+            // static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+            //  static_cast<JugadorHumano*>(modelo->jugadores.at(modelo->getTablero()->getTurnoNegras()))->sobreVuelaCasilla();
+            // }
+        }
     }
-
-
-
-
-
-
-
-
-
-
     //  std::cout << "f4bis3"<< std::endl;
-
-
-
-    if( pantallaActual() == 0)
-    {
-
-        sleep(0.5);
-
-
-    }
-
+    //  if( pantallaActual() == 0)
+    //  {
+    //  }
     //
-
     // else if(modelo->getNumPantalla() == 2)
     //{
     //   if (modelo->getTablero()->getTurnoNegras())
@@ -285,20 +273,6 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 
     //  }
-
-    else if(pantallaActual() > 0)
-    {
-
-        modeloVista->escena->esperaJugador();
-
-        //  if (modelo->getTablero()->getNodoCasillaSobrevolada() != NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->seleccionada)
-        //  {
-        //  std::cout << "ILUMINA UNA CASILLA" <<std::endl;
-
-        // static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
-        //  static_cast<JugadorHumano*>(modelo->jugadores.at(modelo->getTablero()->getTurnoNegras()))->sobreVuelaCasilla();
-        // }
-    }
 
 
     //  std::cout << "f3"<< std::endl;

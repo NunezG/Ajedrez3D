@@ -19,7 +19,7 @@ public:
     void mueveFicha(ModeloTablero* tablero);
 
 
-   int autorizaCasilla(int* tablero, tipoFicha tipo, int filaSel, int colSel, int filaNueva, int colNueva, bool turnoNegras, int alPaso);
+   int autorizaCasilla(ModeloTablero* tablero, tipoFicha tipo);
 
   //  void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 

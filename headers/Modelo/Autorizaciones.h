@@ -1,28 +1,28 @@
 #ifndef __Autorizaciones_
 #define __Autorizaciones_
 //#include "Tablero.h"
-#include "Calculos.h"
+#include "Movimientos.h"
 
 
 
-class Autorizaciones : public Calculos
+class Autorizaciones : public Movimientos
 {
 public:
 
   //  static void normalizaTablero(int* tablero);
-    static bool autoriza(int* miTablero,  tipoFicha tipo, int filaSel, int colSel,  int filaNueva, int colNueva, bool turnoNegras, int alPaso);
+    static bool autoriza(ModeloTablero* miTablero,  tipoFicha tipo);
 
 private:
 
 
-   static  bool autorizaRey(int filaDif, int colDif,  int filaNueva, int colNueva, int* tablero, bool turnoNegras);
-    static bool autorizaReina(int filaDif, int colDif,  int filaNueva, int colNueva,int* miTablero);
-    static bool autorizaPeon(int filaDif, int colDif,  int filaNueva, int colNueva,  int filaSel, int* miTablero, bool turnoNegras, int alPaso);
-   static  bool autorizaAlfil(int filaDif, int colDif,  int filaNueva,int colNueva, int* elTablero);
-   static  bool autorizaTorre(int filaDif, int colDif,  int filaNueva,int colNueva,int* elTablero);
-    static bool autorizaCaballo(int filaDif, int colDif);
+   static  bool autorizaRey(ModeloTablero* miTablero);
+    static bool autorizaReina(ModeloTablero* miTablero);
+    static bool autorizaPeon(ModeloTablero* miTablero);
+   static  bool autorizaAlfil(ModeloTablero* miTablero);
+   static  bool autorizaTorre(ModeloTablero* miTablero);
+    static bool autorizaCaballo(int Dif);
 
-    static bool verificaCamino(int distancia,  int filaNueva,int colNueva, int camino, int* casillas);
+  //  static bool verificaCamino(int distancia,  int filaNueva,int colNueva, int camino, int* casillas);
 
 
 
