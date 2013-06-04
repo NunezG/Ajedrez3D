@@ -2,12 +2,13 @@
 
 
 
-Jugador::Jugador(EscenaAjedrez* miEscena) :
+Jugador::Jugador(EscenaAjedrez* miEscena, Modelo* modelo) :
     jugadorNegras(false),
     nombre(""),
    // miTablero(0)
   //tableroModelo(modeloTablero)
    escena(miEscena)
+, modelo(modelo)
 
   //esperaEleccion(false)
 
@@ -18,11 +19,9 @@ tablero = escena->tablero;
 
 
 
-tableroModelo
 
 
 
-        =  escena->
 
 }
 
@@ -38,7 +37,7 @@ bool Jugador::activaMovimiento()
 
 
 
-    tableroModelo->jugadaAutorizada = true;
+    modelo->jugadaAutorizada = true;
 
 
 
@@ -87,7 +86,7 @@ void Jugador::esperaJugador()
             mueveFicha();
             //   std::cout  << "miramov " << std::endl;
             //HAY RESULTADO
-            if(tableroModelo->jugadaAutorizada)
+            if(modelo->jugadaAutorizada)
             {
 
                 std::cout  << "HA AUTORIZADO UN MOVIMIENTO EN EL BUCLE!!! " << std::endl;
@@ -126,25 +125,18 @@ void Jugador::setNombre( std::string unNombre)
 
 int Jugador::aplicaSeleccion()
 {
+    modelo->mueveTablero();
 
-    tableroModelo->mueveTablero();
-
-    std::cout << "cambiatur 6"<< tableroModelo->turnoN<<std::endl;
+    std::cout << "cambiatur 6"<< modelo->tableroModelo->turnoN<<std::endl;
     // tablero->cambiaTurno();
-
-
-
     //    if(tablero->turnoN) tablero->casillasInt = Movimientos::normalizaTablero(tablero->casillasInt);
 
-
     //CAMBIA DE TURNO
-
-    ModeloTablero* turnoSiguiente = new ModeloTablero(*tableroModelo);
+    ModeloTablero* turnoSiguiente = new ModeloTablero(*modelo->tableroModelo);
     //   tablero->turnoN = !tablero->turnoN;
     bool Jaque = false;
 
     //   if (turnoNegras)tablero = Calculos::normalizaTablero(tablero);
-
 
     std::cout << "cambiatur 7 "<< turnoSiguiente->turnoN<<std::endl;
 
@@ -152,8 +144,6 @@ int Jugador::aplicaSeleccion()
     {//JAQUE AL REY
 
         std::cout << "!!!!HA EVALUADO JAQUE AL MOVER FICHA" << std::endl;
-
-
         Jaque = true;
 
     }
@@ -203,9 +193,6 @@ int Jugador::aplicaSeleccion()
     std::cout << "FIN cambiatur 4 "<< std::endl;
 }
 
-
-
-
 bool Jugador::aplicaCambio()
 {
     std::cout << "APLICA YA EL MOVIMIENTO DEFINITIVO" << std::endl;
@@ -242,18 +229,18 @@ bool Jugador::aplicaCambio()
 
     }else
     {*/
-    std::cout << "tableroModelo->jugada[0] " << tableroModelo->jugada[0]<< std::endl;
-    std::cout << "tableroModelo->jugada[1] " << tableroModelo->jugada[1]<< std::endl;
+    std::cout << "tableroModelo->jugada[0] " << modelo->tableroModelo->jugada[0]<< std::endl;
+    std::cout << "tableroModelo->jugada[1] " << modelo->tableroModelo->jugada[1]<< std::endl;
 
-    filaSel = (tableroModelo->jugada[0]/12)-2;
+    filaSel = (modelo->tableroModelo->jugada[0]/12)-2;
 
-    colSel = (tableroModelo->jugada[0]%12)-2;
+    colSel = (modelo->tableroModelo->jugada[0]%12)-2;
 
-    filaNueva = (tableroModelo->jugada[1]/12)-2;
+    filaNueva = (modelo->tableroModelo->jugada[1]/12)-2;
 
-    colNueva = (tableroModelo->jugada[1]%12)-2;
+    colNueva = (modelo->tableroModelo->jugada[1]%12)-2;
 
-    std::cout << " ficha que se va a mover: " <<tableroModelo->casillasInt[tableroModelo->jugada[0]]<< std::endl;
+    std::cout << " ficha que se va a mover: " <<modelo->tableroModelo->casillasInt[modelo->tableroModelo->jugada[0]]<< std::endl;
 
     // }
 
@@ -261,9 +248,9 @@ bool Jugador::aplicaCambio()
     int resultado = aplicaSeleccion();
     std::cout << "ACTUALIZA TABLERO1" << std::endl;
 
-    delete tableroModelo;
+   // delete tableroModelo;
     //  std::cout  << "nullea tablromov" << std::endl;
-    tableroModelo = NULL;
+   // tableroModelo = NULL;
     //  std::cout  << "ACABA EL MOV!!! " << std::endl;
 
 

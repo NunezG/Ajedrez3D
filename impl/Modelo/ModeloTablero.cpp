@@ -8,7 +8,6 @@ ModeloTablero::ModeloTablero() :
     turnoN(false),
     alPaso(-1),
     nodoInicial(true)
-  , jugadaAutorizada(false)
 {
     jugada = new int[2];
     jugada[0] = -1;
@@ -25,8 +24,6 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
     turnoN(!original.turnoN),
     alPaso(-1)
   , nodoInicial(false)
-  , jugadaAutorizada(false)
-
 {
 
 
@@ -78,31 +75,6 @@ ModeloTablero::~ModeloTablero()
     }
 
 }
-
-
-
-
-int* ModeloTablero::mueveTablero()
-{
-
-  //  int* tableroTraducido = tablero;
-
-    // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
-
-   // int posFinal = 24+(filaNueva*12) + colNueva+2;
-
- //   int posInicial = 24+(filaSel*12) + colSel+2;
-
-
-    casillasInt[jugada[1]]= casillasInt[jugada[0]];
-    casillasInt[jugada[0]] = 0;
-
-
-
-
-  //  return tableroTraducido;
-}
-
 
 
 

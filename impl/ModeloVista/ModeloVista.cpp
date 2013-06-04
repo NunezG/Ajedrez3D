@@ -2,12 +2,12 @@
 #include "../../headers/ModeloVista/ModeloVista.h"
 
 //-------------------------------------------------------------------------------------
-ModeloVista::ModeloVista(Modelo* modelo):
-    modelo(modelo)
-  , mPantalla(0)
+ModeloVista::ModeloVista():
+   mPantalla(0)
   , escena(NULL)
   , mShutDown(0)
   ,  numJugadores(0)
+ , modelo(0)
 
 
 {
@@ -88,29 +88,28 @@ bool ModeloVista::getSalir()
 //------------------------------------------------------------------------------------
 bool ModeloVista::iniciaModeloAjedrez()
 {
+    std::cout << "pes" << std::endl;
+
+    modelo = Modelo::getSingletonPtr();
+
+
+
     escena  = new EscenaAjedrez();
 
+    std::cout << "escc" << std::endl;
 
 
-    if (tableroModelo == NULL)
-    {
-        std::cout << "NUEVO TABLEROMODELO"<<std::endl;
-        escena->apagaVentanaEmergente();
-        tableroModelo = new ModeloTablero();
+    std::cout << "initii" << std::endl;
 
-        tableroModelo->casillasInt = tablero->traduceTablero();
+    iniciaJugadores();
+}
 
-        tableroModelo->alPaso = tablero->getAlPaso();
 
-        tableroModelo->turnoN = tablero->getTurnoNegras();
+//------------------------------------------------------------------------------------
+bool ModeloVista::iniciaJugadores()
+{
 
-        std::cout << "NTURNO: "<< tableroModelo->turnoN <<std::endl;
-        //  if (tableroModelo->turnoN)
-        //     casillas = Calculos::normalizaTablero(casillas);
 
-        //  tableroModelo->jugada = new int[2];
-        // tableroModelo->jugada[0] = -1;
-    }
 
 
     // mR-aySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
@@ -127,12 +126,6 @@ bool ModeloVista::iniciaModeloAjedrez()
 
         creaJugador(false, false);
     }
-}
-
-
-//------------------------------------------------------------------------------------
-bool ModeloVista::iniciaJugadores()
-{
 
 
 
@@ -187,13 +180,13 @@ void ModeloVista::creaJugador(bool blancas, bool humano)
     {
         std::cout << "CREA UN JUGADOR HUMANO" << std::endl;
 
-        jugadores.push_back(new JugadorHumano(escena));
+        jugadores.push_back(new JugadorHumano(escena, modelo));
     }
     else
     {
         std::cout << "CREA UN JUGADOR ARTIFICIAL" << std::endl;
 
-        jugadores.push_back(new JugadorArtificial(escena));
+        jugadores.push_back(new JugadorArtificial(escena, modelo));
     }
 
     if (blancas)
@@ -215,6 +208,8 @@ bool ModeloVista::preparaEscena()
     std::cout   << "   iniciamodelo1" << std::endl;
 
 
+
+
     escena->setSceneManager();
     std::cout   << "   iniciamodelo2" << std::endl;
 
@@ -234,6 +229,35 @@ bool ModeloVista::preparaEscena()
     return true;
 }
 
+
+bool ModeloVista::copiaTablero()
+{
+
+
+    if (modelo->tableroModelo != NULL)
+    {
+
+        escena->apagaVentanaEmergente();
+        std::cout << "COPIA TABLEROMODELO"<<std::endl;
+
+        modelo->tableroModelo->casillasInt = escena->tablero->traduceTablero();
+
+        modelo->tableroModelo->alPaso = escena->tablero->getAlPaso();
+
+        modelo->tableroModelo->turnoN = escena->tablero->getTurnoNegras();
+        std::cout << "COPIA TABLEROMODELO"<<std::endl;
+
+        std::cout << "NTURNO: "<< modelo->tableroModelo->turnoN <<std::endl;
+        //  if (tableroModelo->turnoN)
+        //     casillas = Calculos::normalizaTablero(casillas);
+
+        //  tableroModelo->jugada = new int[2];
+        // tableroModelo->jugada[0] = -1;
+
+    }
+
+
+}
 
 
 

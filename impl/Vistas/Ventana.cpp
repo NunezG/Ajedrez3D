@@ -82,26 +82,39 @@ void Ventana::creaVista()
     if (modeloVista->getNumPantalla() == 0)
         vista = new MenuInicio(modeloVista, mRoot);
 
-    else  if (modeloVista->getNumPantalla() == 1)
+    else
+
     {
 
-        modeloVista->iniciaModeloAjedrez();
-        vista= new VistaAjedrez(modeloVista, mRoot);
 
-        modeloVista->preparaEscena();
+        if (modeloVista->getNumPantalla() == 1)
+        {
+            std::cout << "pantalla 1" << std::endl;
 
-        modeloVista->escena->createViewports(vista->mWindow);
 
-    }
+            modeloVista->iniciaModeloAjedrez();
+            std::cout << "pantalla 11" << std::endl;
 
-    else if (modeloVista->getNumPantalla() == 2) {
-        modeloVista->iniciaModeloAjedrez();
-        vista= new VistaAjedrezSolo(modeloVista, mRoot);
+            vista= new VistaAjedrez(modeloVista, mRoot);
 
-        modeloVista->preparaEscena();
+            modeloVista->preparaEscena();
 
-        modeloVista->escena->createViewports(vista->mWindow);
+            modeloVista->escena->createViewports(vista->mWindow);
 
+        }
+
+        else if (modeloVista->getNumPantalla() == 2)
+        {
+            std::cout << "pantalla 2" << std::endl;
+
+            modeloVista->iniciaModeloAjedrez();
+            vista= new VistaAjedrezSolo(modeloVista, mRoot);
+
+            modeloVista->preparaEscena();
+
+            modeloVista->escena->createViewports(vista->mWindow);
+
+        }
     }
 
 }
@@ -110,8 +123,10 @@ bool Ventana::muestraVentana()
 {
     if (modeloVista->getNumPantalla() == 0)
         static_cast<MenuInicio*>(vista)->pantallaInicio();
-    else modeloVista->escena->createScene();
-
+    else {
+        modeloVista->escena->createScene();
+        modeloVista->copiaTablero();
+}
     return true;
 }
 
@@ -234,24 +249,24 @@ bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
         //  std::cout << "f4bis3"<< std::endl;
 
-      //  vista->actualizaGUI();
+        //  vista->actualizaGUI();
 
 
-     //   if(pantallaActual() > 0)
-     //   {
-          //  std::cout << "ESPERA" <<std::endl;
+        //   if(pantallaActual() > 0)
+        //   {
+        //  std::cout << "ESPERA" <<std::endl;
 
-         //   modeloVista->escena->miraCambios();
+        //   modeloVista->escena->miraCambios();
 
 
-            //  if (modelo->getTablero()->getNodoCasillaSobrevolada() != NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->seleccionada)
-            //  {
-            //  std::cout << "ILUMINA UNA CASILLA" <<std::endl;
+        //  if (modelo->getTablero()->getNodoCasillaSobrevolada() != NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->seleccionada)
+        //  {
+        //  std::cout << "ILUMINA UNA CASILLA" <<std::endl;
 
-            // static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
-            //  static_cast<JugadorHumano*>(modelo->jugadores.at(modelo->getTablero()->getTurnoNegras()))->sobreVuelaCasilla();
-            // }
-      //  }
+        // static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
+        //  static_cast<JugadorHumano*>(modelo->jugadores.at(modelo->getTablero()->getTurnoNegras()))->sobreVuelaCasilla();
+        // }
+        //  }
     }
     //  std::cout << "f4bis3"<< std::endl;
     //  if( pantallaActual() == 0)

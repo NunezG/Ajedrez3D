@@ -10,7 +10,7 @@ class JugadorArtificial : public Jugador
 public:
 
     ~JugadorArtificial();
-    JugadorArtificial(EscenaAjedrez* miEscena);
+    JugadorArtificial(EscenaAjedrez* miEscena, Modelo* modelo);
 
     bool esHumano();
     void mueveFicha();

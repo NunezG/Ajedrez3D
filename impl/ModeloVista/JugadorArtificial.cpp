@@ -1,7 +1,7 @@
 #include "../../headers/ModeloVista/JugadorArtificial.h"
 
-JugadorArtificial::JugadorArtificial(EscenaAjedrez* miEscena) :
-    Jugador(miEscena)
+JugadorArtificial::JugadorArtificial(EscenaAjedrez* miEscena, Modelo* modelo) :
+    Jugador(miEscena, modelo)
   , dificultad(0)
 
 {
@@ -14,21 +14,21 @@ JugadorArtificial::~JugadorArtificial()
 }
 
 
-void JugadorArtificial::mueveFicha(ModeloTablero* miTablero)
+void JugadorArtificial::mueveFicha()
 {
     //  std::cout << "ARTIF MUEVE FICHA " << std::endl;
     //  std::cout << "TUDRNO DE MITABLERO:" << tablero->turnoN<< std::endl;
 
-    bool result = construyeArbol(miTablero);
+    bool result = modelo->construyeArbol();
 
     std::cout  << "IFFF " << std::endl;
 
-    if (result == true && miTablero->jugada[0] != -1)
+    if (result == true && modelo->tableroModelo->jugada[0] != -1)
     {
-        miTablero->jugadaAutorizada = true;
+        modelo->jugadaAutorizada = true;
 
         std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
-        std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< miTablero->jugada[0] <<   " Y 2 "<< miTablero->jugada[1]<< std::endl;
+        std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< modelo->tableroModelo->jugada[0] <<   " Y 2 "<< modelo->tableroModelo->jugada[1]<< std::endl;
 
     }else
     {
@@ -55,7 +55,7 @@ bool JugadorArtificial::activaMovimiento()
 
 
 
-    tableroModelo->jugadaAutorizada = true;
+    modelo->jugadaAutorizada = true;
 
 
 

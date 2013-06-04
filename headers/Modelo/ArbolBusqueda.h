@@ -13,6 +13,7 @@ public:
     ~ArbolBusqueda(void);
     ArbolBusqueda();
 
+    static int alphaBeta(ModeloTablero* table,const int alpha,const int beta,const int depthleft );
 
 
 
@@ -22,14 +23,12 @@ private:
     static short CalculatePieceActionValue(int pieceType);
 
 
-    int evaluaTablero(const int casillasInt[144], bool turnoN);
-
-    int alphaBeta(ModeloTablero* table,const int alpha,const int beta,const int depthleft );
-
-    short valorFicha(const tipoFicha tipo);
+    static int evaluaTablero(const int casillasInt[144], bool turnoN);
 
 
-    bool construyeArbol(ModeloTablero* tableroPadre);
+    static short valorFicha(const tipoFicha tipo);
+
+
 
 };
 

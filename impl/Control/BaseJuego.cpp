@@ -74,7 +74,7 @@ void BaseJuego::go(void)
     modelo = Modelo::getSingletonPtr();
     sleep(0.5);
 
-    modeloVista = new ModeloVista(modelo);
+    modeloVista = new ModeloVista();
     sleep(0.5);
 
     punteroVentana = new Ventana(modeloVista);
@@ -87,15 +87,23 @@ void BaseJuego::go(void)
 
         while(!modeloVista->getApagar())
         {
+            std::cout << "resetOgre" << std::endl;
+
             punteroVentana->resetOgre();
+            std::cout << "creaVista" << std::endl;
 
             punteroVentana->creaVista();
+            std::cout << "CEGUIResources" << std::endl;
 
             punteroVentana->CEGUIResources();
+            std::cout << "initOgre" << std::endl;
 
             punteroVentana->initOgre();
+            std::cout << "muestraVentana" << std::endl;
+
 
             punteroVentana->muestraVentana();
+            std::cout << "start" << std::endl;
 
             punteroVentana->start();
         }

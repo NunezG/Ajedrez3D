@@ -10,7 +10,7 @@ class JugadorHumano : public Jugador
 public:
 
     ~JugadorHumano();
-    JugadorHumano(EscenaAjedrez* miEscena);
+    JugadorHumano(EscenaAjedrez* miEscena, Modelo* modelo);
 
     bool esHumano();
 
@@ -19,11 +19,9 @@ public:
     void mueveFicha();
 
 
-   int autorizaCasilla(ModeloTablero* tablero, tipoFicha tipo);
 
   //  void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 
-   bool activaMovimiento();
    bool casillaSobrevolada(const std::string nombreCasilla);
 
 

@@ -1,7 +1,7 @@
 #ifndef __ModeloVista_
 #define __ModeloVista_
 
-#include "../Modelo/Modelo.h"
+#include "../Modelo/ModeloTablero.h"
 #include "EscenaAjedrez.h"
 //#include "../Vistas/VistaAjedrez.h"
 
@@ -13,12 +13,11 @@
 class  ModeloVista
 {
 public:
-    ModeloVista(Modelo* modelo);
+    ModeloVista();
     ~ModeloVista(void);
 
     //Singleton
     static ModeloVista* getSingletonPtr();
-Modelo* modelo;
 int numJugadores;
 
 void cambiaPantalla(int pantallaNueva);
@@ -32,12 +31,14 @@ void setSalir(bool salir);
 bool getSalir();
 
 bool iniciaModeloAjedrez();
+bool iniciaJugadores();
 
-
+Modelo* modelo;
 EscenaAjedrez* escena;
 std::string resolucion;
 bool getApagar();
 void setApagar(bool apaga);
+bool copiaTablero();
 
 
 //Jugador* jugadorActual;

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-#include "../Modelo/ModeloTablero.h"
+#include "../Modelo/Modelo.h"
 #include "EscenaAjedrez.h"
 
 #include "../Modelo/Movimientos.h"
@@ -16,7 +16,7 @@ class Jugador
 {
 public:
     ~Jugador();
-    Jugador(EscenaAjedrez* miEscena);
+    Jugador(EscenaAjedrez* miEscena, Modelo* modelo);
 
     virtual bool esHumano() = 0;
 
@@ -32,7 +32,9 @@ public:
 
     bool jugadorNegras;
     void esperaJugador();
-    ModeloTablero* tableroModelo;
+    Modelo* modelo;
+
+
 
     bool aplicaCambio();
 
