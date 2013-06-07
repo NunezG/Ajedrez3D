@@ -5,12 +5,14 @@
 Tablero::Tablero() :
     ObjetoOgre("Tablero")
   //,alPaso(0)
-  , turnoNegras(false)
+  //
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , peonesPromocionados(0)
   ,    fichaSeleccionada(false)
   , rotacionCamara(0)
+  , turnoNegras(false)
+
 
 {
 
@@ -26,12 +28,21 @@ Tablero::~Tablero()
 
 
 
-Casilla* Tablero::getNodoCasillaSeleccionada(){
+
+bool Tablero::getTurnoNegras()
+{
+    return turnoNegras;
+}
+
+
+Casilla* Tablero::getNodoCasillaSeleccionada()
+{
     return _selectedNode;
 
 }
 
-Casilla* Tablero::getNodoCasillaSobrevolada(){
+Casilla* Tablero::getNodoCasillaSobrevolada()
+{
 
     return _nodoNuevo;
 }
@@ -47,13 +58,6 @@ void Tablero::setAlPaso(int casilla)
     alPaso = casilla;
 
 }
-
-
-bool Tablero::getTurnoNegras(){
-    return turnoNegras;
-}
-
-
 
 void Tablero::setNodoCasillaSeleccionada(Casilla* nodo)
 {
@@ -376,90 +380,6 @@ bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
 
 
 
-void Tablero::cambiaTurno()
-{
-
-
-
-
-    //CAMBIA TURNO
-    //NOTIFICAR A LAS VISTAS?? AL FUNCIONAR EN BUCLE EN REALIDAD NO HACE FALTA NOTIFICAR
-    //COMPRUEBA JAQUE MATE
-
-    promocionaPeon();
-
-
-
-    setNodoCasillaSobrevolada(-1);
-    setNodoCasillaSeleccionada(-1);
-
-
-    std::cout << "fin cambia "<< std::endl;
-
-    turnoNegras = !turnoNegras;
-
-}
-
-void Tablero::promocionaPeon()
-{
-    Casilla* casilla = static_cast<Casilla*>(getNodoCasillaSobrevolada());
-
-    if(!casilla->sinHijos())
-    {
-        //PROMOCIONA PEON
-        Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
-
-        if(ficha->tipo_Ficha == 1
-                && ((!getTurnoNegras()
-                     && getNodoCasillaSobrevolada()->getPosicion().Fila == 7)
-                    || (getTurnoNegras()
-                        && getNodoCasillaSobrevolada()->getPosicion().Fila == 0 )))
-        {
-
-            casilla->eliminaHijo(0);
-
-            // ficha = tablero->promocionaPeon(ficha);
-
-            Ogre::Entity *entidadFicha;
-
-            std::stringstream saux;
-
-            saux.str("");
-            saux << "ReinaPR_" << peonesPromocionados;
-
-            FichaReina* nodoNuevo =new FichaReina(*ficha, saux.str());
-
-            if (!getTurnoNegras())
-            {
-
-                nodoNuevo->creaModelo3D(mSceneMgr,"Reina",BLANCAS);
-
-
-            }else
-            {
-
-                nodoNuevo->creaModelo3D(mSceneMgr,"Reina",NEGRAS);
-                nodoNuevo->cambiaMaterial("MaterialFichaNegra");
-
-            }
-
-            delete ficha;
-
-
-
-            peonesPromocionados++;
-
-
-
-            casilla->agregaHijo(nodoNuevo);
-
-        }
-
-    }
-    //return static_cast<FichaReina*>(nodoNuevo);
-
-}
-
 void Tablero::actualizaTablero()
 {
     //NOTIFICAR A LAS VISTAS??
@@ -617,88 +537,6 @@ void Tablero::actualizaTablero()
     }
 }
 
-
-
-
-
-int* Tablero::traduceTablero()
-{
-    //ESTO SE PUEDE CAMBIAR MUCHO
-    //  int *casillas = new int[144];
-    int numCasilla = 0;
-
-    //  ModeloTablero* nuevoModeloT = new ModeloTablero();
-
-    int* casillasInt = new int[144];
-
-    //    Ogre::SceneNode* nodoTest = tablero->nodoCasillero;
-
-    // Ogre::Node::ChildNodeIterator iterator = _nodoNuevo->getChildIterator();
-    // Ogre::Node::ChildNodeIterator iterator = getNodoOgre()->getChildIterator();
-
-    //AÑADE LOS BORDES
-    for (int i = 0; i<12; i++)
-    {
-
-        for (int y = 0; y<12; y++)
-        {
-            if((i > 9)
-                    || (y > 9)
-                    || (i < 2)
-                    || (y < 2))
-            {
-                casillasInt[(i*12)+y] = 99;
-
-            }else
-            {
-                Casilla* casilla= static_cast<Casilla*>(getHijo(((i-2)*8)+y-2));
-
-                int filaTemp = casilla->getPosicion().Fila;
-
-                int columnaTemp = casilla->getPosicion().Columna;
-
-                int numeroCasilla = 24+(filaTemp*12)+columnaTemp+2;
-
-                if (!casilla->sinHijos())
-                {
-                    Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
-
-                    //Ogre::SceneNode* nodoFichaTemporal =  static_cast<Ogre::SceneNode*>(nodoCasillaTemporal->getChild(0));
-
-                    //Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
-
-
-
-                    //ESTO ASEGURA QUE LAS FICHAS CORRESPONDIENTES AL TURNO SEAN POSITIVAS
-                    if (ficha->esNegra && !getTurnoNegras() || !ficha->esNegra && getTurnoNegras())
-                    {
-                        casillasInt[numeroCasilla] = -ficha->tipo_Ficha;;
-                    }else casillasInt[numeroCasilla] = ficha->tipo_Ficha;
-
-                    //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
-
-                }else casillasInt[numeroCasilla] = 0;
-                // casillas[numCasilla] = 0;
-                numCasilla++;
-
-            }
-            //  std::cout << tablero->casillasInt[((i-2)*8)+y-2] << std::endl;
-        }
-
-    }
-
-    std::cout << "traducido" << std::endl;
-
-    for(int i=0; i<12;i++)
-    {
-        std::cout  << casillasInt[(i*12)+2]<<"    "<<casillasInt[(i*12)+3]<<"    "<<casillasInt[(i*12)+4]<<"    "<<casillasInt[(i*12)+5]<<"    "<<casillasInt[(i*12)+6]<<"    "<<casillasInt[(i*12)+7] <<"    " <<casillasInt[(i*12)+8]<<"    " << casillasInt[(i*12)+9]<<"    " << std::endl;
-    }
-
-    // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
-
-    return casillasInt;
-
-}
 
 
 

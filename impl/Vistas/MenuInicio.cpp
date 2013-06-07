@@ -17,20 +17,20 @@ MenuInicio::MenuInicio(ModeloVista* modeloV, Ogre::Root* mRoot) :
 MenuInicio::~MenuInicio(void)
 {
 
+    std::cout << "delete window 2"<< std::endl;
+
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+
+    wmgr.getWindow("MenuInicio/VentanaMenu")->setVisible(false);
+    // wmgr.getWindow("Demo")->setVisible(false);
+
+    wmgr.getWindow("MenuInicio")->setVisible(false);
+
+    wmgr.destroyWindow("MenuInicio/VentanaMenu");
+    wmgr.destroyWindow("MenuInicio");
 
 }
 
-bool MenuInicio::iniciaVentana()
-{
-
-
-    Ogre::LogManager::getSingletonPtr()->logMessage("***INICIAVENTAAN EN MENU INICIO**");
-
-
-    //BaseVistas::iniciaVentana();
-
-    return true;
-}
 
 bool MenuInicio::pantallaInicio()
 {
@@ -67,6 +67,13 @@ bool MenuInicio::pantallaInicio()
     return true;
 }
 
+
+bool MenuInicio::frameRenderingQueued(const Ogre::FrameEvent& evt)
+{
+ return BaseVistas::frameRenderingQueued(evt);
+
+
+}
 
 
 bool MenuInicio::pantallaConfig()
@@ -197,29 +204,34 @@ bool MenuInicio::esMenuInicio(){
 }
 
 bool MenuInicio::keyPressed( const OIS::KeyEvent &arg ) {
+    BaseVistas::keyPressed(arg);
 
 }
 
-bool MenuInicio::keyReleased( const OIS::KeyEvent &arg ){
-
+bool MenuInicio::keyReleased( const OIS::KeyEvent &arg )
+{
+    BaseVistas::keyReleased(arg);
 }
 
 bool MenuInicio::mouseMoved( const OIS::MouseEvent &arg ){
+    BaseVistas::mouseMoved(arg);
 
 }
 
-bool MenuInicio::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
+bool MenuInicio::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+    BaseVistas::mousePressed(arg, id);
 
 }
 
 bool MenuInicio::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
 
-}
 
-bool MenuInicio::frameRenderingQueued(const Ogre::FrameEvent& evt)
-{
+    BaseVistas::mouseReleased(arg, id);
 
 }
+
+
 
 bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 {

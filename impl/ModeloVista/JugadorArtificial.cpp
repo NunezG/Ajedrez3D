@@ -25,7 +25,7 @@ void JugadorArtificial::mueveFicha()
 
     if (result == true && modelo->tableroModelo->jugada[0] != -1)
     {
-        modelo->jugadaAutorizada = true;
+        activaMovimiento();
 
         std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
         std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< modelo->tableroModelo->jugada[0] <<   " Y 2 "<< modelo->tableroModelo->jugada[1]<< std::endl;
@@ -43,6 +43,10 @@ void JugadorArtificial::mueveFicha()
 
 bool JugadorArtificial::casillaSobrevolada(const std::string nombreCasilla)
 {
+
+    std::cout << "CASILLA SOBREVOLADA EN JUGADOR ARTIFICIAL" << std::endl;
+
+
     Jugador::casillaSobrevolada(nombreCasilla);
 
 

@@ -76,9 +76,6 @@ ModeloTablero::~ModeloTablero()
 
 }
 
-
-
-
 bool ModeloTablero::evaluaJaque()
 {
     int posRey = 999;
@@ -90,13 +87,13 @@ bool ModeloTablero::evaluaJaque()
     int fichaCaballo = -2;
     int fichaTorre = -4;
 
+
     for (int i=0; i<144;i++)
     {
      //  if (casillasInt[i] != 99) std::cout << "jaque mira la casilla:  " << i<< " valor: "<< casillasInt[i] <<std::endl;
 
         if (casillasInt[i] == -fichaRey)
         {
-
             posRey = i;
             break;
         }
@@ -329,6 +326,7 @@ bool ModeloTablero::evaluaJaque()
         if(ficha == fichaCaballo)
             return true;
     }
+
     return false;
 }
 

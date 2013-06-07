@@ -16,52 +16,60 @@ public:
     ModeloVista();
     ~ModeloVista(void);
 
-    //Singleton
-    static ModeloVista* getSingletonPtr();
-int numJugadores;
 
-void cambiaPantalla(int pantallaNueva);
-bool botonIzquierdo();
+    int numJugadores;
 
-
-int getNumPantalla();
-void setNumPantalla(int pantalla);
-
-void setSalir(bool salir);
-bool getSalir();
-
-bool iniciaModeloAjedrez();
-bool iniciaJugadores();
-
-Modelo* modelo;
-EscenaAjedrez* escena;
-std::string resolucion;
-bool getApagar();
-void setApagar(bool apaga);
-bool copiaTablero();
+    void cambiaPantalla(int pantallaNueva);
+    bool botonIzquierdo();
 
 
-//Jugador* jugadorActual;
+    int getNumPantalla();
+    void setNumPantalla(int pantalla);
 
-void cambiaTurno();
+    void setSalir(bool salir);
+    bool getSalir();
 
-bool reiniciaVista();
+    bool iniciaModeloAjedrez();
+    bool generaJugadores();
 
-bool preparaEscena();
 
-void creaJugador(bool blancas, bool humano);
+    Modelo* modelo;
+    EscenaAjedrez* escena;
 
-std::vector<Jugador*> jugadores;
+    bool pantallaCompleta;
+    std::string resolucion;
+    bool getApagar();
+    void setApagar(bool apaga);
+    bool creaModeloTablero();
 
-void miraCambios();
+
+    //Jugador* jugadorActual;
+
+    int* traduceTablero();
+
+    bool seleccionaFichaEnPosicion(CEGUI::Vector2 pos);
+
+    bool reiniciaVista();
+
+    bool preparaEscena();
+
+    void creaJugador(bool blancas, bool humano);
+
+    std::vector<Jugador*> jugadores;
+    Jugador* JugadorActivo;
+
+    void miraCambios();
+
+    //void cambiaTurno();
+    bool aplicaCambio();
 
 private:   
 
 
 
-bool mShutDown;
-int mPantalla;
-bool reiniciar;
+    bool mShutDown;
+    int mPantalla;
+    bool reiniciar;
 };
 
 #endif

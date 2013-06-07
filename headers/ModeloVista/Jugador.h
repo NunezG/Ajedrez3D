@@ -36,17 +36,19 @@ public:
 
 
 
-    bool aplicaCambio();
+
+    void promocionaPeon();
+
 
     bool activaMovimiento();
 
-    bool casillaSobrevolada(const std::string nombreCasilla);
+    virtual bool casillaSobrevolada(const std::string nombreCasilla);
 
 
 
 protected:
    EscenaAjedrez* escena;
-   Tablero* tablero;
+ //  Tablero* tablero;
 
     std::string nombre;
     int* resgistroTablero;

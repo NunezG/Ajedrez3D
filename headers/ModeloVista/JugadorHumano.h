@@ -19,6 +19,7 @@ public:
     void mueveFicha();
 
 
+    bool activaMovimiento();
 
   //  void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 

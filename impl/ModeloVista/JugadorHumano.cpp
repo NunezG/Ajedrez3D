@@ -60,9 +60,10 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
     if (Jugador::casillaSobrevolada(nombreCasilla))
     {
 
+        std::cout << "SIGUE CON LO DE CASILLASOBRE" << std::endl;
 
 
-        Casilla* nodoSeleccionado = tablero->getNodoCasillaSeleccionada();
+        Casilla* nodoSeleccionado = escena->tablero->getNodoCasillaSeleccionada();
         std::cout << "NPMBRE SELECT: "<<  nodoSeleccionado->getNombre() << std::endl;
 
         // elTablero = miTablero;
@@ -85,34 +86,36 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
         std::cout << "jugada inicia"<< std::endl;
 
         std::cout << "jug1: " <<modelo->tableroModelo->jugada[0] << std::endl;
-        std::cout << "jug2: " <<nodoSeleccionado->getPosicion().Fila <<"jug2: "<<nodoSeleccionado->getPosicion().Columna << std::endl;
-        std::cout  <<"jug2: "<<nodoSeleccionado->getPosicion().Columna << std::endl;
+        std::cout  <<"jug2: "<<modelo->tableroModelo->jugada[1] << std::endl;
 
-
-
+        std::cout << "juggg seleccionado: " <<nodoSeleccionado->getPosicion().Fila <<" jug2COL: "<<nodoSeleccionado->getPosicion().Columna << std::endl;
 
         modelo->tableroModelo->jugada[0] = 24 + (nodoSeleccionado->getPosicion().Fila * 12) + nodoSeleccionado->getPosicion().Columna + 2;
 
-        std::cout << "jugada final"<< std::endl;
-        modelo->tableroModelo->jugada[1] = 24 + (tablero->getNodoCasillaSobrevolada()->getPosicion().Fila * 12) + tablero->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;
+      //  std::cout << "jugada final"<< std::endl;
+        modelo->tableroModelo->jugada[1] = 24 + (escena->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila * 12) + escena->tablero->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;
 
-        std::cout << "autorizaCasillaSobrevolada  2 222"<< std::endl;
+        std::cout << "jug12: " <<modelo->tableroModelo->jugada[0] << std::endl;
+        std::cout  <<"jug22: "<<modelo->tableroModelo->jugada[1] << std::endl;
+
         //AUTORIZA
         int resultado = modelo->autorizaCasilla(tipo);
 
-        std::cout << "autorizaCasillaSobrevolada   333"<< std::endl;
+       std::cout << "autorizaCasillaSobrevolada: "<< resultado << std::endl;
 
         //  ventanaEmergente = NULL;
         if (resultado == 1)
         {
             std::cout << "CASILLA AUTORIZADA" << std::endl;
-            tablero->getNodoCasillaSobrevolada()->iluminaCasilla();
+            escena->tablero->getNodoCasillaSobrevolada()->iluminaCasilla();
         }else
         {
+            std::cout << "CASILLA PROHIBIDA" << std::endl;
+
             modelo->tableroModelo->jugada[0] = -1;
             modelo->tableroModelo->jugada[1] = -1;
 
-            if (resultado == 3)
+            if (resultado == 2)
             {
                 std::cout << "JAQUE AL SOBREVOLAR CASILLA" << std::endl;
                 escena->muestraVentanaEmergente("Jaque");

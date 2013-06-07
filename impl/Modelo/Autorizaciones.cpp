@@ -1,7 +1,7 @@
 #include "../../headers/Modelo/Autorizaciones.h"
 
 
-bool Autorizaciones::autorizaPeon (ModeloTablero* miTablero)
+int Autorizaciones::autorizaPeon (ModeloTablero* miTablero)
 {
     int Dif = miTablero->jugada[1] - miTablero->jugada[0] ;
 
@@ -9,6 +9,11 @@ bool Autorizaciones::autorizaPeon (ModeloTablero* miTablero)
 
     if (Dif < 0)
     {
+        std::cout << "!!!!DIFERENCIA NEGATIVA!!!!!!!" << std::endl;
+
+        std::cout << "!!!!TURNO AL CAMBIAR!!!!! "<<miTablero->turnoN << std::endl;
+
+
         //Invierte el signo  de la diferencia de los peones negros
         Dif = -Dif;
     }
@@ -21,150 +26,186 @@ bool Autorizaciones::autorizaPeon (ModeloTablero* miTablero)
     //std::cout << "!!!!!!!!FILa seleccionada: " <<   seleccionado.Fila<<" traducida!!!!!!!!" <<filaSobreTraducida << std::endl;
     //std::cout << "!!!!!!!!COL seleccionada: " <<   seleccionado.Columna<<" traducida!!!!!!!!" <<seleccionado.Columna+2 << std::endl;
 
-    if (Dif== 24
-            && ((miTablero->jugada[0]/12 == 3 && !miTablero->turnoN) || (miTablero->jugada[0]/12 == 8 && miTablero->turnoN)))
+    if (Dif == 12 ||
+            (Dif== 24
+             && ((miTablero->jugada[0]/12 == 3 && !miTablero->turnoN)
+                 || (miTablero->jugada[0]/12 == 8 && miTablero->turnoN))))
     {
-        //SALTA 2 CASILLAS (ESCAQUES)
-        if (miTablero->turnoN)
-            return pruebaCamino(miTablero, -12);
-        else
-            return pruebaCamino(miTablero, 12);
-    }
-    else if (Dif == 12)
-    {
-        //PASA UNA CASILLA
+        //SALTA 2 CASILLAS (ESCAQUES) o PASA UNA CASILLA
         if (miTablero->casillasInt[miTablero->jugada[1]] != 0)
-            return false;
+            return 0;
         else
-            return true;
+        {
+            if (miTablero->turnoN)
+                return pruebaCamino(miTablero, -12);
+            else
+                return pruebaCamino(miTablero, 12);
+        }
     }
+
     else if(( Dif == 11 || Dif == 13))
     {
+        Dif = miTablero->jugada[1] - miTablero->jugada[0];
         //COME
         if (miTablero->casillasInt[miTablero->jugada[1]] < 0)
-            return true;
+        {
+            return pruebaCamino(miTablero, Dif);
+        }
         else if(miTablero->alPaso >= 0)
         {
             //AL PASO
 
+            //CASILLA EN LA COLUMNA DE LA SOBREVOLADA Y EN LA FILA DEL PEON ATACANTE
             int  posCasilla  = miTablero->jugada[0]/12 + miTablero->jugada[1]%12;
 
             if (miTablero->alPaso ==  posCasilla)
-                return true;
+            {
+
+                return pruebaCamino(miTablero, Dif);
+
+
+            }
+
         }
     }
-    return false;
+    return 0;
 }
 
-bool Autorizaciones::autorizaAlfil(ModeloTablero* miTablero)
+int Autorizaciones::autorizaAlfil(ModeloTablero* miTablero)
 {
 
     int Dif = miTablero->jugada[1] - miTablero->jugada[0];
 
+    std::cout << "!!!AUTORIZA ALFIL!" << Dif << std::endl;
 
-    if ( Dif%12  + Dif/12 == 0)
+    //diferencia multiplo de 11
+    if (Dif % 11 == 0)
     {
-        if(Dif%12 < 0) //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES (ARR IZQUIERDA)
+        std::cout << "!!!A1111!" << std::endl;
+
+
+        if(Dif > 0) //LETRAS DESCENDENTES Y NUMEROS ASCENDENTES (ARR IZQUIERDA)
             return pruebaCamino(miTablero, 11);
 
 
-        else if(Dif%12 > 0) //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES (ABAJO DERECHA)
+        else if(Dif < 0) //LETRAS ASCENDENTES Y NUMEROS DESCENDENTES (ABAJO DERECHA)
             return pruebaCamino(miTablero, -11);
 
 
     }
-    else if( Dif%12  - Dif/12 == 0)
+    //multiplo de 13
+    else if (Dif % 13 == 0)
     {
-        if(Dif%12  > 0) //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES (ARRIBA DERECHA)
+        std::cout << "!!!A2222!" << std::endl;
+
+        if(Dif  > 0) //LETRAS ASCENDENTES Y NUMEROS ASCENDENTES (ARRIBA DERECHA)
             return pruebaCamino(miTablero, 13);
 
-        else if (Dif%12 > 0) //Columnas DESCENDENTES Y Filas DESCENDENTES (ABAJO IZQUIERDA)
+        else if (Dif < 0) //Columnas DESCENDENTES Y Filas DESCENDENTES (ABAJO IZQUIERDA)
             return pruebaCamino(miTablero, -13);
 
 
 
-    }else return false;
+    }else return 0;
 }
-bool Autorizaciones::autorizaReina(ModeloTablero* miTablero)
+
+int Autorizaciones::autorizaReina(ModeloTablero* miTablero)
 {
-    if (autorizaAlfil(miTablero))
-        return true;
+    int result = autorizaAlfil(miTablero);
+    if (result > 0)
+        return result;
     else return autorizaTorre(miTablero);
 }
 
-bool Autorizaciones::autorizaRey(ModeloTablero* miTablero)
+int Autorizaciones::autorizaRey(ModeloTablero* miTablero)
 {
     int Dif = miTablero->jugada[1] - miTablero->jugada[0];
 
-    //  int filaDif = Dif/12;
+    int destino= miTablero->jugada[1];
 
-int destino= miTablero->jugada[1];
-
-
-    if (Dif== 1 || Dif== -1 || Dif== 12 || Dif== -12)
-        return true;
+    if (Dif== 1 || Dif== -1 ||Dif== 11 || Dif== -11 || Dif== 12 || Dif== -12|| Dif== 13 || Dif== -13)
+        return pruebaCamino(miTablero, Dif);
     else{
         //ENROQUE
-        if ( Dif/12 == 0 && ((!miTablero->turnoN && miTablero->jugada[1]/12 == 0) ||
-                             (miTablero->turnoN &&  miTablero->jugada[1]/12 == 7)))
+        if ( Dif/12 == 0 && ((!miTablero->turnoN && destino/12 == 2) ||
+                             (miTablero->turnoN &&  destino/12 == 9)))
         {
-            //    int posCasilla = filaNueva * 12; //ES SIEMPRE LA PRIMERA COLUMNA
+            if(Dif == 2
+                    && miTablero->casillasInt[destino+1] == Torre)
+                return pruebaCamino(miTablero, 1);
 
-            //derecha (enroque corto)
+            else if(Dif == -2 && miTablero->casillasInt[destino-2] == Torre
+                    && miTablero->casillasInt[destino-1] == Vacio)   //izquierda (enroque largo)
+                return pruebaCamino(miTablero, -1);
 
-            if (miTablero->casillasInt[destino-1] == Vacio)
-            {
-                if(Dif == 2
-                        && miTablero->casillasInt[destino] == Torre)
-                    return true;
-
-                else if(Dif == -2 && miTablero->casillasInt[miTablero->jugada[1]+1] == Torre
-                        && miTablero->casillasInt[destino] == Vacio)   //izquierda (enroque largo)
-                    return true;
-
-            }
         }
-        return false;
+
+        return 0;
     }
 }
 
-bool Autorizaciones::autorizaTorre(ModeloTablero* miTablero)
+int Autorizaciones::autorizaTorre(ModeloTablero* miTablero)
 {
-
     int Dif = miTablero->jugada[1] - miTablero->jugada[0];
 
-    if (Dif%12 == 0 && Dif/12 < 0) //MOVIMIENTO ABAJO
-        return pruebaCamino(miTablero, -12);
+    std::cout << "!!!AUTORIZA TORRE!" << Dif << std::endl;
 
-    else if (Dif%12==0
-             && Dif/12 > 0 )  //MOVIMIENTO ARRIBA
-        return pruebaCamino(miTablero, 12);
+    //MULTIPLO DE 12, ARRIBA O ABAJO
+    if (Dif%12 == 0)
+    {
+        std::cout << "!!!misma collll"  << std::endl;
 
-    else if (Dif/12==0
-             && Dif%12 > 0 )  //MOVIMIENTO IZQUIERDA
-        return pruebaCamino(miTablero, -1);
+        if (Dif < 0) //MOVIMIENTO ABAJO
+            return pruebaCamino(miTablero, -12);
 
-    else if (Dif/12==0
-             && Dif%12 < 0 ) //MOVIMIENTO DERECHA
-        return pruebaCamino(miTablero, 1);
+        else if (Dif > 0 )  //MOVIMIENTO ARRIBA
+            return pruebaCamino(miTablero, 12);
 
-    else return false;
+    }
+
+    //misma fila
+    else if (miTablero->jugada[1]/12 == miTablero->jugada[0]/12)
+    {
+        std::cout << "!!!misma filaaaa!"  << std::endl;
+
+
+        if (Dif > 0)
+            //MOVIMIENTO DERECHA
+            return pruebaCamino(miTablero, +1);
+
+        else if (Dif < 0) //MOVIMIENTO IZQUIERDA
+            return pruebaCamino(miTablero, -1);
+    }
+    return 0;
 }
 
-bool Autorizaciones::autorizaCaballo(int Dif)
+int Autorizaciones::autorizaCaballo(ModeloTablero* miTablero)
 {
-    int filaDif = Dif/12;
-    int colDif = Dif%12;
+    int Dif = miTablero->jugada[1] - miTablero->jugada[0];
 
-    if (filaDif < 0) filaDif = -filaDif;
 
-    if ((filaDif == 2 && colDif == 1)
-            || (filaDif == 1 && colDif == 2))
-        return true;
-    else return false;
+    if (Dif < 0) Dif = -Dif;
+    //  int filaDif = Dif/12;
+    //  int colDif = Dif%12;
+
+
+    // std::cout << "!!caballo!"  << filaDif << " "<<colDif << std::endl;
+    std::cout << "!!DIF!"  << Dif  << std::endl;
+
+
+    if (Dif == 23 || Dif == 25 || Dif == 10 || Dif == 14)
+    {
+
+
+
+        return Movimientos::pruebaCamino(miTablero, miTablero->jugada[1] - miTablero->jugada[0]);
+
+    }
+    else {
+        std::cout << "!!faaaaaaaial!" <<std::endl;
+
+        return 0;}
 }
-
-
 
 /*
 bool Autorizaciones::verificaCamino(ModeloTablero* tablero)

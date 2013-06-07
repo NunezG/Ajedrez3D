@@ -13,12 +13,6 @@
 #include "FichaPeon.h"
 #include "Casilla.h"
 
-
-
-
-
-
-
 enum enColummas{
     COL_A,
     COL_B,
@@ -35,9 +29,7 @@ enum enColummas{
 class Tablero: public ObjetoOgre
 {
 public:
-
     ~Tablero(void);
-
     Tablero(void);
 
    int getAlPaso();
@@ -50,12 +42,9 @@ public:
 
     //Ogre::SceneNode* nodoCasillero;
 
-
-    bool getTurnoNegras();
     //bool setTurnoNegras(bool turno);
 
    // void setTurnoNegras(bool turno);
-
 
     Casilla* getNodoCasillaSeleccionada();
     Casilla* getNodoCasillaSobrevolada();
@@ -68,9 +57,8 @@ public:
 
     void actualizaTablero();
 
-     int* traduceTablero();
-
-
+    bool getTurnoNegras();
+    bool turnoNegras;
 
    // std::string columnas;
 
@@ -78,24 +66,14 @@ public:
    bool fichaSeleccionada;
    Ogre::Degree rotacionCamara;
 
-   void promocionaPeon();
-
    int alPaso;
-   void cambiaTurno();
-
-
-
-
+   int peonesPromocionados;
 
 private:
-
-
-   bool turnoNegras;
 
    void creaCasillas();
 
   // ObjetoOgre* objetoOgreAsociado;
-
 
    void creaPeones();
    void creaNobleza();
@@ -108,33 +86,24 @@ private:
 
    // int alPaso;
 
-    int peonesPromocionados;
-
     Casilla* _selectedNode;
     Casilla* _nodoNuevo;
-
-
 
    /*
      bool jaqueNegras;
      bool mateNegras;
      bool jaqueBlancas;
      bool mateBlancas;
-
    */
+
   //   bool ahogado;
 
   //  Ficha* fichasNegras[16];
   //  Ficha* fichasBlancas[16];
 
    // Ogre::SceneNode* nodoTablero;
-
    // Tablero* listaNodos[];
-
    // int casillas[8][8];
-
-
-
 };
 
 #endif

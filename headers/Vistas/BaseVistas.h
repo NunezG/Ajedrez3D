@@ -16,7 +16,7 @@
 
 #include "../ModeloVista/ModeloVista.h"
 
-class BaseVistas
+class BaseVistas: public OIS::KeyListener, public OIS::MouseListener, public Ogre::FrameListener
 {
 public:
     BaseVistas(ModeloVista* modeloV, Ogre::Root* mRoot, std::string label);
@@ -34,11 +34,16 @@ public:
     //virtual bool salir() = 0;
     Ogre::RenderWindow* mWindow;
 
-    virtual bool keyPressed( const OIS::KeyEvent &arg ) = 0;
-    virtual bool keyReleased( const OIS::KeyEvent &arg ) = 0;
-    virtual bool mouseMoved( const OIS::MouseEvent &arg ) = 0;
-    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) = 0;
-    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )= 0;
+
+    // OIS::KeyListener
+    virtual bool keyPressed( const OIS::KeyEvent &arg );
+    virtual bool keyReleased( const OIS::KeyEvent &arg );
+    // OIS::MouseListener
+    virtual bool mouseMoved( const OIS::MouseEvent &arg );
+    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
    // virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
     virtual bool esMenuInicio() = 0;
@@ -51,9 +56,12 @@ public:
     Ogre::RenderWindow* getVentana();
 
     bool configuraGraficos(const char *desiredRenderer);
+    bool iniciaCEGUI();
 
     ModeloVista* modeloVista;
 
+    CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
+    bool CEGUIResources();
 
     //OIS Input devices
     OIS::Mouse*    mMouse;
@@ -61,6 +69,10 @@ public:
     OIS::InputManager* mInputManager;
 
     CEGUI::OgreRenderer* renderer;
+
+    CEGUI::System* sys;
+
+
 
 private:
 

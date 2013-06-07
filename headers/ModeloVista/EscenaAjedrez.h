@@ -49,7 +49,6 @@ public:
 
   //  Casilla* casillaOcupada(Casilla* nodoCasilla);
 
-    void setSceneManager(/*Ogre::Root* mRoot*/);
 
     void DistanciaCamara(int distanciaRelativa);
 
@@ -68,9 +67,6 @@ public:
     Tablero* getTablero();
 
     Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
-    Ogre::RaySceneQuery* createRayQuery(void);
-
-
 
     bool vaIzquierda();
     bool vaDerecha();
@@ -83,9 +79,7 @@ public:
     void empezarModoCamara();
     void acabarModoCamara();
 
-    bool seleccionaFichaEnPosicion(int posX, int posY);
-    Casilla* seleccionaCasillaEnPosicion(int posX, int posY);
-    std::string autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
+    std::string encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
 
 
     void apagaVentanaEmergente();

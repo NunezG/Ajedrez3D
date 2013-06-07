@@ -33,7 +33,7 @@ public:
 protected:
 
 private:
-    bool autoriza(tipoFicha tipo);
+    int autoriza(tipoFicha tipo);
 
     //Singleton;
     Modelo(void);

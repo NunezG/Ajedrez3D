@@ -28,51 +28,62 @@ bool VistaAjedrezSolo::keyReleased( const OIS::KeyEvent &arg )
 
 bool VistaAjedrezSolo::mouseMoved( const OIS::MouseEvent &arg )
 {
-   // Jugador* jug = modelo->jugadores.at(escenaAjedrez->getTablero()->getTurnoNegras());
+    // Jugador* jug = modelo->jugadores.at(escenaAjedrez->getTablero()->getTurnoNegras());
 
-  //  if(jug->esHumano())
+    //  if(jug->esHumano())
     return VistaAjedrez::mouseMoved( arg );
     //else mInputMan->injectMouseMove(arg);
-    return true;
 }
 
-bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+bool VistaAjedrezSolo::mousePressed( const OIS::MouseEvent &arg,OIS::MouseButtonID id )
 {
 
-   // Jugador* jug = modelo->jugadores.at(escenaAjedrez->getTablero()->getTurnoNegras());
+    // Jugador* jug = modelo->jugadores.at(escenaAjedrez->getTablero()->getTurnoNegras());
 
-  //  if(jug->esHumano())
-    return VistaAjedrez::mousePressed( arg , id);
+    //  if(jug->esHumano())
+    return VistaAjedrez::mousePressed(arg, id);
     //else mInputMan->injectMouseDown(arg, id);
-     return true;
 
 }
 
-bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+bool VistaAjedrezSolo::mouseReleased( const OIS::MouseEvent &arg,OIS::MouseButtonID id )
 {
- //   Jugador* jug = modelo->jugadores.at(escenaAjedrez->getTablero()->getTurnoNegras());
+    //   Jugador* jug = modelo->jugadores.at(escenaAjedrez->getTablero()->getTurnoNegras());
 
-  //  if(jug->esHumano())
-    return VistaAjedrez::mouseReleased( arg, id );
-  //  else{
-      //  mInputMan->injectMouseUp(arg, id);
-        // calculaMovimiento();
-         return true;
-//    }
+    //  if(jug->esHumano())
+    return VistaAjedrez::mouseReleased(arg,  id );
+    //  else{
+    //  mInputMan->injectMouseUp(arg, id);
+    // calculaMovimiento();
+    //    }
+}
+
+
+bool VistaAjedrezSolo::frameRenderingQueued(const Ogre::FrameEvent& evt)
+{
+   return VistaAjedrez::frameRenderingQueued(evt);
+
+  /*  if (!BaseVistas::frameRenderingQueued(evt)) return false;
+    else if(escenaAjedrez->tablero->rotacionCamara != Ogre::Degree(0))
+    {
+        mueveCamara(evt.timeSinceLastFrame);
+
+    }*/
+
 }
 
 //-------------------------------------------------------------------------------------
 //bool VistaAjedrezSolo::frameRenderingQueued(float frecuencia)
 //{
-   // if(modelo->getTablero()->getTurnoNegras())rotaTurno = Ogre::Real(0.0f);
-    //return VistaAjedrez::mueveCamara(frecuencia);
-  //  return true;
+// if(modelo->getTablero()->getTurnoNegras())rotaTurno = Ogre::Real(0.0f);
+//return VistaAjedrez::mueveCamara(frecuencia);
+//  return true;
 //}
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrezSolo::mueveCamara(float frecuencia)
 {
- return true;
+    return true;
 }
 
 

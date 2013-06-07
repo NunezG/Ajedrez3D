@@ -4,7 +4,6 @@ Ventana::Ventana(ModeloVista* modeloVista) :
     //mLastStatUpdateTime(0),
     modeloVista(modeloVista),
     // mPantalla(0),
-    sys(0),
     mRoot(NULL),
     //mTimer(mRoot->getTimer()),
     //  mSceneMgr(0),
@@ -43,31 +42,6 @@ bool areFrameStatsVisible()
 //-------------------------------------------------------------------------------------
 
 
-
-bool Ventana::CEGUIResources()
-{   
-    CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-    CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
-    CEGUI::Font::setDefaultResourceGroup("Fonts");
-    CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
-    CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
-
-    CEGUI::SchemeManager::getSingleton().create("VanillaSkin.scheme");
-    CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
-
-    sys = CEGUI::System::getSingletonPtr();
-
-    CEGUI::FontManager::getSingleton().create("DejaVuSans-10.font");
-
-    sys->setDefaultMouseCursor("Vanilla-Images", "MouseArrow");
-
-    CEGUI::MouseCursor::getSingleton().setImage(sys->getDefaultMouseCursor());
-
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** ACABA GUI***");
-
-    return true;
-}
-
 int Ventana::pantallaActual()
 {
     if (vista->esMenuInicio())
@@ -79,27 +53,24 @@ int Ventana::pantallaActual()
 
 void Ventana::creaVista()
 {  
+    resetOgre();
+
+
+    std::cout << "pdespues de reset" << std::endl;
+
     if (modeloVista->getNumPantalla() == 0)
         vista = new MenuInicio(modeloVista, mRoot);
-
     else
-
     {
+
+
 
 
         if (modeloVista->getNumPantalla() == 1)
         {
             std::cout << "pantalla 1" << std::endl;
 
-
-            modeloVista->iniciaModeloAjedrez();
-            std::cout << "pantalla 11" << std::endl;
-
             vista= new VistaAjedrez(modeloVista, mRoot);
-
-            modeloVista->preparaEscena();
-
-            modeloVista->escena->createViewports(vista->mWindow);
 
         }
 
@@ -107,200 +78,72 @@ void Ventana::creaVista()
         {
             std::cout << "pantalla 2" << std::endl;
 
-            modeloVista->iniciaModeloAjedrez();
+            //EL CONTRUCTOR DE BASEVISTAS CONFIGURA OPENGL, INICIA mWINDOW, INICIA OIS Y CEGUI
             vista= new VistaAjedrezSolo(modeloVista, mRoot);
 
-            modeloVista->preparaEscena();
-
-            modeloVista->escena->createViewports(vista->mWindow);
-
         }
+
+
+        modeloVista->escena->createCamera();
+        std::cout << "p331" << std::endl;
+
+        modeloVista->escena->createViewports(vista->mWindow);
+
+
+        modeloVista->modelo = Modelo::getSingletonPtr();
+
+
+
+
+
+
+
+
+
+
+        std::cout << "escc" << std::endl;
+
+
+        std::cout << "escc2222: " <<   modeloVista->escena->esModoCamara()<< std::endl;
+
+
+       // modeloVista->iniciaModeloAjedrez();
+
+        modeloVista->generaJugadores();
+        std::cout << "2221" << std::endl;
+
+
+
     }
+
+
+    std::cout << "init" << std::endl;
+
+    initOgre();
+
+
+    muestraVentana();
+    std::cout << "start" << std::endl;
+
+    mRoot->startRendering();
 
 }
 
 bool Ventana::muestraVentana()
 {
+    vista->iniciaCEGUI();
+
     if (modeloVista->getNumPantalla() == 0)
         static_cast<MenuInicio*>(vista)->pantallaInicio();
-    else {
+    else
+    {
         modeloVista->escena->createScene();
-        modeloVista->copiaTablero();
-}
+        modeloVista->creaModeloTablero();
+    }
     return true;
 }
 
 
-
-bool Ventana::ventanaCerrada()
-{
-
-    //  VistaAjedrez* miVista = static_cast<VistaAjedrez*>(vista);
-    if (vista->mWindow->isClosed() || !vista->mWindow->isVisible())
-    {
-        //CIERRA LA VENTANA
-
-
-        delete vista;
-        vista = NULL;
-
-        return true;
-    }
-
-
-    return false;
-}
-
-bool Ventana::keyPressed(const OIS::KeyEvent& evt)
-{
-
-    if(!vista->esMenuInicio())
-    {
-        vista->keyPressed(evt);
-    }
-
-    sys->injectKeyDown(evt.key);
-    sys->injectChar(evt.text);
-
-    if (evt.key == OIS::KC_ESCAPE)// Pulsa Esc
-    {
-        modeloVista->setSalir(true);
-        vista->mWindow->setVisible(false);
-        modeloVista->setApagar(true);
-    }
-    else if (evt.key == OIS::KC_SYSRQ)   // take a screenshot
-    {
-        // mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
-    }
-
-    return true;
-}
-
-bool Ventana::keyReleased(const OIS::KeyEvent& evt)
-{
-
-    if(!vista->esMenuInicio()){
-        vista->keyReleased(evt);
-    }
-
-    sys->injectKeyUp(evt.key);
-
-    return true;
-}
-
-bool Ventana::mouseMoved( const OIS::MouseEvent &evt )
-{   
-
-
-    sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
-
-
-
-    //  if(mPantalla > 0)
-    //   {
-
-
-    if (vista != NULL) vista->mouseMoved(evt);
-
-
-
-    // Scroll wheel.
-    //if (evt.state.Z.rel)
-    //    sys->injectMouseWheelChange(evt.state.Z.rel / 120.0f);
-    //  }
-
-
-
-    return true;
-}
-
-//-------------------------------------------------------------------------------------
-bool Ventana::frameRenderingQueued(const Ogre::FrameEvent& evt)
-{   
-    if(ventanaCerrada() /*|| EscenaAjedrez->getSalir()*/)
-    {
-        //std::cout << "VENTANA CERRADA"<< std::endl;
-        // shutdown = true;
-        return false;
-    }
-
-    sys->injectTimePulse(evt.timeSinceLastFrame);
-
-    //  if (capturaRaton){
-    //    }
-    // statUpdate(evt);
-
-
-    //  if (modelo->getTablero()->jugadores[modelo->getTablero()->getTurnoNegras()]->esHumano())
-    //   {
-
-    // std::cout << "f4"<< std::endl;
-
-    if (vista != NULL)
-    {
-        //   std::cout << "f4bis"<< std::endl;
-
-        vista->capture();
-        //  std::cout << "f4bis2"<< std::endl;
-
-        if(modeloVista->getNumPantalla() > 0)
-        {
-            vista->mueveCamara(evt.timeSinceLastFrame);
-        }
-        //  std::cout << "f4bis3"<< std::endl;
-
-        //  vista->actualizaGUI();
-
-
-        //   if(pantallaActual() > 0)
-        //   {
-        //  std::cout << "ESPERA" <<std::endl;
-
-        //   modeloVista->escena->miraCambios();
-
-
-        //  if (modelo->getTablero()->getNodoCasillaSobrevolada() != NULL && modelo->getTablero()->getNodoCasillaSobrevolada()->seleccionada)
-        //  {
-        //  std::cout << "ILUMINA UNA CASILLA" <<std::endl;
-
-        // static_cast<VistaAjedrez*>(punteroVentana->vista)->escenaAjedrez->iluminaCasilla(modelo->getTablero()->getNodoCasillaSobrevolada());
-        //  static_cast<JugadorHumano*>(modelo->jugadores.at(modelo->getTablero()->getTurnoNegras()))->sobreVuelaCasilla();
-        // }
-        //  }
-    }
-    //  std::cout << "f4bis3"<< std::endl;
-    //  if( pantallaActual() == 0)
-    //  {
-    //  }
-    //
-    // else if(modelo->getNumPantalla() == 2)
-    //{
-    //   if (modelo->getTablero()->getTurnoNegras())
-    //  {
-    //         punteroVentana->capturaRaton = false;
-
-    //            calculaMovimiento();
-    //  esperaCalculo=true;
-    //   }//else punteroVentana->capturaRaton = true;
-    //}
-
-
-    //  if (modelo->getTablero()->getTurnoNegras())
-    // {
-
-
-
-    //  }
-
-
-    //  std::cout << "f3"<< std::endl;
-
-    //Ogre::LogManager::getSingletonPtr()->logMessage("*SI QUITO ESTO NO VA");
-    //std::cout << "SI QUITO ESTO NO VA"<< std::endl;
-
-    return true;
-    // }
-}
 
 //BaseApplication* Ventana::Create(Ogre::String type) {
 //  if ( type == "JuegoPorTurnos" ) return  VistaAjedrez(mSceneMgr, mWindow);
@@ -324,7 +167,7 @@ void Ventana::destruyeVista()
 
         delete vista;
 
-        vista = 0;
+        vista = NULL;
 
         std::cout << "detach"<< std::endl;
 
@@ -362,82 +205,11 @@ void Ventana::destruyeVista()
 
 
 
-bool Ventana::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
-{
-
-
-
-    sys->injectMouseButtonDown(convertButton(id));
-
-
-
-
-    if(vista->mousePressed(evt, id))
-    {
-        return true;
-    }
-
-    // return true;
-}
-
-bool Ventana::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
-{
-
-
-    sys->injectMouseButtonUp(convertButton(id));
-
-
-    vista->mouseReleased(evt, id);
-
-    // else if(mPantalla == 0)
-    //  {
-
-    //  if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 1)
-    //   {
-    //      std::cout << "PANTALLA 1 " << std::endl;
-
-
-    //    }
-    //    else if (sys->getGUISheet()->isVisible()==true && modelo->getNumPantalla() == 2)
-    //   {
-    //        std::cout << "PANTALLA 2 " << std::endl;
-
-    //  sys->getGUISheet()->setVisible(false);
-    //    }
-    //}
-    return true;
-}
-
-CEGUI::MouseButton Ventana::convertButton(OIS::MouseButtonID buttonID)
-{
-    switch (buttonID)
-    {
-    case OIS::MB_Left:
-        return CEGUI::LeftButton;
-
-    case OIS::MB_Right:
-        return CEGUI::RightButton;
-
-    case OIS::MB_Middle:
-        return CEGUI::MiddleButton;
-
-    default:
-        return CEGUI::LeftButton;
-    }
-}
-
-
-//-------------------------------------------------------------------------------------
-void Ventana::loadResources(void)
-{
-    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-}
-
 bool Ventana::initOgre(void)
 {
 
 
-    mRoot->addFrameListener(this);
+    mRoot->addFrameListener(vista);
 
     //Register as a Window listener
     Ogre::WindowEventUtilities::addWindowEventListener(vista->mWindow, this);
@@ -445,15 +217,11 @@ bool Ventana::initOgre(void)
 
     //  static_cast<MenuInicio*>(vista)->iniciaVentana();
 
-    vista->mMouse->setEventCallback(this);
-    vista->mKeyboard->setEventCallback(this);
+    vista->mMouse->setEventCallback(vista);
+    vista->mKeyboard->setEventCallback(vista);
 
 
     // EmpiezaCEGUI();
-
-
-    loadResources();
-
 
 
 }
@@ -491,10 +259,7 @@ bool Ventana::resetOgre(void)
 
 
 
-bool Ventana::start(void)
-{
-    mRoot->startRendering();
-}
+
 
 
 void Ventana::destroyScene(void)
@@ -505,7 +270,7 @@ void Ventana::destroyScene(void)
     //MIRA ESTO!!!!!!!!!!!!!!!!
     //  if (modelo->escenaAjedrez != NULL)
     //  {
-    mRoot->removeFrameListener(this);
+    mRoot->removeFrameListener(vista);
     //mRoot->destroySceneManager(modelo->escenaAjedrez->mSceneMgr);
     //  modelo->escenaAjedrez->destruyeTablero();
 

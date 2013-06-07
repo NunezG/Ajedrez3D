@@ -16,60 +16,34 @@ EscenaAjedrez::EscenaAjedrez() :
   , mGoingRight(false)
   , columnas("ABCDEFGH")
   , ventanaEmergente(0)
-
-
 {
-
+    std::cout << "nueva escena y enciende tablero" << std::endl;
 
     // modelo = Modelo::getSingletonPtr();
     tablero = new Tablero();
+    mSceneMgr = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
 
+    mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
 }
 //-------------------------------------------------------------------------------------
 EscenaAjedrez::~EscenaAjedrez(void)
 {
     mSceneMgr->destroyQuery(mRaySceneQuery);
-
-
-
     // if (mInputMan) delete mInputMan;
-
 }
-
-
-
-
 
 Tablero* EscenaAjedrez::getTablero()
 {
     return tablero;
-
 }
-
 
 void EscenaAjedrez::destruyeTablero()
 {
     //delete mSceneMgr;
-
     delete tablero;
-
     tablero = NULL;
-
-
 }
-
-
-
-
-void EscenaAjedrez::setSceneManager()
-{
-
-
-    mSceneMgr = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
-}
-
-
 
 void EscenaAjedrez::creaIluminacion()
 {
@@ -105,14 +79,11 @@ void EscenaAjedrez::createScene()
 {
     // mSceneMgr = sceneMgr;
 
-
     tablero->creaTableroYCasillas(mSceneMgr);
 
     // tablero->creaFichasAjedrez(mSceneMgr);
-
     creaIluminacion();
 }
-
 
 void EscenaAjedrez::DistanciaCamara(int distanciaRelativa)
 {
@@ -169,9 +140,8 @@ void EscenaAjedrez::rotacionCamara(Ogre::Degree angulo)
     //return true;
 }
 
-
-
-Ogre::Camera* EscenaAjedrez::createCamera(void){
+Ogre::Camera* EscenaAjedrez::createCamera(void)
+{
     // Create the camera
     mCamera = mSceneMgr->createCamera("PlayerCam");
 
@@ -203,19 +173,6 @@ void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
     mCamera->setAspectRatio(
                 Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
-
-
-
-
-
-
-Ogre::RaySceneQuery* EscenaAjedrez::createRayQuery(void)
-{
-    // Create the camera
-    mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
-    return mRaySceneQuery;
-}
-
 
 Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char mascara)
 {
@@ -322,83 +279,10 @@ void EscenaAjedrez::acabarModoCamara()
 //}
 
 
-
-
-
-
-
-
-bool EscenaAjedrez::seleccionaFichaEnPosicion(int posX, int posY)
+std::string EscenaAjedrez::encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
 {
 
-    std::cout << "SELECCIONA FICHA "<<std::endl;
-
-    tablero->fichaSeleccionada = false;
-
-    if (tablero->getNodoCasillaSeleccionada() != NULL)
-    {  // Si habia alguno seleccionado...
-
-        Ficha* ficha = static_cast<Ficha*>(tablero->getNodoCasillaSeleccionada()->getHijo(0));
-        ficha->getNodoOgre()->showBoundingBox(false);
-        tablero->setNodoCasillaSeleccionada(-1);
-    }
-
-    std::cout << "SELECCIONA FICHA  2"<<std::endl;
-
-    Casilla* casilla = seleccionaCasillaEnPosicion(posX, posY);
-    std::cout << "SELECCIONA FICHA 3 "<<std::endl;
-
-
-    if (casilla != NULL && !casilla->sinHijos())
-    {
-
-        Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
-
-        std::cout << "SELECCIONA FICHA INTERIOR 1"<<std::endl;
-        if ((tablero->getTurnoNegras()
-             && ficha->esNegra)
-                || (!tablero->getTurnoNegras() && !ficha->esNegra))
-        {
-
-            std::cout << "SELECCIONA FICHA INTERIOR 2"<<std::endl;
-
-
-            std::cout << "SELECCIONA :" << casilla->getNombre()  <<std::endl;
-
-            tablero->setNodoCasillaSeleccionada(casilla);
-
-            ficha->getNodoOgre()->showBoundingBox(true);
-            tablero->fichaSeleccionada = true;
-            return true;
-        }
-        std::cout << "SALE SELECCIONA FICHA INTERIOR "<<std::endl;
-    }
-    std::cout << "SELECCIONA FICHA 4 "<<std::endl;
-    return false;
-}
-
-Casilla* EscenaAjedrez::seleccionaCasillaEnPosicion(int posX, int posY)
-{
-    //EMPIEZA RAYO
-    Ogre::RaySceneQueryResult &result =executeRay(posX,posY,'C');
-    Ogre::RaySceneQueryResult::iterator it;
-    it = result.begin();
-
-    if (it != result.end())
-    {
-        //Busca la casilla que tenga ese nombre
-        return static_cast<Casilla*>(tablero->getHijo(it->movable->getParentSceneNode()->getName()));
-    }
-    // return false;
-}
-
-
-
-std::string EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
-{
-    if (tablero->fichaSeleccionada)
-    {
-        std::cout << "autorizaCasillaSobrevolada"<< std::endl;
+      //  std::cout << "autorizaCasillaSobrevolada"<< std::endl;
 
         // escenaAjedrez->apagaAvisos();
 
@@ -414,25 +298,18 @@ std::string EscenaAjedrez::autorizaCasillaSobrevolada(CEGUI::Vector2 mCursorPosi
         {
             Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
 
-
-
             return nodoSobrevolado->getName();
         //    jugadores.at(tablero->getTurnoNegras())->
 
         }
-    }
+
     return "";
-
 }
-
-
-
 
 void EscenaAjedrez::muestraVentanaEmergente(std::string nombreLayout)
 {
     if (!CEGUI::WindowManager::getSingleton().isWindowPresent(nombreLayout))
     {
-
         ventanaEmergente = CEGUI::WindowManager::getSingleton().loadWindowLayout(nombreLayout+"CEED.layout");
         //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
 
@@ -444,21 +321,14 @@ void EscenaAjedrez::muestraVentanaEmergente(std::string nombreLayout)
     }
 }
 
-
-
-
-
-
-
-
-
 void EscenaAjedrez::apagaVentanaEmergente()
 {
     //CEGUI::System::getSingleton().getGUISheet()->cleanupChildren();
     if (ventanaEmergente != NULL && ventanaEmergente->isVisible())
     {
-        //   std::cout << "apagaavisos dentro"<< std::endl;
+         std::cout << "apagaavisos dentro"<< std::endl;
         ventanaEmergente->setVisible(false);
         CEGUI::WindowManager::getSingleton().destroyWindow(ventanaEmergente->getName());
+        ventanaEmergente = NULL;
     }
 }

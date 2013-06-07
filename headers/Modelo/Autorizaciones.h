@@ -7,12 +7,12 @@ class Autorizaciones : public Movimientos
 {
 public:
     //  static void normalizaTablero(int* tablero);
-    static  bool autorizaRey(ModeloTablero* miTablero);
-    static bool autorizaReina(ModeloTablero* miTablero);
-    static bool autorizaPeon(ModeloTablero* miTablero);
-    static  bool autorizaAlfil(ModeloTablero* miTablero);
-    static  bool autorizaTorre(ModeloTablero* miTablero);
-    static bool autorizaCaballo(int Dif);
+    static  int autorizaRey(ModeloTablero* miTablero);
+    static int autorizaReina(ModeloTablero* miTablero);
+    static int autorizaPeon(ModeloTablero* miTablero);
+    static  int autorizaAlfil(ModeloTablero* miTablero);
+    static  int autorizaTorre(ModeloTablero* miTablero);
+    static int autorizaCaballo(ModeloTablero* miTablero);
 
 private:
     //  static bool verificaCamino(int distancia,  int filaNueva,int colNueva, int camino, int* casillas);

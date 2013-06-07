@@ -13,7 +13,7 @@ public:
 
     static bool pruebaJaqueMate(ModeloTablero* miTablero);
 
-    static bool pruebaCamino(ModeloTablero* miTablero, int salto);
+    static int pruebaCamino(ModeloTablero* miTablero, int salto);
 
  //   void cambiaTurnoModeloTablero();
 

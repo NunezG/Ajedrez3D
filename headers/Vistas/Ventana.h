@@ -27,7 +27,7 @@
 #include "VistaAjedrez.h"
 #include "VistaAjedrezSolo.h"
 
-class Ventana : public OIS::KeyListener, public OIS::MouseListener, public Ogre::WindowEventListener,  public Ogre::FrameListener
+class Ventana :  public Ogre::WindowEventListener
 {
 public:
     Ventana(ModeloVista* modeloVista);
@@ -49,16 +49,13 @@ public:
 
     int pantallaActual();
 
-    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
   //  int mPantalla;
     BaseVistas* vista;
    // BaseApplication* Create(Ogre::String type);
 
-    bool ventanaCerrada();
     void destruyeVista();
     void creaVista();
-    bool CEGUIResources();
 
     Ogre::Root *mRoot;
 
@@ -66,21 +63,12 @@ private:
 
     ModeloVista* modeloVista;
 
-    // OIS::KeyListener
-    bool keyPressed( const OIS::KeyEvent &arg );
-    bool keyReleased( const OIS::KeyEvent &arg );
-    // OIS::MouseListener
-    bool mouseMoved( const OIS::MouseEvent &arg );
-    bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-    bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-    CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
   //  Ogre::SceneManager* mSceneMgr;
   //  Ogre::Root* mRoot;
    // Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
 
 
-    CEGUI::System* sys;
 
    // MenuInicio* menu;
 

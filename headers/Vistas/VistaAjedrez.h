@@ -20,8 +20,10 @@ public:
     bool keyReleased( const OIS::KeyEvent &arg );
     // OIS::MouseListener
     bool mouseMoved( const OIS::MouseEvent &arg );
-    bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-    bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+    bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+    bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+    bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     bool salir();
     bool esMenuInicio();
@@ -36,7 +38,7 @@ public:
 
 protected:
 
-    ModeloVista* modeloVista;
+ //   ModeloVista* modeloVista;
     EscenaAjedrez* escenaAjedrez;
 
 

@@ -1,127 +1,99 @@
 #include "../../headers/ModeloVista/Jugador.h"
 
-
-
 Jugador::Jugador(EscenaAjedrez* miEscena, Modelo* modelo) :
     jugadorNegras(false),
     nombre(""),
-   // miTablero(0)
-  //tableroModelo(modeloTablero)
-   escena(miEscena)
-, modelo(modelo)
-
+    // miTablero(0)
+    //tableroModelo(modeloTablero)
+    escena(miEscena)
+  //, tablero(miEscena->tablero)
+  , modelo(modelo)
   //esperaEleccion(false)
-
-
-
 {
-tablero = escena->tablero;
-
-
-
-
-
-
+    // tablero = escena->tablero;
 
 }
 
 Jugador::~Jugador()
 {
-
-
 }
-
 
 bool Jugador::activaMovimiento()
 {
-
-
-
+    std::cout << "ACTIVAMOV"<< std::endl;
     modelo->jugadaAutorizada = true;
-
-
-
-
+   // aplicaCambio();
 }
-
 
 bool Jugador::casillaSobrevolada(const std::string nombreCasilla)
 {
+    //  std::cout << "auto1: " << nombreCasilla<< std::endl;
 
-    Casilla* casillaSobrevolada = static_cast<Casilla*>(tablero->getHijo(nombreCasilla));
+    Casilla* casillaSobrevolada = static_cast<Casilla*>(escena->tablero->getHijo(nombreCasilla));
 
+    //   std::cout << "auto222" << std::endl;
 
-    Casilla* casillaSobreAnterior = tablero->getNodoCasillaSobrevolada();
+    Casilla* casillaSobreAnterior = escena->tablero->getNodoCasillaSobrevolada();
 
-    std::cout << "autorizaCasillaSobrevolada 1111"<<   casillaSobrevolada->getNombre()  << std::endl;
-    std::cout << "autorizaCasillaSobrevolada ANTERIOR: "<<   casillaSobreAnterior  << std::endl;
+    //   std::cout << "CasillaSobrevolada: "<<   casillaSobrevolada->getNombre()  << std::endl;
 
+    //devulve true si ha cambiado de casilla
     if (!casillaSobreAnterior || casillaSobrevolada->getNombre() != casillaSobreAnterior-> getNombre())
     {
         if (casillaSobreAnterior)
         {
+            //     std::cout << "CasillaSobrevolada ANTERIOR: "<<   casillaSobreAnterior->getNombre()  << std::endl;
+            escena->apagaVentanaEmergente();
+
             casillaSobreAnterior->apagaCasilla();
             //tablero->setNodoCasillaSobrevolada(-1);
         }
 
-        tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
+        //   std::cout << "CAMBIA LA CASILLA SOBREVOLADA: " << std::endl;
+        escena->tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
 
+        return true;
+    }
 
-    }else return false;
-
-
-
-return true;
+    return false;
 }
-
 
 void Jugador::esperaJugador()
 {
+
     //  std::cout << "espera"<<std::endl;
     // std::cout << "jugadores.size()"<< modelo->jugadores.size()<<std::endl;
 
+    //  std::cout  << "mueveficha " << std::endl;
+    mueveFicha();
+    std::cout  << "miramov " << std::endl;
+    //HAY RESULTADO
+    if(modelo->jugadaAutorizada)
+    {
 
+        std::cout  << "HA AUTORIZADO UN MOVIMIENTO EN EL BUCLE!!! " << std::endl;
 
-            //  std::cout  << "mueveficha " << std::endl;
-            mueveFicha();
-            //   std::cout  << "miramov " << std::endl;
-            //HAY RESULTADO
-            if(modelo->jugadaAutorizada)
-            {
-
-                std::cout  << "HA AUTORIZADO UN MOVIMIENTO EN EL BUCLE!!! " << std::endl;
-                aplicaCambio();
-                //  tableroModelo->movimiento[0] = -99;
-                // std::cout  << "BORRA tablromov" << std::endl;
-            }
-            // tablero->setNodoCasillaSeleccionada();
-            // tablero->setNodoCasillaSobrevolada();
-            //  tablero->actualizaTablero();
+        //  tableroModelo->movimiento[0] = -99;
+        // std::cout  << "BORRA tablromov" << std::endl;
+    }
+    // tablero->setNodoCasillaSeleccionada();
+    // tablero->setNodoCasillaSobrevolada();
+    //  tablero->actualizaTablero();
 
 
     //   modelo->mueveJugador(tablero->getTurnoNegras());
 
 }
 
-
-
 std::string Jugador::getNombre()
 {
-
     return nombre;
-
-
 }
-
-
 
 void Jugador::setNombre( std::string unNombre)
 {
-
-
     nombre = unNombre;
 }
-
 
 int Jugador::aplicaSeleccion()
 {
@@ -133,19 +105,15 @@ int Jugador::aplicaSeleccion()
 
     //CAMBIA DE TURNO
     ModeloTablero* turnoSiguiente = new ModeloTablero(*modelo->tableroModelo);
-    //   tablero->turnoN = !tablero->turnoN;
     bool Jaque = false;
 
     //   if (turnoNegras)tablero = Calculos::normalizaTablero(tablero);
-
     std::cout << "cambiatur 7 "<< turnoSiguiente->turnoN<<std::endl;
 
     if (turnoSiguiente->evaluaJaque())
     {//JAQUE AL REY
-
-        std::cout << "!!!!HA EVALUADO JAQUE AL MOVER FICHA" << std::endl;
+        std::cout << "!!!!HA EVALUADO JAQUE PARA EL ENEMIGO AL MOVER FICHA" << std::endl;
         Jaque = true;
-
     }
     std::cout << "!!!!!!pasa! " << std::endl;
 
@@ -160,14 +128,12 @@ int Jugador::aplicaSeleccion()
         if (Jaque)
         {
             std::cout << "!!!!!!!!!DEVUELVE JAQUE MATE! " << std::endl;
-
             //JAQUE MATE
             return 2;
         }
         else
         { //NO HAY JAQUE, AHOGADO, RESULTADO EN TABLAS
             std::cout << "!!!!!!!!!DEVUELVE REY AHOGADO! " << std::endl;
-
             return 3;
         }
 
@@ -181,135 +147,59 @@ int Jugador::aplicaSeleccion()
         else
         {
             std::cout << "!!!!!!!!!!!!!!!!!!NO HAY JAQUE Y MUEVE BIEN!!!: " << std::endl;
-
             //Mueve sin jaque
             return 1;
         }
     }
-
 
     return 0;
 
     std::cout << "FIN cambiatur 4 "<< std::endl;
 }
 
-bool Jugador::aplicaCambio()
+void Jugador::promocionaPeon()
 {
-    std::cout << "APLICA YA EL MOVIMIENTO DEFINITIVO" << std::endl;
+    Casilla* casilla = escena->tablero->getNodoCasillaSobrevolada();
 
-    if (tablero->getNodoCasillaSobrevolada() != NULL)
-        tablero->getNodoCasillaSobrevolada()->apagaCasilla();
-
-    tablero->fichaSeleccionada = false;
-
-    // ModeloTablero* tableroModelo = new ModeloTablero();
-
-    //  tableroModelo->casillasInt = tablero->traduceTablero();
-
-    //  tableroModelo->alPaso = tablero->getAlPaso();
-
-    //  tableroModelo->turnoN = tablero->getTurnoNegras();
-
-    int filaSel;
-    int colSel;
-
-    int filaNueva;
-    int colNueva;
-
-    /* if (tableroModelo->movimiento == NULL)
+    if(!casilla->sinHijos())
     {
+        //PROMOCIONA PEON
+        Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
 
-        filaSel=tablero->getNodoCasillaSeleccionada()->getPosicion().Fila;
+        if(ficha->tipo_Ficha == 1
+                && ((!escena->tablero->getTurnoNegras()
+                     && escena->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila == 7)
+                    || (escena->tablero->getTurnoNegras()
+                        && escena->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila == 0 )))
+        {
+            casilla->eliminaHijo(0);
 
-        colSel = tablero->getNodoCasillaSeleccionada()->getPosicion().Columna;
+            // ficha = tablero->promocionaPeon(ficha);
+            //  Ogre::Entity *entidadFicha;
 
-        filaNueva = tablero->getNodoCasillaSobrevolada()->getPosicion().Fila;
+            std::stringstream saux;
 
-        colNueva = tablero->getNodoCasillaSobrevolada()->getPosicion().Columna;
+            saux.str("");
+            saux << "ReinaPR_" << escena->tablero->peonesPromocionados;
 
-    }else
-    {*/
-    std::cout << "tableroModelo->jugada[0] " << modelo->tableroModelo->jugada[0]<< std::endl;
-    std::cout << "tableroModelo->jugada[1] " << modelo->tableroModelo->jugada[1]<< std::endl;
+            FichaReina* nodoNuevo =new FichaReina(*ficha, saux.str());
 
-    filaSel = (modelo->tableroModelo->jugada[0]/12)-2;
+            if (!escena->tablero->getTurnoNegras())
+            {
+                nodoNuevo->creaModelo3D(escena->mSceneMgr,"Reina",BLANCAS);
+            }
+            else
+            {
+                nodoNuevo->creaModelo3D(escena->mSceneMgr,"Reina",NEGRAS);
+                nodoNuevo->cambiaMaterial("MaterialFichaNegra");
+            }
 
-    colSel = (modelo->tableroModelo->jugada[0]%12)-2;
+            delete ficha;
 
-    filaNueva = (modelo->tableroModelo->jugada[1]/12)-2;
+            escena->tablero->peonesPromocionados++;
 
-    colNueva = (modelo->tableroModelo->jugada[1]%12)-2;
-
-    std::cout << " ficha que se va a mover: " <<modelo->tableroModelo->casillasInt[modelo->tableroModelo->jugada[0]]<< std::endl;
-
-    // }
-
-    //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA
-    int resultado = aplicaSeleccion();
-    std::cout << "ACTUALIZA TABLERO1" << std::endl;
-
-   // delete tableroModelo;
-    //  std::cout  << "nullea tablromov" << std::endl;
-   // tableroModelo = NULL;
-    //  std::cout  << "ACABA EL MOV!!! " << std::endl;
-
-
-    //JUGADOR ARTIFICIAL
-    if (tablero->getNodoCasillaSeleccionada() == NULL)
-    {
-        // std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
-        // std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
-
-        std::cout << "SELECT 1 FILA: "<< (filaSel*8)+colSel <<std::endl;
-
-        tablero->setNodoCasillaSeleccionada((filaSel * 8) + colSel);
-
-        std::cout << "nombre: "<< tablero->getNodoCasillaSeleccionada()->getNombre()<<std::endl;
-
-        //    seleccionaFichaEnPosicion(filaSel, colSel);
-
-        std::cout << "SELECT 2 FILA: "<< (filaNueva * 8) + colNueva <<std::endl;
-
-        tablero->setNodoCasillaSobrevolada((filaNueva * 8) + colNueva);
-
-        std::cout << "nombre: "<< tablero->getNodoCasillaSobrevolada()->getNombre()<<std::endl;
-
-        //tablero->setNodoCasillaSobrevolada(seleccionaCasillaEnPosicion(filaNueva, colNueva));
-    }
-    std::cout << "ACTUALIZA TABLERO2" << std::endl;
-
-    tablero->actualizaTablero();
-
-    if (resultado == 1 || resultado == 4)
-    {//FICHA MOVIDA
-
-        if (resultado == 4)
-        {//JAQUE AL REY
-            escena->muestraVentanaEmergente("Jaque");
+            casilla->agregaHijo(nodoNuevo);
         }
-        //   tablero->actualizaTablero();
-
-        tablero->rotacionCamara = Ogre::Real(180.0f);
-        std::cout << "cambia turno" << std::endl;
-
-        tablero->cambiaTurno();
-        std::cout << "sale" << std::endl;
-
-        return true;
     }
-    else if (resultado == 2)
-    {//JAQUE MATE
-        std::cout << "JAQUE EVALUADO!!"<< std::endl;
-        escena->muestraVentanaEmergente("JaqueMate");
-
-        return false;
-
-    }else if (resultado == 3)
-    {
-        //REY AHOGADO (TABLAS)
-        std::cout << "REY AHOGADO (TABLAS)!!"<< std::endl;
-        escena->muestraVentanaEmergente("Tablas");
-
-    }
-    return false;
+    //return static_cast<FichaReina*>(nodoNuevo);
 }
