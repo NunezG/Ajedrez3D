@@ -174,7 +174,7 @@ bool Modelo::construyeArbol()
     std::cout << "ORIGEN ANTES: "<< tableroModelo->jugada[0]<< std::endl;
     std::cout << "DEST ANTES: "<< tableroModelo->jugada[1]<< std::endl;
 
-    int resultado = ArbolBusqueda::alphaBeta(tableroModelo,-70000, 70000, 3);
+    int resultado = ArbolBusqueda::alphaBeta(tableroModelo,-70000, 70000, 5);
 
     std::cout << "FIN CONST ARBOL"<< std::endl;
     std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< tableroModelo->jugada[0]<< std::endl;
