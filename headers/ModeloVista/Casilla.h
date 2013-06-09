@@ -1,7 +1,6 @@
 #ifndef __Casilla_
 #define __Casilla_
 
-#include <Ogre.h>
 #include "ObjetoOgre.h"
 
 

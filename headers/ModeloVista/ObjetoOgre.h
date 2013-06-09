@@ -1,12 +1,14 @@
 #ifndef __ObjetoOgre_
 #define __ObjetoOgre_
-#include <Ogre.h>
+//#include <Ogre.h>
+#include <OgreSceneManager.h>
+#include <OgreEntity.h>
 
-//#define FICHA 1 << 4
-#define TABLERO 1 << 3
+
 #define CASILLA 1 << 0  // Mascara para el escenario
 #define NEGRAS 1 << 1  // Mascara para objetos de tipo 1
 #define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
+#define TABLERO 1 << 3
 
 
 class ObjetoOgre

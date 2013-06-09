@@ -1,19 +1,15 @@
 #ifndef __VistaAjedrez_h_
 #define __VistaAjedrez_h_
 
-//#include "../BaseOgre.h"
-
-
 #include "BaseVistas.h"
-#include <Ogre.h>
 
 class VistaAjedrez : public  BaseVistas
 {
 public:
-    VistaAjedrez(ModeloVista* modeloV,  Ogre::Root* mRoot);
+    VistaAjedrez(ModeloVista* modeloV);
     ~VistaAjedrez(void);
 
-    bool mueveCamara(float frecuencia);
+
 
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
@@ -26,11 +22,10 @@ public:
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     bool salir();
-    bool esMenuInicio();
 
     bool iniciaVentana();
 
-
+    bool mueveCamara(float frecuencia);
     bool muestraInfo();
 
   //  CEGUI::Window *ventanaJaque;
@@ -41,8 +36,6 @@ protected:
  //   ModeloVista* modeloVista;
     EscenaAjedrez* escenaAjedrez;
 
-
-    Ogre::String textoOverlay;
 };
 
 #endif // #ifndef __VistaAjedrez_h_

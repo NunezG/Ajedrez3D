@@ -1,11 +1,6 @@
 #ifndef __ModeloVista_
 #define __ModeloVista_
 
-#include "../Modelo/ModeloTablero.h"
-#include "EscenaAjedrez.h"
-//#include "../Vistas/VistaAjedrez.h"
-
-
 #include "JugadorArtificial.h"
 #include "JugadorHumano.h"
 
@@ -15,9 +10,6 @@ class  ModeloVista
 public:
     ModeloVista();
     ~ModeloVista(void);
-
-
-    int numJugadores;
 
     void cambiaPantalla(int pantallaNueva);
     bool botonIzquierdo();
@@ -32,12 +24,6 @@ public:
     bool iniciaModeloAjedrez();
     bool generaJugadores();
 
-
-    Modelo* modelo;
-    EscenaAjedrez* escena;
-
-    bool pantallaCompleta;
-    std::string resolucion;
     bool getApagar();
     void setApagar(bool apaga);
     bool creaModeloTablero();
@@ -55,13 +41,22 @@ public:
 
     void creaJugador(bool blancas, bool humano);
 
-    std::vector<Jugador*> jugadores;
-    Jugador* JugadorActivo;
 
     void miraCambios();
 
     //void cambiaTurno();
     bool aplicaCambio();
+
+
+
+    std::vector<Jugador*> jugadores;
+    Jugador* JugadorActivo;
+    Modelo* modelo;
+    EscenaAjedrez* escena;
+
+    bool pantallaCompleta;
+    std::string resolucion;
+    int numJugadores;
 
 private:   
 

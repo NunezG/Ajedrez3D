@@ -1,5 +1,6 @@
 #ifndef __MenuInicio_
 #define __MenuInicio_
+
 #include "BaseVistas.h"
 
 
@@ -7,7 +8,7 @@ class MenuInicio : public BaseVistas
 {
 public:
 
-    MenuInicio(ModeloVista* modeloV, Ogre::Root* mRoot);//Ventana* mFrameListener);
+    MenuInicio(ModeloVista* modeloV);//Ventana* mFrameListener);
     ~MenuInicio(void);
 
    // CEGUI::FrameWindow* createGUI(void);
@@ -15,9 +16,10 @@ public:
     //bool salir();
     bool iniciaVentana();
 
-    bool esMenuInicio();
 
     bool pantallaInicio();
+
+
 protected:
     int posBoton;
 
@@ -35,7 +37,7 @@ protected:
     bool pantallaConfig();
 
 
-    bool mueveCamara(float frecuencia);
+  //  bool mueveCamara(float frecuencia);
 
     bool keyPressed( const OIS::KeyEvent &arg );
     bool keyReleased( const OIS::KeyEvent &arg );
@@ -44,6 +46,8 @@ protected:
     bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+    CEGUI::Listbox* creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre,std::vector<std::string*> listaElementos, CEGUI::Listbox* listaReal);
 
     CEGUI::Window* ventanaConfig;
 
@@ -61,7 +65,7 @@ protected:
 
     CEGUI::FrameWindow* fWnd;
 
-    CEGUI::Listbox* creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre,std::vector<std::string*> listaElementos, CEGUI::Listbox* listaReal);
+
 
 };
 

@@ -1,6 +1,6 @@
 #ifndef __Autorizaciones_
 #define __Autorizaciones_
-//#include "Tablero.h"
+
 #include "Movimientos.h"
 
 class Autorizaciones : public Movimientos

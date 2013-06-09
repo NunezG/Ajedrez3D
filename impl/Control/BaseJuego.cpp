@@ -93,12 +93,13 @@ void BaseJuego::go(void)
         {
 
             punteroVentana->creaVista();
-
+            punteroVentana->destruyeVista();
 
         }
 
     std::cout << "acaba del todo" << std::endl;
 
     // clean up (despues de ejeucion)
-    punteroVentana->destroyScene();
+    delete punteroVentana;
+    delete modeloVista;
 }

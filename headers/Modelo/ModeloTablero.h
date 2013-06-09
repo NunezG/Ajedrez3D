@@ -1,5 +1,6 @@
 #ifndef __ModeloTablero_
 #define __ModeloTablero_
+
 #include <algorithm>    // std::for_each
 #include <vector>       // std::vector
 #include <iostream>
@@ -44,6 +45,7 @@ struct ModeloTablero
 
     //constructor de copia
     ModeloTablero( const ModeloTablero& original );
+    bool evaluaJaque();
 
     std::vector<ModeloTablero*> vectorMov;
 
@@ -65,7 +67,7 @@ struct ModeloTablero
     //  std::string fichaMovida;
   //  int* mueveTablero();
 
-    bool evaluaJaque();
+
 
 private:
 

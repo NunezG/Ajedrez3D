@@ -1,7 +1,6 @@
 #ifndef __Ficha_
 #define __Ficha_
 
-#include <Ogre.h>
 #include "ObjetoOgre.h"
 
 enum ColorFicha

@@ -1,16 +1,8 @@
 #ifndef __BaseJuego_h_
 #define __BaseJuego_h_
 
-//#include <Ogre.h>
-//#include <OIS.h>
-//#include <CEGUI/CEGUI.h>
-//#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-//#include "MenuInicio.h"
 
 #include "../Vistas/Ventana.h"
-
-//#include "MenuInicial.h"
-//#include <OgreRoot.h>
 #include "../Modelo/Modelo.h"
 
 

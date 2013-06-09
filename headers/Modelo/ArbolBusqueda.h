@@ -1,8 +1,6 @@
 #ifndef __ArbolBusqueda_
 #define __ArbolBusqueda_
 
-//#include "ModeloTablero.h"
-//#include "../Modelo/ModuloIA.h"
 #include "../Modelo/Movimientos.h"
 
 

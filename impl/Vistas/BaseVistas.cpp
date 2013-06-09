@@ -1,11 +1,12 @@
 #include "../../headers/Vistas/BaseVistas.h"
 
-BaseVistas::BaseVistas(ModeloVista* modeloV, Ogre::Root* mRoot, std::string label):
+BaseVistas::BaseVistas(ModeloVista* modeloV, std::string label):
 mInputManager(0),
     mMouse(0),
     mKeyboard(0)
   , sys(0)
   , modeloVista(modeloV)
+  , mRoot(0)
 
   //modoJuego(0)
 {  
@@ -16,6 +17,8 @@ mInputManager(0),
   //  modeloVista = modeloV;
 
 
+    //ENCIENDE
+    mRoot =new Ogre::Root("plugins.cfg");
 
     Ogre::LogManager::getSingletonPtr()->logMessage("***CONFIGURA GRAFICOS**");
 
@@ -58,11 +61,38 @@ BaseVistas::~BaseVistas()
     std::cout << "destroy cegu o gre system"<< std::endl;
     CEGUI::OgreRenderer::destroySystem();
 
+    if (mRoot )
+
+    {
+
+
+        mRoot->removeFrameListener(this);
+        //mRoot->destroySceneManager(modelo->escenaAjedrez->mSceneMgr);
+        //  modelo->escenaAjedrez->destruyeTablero();
+
+        //  mRoot->destroySceneManager(mSceneMgr);
+
+
+
+        delete mRoot;
+        mRoot = NULL;
+    }
 
     // delete mWindow;
 
     // mWindow = 0;
 }
+
+
+
+void BaseVistas::empieza()
+{
+
+    mRoot->startRendering();
+
+}
+
+
 
 Ogre::RenderWindow* BaseVistas::getVentana()
 {
@@ -79,6 +109,8 @@ bool BaseVistas::CEGUIResources()
 
     return true;
 }
+
+
 
 
 bool BaseVistas::iniciaCEGUI()

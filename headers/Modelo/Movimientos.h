@@ -1,9 +1,7 @@
 #ifndef __Movimientos_
 #define __Movimientos_
-//#include "Tablero.h"
-//#include "Calculos.h"
-#include "ModeloTablero.h"
 
+#include "ModeloTablero.h"
 
 class Movimientos
 {

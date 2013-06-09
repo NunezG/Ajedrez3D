@@ -2,24 +2,20 @@
 #define __EscenaAjedrez_
 
 #include <OgreCamera.h>
-#include <OgreEntity.h>
 #include <OgreLogManager.h>
-#include <OgreRoot.h>
 #include <OgreViewport.h>
-#include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
-#include <OgreConfigFile.h>
+#include <OgreRoot.h>
 
 
-#include <Ogre.h>
-//#include "InputMan.h"
-//#include "Tablero.h"
+
+//#include <OgreConfigFile.h>
 
 
+#include <CEGUI/CEGUIVector.h>
+#include <CEGUI/CEGUIWindowManager.h>
+#include <CEGUI/CEGUIWindow.h>
 #include <CEGUI/CEGUISystem.h>
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 
 
 #include "Tablero.h"
@@ -56,13 +52,6 @@ public:
     void destruyeTablero();
 
 
-    Ogre::SceneNode* mTarget;
-    Ogre::String columnas;
-
-    //std::vector<Tablero*> HistorialMovimientos;
-    Tablero* tablero;
-    Ogre::SceneManager* mSceneMgr;
-    Ogre::Camera* mCamera;
 
     Tablero* getTablero();
 
@@ -87,10 +76,17 @@ public:
     void muestraVentanaEmergente(std::string nombreLayout);
 
 
+    Ogre::SceneNode* mTarget;
+    Ogre::String columnas;
+
+    //std::vector<Tablero*> HistorialMovimientos;
+    Tablero* tablero;
+    Ogre::SceneManager* mSceneMgr;
+    Ogre::Camera* mCamera;
 private:   
 
 
-    Ogre::RaySceneQuery *mRaySceneQuery;
+
     //Modelo* modelo;
 
     Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
@@ -99,7 +95,7 @@ private:
     void creaIluminacion();
     void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);
 
-    CEGUI::Window *ventanaEmergente;
+
 
 
     // bool turnoNegras;
@@ -108,9 +104,9 @@ private:
 
     //  bool mCambiaTurno;
 
-
+    CEGUI::Window *ventanaEmergente;
     Ogre::RenderWindow* mWindow;
-
+    Ogre::RaySceneQuery *mRaySceneQuery;
 
     Ogre::Real mTopSpeed;
     bool mGoingLeft;

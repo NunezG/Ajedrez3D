@@ -2,8 +2,8 @@
 #include "../../headers/Vistas/MenuInicio.h"
 
 //-------------------------------------------------------------------------------------
-MenuInicio::MenuInicio(ModeloVista* modeloV, Ogre::Root* mRoot) :
-    BaseVistas(modeloV, mRoot,  "Root Menu")
+MenuInicio::MenuInicio(ModeloVista* modeloV) :
+    BaseVistas(modeloV,  "Root Menu")
 ,    ventanaConfig(NULL),
     listaResoluciones(NULL)
 
@@ -197,11 +197,6 @@ bool MenuInicio::pantallaConfig()
 
 }
 
-
-bool MenuInicio::esMenuInicio(){
-
-    return true;
-}
 
 bool MenuInicio::keyPressed( const OIS::KeyEvent &arg ) {
     BaseVistas::keyPressed(arg);
@@ -478,9 +473,3 @@ CEGUI::Listbox* MenuInicio::creaMenuDesplegable(CEGUI::Event::Subscriber evento,
     return listaReal;
 }
 
-
-//-------------------------------------------------------------------------------------
-bool MenuInicio::mueveCamara(float frecuencia)
-{
-
-}

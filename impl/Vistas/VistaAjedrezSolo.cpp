@@ -2,8 +2,8 @@
 #include "../../headers/Vistas/VistaAjedrezSolo.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrezSolo::VistaAjedrezSolo(ModeloVista* modeloV,  Ogre::Root* mRoot)
-    : VistaAjedrez(modeloV, mRoot)
+VistaAjedrezSolo::VistaAjedrezSolo(ModeloVista* modeloV)
+    : VistaAjedrez(modeloV)
 
 {
 }
@@ -11,6 +11,7 @@ VistaAjedrezSolo::VistaAjedrezSolo(ModeloVista* modeloV,  Ogre::Root* mRoot)
 VistaAjedrezSolo::~VistaAjedrezSolo(void)
 {    
 }
+
 
 
 //NO SIRVE PARA NADA PERO SE PUEDE USAR PARA MOSTRAR OTROS MENUS

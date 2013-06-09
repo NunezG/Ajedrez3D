@@ -16,12 +16,14 @@ public:
     void mueveFicha();
     //void setVentana(Ventana* obj);
 
-    int dificultad;
+
 
    // void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
 
     bool activaMovimiento();
     bool casillaSobrevolada(const std::string nombreCasilla);
+
+    int dificultad;
 
 private:
     void calculaMovimiento();

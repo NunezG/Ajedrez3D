@@ -30,12 +30,6 @@ public:
     std::string getNombre();
     void setNombre( std::string unNombre);
 
-    bool jugadorNegras;
-    void esperaJugador();
-    Modelo* modelo;
-
-
-
 
     void promocionaPeon();
 
@@ -43,6 +37,15 @@ public:
     bool activaMovimiento();
 
     virtual bool casillaSobrevolada(const std::string nombreCasilla);
+
+
+    void esperaJugador();
+
+
+    Modelo* modelo;
+    bool jugadorNegras;
+
+
 
 
 

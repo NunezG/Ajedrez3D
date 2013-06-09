@@ -2,9 +2,8 @@
 #include "../../headers/Vistas/VistaAjedrez.h"
 
 //-------------------------------------------------------------------------------------
-VistaAjedrez::VistaAjedrez(ModeloVista* modeloV, Ogre::Root* mRoot) :
-    BaseVistas(modeloV, mRoot, "Root Ajedrez")
-  , textoOverlay("VACIO")
+VistaAjedrez::VistaAjedrez(ModeloVista* modeloV) :
+    BaseVistas(modeloV, "Root Ajedrez")
 {
     std::cout   << "   ESCNA EN VISTAAJEDREZ" << std::endl;
 
@@ -35,6 +34,8 @@ VistaAjedrez::VistaAjedrez(ModeloVista* modeloV, Ogre::Root* mRoot) :
 VistaAjedrez::~VistaAjedrez(void)
 {    
 }
+
+
 
 bool VistaAjedrez::muestraInfo()
 {
@@ -159,11 +160,6 @@ bool VistaAjedrez::salir()
 
 }
 
-bool VistaAjedrez::esMenuInicio()
-{
-
-    return false;
-}
 
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::mueveCamara(float frecuencia)
