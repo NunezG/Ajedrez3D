@@ -28,8 +28,10 @@ int main(int argc, char *argv[])
 {
     try {
 
-        ControlJuego& control = ControlJuego::getControlSingleton();
-        control.go();
+        BaseJuego* control = new BaseJuego();
+        control->go();
+
+        delete control;
 
     } catch( Ogre::Exception& e ) {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

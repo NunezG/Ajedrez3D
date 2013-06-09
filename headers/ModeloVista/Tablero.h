@@ -32,78 +32,35 @@ public:
     ~Tablero(void);
     Tablero(void);
 
-   int getAlPaso();
-
-   void setAlPaso(int casilla);
-
-  // bool creaFichasAjedrez(Ogre::SceneManager* sceneMgr);
-
-    bool creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
-
-    //Ogre::SceneNode* nodoCasillero;
-
-    //bool setTurnoNegras(bool turno);
-
-   // void setTurnoNegras(bool turno);
-
+    int getAlPaso();
+    void setAlPaso(int casilla);
     Casilla* getNodoCasillaSeleccionada();
     Casilla* getNodoCasillaSobrevolada();
-
     void setNodoCasillaSeleccionada(Casilla* nodo);
     void setNodoCasillaSobrevolada(Casilla* nodo);
-
     void setNodoCasillaSeleccionada(int posicion);
     void setNodoCasillaSobrevolada(int posicion);
+    bool getTurnoNegras();
 
+    bool creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
     void actualizaTablero();
 
-    bool getTurnoNegras();
     bool turnoNegras;
-
-   // std::string columnas;
-
-   Ogre::SceneManager* mSceneMgr;
-   bool fichaSeleccionada;
-   Ogre::Degree rotacionCamara;
-
-   int alPaso;
-   int peonesPromocionados;
+    Ogre::SceneManager* mSceneMgr;
+    bool fichaSeleccionada;
+    Ogre::Degree rotacionCamara;
+    int alPaso;
+    int peonesPromocionados;
 
 private:
 
-   void creaCasillas();
-
-  // ObjetoOgre* objetoOgreAsociado;
-
-   void creaPeones();
-   void creaNobleza();
-   void creaVasallos();
-   //void creaFichas();
-
-  // bool verificaCamino(int inicial[2], int final[2], int camino);
-
-   // int nivel;
-
-   // int alPaso;
+    void creaCasillas();
+    void creaPeones();
+    void creaNobleza();
+    void creaVasallos();
 
     Casilla* _selectedNode;
     Casilla* _nodoNuevo;
-
-   /*
-     bool jaqueNegras;
-     bool mateNegras;
-     bool jaqueBlancas;
-     bool mateBlancas;
-   */
-
-  //   bool ahogado;
-
-  //  Ficha* fichasNegras[16];
-  //  Ficha* fichasBlancas[16];
-
-   // Ogre::SceneNode* nodoTablero;
-   // Tablero* listaNodos[];
-   // int casillas[8][8];
 };
 
 #endif

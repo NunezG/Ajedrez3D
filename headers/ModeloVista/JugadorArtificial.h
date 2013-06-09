@@ -14,12 +14,6 @@ public:
 
     bool esHumano();
     void mueveFicha();
-    //void setVentana(Ventana* obj);
-
-
-
-   // void sobreVuelaNodoCasilla(Ogre::SceneNode* casillaSobrevolada);
-
     bool activaMovimiento();
     bool casillaSobrevolada(const std::string nombreCasilla);
 
@@ -27,16 +21,6 @@ public:
 
 private:
     void calculaMovimiento();
-
-
-
-//    ModeloTablero* tableroElegido;
-//ModeloTablero* miTablero;
-
-   // bool BorraArbol();
-
-
-
 };
 
 

@@ -1,33 +1,18 @@
 #include "../../headers/ModeloVista/Tablero.h"
 
-
-
 Tablero::Tablero() :
     ObjetoOgre("Tablero")
-  //,alPaso(0)
-  //
   ,  _nodoNuevo(0)
   , _selectedNode(0)
   , peonesPromocionados(0)
   ,    fichaSeleccionada(false)
   , rotacionCamara(0)
   , turnoNegras(false)
-
-
 {
-
-
-
 }
 Tablero::~Tablero()
 {
-
-
-    //delete mSceneMgr;
 }
-
-
-
 
 bool Tablero::getTurnoNegras()
 {
@@ -113,8 +98,6 @@ void Tablero::creaCasillas()
 
         saux.str("");
         saux  << Ogre::StringConverter::toString( contFila + 1 )<<  columnas[contColumna];
-
-
 
         objeto = new Casilla(saux.str());
         objeto->creaModelo3D(mSceneMgr, "Casilla", CASILLA);
@@ -301,139 +284,32 @@ void Tablero::creaPeones()
             // objeto->trasladar(70,70);
             posCasilla = (i/2)+(6*8);
         }
-         getHijo(posCasilla)->agregaHijo(objeto);
+        getHijo(posCasilla)->agregaHijo(objeto);
     }
 }
-/*
-bool Tablero::verificaCamino(int diferencia[2], int final[2], int camino)
-{
-    //Ogre::SceneNode* nodoCasillero = static_cast<Ogre::SceneNode*>(_nodoNuevo->getParent());
-    // Ogre::Vector3 nuevo = _nodoNuevo->getPosition();
-    // const String columnas = "ABCDEFGH";
-
-    int colDestino = -(final[1]/10);
-    int filaDestino = -(final[0]/10)+1;
-    int numCasillasX = diferencia[0]/10;
-    int numCasillasZ = diferencia[1]/10;
-
-    int colZ, filaX, dist;
-
-    if (camino == 1)  //MOVIMIENTO A LA DERECHA
-    {
-        colZ = colDestino;
-        dist = -numCasillasX;
-    }
-    else if (camino == 2) //MOVIMIENTO A LA IZQUIERDA
-    {
-        colZ = colDestino;
-        dist = numCasillasX;
-    }
-    else if (camino == 3) //MOVIMIENTO HACIA ARRIBA
-    {
-        filaX = filaDestino;
-        dist = numCasillasZ;
-    }
-    else if (camino == 4) //MOVIMIENTO HACIA ABAJO
-    {
-        filaX = filaDestino;
-        dist = -numCasillasZ;
-    }
-    else if (camino == 5) dist = numCasillasZ; //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
-    else if (camino == 6) dist = numCasillasZ; //MOVIMIENTO DIAGONAL ARRIBA DERECHA
-    else if (camino == 7) dist = -numCasillasZ; //MOVIMIENTO DIAGONAL ABAJO IZQUIERDA
-    else if (camino == 8) dist = -numCasillasZ; //MOVIMIENTO DIAGONAL ABAJO DERECHA
-
-    for (int i = 1; i < dist; i++)
-    {
-        if (camino == 1) filaX = filaDestino-i;  // DERECHA
-        else if (camino == 2) filaX = filaDestino+i; // IZQUIERDA
-        else if (camino == 3) colZ = colDestino+i; // MOVIMIENTO HACIA ARRIBA
-        else if (camino == 4) colZ = colDestino-i; // MOVIMIENTO HACIA ABAJO
-        else if (camino == 5)
-        { //MOVIMIENTO DIAGONAL ARRIBA IZQUIERDA
-            colZ = colDestino+i;
-            filaX = filaDestino+i;
-        }
-        else if (camino == 6)
-        { //MOVIMIENTO DIAGONAL ARRIBA DERECHA
-            colZ = colDestino+i;
-            filaX = filaDestino-i;
-        }
-        else if (camino == 7) //MOVIMIENTO DIAGONAL ABAJO IZQUIERDA
-        {
-            colZ = colDestino-i;
-            filaX = filaDestino+i;
-        }
-        else if (camino == 8) //MOVIMIENTO DIAGONAL ABAJO DERECHA
-        {
-            colZ = colDestino-i;
-            filaX = filaDestino-i;
-        }
-
-        // Ogre::SceneNode* nodoTrayectoria = static_cast<Ogre::SceneNode*>(nodoCasillero->getChild(columnas[colZ] + Ogre::StringConverter::toString(filaX)));
-        if (casillas[colZ][filaX] > 0)
-            return false;
-    }
-    return true;
-}
-*/
-
-
 
 void Tablero::actualizaTablero()
-{
-    //NOTIFICAR A LAS VISTAS??
-
-
-    //    Ogre::SceneNode* nodoCasillas = tablero->nodoCasillero;
-
-
-
-    //tablero->getNodoCasillaSeleccionada()->getPosicion(), tablero->getNodoCasillaSobrevolada()->getPosicion()
-
+{  
     Casilla* nodoCasillaTemporal = getNodoCasillaSeleccionada();
     Casilla* casillaDestinoTemp = getNodoCasillaSobrevolada();
 
-
     if (!nodoCasillaTemporal->sinHijos())
     {
-
         Ficha* ficha =  static_cast<Ficha*>(nodoCasillaTemporal->getHijo(0));
-
-        //  if (nodoFichaTemporal->salto) nodoFichaTemporal->salto = false;
-
-        // Ogre::Entity* entidadFichaTemporal =  static_cast<Ogre::Entity*>(nodoFichaTemporal->getAttachedObject(0));
-
 
         //BORRA FICHA DE LA CASILLA
         nodoCasillaTemporal->eliminaHijo(0);
 
-        // columna = tablero->columnas[casillaDestino[0]];
-
-      //  setNodoCasillaSeleccionada(nodoCasillaTemporal);
-
-
         //BORRA FICHA ENEMIGA DE LA CASILLA NUEVA
         if (!casillaDestinoTemp->sinHijos())
         {
-
             Ficha* ficha = static_cast<Ficha*>(casillaDestinoTemp->getHijo(0));
             casillaDestinoTemp->eliminaHijo(0);
             delete ficha;
             ficha = NULL;
         }
 
-
-        //if (!nodoCasillaTemporal->sinHijos()) nodoCasillaTemporal->eliminaHijo(0);
-
         casillaDestinoTemp->agregaHijo(ficha);
-
-        //  casillas[numCasilla] = traduceFicha(entidadFichaTemporal->getName()[4]);
-
-        //  nodoCasillas
-        //tableroElegido->casillasInt;
-
-      //  setNodoCasillaSobrevolada(casillaDestinoTemp);
 
         if (ficha->tipo_Ficha == 6)
         {
@@ -456,8 +332,6 @@ void Tablero::actualizaTablero()
 
             if (difCol == -2)
             {
-                //Casilla* casillaTorre = static_cast<Casilla*>(escenaAjedrez->tablero->getHijo((fila*8)));
-
                 Casilla* casillaTorre = static_cast<Casilla*>(getHijo(fila*8));
                 Ficha* fichaTorre = static_cast<Ficha*>(casillaTorre->getHijo(0));
                 casillaTorre->eliminaHijo(0);
@@ -465,107 +339,40 @@ void Tablero::actualizaTablero()
                 casillaTorre = static_cast<Casilla*>(getHijo((fila*8) +casillaDestinoTemp->getPosicion().Columna+1));
                 casillaTorre->agregaHijo(fichaTorre);
             }
-
         }
 
         if (ficha->tipo_Ficha == 1)
         {
-
-
-
-
-            //   std::cout  << "fila seleccionada:" << getNodoCasillaSeleccionada()->getPosicion().Fila<< std::endl;
-
-            //   std::cout  << "col seleccionada:" << getNodoCasillaSeleccionada()->getPosicion().Columna<< std::endl;
-
-            //   std::cout  << "fila sobrevolada:" << getNodoCasillaSobrevolada()->getPosicion().Fila<< std::endl;
-
-            //   std::cout  << "col sobrevolada:" << getNodoCasillaSobrevolada()->getPosicion().Columna<< std::endl;
-
-
             int dif = casillaDestinoTemp->getPosicion().Fila - nodoCasillaTemporal->getPosicion().Fila;
-
-            //  std::cout  << "dif:" << dif<< std::endl;
-
             int difCol = casillaDestinoTemp->getPosicion().Columna - nodoCasillaTemporal->getPosicion().Columna;
-            //  std::cout  << "difcol: " << difCol<<std::endl;
-
             if (dif < 0 ) dif = -dif;
             if (difCol<0 ) difCol = -difCol;
 
-
-            //  std::cout  << "COMPRUEBA ALPASO: " <<alPaso<<std::endl;
-
             if(alPaso > 0 && dif == 1 && difCol == 1)
             {
-
                 //SOLO COMER AL PASO
                 int fila =nodoCasillaTemporal->getPosicion().Fila;
                 int columna =casillaDestinoTemp->getPosicion().Columna;
 
                 if (alPaso = 24+(fila*12)+columna+2)
                 {
-
                     Casilla* casillaAux = static_cast<Casilla*>(getHijo((fila*8)+columna));
 
                     if (!casillaAux->sinHijos())
                     {
-                        //* fichaAux = static_cast<Ficha*>(casillaAux->getHijo(0));
                         casillaAux->eliminaHijo(0);
-
                     }
-
-
                 }
-
-
             }
             setAlPaso(-1);
 
 
-            if( dif == 2){
-
+            if( dif == 2)
                 setAlPaso(24+(casillaDestinoTemp->getPosicion().Fila*12) +  casillaDestinoTemp->getPosicion().Columna+2);
-                //   std::cout  << "ALPASO EN TABLERO: " <<alPaso<<std::endl;
-
-            }
-
-        }else setAlPaso(-1);
+        }
+        else setAlPaso(-1);
 
         //DESELECCIONA FICHA Y CASILLA
         ficha->getNodoOgre()->showBoundingBox(false);
     }
 }
-
-
-
-
-
-
-
-/*
-board type
-    This type contains all information specific to the current state of the game, including layout of the board and current player.
-
-score type
-    This data type indicates piece advantage, strategic advantage, and possible wins. In most games, strategic advantage includes the number of moves available to each player with the goal of minimizing the opponent's mobility.
-
-neg_infinity and pos_infinity
-    The most extreme scores possible in the game, each most disadvantageous for one player in the game.
-
-generate_moves
-    This function takes the current board and generates a list of possible moves for the current player.
-
-apply_move
-    This function takes a board and a move, returning the board with all the updates required by the given move.
-
-null_move
-    If the chosen game allows or requires a player to forfeit moves in the case where no moves are available, this function takes the current board and returns it, after switching the current player.
-
-static_evaluation
-    This function takes the board as input and returns a score for the game.
-
-compare_scores
-    This function takes 2 scores to compare and a player, returning the score that is more advantageous for the given player. If scores are stored as simple integers, this function can be the standard < and > operators.
-
-*/

@@ -126,7 +126,7 @@ set(HDRS
         ./headers/Control/Inicio.h
 
         ./headers/Control/BaseJuego.h
-        ./headers/Control/ControlJuego.h
+      #  ./headers/Control/ControlJuego.h
 
 
 
@@ -189,7 +189,7 @@ set(SRCS
         ./impl/Control/Inicio.cpp
 
         ./impl/Control/BaseJuego.cpp
-        ./impl/Control/ControlJuego.cpp
+      #  ./impl/Control/ControlJuego.cpp
 
         # VISTA
        # ./impl/BaseOgre.cpp

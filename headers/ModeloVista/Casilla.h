@@ -13,41 +13,21 @@ struct posicion{
 
 class Casilla : public ObjetoOgre
 {
-
-
-    //struct testCasilla{
-      //  Ogre::String posicion;
-       // Ficha* fichaAsociada;
-
-
-    //};
-
-
 public:
-
-
-    posicion getPosicion();
-
     ~Casilla(void);
     Casilla(std::string nombre);
 
     void iluminaCasilla();
     void apagaCasilla();
-
     void trasladarAPunto();
-
     void setPosicion(int posFila, int posCol);
+    posicion getPosicion();
 
     bool esNegra;
-
-  //  bool seleccionada;
 
 protected:
 
     posicion posCasilla;
-
-
-
 
 private:
 };

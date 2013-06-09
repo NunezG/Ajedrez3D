@@ -11,43 +11,25 @@ public:
     ModeloVista();
     ~ModeloVista(void);
 
-    void cambiaPantalla(int pantallaNueva);
-    bool botonIzquierdo();
-
-
     int getNumPantalla();
     void setNumPantalla(int pantalla);
-
     void setSalir(bool salir);
-    bool getSalir();
+    bool getSalir(); 
+    bool getApagar();
+    void setApagar(bool apaga);
 
     bool iniciaModeloAjedrez();
     bool generaJugadores();
-
-    bool getApagar();
-    void setApagar(bool apaga);
     bool creaModeloTablero();
-
-
-    //Jugador* jugadorActual;
-
+    void cambiaPantalla(int pantallaNueva);
+    bool botonIzquierdo();
     int* traduceTablero();
-
     bool seleccionaFichaEnPosicion(CEGUI::Vector2 pos);
-
     bool reiniciaVista();
-
     bool preparaEscena();
-
     void creaJugador(bool blancas, bool humano);
-
-
     void miraCambios();
-
-    //void cambiaTurno();
     bool aplicaCambio();
-
-
 
     std::vector<Jugador*> jugadores;
     Jugador* JugadorActivo;
@@ -59,8 +41,6 @@ public:
     int numJugadores;
 
 private:   
-
-
 
     bool mShutDown;
     int mPantalla;

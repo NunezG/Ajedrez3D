@@ -1,47 +1,21 @@
 #ifndef __BaseJuego_h_
 #define __BaseJuego_h_
 
-
 #include "../Vistas/Ventana.h"
 #include "../Modelo/Modelo.h"
-
-
 
 class BaseJuego
 {
 public:
     void go(void);
-
-protected:
-
     BaseJuego(void);
     ~BaseJuego(void);
 
-
-
-   // virtual void inicio(void) = 0;
-
-    void setupResources(void);
-    bool setup();
-    bool configureOpenGL();
-    bool configureOgre(void);
-    void chooseSceneManager(void);
-
-    void agregaJugador();
-
-
-
-
-   // void destruyeTablero(void);
-
+protected:
 
     Ventana* punteroVentana;
     ModeloVista* modeloVista;
-
     Modelo* modelo;
-   // Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
-   // Ogre::SceneManager* mSceneMgr;
-
 };
 
 #endif // #ifndef __BaseJuego_h_

@@ -10,17 +10,12 @@ public:
 
     ~FichaAlfil(void);
     FichaAlfil(std::string nombre);
-
-
 protected:
-
-//    bool setCasilla(int cas[2]);
 
     bool autorizaFicha(int diferencia[2]);
 
 
 private:  
-
 
 
 };
