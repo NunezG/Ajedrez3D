@@ -120,15 +120,11 @@ endif()
 
 set(HDRS
         #./headers/BaseOgre.h
-
         #./headers/CreacionJuego.h
        # ./headers/MenuInicial.h
-        ./headers/Control/Inicio.h
-
-        ./headers/Control/BaseJuego.h
+       # ./headers/Control/Inicio.h
+        #./headers/Inicio.h
       #  ./headers/Control/ControlJuego.h
-
-
 
         ./headers/Vistas/Ventana.h
         ./headers/Vistas/VistaAjedrez.h
@@ -136,29 +132,18 @@ set(HDRS
         ./headers/Vistas/MenuInicio.h
         ./headers/Vistas/BaseVistas.h
 
-
-
         # headers de modelo
-
-
       #  ./headers/Modelo/InputMan.h
-
-
-
    #    ./headers/Modelo/Calculos.h
+
        ./headers/Modelo/Autorizaciones.h
         ./headers/Modelo/Movimientos.h
-
         ./headers/Modelo/Modelo.h
         ./headers/Modelo/ModeloTablero.h
-
         ./headers/Modelo/ArbolBusqueda.h
 
-
        # ./headers/Modelo/ModeloMenu.h
-
       #  ./headers/Modelo/ModuloIA.h
-
 
        ./headers/ModeloVista/Tablero.h
        ./headers/ModeloVista/FichaRey.h
@@ -175,20 +160,14 @@ set(HDRS
         ./headers/ModeloVista/Jugador.h
         ./headers/ModeloVista/JugadorHumano.h
         ./headers/ModeloVista/JugadorArtificial.h
-
-
-
-
-
-
 )
  
 set(SRCS
 
         #CONTROL
-        ./impl/Control/Inicio.cpp
+       # ./impl/Control/Inicio.cpp
 
-        ./impl/Control/BaseJuego.cpp
+        ./impl/Inicio.cpp
       #  ./impl/Control/ControlJuego.cpp
 
         # VISTA
@@ -204,18 +183,13 @@ set(SRCS
 
         # implementaciones de modelo
 
-
-
          #  MODELO
   #     ./impl/Modelo/Calculos.cpp
        ./impl/Modelo/Autorizaciones.cpp
        ./impl/Modelo/Movimientos.cpp
-
         ./impl/Modelo/Modelo.cpp
         ./impl/Modelo/ModeloTablero.cpp
-
        ./impl/Modelo/ArbolBusqueda.cpp
-
 
       #    ./impl/Modelo/ModuloIA.cpp
 
@@ -236,14 +210,7 @@ set(SRCS
       ./impl/ModeloVista/JugadorHumano.cpp
        ./impl/ModeloVista/JugadorArtificial.cpp
 
-
      #  ./impl/Modelo/ModeloMenu.cpp
-
-
-
-
-
-
 )
  
 include_directories( ${OIS_INCLUDE_DIRS}

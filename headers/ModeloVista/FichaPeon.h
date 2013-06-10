@@ -12,7 +12,6 @@ public:
 
 private:  
 
-    bool autorizaFicha(int diferencia[2]);
 };
 
 #endif

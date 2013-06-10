@@ -11,37 +11,31 @@ public:
     ModeloVista();
     ~ModeloVista(void);
 
-    int getNumPantalla();
     void setNumPantalla(int pantalla);
-    void setSalir(bool salir);
-    bool getSalir(); 
-    bool getApagar();
     void setApagar(bool apaga);
+    int getNumPantalla();
+    bool getApagar();
 
-    bool iniciaModeloAjedrez();
+
+    bool botonIzquierdo();
+    bool seleccionaFichaEnPosicion(CEGUI::Vector2 pos);
     bool generaJugadores();
     bool creaModeloTablero();
-    void cambiaPantalla(int pantallaNueva);
-    bool botonIzquierdo();
-    int* traduceTablero();
-    bool seleccionaFichaEnPosicion(CEGUI::Vector2 pos);
-    bool reiniciaVista();
-    bool preparaEscena();
-    void creaJugador(bool blancas, bool humano);
-    void miraCambios();
-    bool aplicaCambio();
 
-    std::vector<Jugador*> jugadores;
     Jugador* JugadorActivo;
-    Modelo* modelo;
     EscenaAjedrez* escena;
-
-    bool pantallaCompleta;
+    Modelo* modelo;
     std::string resolucion;
-    int numJugadores;
 
 private:   
 
+    int* traduceTablero();
+    void creaJugador(bool blancas, bool humano);
+    bool aplicaCambio();
+
+    std::vector<Jugador*> jugadores;
+    bool pantallaCompleta;
+    int numJugadores;
     bool mShutDown;
     int mPantalla;
     bool reiniciar;

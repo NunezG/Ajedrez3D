@@ -17,19 +17,20 @@ public:
     ~Casilla(void);
     Casilla(std::string nombre);
 
-    void iluminaCasilla();
-    void apagaCasilla();
     void trasladarAPunto();
     void setPosicion(int posFila, int posCol);
     posicion getPosicion();
+    void apagaCasilla();
+
+    void iluminaCasilla();
 
     bool esNegra;
 
-protected:
+
+private:
 
     posicion posCasilla;
 
-private:
 };
 
 #endif

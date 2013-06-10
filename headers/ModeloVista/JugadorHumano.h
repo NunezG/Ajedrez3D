@@ -11,18 +11,13 @@ public:
     ~JugadorHumano();
     JugadorHumano(EscenaAjedrez* miEscena, Modelo* modelo);
 
-    bool esHumano();
-    void mueveFicha();
-    bool activaMovimiento();
-   bool casillaSobrevolada(const std::string nombreCasilla);
-
-protected:
-
 
 
 private:  
 
 
+    bool esHumano();
+   bool casillaSobrevolada(const std::string nombreCasilla);
 
 
 };

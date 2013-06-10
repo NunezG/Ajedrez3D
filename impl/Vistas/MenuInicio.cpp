@@ -238,7 +238,7 @@ bool MenuInicio::botonSalir(const CEGUI::EventArgs &e)
 bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 {
 
-    modeloVista->cambiaPantalla(1);
+    modeloVista->setNumPantalla(1);
     mWindow->setVisible(false);
 
 
@@ -249,7 +249,7 @@ bool MenuInicio::botonJuegoTurnos(const CEGUI::EventArgs &e)
 bool MenuInicio::botonJuegoSolo(const CEGUI::EventArgs &e)
 {
 
-   modeloVista->cambiaPantalla(2);
+   modeloVista->setNumPantalla(2);
    mWindow->setVisible(false);
 
     return true;
@@ -294,7 +294,7 @@ bool MenuInicio::botonAplicarCambios(const CEGUI::EventArgs &e)
 
     ventanaConfig->hide();
     mWindow->setVisible(false);
-    modeloVista->setSalir(true);
+  //  modeloVista->setSalir(true);
 
     return true;
 }

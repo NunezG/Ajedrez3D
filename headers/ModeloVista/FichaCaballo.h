@@ -12,7 +12,6 @@ public:
     FichaCaballo(std::string nombre);
 
 private:  
-    bool autorizaFicha(int diferencia[2]);
 
 };
 

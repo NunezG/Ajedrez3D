@@ -12,14 +12,13 @@ public:
     ~JugadorArtificial();
     JugadorArtificial(EscenaAjedrez* miEscena, Modelo* modelo);
 
-    bool esHumano();
-    void mueveFicha();
-    bool activaMovimiento();
-    bool casillaSobrevolada(const std::string nombreCasilla);
+    void mueveIA();
 
-    int dificultad;
 
 private:
+    bool esHumano();
+    bool casillaSobrevolada(const std::string nombreCasilla);
+    int dificultad;
     void calculaMovimiento();
 };
 

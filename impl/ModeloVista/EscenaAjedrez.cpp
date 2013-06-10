@@ -253,31 +253,13 @@ void EscenaAjedrez::noMueveCamara()
 
 void EscenaAjedrez::empezarModoCamara()
 {
-    //mInputMan->entrarModoCamara();
     mOrbiting = true;
 }
 
 void EscenaAjedrez::acabarModoCamara()
 {
-    std::cout  << "acabarModoCamara " << std::endl;
-    //mInputMan->salirModoCamara();
     mOrbiting = false;
 }
-
-//bool EscenaAjedrez::mueveTableroEscena()
-//{
-//MUEVEFICHA SI ESTA PERMITIDO (showboundingbox = true)
-//if (tablero->fichaSeleccionada && tablero->getNodoCasillaSobrevolada()!=NULL && tablero->getNodoCasillaSobrevolada()->getNodoOgre()->getShowBoundingBox())
-//   {
-// bool resultado = escenaAjedrez->aplicaCambio();
-
-
-//  modelo->jugadores.at(tablero->getTurnoNegras())->
-
-//    }
-
-//}
-
 
 std::string EscenaAjedrez::encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
 {

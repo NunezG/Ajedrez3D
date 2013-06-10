@@ -16,12 +16,3 @@ FichaTorre::~FichaTorre()
 
 
 }
-
-
-
-bool FichaTorre::autorizaFicha(int diferencia[2]){
-
-
-
-
-}

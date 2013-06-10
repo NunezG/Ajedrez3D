@@ -20,37 +20,37 @@ public:
 
     EscenaAjedrez();
     ~EscenaAjedrez(void);
-
-    void setTarget(Ogre::SceneNode* target);
-    Tablero* getTablero();
-    bool vaIzquierda();
-    bool vaDerecha();
     void empezarModoCamara();
     void acabarModoCamara();
     bool esModoCamara();
-    void mueveCamaraIzquierda();
-    void mueveCamaraDerecha();
     void noMueveCamara();
-    void apagaVentanaEmergente();
-    void muestraVentanaEmergente(std::string nombreLayout);
 
-    void createScene();
-    Ogre::Camera* createCamera(void);
-    void createViewports(Ogre::RenderWindow* window);
-    void destruyeTablero();
+    std::string encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
 
     void DistanciaCamara(int distanciaRelativa);
     void rotacionCamara(Ogre::Degree angulo);
-    Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
-    std::string encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
+    void createScene();
+    Ogre::Camera* createCamera(void);
+    void createViewports(Ogre::RenderWindow* window);
 
-    Ogre::SceneNode* mTarget;
-    Ogre::String columnas;
-    //std::vector<Tablero*> HistorialMovimientos;
-    Tablero* tablero;
+    void apagaVentanaEmergente();
+    void muestraVentanaEmergente(std::string nombreLayout);
+    Tablero* getTablero();
+
     Ogre::SceneManager* mSceneMgr;
-    Ogre::Camera* mCamera;
-private:   
+
+private:
+    void setTarget(Ogre::SceneNode* target);
+    bool vaIzquierda();
+    bool vaDerecha();
+
+    void mueveCamaraIzquierda();
+    void mueveCamaraDerecha();
+
+    void destruyeTablero();
+
+    Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
+
     //Modelo* modelo;
     Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
     void creaIluminacion();
@@ -63,6 +63,12 @@ private:
     bool mGoingLeft;
     bool mGoingRight;
     bool mOrbiting;
+    Ogre::SceneNode* mTarget;
+    Ogre::String columnas;
+    //std::vector<Tablero*> HistorialMovimientos;
+    Ogre::Camera* mCamera;
+    Tablero* tablero;
+
     //  Modelo* modelo;
 };
 

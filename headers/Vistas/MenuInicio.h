@@ -14,14 +14,15 @@ public:
    // CEGUI::FrameWindow* createGUI(void);
 
     //bool salir();
-    bool iniciaVentana();
-
-
     bool pantallaInicio();
 
 
-protected:
-    int posBoton;
+private:
+
+
+
+    bool iniciaVentana();
+
 
     bool botonSalir(const CEGUI::EventArgs    &e);
     bool botonJuegoTurnos(const CEGUI::EventArgs &e);
@@ -64,8 +65,7 @@ protected:
     CEGUI::Window *mBotonJSolo;
 
     CEGUI::FrameWindow* fWnd;
-
-
+    int posBoton;
 
 };
 

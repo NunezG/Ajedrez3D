@@ -1,15 +1,4 @@
-#include "../../headers/Control/Inicio.h"
-
-//-------------------------------------------------------------------------------------
-Inicio::Inicio(void)
-{
-}
-//-------------------------------------------------------------------------------------
-Inicio::~Inicio(void)
-{
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
+#include "../headers/Vistas/Ventana.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -26,14 +15,17 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 int main(int argc, char *argv[])
 #endif
 {
-    try {
+    try
+    {
+        Ventana* punteroVentana= new Ventana();
+        punteroVentana->go();
 
-        BaseJuego* control = new BaseJuego();
-        control->go();
+        delete punteroVentana;
 
-        delete control;
-
-    } catch( Ogre::Exception& e ) {
+       // Inicio& init = new Inicio();
+       // delete init;
+    } catch( Ogre::Exception& e )
+    {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         MessageBox( NULL, e.getFullDescription().c_str(), "An exception has occured!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 #else
@@ -48,3 +40,6 @@ int main(int argc, char *argv[])
 #ifdef __cplusplus
 }
 #endif
+
+
+

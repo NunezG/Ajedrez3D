@@ -29,18 +29,21 @@ public:
     ~Ficha(void);
     //constructor de copia
     Ficha(const Ficha& fichaOriginal, std::string nombre, int tipo);
+    int tipo_Ficha;
+    void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
+    bool esNegra;
+
+protected:
+    Ficha(std::string nombre, int tipo);
+
+
+private: 
+
 
     virtual bool setCasilla(int fila, int col);
 
-    void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
-    virtual bool autorizaFicha(int diferencia[2]) = 0;
-
-    bool esNegra;
     bool salto;
-    int tipo_Ficha;
-protected:
 
-    Ficha(std::string nombre, int tipo);
 
     bool Selected;
     //PARA EVALUAR:
@@ -53,7 +56,7 @@ protected:
     bool muerta;
     int casilla[2];
 
-private: 
+
     ObjetoOgre* objetoOgreAsociado;
 };
 

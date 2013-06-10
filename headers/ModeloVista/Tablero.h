@@ -41,24 +41,22 @@ public:
     void setNodoCasillaSeleccionada(int posicion);
     void setNodoCasillaSobrevolada(int posicion);
     bool getTurnoNegras();
-
     bool creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
     void actualizaTablero();
 
     bool turnoNegras;
-    Ogre::SceneManager* mSceneMgr;
     bool fichaSeleccionada;
     Ogre::Degree rotacionCamara;
-    int alPaso;
     int peonesPromocionados;
 
 private:
-
     void creaCasillas();
     void creaPeones();
     void creaNobleza();
     void creaVasallos();
 
+    Ogre::SceneManager* mSceneMgr;
+    int alPaso;
     Casilla* _selectedNode;
     Casilla* _nodoNuevo;
 };

@@ -7,27 +7,27 @@
 class Modelo
 {
 public:
+    ~Modelo(void);
 
     //Singleton
     static Modelo* getSingletonPtr();
-    ModeloTablero* tableroModelo;
-    int autorizaCasilla(tipoFicha tipo);
-    int agregaJugada(int inicio, int fin);
-    bool jugadaAutorizada;
+
     int* mueveTablero();
-    bool evaluaJaque();
+    int autorizaCasilla(tipoFicha tipo);
     bool construyeArbol();
 
-    ~Modelo(void);
-
-protected:
+    ModeloTablero* tableroModelo;
 
 private:
+
+    int agregaJugada(int inicio, int fin);
+   // bool jugadaAutorizada;
+    bool evaluaJaque();
+
     //Singleton;
     Modelo(void);
     void operator=(const Modelo& miModelo) ;
     Modelo(const Modelo& miModelo);
-    int autoriza(tipoFicha tipo);
 };
 
 #endif

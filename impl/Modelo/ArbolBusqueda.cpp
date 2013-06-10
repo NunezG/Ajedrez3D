@@ -1,24 +1,5 @@
 #include "../../headers/Modelo/ArbolBusqueda.h"
 
-ArbolBusqueda::ArbolBusqueda()
-
-
-{
-
-}
-
-
-
-
-
-ArbolBusqueda::~ArbolBusqueda()
-{
-
-
-}
-
-
-
 
 
 short ArbolBusqueda::CalculatePieceActionValue(int pieceType)

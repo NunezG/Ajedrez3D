@@ -11,6 +11,7 @@ public:
 
 
 
+protected:
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
     bool keyReleased( const OIS::KeyEvent &arg );
@@ -21,17 +22,18 @@ public:
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
+
+private:
+
+
+
     bool salir();
 
     bool iniciaVentana();
 
     bool mueveCamara(float frecuencia);
-    bool muestraInfo();
 
   //  CEGUI::Window *ventanaJaque;
-
-
-protected:
 
  //   ModeloVista* modeloVista;
     EscenaAjedrez* escenaAjedrez;

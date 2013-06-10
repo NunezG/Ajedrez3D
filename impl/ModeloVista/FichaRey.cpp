@@ -18,10 +18,3 @@ FichaRey::~FichaRey()
 }
 
 
-
-
-
-bool FichaRey::autorizaFicha(int diferencia[2])
-{
-
-}

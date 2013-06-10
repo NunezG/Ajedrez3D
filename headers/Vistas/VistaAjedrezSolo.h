@@ -9,6 +9,10 @@ public:
     VistaAjedrezSolo(ModeloVista* modeloV);
     ~VistaAjedrezSolo(void);
 
+
+private:
+
+
     // Ogre::FrameListener
    // bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
@@ -24,8 +28,6 @@ public:
 
 
     bool mueveCamara(float frecuencia);
-
-private:
 
 };
 

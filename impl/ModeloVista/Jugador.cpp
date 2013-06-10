@@ -18,22 +18,16 @@ Jugador::~Jugador()
 {
 }
 
-bool Jugador::activaMovimiento()
-{
-    std::cout << "ACTIVAMOV"<< std::endl;
-    modelo->jugadaAutorizada = true;
-   // aplicaCambio();
-}
 
 bool Jugador::casillaSobrevolada(const std::string nombreCasilla)
 {
     //  std::cout << "auto1: " << nombreCasilla<< std::endl;
 
-    Casilla* casillaSobrevolada = static_cast<Casilla*>(escena->tablero->getHijo(nombreCasilla));
+    Casilla* casillaSobrevolada = static_cast<Casilla*>(escena->getTablero()->getHijo(nombreCasilla));
 
     //   std::cout << "auto222" << std::endl;
 
-    Casilla* casillaSobreAnterior = escena->tablero->getNodoCasillaSobrevolada();
+    Casilla* casillaSobreAnterior = escena->getTablero()->getNodoCasillaSobrevolada();
 
     //   std::cout << "CasillaSobrevolada: "<<   casillaSobrevolada->getNombre()  << std::endl;
 
@@ -50,7 +44,7 @@ bool Jugador::casillaSobrevolada(const std::string nombreCasilla)
         }
 
         //   std::cout << "CAMBIA LA CASILLA SOBREVOLADA: " << std::endl;
-        escena->tablero->setNodoCasillaSobrevolada(casillaSobrevolada);
+        escena->getTablero()->setNodoCasillaSobrevolada(casillaSobrevolada);
 
         return true;
     }
@@ -58,32 +52,6 @@ bool Jugador::casillaSobrevolada(const std::string nombreCasilla)
     return false;
 }
 
-void Jugador::esperaJugador()
-{
-
-    //  std::cout << "espera"<<std::endl;
-    // std::cout << "jugadores.size()"<< modelo->jugadores.size()<<std::endl;
-
-    //  std::cout  << "mueveficha " << std::endl;
-    mueveFicha();
-    std::cout  << "miramov " << std::endl;
-    //HAY RESULTADO
-    if(modelo->jugadaAutorizada)
-    {
-
-        std::cout  << "HA AUTORIZADO UN MOVIMIENTO EN EL BUCLE!!! " << std::endl;
-
-        //  tableroModelo->movimiento[0] = -99;
-        // std::cout  << "BORRA tablromov" << std::endl;
-    }
-    // tablero->setNodoCasillaSeleccionada();
-    // tablero->setNodoCasillaSobrevolada();
-    //  tablero->actualizaTablero();
-
-
-    //   modelo->mueveJugador(tablero->getTurnoNegras());
-
-}
 
 std::string Jugador::getNombre()
 {
@@ -159,7 +127,9 @@ int Jugador::aplicaSeleccion()
 
 void Jugador::promocionaPeon()
 {
-    Casilla* casilla = escena->tablero->getNodoCasillaSobrevolada();
+    Tablero* tablero = escena->getTablero();
+
+    Casilla* casilla = tablero->getNodoCasillaSobrevolada();
 
     if(!casilla->sinHijos())
     {
@@ -167,10 +137,10 @@ void Jugador::promocionaPeon()
         Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
 
         if(ficha->tipo_Ficha == 1
-                && ((!escena->tablero->getTurnoNegras()
-                     && escena->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila == 7)
-                    || (escena->tablero->getTurnoNegras()
-                        && escena->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila == 0 )))
+                && ((!tablero->getTurnoNegras()
+                     && tablero->getNodoCasillaSobrevolada()->getPosicion().Fila == 7)
+                    || (tablero->getTurnoNegras()
+                        && tablero->getNodoCasillaSobrevolada()->getPosicion().Fila == 0 )))
         {
             casilla->eliminaHijo(0);
 
@@ -180,11 +150,11 @@ void Jugador::promocionaPeon()
             std::stringstream saux;
 
             saux.str("");
-            saux << "ReinaPR_" << escena->tablero->peonesPromocionados;
+            saux << "ReinaPR_" << tablero->peonesPromocionados;
 
             FichaReina* nodoNuevo =new FichaReina(*ficha, saux.str());
 
-            if (!escena->tablero->getTurnoNegras())
+            if (!tablero->getTurnoNegras())
             {
                 nodoNuevo->creaModelo3D(escena->mSceneMgr,"Reina",BLANCAS);
             }
@@ -196,7 +166,7 @@ void Jugador::promocionaPeon()
 
             delete ficha;
 
-            escena->tablero->peonesPromocionados++;
+            tablero->peonesPromocionados++;
 
             casilla->agregaHijo(nodoNuevo);
         }

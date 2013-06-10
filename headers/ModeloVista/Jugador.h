@@ -13,29 +13,28 @@ class Jugador
 {
 public:
     ~Jugador();
+    virtual bool casillaSobrevolada(const std::string nombreCasilla);
+    virtual bool esHumano() = 0;
+    int aplicaSeleccion();
+    void promocionaPeon();
+    bool jugadorNegras;
+
+protected:
     Jugador(EscenaAjedrez* miEscena, Modelo* modelo);
+
+    Modelo* modelo;
+   EscenaAjedrez* escena;
+private:
+
 
     std::string getNombre();
     void setNombre( std::string unNombre);
 
-    virtual bool esHumano() = 0;
-    virtual void mueveFicha() = 0;
-    int aplicaSeleccion();
-    void promocionaPeon();
-    bool activaMovimiento();
-    virtual bool casillaSobrevolada(const std::string nombreCasilla);
-    void esperaJugador();
 
-    Modelo* modelo;
-    bool jugadorNegras;
-
-protected:
-   EscenaAjedrez* escena;
     std::string nombre;
     int* resgistroTablero;
     int alPaso;
 
-private:
 };
 
 #endif

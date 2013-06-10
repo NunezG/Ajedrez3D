@@ -14,37 +14,50 @@ class ObjetoOgre
 {
 public:
     ~ObjetoOgre(void);
-    ObjetoOgre(std::string nombre);
 
-    virtual bool setEntidad(Ogre::Entity* entidad);
-    virtual Ogre::Entity* getEntidad();
-    virtual bool setNodoOgre(Ogre::SceneNode* nodo);
     virtual Ogre::SceneNode* getNodoOgre();
-    ObjetoOgre* getHijo(std::string posicion);
-    ObjetoOgre* getHijo(int numero);
-    std::string getNombre();
-    bool eliminaHijo(ObjetoOgre* hijo);
     bool eliminaHijo(int hijo);
-
     bool creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombre, Ogre::uint32 mask);
     bool agregaHijo(ObjetoOgre* objetoHijo);
-    int numeroHijos();
     bool sinHijos();
     void cambiaMaterial(std::string material);
     void rota(int grados);
     void trasladar(int x, int z);
+    ObjetoOgre* getHijo(int numero);
+    ObjetoOgre* getHijo(std::string posicion);
+
+    std::string getNombre();
 
 protected:
 
-    Ogre::uint32 tipoObjeto;
+
+    ObjetoOgre(std::string nombre);
+
+
 
 private:
 
+
+
+
+    virtual bool setEntidad(Ogre::Entity* ent);
+    virtual Ogre::Entity* getEntidad();
+    virtual bool setNodoOgre(Ogre::SceneNode* nodo);
+
+    bool eliminaHijo(ObjetoOgre* hijo);
+
+
+    int numeroHijos();
+
+
+
+    Ogre::uint32 tipoObjeto;
     std::vector<ObjetoOgre*> vectorHijos;
     std::string nombreObjeto;
     Ogre::Entity* entidad;
     Ogre::SceneNode* nodoEscena;
     Ogre::SceneManager* mSceneMgr;
+
 };
 
 #endif

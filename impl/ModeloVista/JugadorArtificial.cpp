@@ -14,18 +14,13 @@ JugadorArtificial::~JugadorArtificial()
 }
 
 
-void JugadorArtificial::mueveFicha()
+void JugadorArtificial::mueveIA()
 {
-    //  std::cout << "ARTIF MUEVE FICHA " << std::endl;
-    //  std::cout << "TUDRNO DE MITABLERO:" << tablero->turnoN<< std::endl;
-
     bool result = modelo->construyeArbol();
-
-    std::cout  << "IFFF " << std::endl;
 
     if (result == true && modelo->tableroModelo->jugada[0] != -1)
     {
-        activaMovimiento();
+       // activaMovimiento();
 
         std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
         std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< modelo->tableroModelo->jugada[0] <<   " Y 2 "<< modelo->tableroModelo->jugada[1]<< std::endl;
@@ -35,8 +30,6 @@ void JugadorArtificial::mueveFicha()
         std::cout  << "NO HAY FICHA EN CONTROL, SE SUPONE JAQUE MATE O AHOGADO " << std::endl;
 
     }
-
-
 }
 
 
@@ -53,19 +46,6 @@ bool JugadorArtificial::casillaSobrevolada(const std::string nombreCasilla)
 
 
 }
-
-bool JugadorArtificial::activaMovimiento()
-{
-
-
-
-    modelo->jugadaAutorizada = true;
-
-
-
-
-}
-
 
 
 

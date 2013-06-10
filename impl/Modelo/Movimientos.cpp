@@ -750,7 +750,7 @@ bool Movimientos::mueveCaballo(ModeloTablero* miTablero, int casilla, bool testJ
 
 bool Movimientos::mueveRey(ModeloTablero* miTablero, int casilla, bool testJaque)
 {
-      std::cout << "MUEVE REY"<< miTablero->turnoN<< std::endl;
+     // std::cout << "MUEVE REY"<< miTablero->turnoN<< std::endl;
     int nuevaCasilla;
     //   bool pasa = false;
     int filaRey;

@@ -20,11 +20,3 @@ FichaAlfil::~FichaAlfil()
 
 
 
-
-
-bool FichaAlfil::autorizaFicha(int diferencia[2]){
-
-
-
-
-}

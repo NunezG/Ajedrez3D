@@ -7,115 +7,65 @@ mInputManager(0),
   , sys(0)
   , modeloVista(modeloV)
   , mRoot(0)
-
-  //modoJuego(0)
 {  
-    //  modelo = Modelo::getSingletonPtr();
-
-    //escena = modeloV->escena;
-
-  //  modeloVista = modeloV;
-
-
     //ENCIENDE
     mRoot =new Ogre::Root("plugins.cfg");
-
-    Ogre::LogManager::getSingletonPtr()->logMessage("***CONFIGURA GRAFICOS**");
-
     configuraGraficos("OpenGL");
-
     mWindow = mRoot->initialise(true,label);
-    //  mWindow = mRoot->initialise(true,label);
-
-    // *renderer = myRenderer;
 
     CEGUI::OgreRenderer& myRenderer = CEGUI::OgreRenderer::bootstrapSystem(*mWindow);
-
-
     iniciaOIS();
 
-
-    //  CEGUIResources();
-
-    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-
-
-    // iniciaCEGUI();
-
-    //  myRenderer  = CEGUI  ::OgreRenderer::bootstrapSystem(*mWindow);
-
-
-
-
-
-    // iniciaVentana();
+    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();   
 }
-
-
 
 BaseVistas::~BaseVistas()
 {
+    //Unattach OIS before window shutdown (very important under Linux)
 
+    if( mInputManager )
+    {
+        mInputManager->destroyInputObject( mKeyboard );
+        mInputManager->destroyInputObject( mMouse );
+        OIS::InputManager::destroyInputSystem(mInputManager);
+        mMouse = 0;
+        mKeyboard = 0;
+        mInputManager = 0;
+    }
 
-
-    std::cout << "destroy cegu o gre system"<< std::endl;
+    std::cout << "destroy ceguiogre system"<< std::endl;
     CEGUI::OgreRenderer::destroySystem();
 
     if (mRoot )
-
     {
-
-
-        mRoot->removeFrameListener(this);
+       mRoot->removeFrameListener(this);
         //mRoot->destroySceneManager(modelo->escenaAjedrez->mSceneMgr);
         //  modelo->escenaAjedrez->destruyeTablero();
-
         //  mRoot->destroySceneManager(mSceneMgr);
-
-
-
         delete mRoot;
         mRoot = NULL;
     }
-
     // delete mWindow;
-
     // mWindow = 0;
 }
 
-
-
 void BaseVistas::empieza()
 {
-
     mRoot->startRendering();
-
 }
-
-
 
 Ogre::RenderWindow* BaseVistas::getVentana()
 {
     return mWindow;
 }
 
-
-
-
-
 bool BaseVistas::CEGUIResources()
 {
-
-
     return true;
 }
 
-
-
-
 bool BaseVistas::iniciaCEGUI()
 {
-
     CEGUI::Scheme::setDefaultResourceGroup("Schemes");
     CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
     CEGUI::Font::setDefaultResourceGroup("Fonts");
@@ -125,7 +75,6 @@ bool BaseVistas::iniciaCEGUI()
     CEGUI::SchemeManager::getSingleton().create("VanillaSkin.scheme");
     CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
 
-
     sys = CEGUI::System::getSingletonPtr();
 
     CEGUI::FontManager::getSingleton().create("DejaVuSans-10.font");
@@ -133,8 +82,6 @@ bool BaseVistas::iniciaCEGUI()
     CEGUI::System::getSingleton().setDefaultMouseCursor("Vanilla-Images", "MouseArrow");
 
     CEGUI::MouseCursor::getSingleton().setImage(sys->getDefaultMouseCursor());
-
-
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     CEGUI::Window *sheet= wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
@@ -146,7 +93,6 @@ bool BaseVistas::iniciaCEGUI()
 
     return true;
 }
-
 
 void BaseVistas::capture()
 {
@@ -211,36 +157,6 @@ void BaseVistas::windowResized()
     ms.height = height;
 }
 
-//Unattach OIS before window shutdown (very important under Linux)
-void BaseVistas::windowClosed()
-{
-
-    std::cout << "windowclosed"<< std::endl;
-
-    if( mInputManager )
-    {
-        mInputManager->destroyInputObject( mKeyboard );
-
-        mInputManager->destroyInputObject( mMouse );
-
-
-
-        OIS::InputManager::destroyInputSystem(mInputManager);
-
-
-        // delete mKeyboard;
-        //delete mMouse;
-        // delete mInputManager;
-        mMouse = 0;
-        mKeyboard = 0;
-        mInputManager = 0;
-
-    }
-
-
-    std::cout << "sale"<< std::endl;
-
-}
 
 bool BaseVistas::configuraGraficos(const char *desiredRenderer)
 {
@@ -362,7 +278,6 @@ bool BaseVistas::keyPressed( const OIS::KeyEvent &evt )
 
     if (evt.key == OIS::KC_ESCAPE)// Pulsa Esc
     {
-        modeloVista->setSalir(true);
         mWindow->setVisible(false);
         modeloVista->setApagar(true);
     }
@@ -423,7 +338,7 @@ CEGUI::MouseButton BaseVistas::convertButton(OIS::MouseButtonID buttonID)
 bool BaseVistas::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
-    if(mWindow->isClosed() || !mWindow->isVisible()/*|| EscenaAjedrez->getSalir()*/)
+    if(mWindow->isClosed() || !mWindow->isVisible())
     {
         //std::cout << "VENTANA CERRADA"<< std::endl;
         // shutdown = true;

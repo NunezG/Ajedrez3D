@@ -35,19 +35,8 @@ VistaAjedrez::~VistaAjedrez(void)
 {    
 }
 
-
-
-bool VistaAjedrez::muestraInfo()
-{
-    CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("InfoAjedrezCEED.layout");
-    //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
-
-    CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
-}
-
 bool VistaAjedrez::iniciaVentana()
 {
-    //tablero = escenaAjedrez->getTablero();
     Ogre::LogManager::getSingletonPtr()->logMessage("***SALE DE INICIA VENTANA DE LA BASE Y EMPIEZA CEGUI**");
 }
 
@@ -122,7 +111,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     }
     else
     {
-        if (escenaAjedrez->tablero->fichaSeleccionada)
+        if (escenaAjedrez->getTablero()->fichaSeleccionada)
         {
             const std::string casilla = escenaAjedrez->encuentraCasillaSobrevolada(mCursorPosition);
 
@@ -148,7 +137,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
     if (!BaseVistas::frameRenderingQueued(evt)) return false;
-    else if(escenaAjedrez->tablero->rotacionCamara != Ogre::Degree(0))
+    else if(escenaAjedrez->getTablero()->rotacionCamara != Ogre::Degree(0))
     {
         mueveCamara(evt.timeSinceLastFrame);
     }
@@ -164,20 +153,21 @@ bool VistaAjedrez::salir()
 //-------------------------------------------------------------------------------------
 bool VistaAjedrez::mueveCamara(float frecuencia)
 {   
+    Tablero* tablero = escenaAjedrez->getTablero();
 
     Ogre::Degree rot = Ogre::Degree(Ogre::Real(80.0f) * frecuencia);
 
 
     //Rota la camara
-    if (rot > escenaAjedrez->tablero->rotacionCamara)
+    if (rot > tablero->rotacionCamara)
     {
-        escenaAjedrez->rotacionCamara(escenaAjedrez->tablero->rotacionCamara);
-        escenaAjedrez->tablero->rotacionCamara = Ogre::Real(0.0f);
+        escenaAjedrez->rotacionCamara(tablero->rotacionCamara);
+        tablero->rotacionCamara = Ogre::Real(0.0f);
     }
     else
     {
         escenaAjedrez->rotacionCamara(rot);
-        escenaAjedrez->tablero->rotacionCamara = escenaAjedrez->tablero->rotacionCamara - rot;
+        tablero->rotacionCamara = tablero->rotacionCamara - rot;
     }
 
 
