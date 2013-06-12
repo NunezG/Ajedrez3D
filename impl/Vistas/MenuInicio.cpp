@@ -68,14 +68,6 @@ bool MenuInicio::pantallaInicio()
 }
 
 
-bool MenuInicio::frameRenderingQueued(const Ogre::FrameEvent& evt)
-{
- return BaseVistas::frameRenderingQueued(evt);
-
-
-}
-
-
 bool MenuInicio::pantallaConfig()
 {
 
@@ -134,6 +126,10 @@ bool MenuInicio::pantallaConfig()
 
     //  std::string string1 = "240 x 480";
 
+
+
+    std::vector<std::string*>  listaElementos;
+
     listaElementos.push_back(new std::string("240 x 480"));
     listaElementos.push_back(new std::string("800 x 600"));
     listaElementos.push_back(new std::string("1024 x 768"));
@@ -143,9 +139,6 @@ bool MenuInicio::pantallaConfig()
 
     // ventanaConfig = modelo->menu->creaVentana("VentanaConfig");
 
-
-    std::cout  << "listares1 "<< std::endl;
-    posBoton =1;
 
 
 
@@ -197,34 +190,6 @@ bool MenuInicio::pantallaConfig()
 
 }
 
-
-bool MenuInicio::keyPressed( const OIS::KeyEvent &arg ) {
-    BaseVistas::keyPressed(arg);
-
-}
-
-bool MenuInicio::keyReleased( const OIS::KeyEvent &arg )
-{
-    BaseVistas::keyReleased(arg);
-}
-
-bool MenuInicio::mouseMoved( const OIS::MouseEvent &arg ){
-    BaseVistas::mouseMoved(arg);
-
-}
-
-bool MenuInicio::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
-{
-    BaseVistas::mousePressed(arg, id);
-
-}
-
-bool MenuInicio::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
-
-
-    BaseVistas::mouseReleased(arg, id);
-
-}
 
 
 
@@ -468,7 +433,6 @@ CEGUI::Listbox* MenuInicio::creaMenuDesplegable(CEGUI::Event::Subscriber evento,
 
     listaReal->subscribeEvent(CEGUI::Listbox::EventMouseMove, evento);
 
-        posBoton = posBoton+1;
 
     return listaReal;
 }

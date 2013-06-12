@@ -25,12 +25,8 @@ protected:
     Modelo* modelo;
    EscenaAjedrez* escena;
 private:
-
-
     std::string getNombre();
     void setNombre( std::string unNombre);
-
-
     std::string nombre;
     int* resgistroTablero;
     int alPaso;

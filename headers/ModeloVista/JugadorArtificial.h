@@ -8,18 +8,14 @@
 class JugadorArtificial : public Jugador
 {
 public:
-
     ~JugadorArtificial();
     JugadorArtificial(EscenaAjedrez* miEscena, Modelo* modelo);
-
     void mueveIA();
-
-
 private:
     bool esHumano();
     bool casillaSobrevolada(const std::string nombreCasilla);
-    int dificultad;
     void calculaMovimiento();
+    int dificultad;
 };
 
 

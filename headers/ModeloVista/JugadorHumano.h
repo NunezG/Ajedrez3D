@@ -10,12 +10,7 @@ class JugadorHumano : public Jugador
 public:
     ~JugadorHumano();
     JugadorHumano(EscenaAjedrez* miEscena, Modelo* modelo);
-
-
-
 private:  
-
-
     bool esHumano();
    bool casillaSobrevolada(const std::string nombreCasilla);
 

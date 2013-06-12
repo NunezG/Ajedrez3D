@@ -8,7 +8,6 @@ class Modelo
 {
 public:
     ~Modelo(void);
-
     //Singleton
     static Modelo* getSingletonPtr();
 
@@ -19,7 +18,6 @@ public:
     ModeloTablero* tableroModelo;
 
 private:
-
     int agregaJugada(int inicio, int fin);
    // bool jugadaAutorizada;
     bool evaluaJaque();

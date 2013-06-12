@@ -11,16 +11,10 @@ class Ventana :  public Ogre::WindowEventListener
 {
 public:
     Ventana();
-     ~Ventana(void);
-    void go(void);
+    void go();
 
 
 private:
-    void creaVista();
-    bool destruyeVista(void);
-    bool iniciaListeners(void);
-    bool muestraVentana();
-
     BaseVistas* vista;
     ModeloVista* modeloVista;
 };

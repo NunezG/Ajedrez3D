@@ -26,13 +26,10 @@ class BaseVistas: public OIS::KeyListener, public OIS::MouseListener, public Ogr
 {
 public:
     ~BaseVistas(void);
-
-    bool iniciaCEGUI();
     void empieza();
 
     OIS::Mouse*    mMouse;
     OIS::Keyboard* mKeyboard;
-
     Ogre::Root *mRoot;
     Ogre::RenderWindow* mWindow;
 
@@ -46,27 +43,17 @@ protected:
     virtual bool mouseMoved( const OIS::MouseEvent &arg );
     virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     ModeloVista* modeloVista;
 
 private:
-    bool iniciaOIS();
     void windowResized();
-    int getFPS();
-
-    void capture();
-    Ogre::RenderWindow* getVentana();
-
+  //  int getFPS();
     bool configuraGraficos(const char *desiredRenderer);
-
-    bool CEGUIResources();
-
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
     OIS::InputManager* mInputManager;
-
     CEGUI::OgreRenderer* renderer;
     CEGUI::System* sys;
 

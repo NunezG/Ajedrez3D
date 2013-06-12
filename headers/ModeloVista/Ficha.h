@@ -29,22 +29,15 @@ public:
     ~Ficha(void);
     //constructor de copia
     Ficha(const Ficha& fichaOriginal, std::string nombre, int tipo);
-    int tipo_Ficha;
     void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
+    int tipo_Ficha;
     bool esNegra;
 
 protected:
     Ficha(std::string nombre, int tipo);
-
-
 private: 
-
-
     virtual bool setCasilla(int fila, int col);
-
     bool salto;
-
-
     bool Selected;
     //PARA EVALUAR:
     bool Moved;
