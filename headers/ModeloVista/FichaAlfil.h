@@ -10,7 +10,6 @@ public:
 
     ~FichaAlfil(void);
     FichaAlfil(std::string nombre);
-protected:
 
 
 

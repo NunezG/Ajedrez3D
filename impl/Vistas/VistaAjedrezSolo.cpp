@@ -81,11 +81,6 @@ bool VistaAjedrezSolo::frameRenderingQueued(const Ogre::FrameEvent& evt)
 //  return true;
 //}
 
-//-------------------------------------------------------------------------------------
-bool VistaAjedrezSolo::mueveCamara(float frecuencia)
-{
-    return true;
-}
 
 
 

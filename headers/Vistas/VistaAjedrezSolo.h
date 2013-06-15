@@ -26,9 +26,6 @@ private:
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-
-    bool mueveCamara(float frecuencia);
-
 };
 
 #endif // #ifndef __VistaAjedrezSolo_h_

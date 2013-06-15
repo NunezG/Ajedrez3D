@@ -1,36 +1,28 @@
-
 #include "../../headers/ModeloVista/EscenaAjedrez.h"
 
-//-------------------------------------------------------------------------------------
 EscenaAjedrez::EscenaAjedrez() :
-    //  mRoot(root),
-    // modelo(mod)
     mCamera(0)
-  //, mInputMan(0)
-  , tablero(0)
+  //, tablero(0)
   , mTarget(0)
-  , mTopSpeed(150)
-  ,   mRaySceneQuery(0)
-  , mOrbiting(false)
+ // , mTopSpeed(150)
+ // ,   mRaySceneQuery(0)
+  //, mOrbiting(false)
   , mGoingLeft(false)
   , mGoingRight(false)
-  , columnas("ABCDEFGH")
+ // , columnas("ABCDEFGH")
   , ventanaEmergente(0)
 {
-    std::cout << "nueva escena y enciende tablero" << std::endl;
-
-    // modelo = Modelo::getSingletonPtr();
     tablero = new Tablero();
     mSceneMgr = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
-
     mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
 }
-//-------------------------------------------------------------------------------------
+
 EscenaAjedrez::~EscenaAjedrez(void)
 {
     mSceneMgr->destroyQuery(mRaySceneQuery);
-    // if (mInputMan) delete mInputMan;
+    delete tablero;
+    tablero = NULL;
 }
 
 Tablero* EscenaAjedrez::getTablero()
@@ -38,15 +30,11 @@ Tablero* EscenaAjedrez::getTablero()
     return tablero;
 }
 
-void EscenaAjedrez::destruyeTablero()
+void EscenaAjedrez::createScene()
 {
-    //delete mSceneMgr;
-    delete tablero;
-    tablero = NULL;
-}
+    tablero->creaTableroYCasillas(mSceneMgr);
 
-void EscenaAjedrez::creaIluminacion()
-{
+//CREA LA ILUMINACIÓN
     mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_MODULATIVE);
     mSceneMgr->setShadowColour(Ogre::ColourValue(0.75, 0.75, 0.75) );
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.55, 0.55, 0.55));
@@ -73,74 +61,34 @@ void EscenaAjedrez::creaIluminacion()
     // light->setSpotlightOuterAngle(Ogre::Degree(60.0f));
     // light->setSpotlightFalloff(1.0f);
     light->setCastShadows(true);
-}
 
-void EscenaAjedrez::createScene()
-{
-    // mSceneMgr = sceneMgr;
 
-    tablero->creaTableroYCasillas(mSceneMgr);
-
-    // tablero->creaFichasAjedrez(mSceneMgr);
-    creaIluminacion();
 }
 
 void EscenaAjedrez::DistanciaCamara(int distanciaRelativa)
 {
     Ogre::Real dist = (mCamera->getPosition() - mTarget->_getDerivedPosition()).length();
-
-    // the further the camera is, the faster it moves
     mCamera->moveRelative(Ogre::Vector3(0, 0, -distanciaRelativa * 0.0008f * dist));
 }
 
-void EscenaAjedrez::setTarget(Ogre::SceneNode* target)
-{
-    if (target != mTarget)
-    {
-        mTarget = target;
-        if(target)
-        {
-            setYawPitchDist(Ogre::Degree(90), Ogre::Degree(50), 110);
-            mCamera->setAutoTracking(true, mTarget);
-        }
-        else
-        {
-            mCamera->setAutoTracking(false);
-        }
-    }
-}
 
 
-void EscenaAjedrez::setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist)
-{
-    mCamera->setPosition(mTarget->_getDerivedPosition());
-    mCamera->setOrientation(mTarget->_getDerivedOrientation());
-    mCamera->yaw(yaw);
-    mCamera->pitch(-pitch);
-    mCamera->moveRelative(Ogre::Vector3(0, 0, dist));
-}
+
 
 void EscenaAjedrez::rotacionCamara(Ogre::Degree angulo)
 {
-
     Ogre::Real dist = (mCamera->getPosition() - mTarget->_getDerivedPosition()).length();
 
     //Mueve la camara a la posicion central
     mCamera->setPosition(mTarget->_getDerivedPosition());
-    //ANGULO Ogre::Real(120.0f) * evt.timeSinceLastFrame
-
     //Rota la camara
-
     mCamera->yaw(-angulo);
 
-    //Devuelve la camara a su posicion ¿z? original
-    // mCamera->pitch(Ogre::Degree(-evt.state.Y.rel * 0.025f));
+    //Devuelve la camara a su posicion original
     mCamera->moveRelative(Ogre::Vector3(0, 0, dist));
-
-    //return true;
 }
 
-Ogre::Camera* EscenaAjedrez::createCamera(void)
+void EscenaAjedrez::createCamera(void)
 {
     // Create the camera
     mCamera = mSceneMgr->createCamera("PlayerCam");
@@ -151,17 +99,33 @@ Ogre::Camera* EscenaAjedrez::createCamera(void)
     mCamera->lookAt(Ogre::Vector3(0,0,0));
     mCamera->setNearClipDistance(5);
 
-    setTarget(mTarget ? mTarget : mCamera->getSceneManager()->getRootSceneNode());
+
+    if (mCamera->getSceneManager()->getRootSceneNode() != mTarget)
+    {
+        mTarget = mCamera->getSceneManager()->getRootSceneNode();
+        if(mTarget)
+        {
+            mCamera->setPosition(mTarget->_getDerivedPosition());
+            mCamera->setOrientation(mTarget->_getDerivedOrientation());
+            mCamera->yaw(Ogre::Degree(90));
+            mCamera->pitch(-Ogre::Degree(50));
+            mCamera->moveRelative(Ogre::Vector3(0, 0, 110));
+            mCamera->setAutoTracking(true, mTarget);
+        }
+        else
+        {
+            mCamera->setAutoTracking(false);
+        }
+    }
+
     mCamera->setFixedYawAxis(true);
 
     // mInputMan = new InputMan::SdkCameraMan(mCamera);   // create a default camera controller
     //  mTopSpeed = topSpeed;
 
-    return mCamera;
+   // return mCamera;
 }
 
-
-//-------------------------------------------------------------------------------------
 void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
 {
     mWindow = window;
@@ -175,10 +139,10 @@ void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
 }
 
 Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char mascara)
-{
+{   
+    mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
     Ogre::uint32 mask;
-
 
     switch (mascara)
     {
@@ -187,53 +151,32 @@ Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char ma
         mask = CASILLA;
         break;
 
-
-    case 'N':
-        mask =  NEGRAS;
-        break;
-
-
-    case 'B':
-        mask = BLANCAS;
-        break;
-
     default:
         mask = TABLERO;
 
         break;
     }
 
-    Ogre::Ray r = setRayQuery(posx, posy, mask, mWindow);
-
-    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
-    return result;
-}
-
-Ogre::Ray EscenaAjedrez::setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win)
-{
     Ogre::Ray rayMouse = mCamera->getCameraToViewportRay
-            (posx/float(win->getWidth()), posy/float(win->getHeight()));
+            (posx/float(mWindow->getWidth()), posy/float(mWindow->getHeight()));
 
     mRaySceneQuery->setRay(rayMouse);
     mRaySceneQuery->setSortByDistance(true);
     mRaySceneQuery->setQueryMask(mask);
-    return (rayMouse);
+
+    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
+
+    return result;
 }
 
-bool EscenaAjedrez::vaIzquierda(){
-
+bool EscenaAjedrez::vaIzquierda()
+{
     return mGoingLeft;
 }
 
 bool EscenaAjedrez::vaDerecha(){
     return mGoingRight;
 }
-
-bool EscenaAjedrez::esModoCamara()
-{
-    return mOrbiting;
-}
-
 
 void EscenaAjedrez::mueveCamaraIzquierda()
 {
@@ -251,38 +194,26 @@ void EscenaAjedrez::noMueveCamara()
     mGoingLeft = false;
 }
 
-void EscenaAjedrez::empezarModoCamara()
+void EscenaAjedrez::setModoCamara(bool modo)
 {
-    mOrbiting = true;
+    modoCamara = modo;
 }
 
-void EscenaAjedrez::acabarModoCamara()
+bool EscenaAjedrez::getModoCamara()
 {
-    mOrbiting = false;
+   return modoCamara;
 }
 
 std::string EscenaAjedrez::encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
 {
-
-      //  std::cout << "autorizaCasillaSobrevolada"<< std::endl;
-
-        // escenaAjedrez->apagaAvisos();
-
-        // int posx = arg.state.X.abs;   // Posicion del puntero
-        //  int posy = arg.state.Y.abs;   //  en pixeles.
-
         Ogre::RaySceneQueryResult &result = executeRay(mCursorPosition.d_x, mCursorPosition.d_y, 'C');
-
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
 
         if (it != result.end())
         {
             Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
-
             return nodoSobrevolado->getName();
-        //    jugadores.at(tablero->getTurnoNegras())->
-
         }
 
     return "";

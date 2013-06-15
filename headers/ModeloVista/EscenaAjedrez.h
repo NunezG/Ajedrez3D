@@ -17,59 +17,41 @@
 class  EscenaAjedrez
 {
 public:
-
     EscenaAjedrez();
     ~EscenaAjedrez(void);
-    void empezarModoCamara();
-    void acabarModoCamara();
-    bool esModoCamara();
+    Tablero* getTablero();
+    void setModoCamara(bool modo);
+    bool getModoCamara();
     void noMueveCamara();
+    bool vaIzquierda();
+    bool vaDerecha();
+    void mueveCamaraIzquierda();
+    void mueveCamaraDerecha();
 
     std::string encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
 
     void DistanciaCamara(int distanciaRelativa);
     void rotacionCamara(Ogre::Degree angulo);
     void createScene();
-    Ogre::Camera* createCamera(void);
+    void createCamera(void);
     void createViewports(Ogre::RenderWindow* window);
 
     void apagaVentanaEmergente();
     void muestraVentanaEmergente(std::string nombreLayout);
-    Tablero* getTablero();
 
     Ogre::SceneManager* mSceneMgr;
-
 private:
-    void setTarget(Ogre::SceneNode* target);
-    bool vaIzquierda();
-    bool vaDerecha();
-
-    void mueveCamaraIzquierda();
-    void mueveCamaraDerecha();
-
-    void destruyeTablero();
-
     Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
-
-    //Modelo* modelo;
-    Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask, Ogre::RenderWindow* win);
-    void creaIluminacion();
-    void setYawPitchDist(Ogre::Radian yaw, Ogre::Radian pitch, Ogre::Real dist);
 
     CEGUI::Window *ventanaEmergente;
     Ogre::RenderWindow* mWindow;
-    Ogre::RaySceneQuery *mRaySceneQuery;
-    Ogre::Real mTopSpeed;
     bool mGoingLeft;
     bool mGoingRight;
-    bool mOrbiting;
+    bool modoCamara;
     Ogre::SceneNode* mTarget;
-    Ogre::String columnas;
-    //std::vector<Tablero*> HistorialMovimientos;
     Ogre::Camera* mCamera;
     Tablero* tablero;
-
-    //  Modelo* modelo;
+     Ogre::RaySceneQuery *mRaySceneQuery;
 };
 
 #endif

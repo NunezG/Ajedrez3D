@@ -38,14 +38,12 @@ void Ventana::go(void)
         vista->mMouse->setEventCallback(vista);
         vista->mKeyboard->setEventCallback(vista);
 
-
         //RELLENA LA VISTA
         if (modeloVista->getNumPantalla() == 0)
             static_cast<MenuInicio*>(vista)->pantallaInicio();
         else
         {
-            modeloVista->escena->createScene();
-            modeloVista->creaModeloTablero();
+            modeloVista->creaEscenaYModelo();
         }
 
         //EMPIEZA RENDERIZADO

@@ -13,8 +13,6 @@ public:
     void mueveIA();
 private:
     bool esHumano();
-    bool casillaSobrevolada(const std::string nombreCasilla);
-    void calculaMovimiento();
     int dificultad;
 };
 

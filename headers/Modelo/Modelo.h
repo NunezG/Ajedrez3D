@@ -11,7 +11,7 @@ public:
     //Singleton
     static Modelo* getSingletonPtr();
 
-    int* mueveTablero();
+    void mueveTablero();
     int autorizaCasilla(tipoFicha tipo);
     bool construyeArbol();
 
@@ -19,8 +19,6 @@ public:
 
 private:
     int agregaJugada(int inicio, int fin);
-   // bool jugadaAutorizada;
-    bool evaluaJaque();
 
     //Singleton;
     Modelo(void);

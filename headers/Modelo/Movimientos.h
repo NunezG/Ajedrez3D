@@ -13,7 +13,6 @@ protected:
     static int pruebaCamino(ModeloTablero* miTablero, int salto);
 
 private:
-    static bool verificaJaqueMate(ModeloTablero* tablero);
     static bool aplicaMovimiento(ModeloTablero& miTablero,const int casOrigen,const int casDestino);
     static bool mueveFicha(ModeloTablero* miTablero, bool testJaque, int casilla, tipoFicha tipo);
     static bool mueveTorre(ModeloTablero* miTablero, const int casilla, bool testJaque);

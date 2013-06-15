@@ -10,7 +10,6 @@ public:
     ~FichaRey(void);
     FichaRey(std::string nombre);
 
-protected:
 
 
 private:  

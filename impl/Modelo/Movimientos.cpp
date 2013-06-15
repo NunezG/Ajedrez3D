@@ -77,7 +77,6 @@ bool Movimientos::pruebaJaqueMate(ModeloTablero* miTablero)
     int caballo = 2;
     int peon = 1;
 */
-    //CADA VEZ QUE ENCUENTRA UNA FICHA DEVUELVE SUS MOVIMIENTOS Y ANTES DE BUSCAR OTRA SE BORRAN, ASI SE AHORRA MEMORIA
 
     for (int i = 0; i< 120;i++)
     {
@@ -923,8 +922,6 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
     ModeloTablero* TableroMovido = NULL;
     //   std::cout << "!!!!!!!!!FICHA ORIGEN!!!!!!:" << fichaOrigen << std::endl;
     //     std::cout << "!!!!!!!!!FICHA DESTINO!!!!!!:" << miTablero.casillasInt[casDestino] << std::endl;
-
-
     // TableroMovido->alPaso = -1;
 
     int fichavieja = miTablero.casillasInt[casOrigen];
@@ -937,11 +934,9 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
     //  std::cout << "casDestino "<<casDestino <<std::endl;
     //std::cout << "fichaOrigen "<<fichaOrigen <<std::endl;
     // std::cout << "fichaDestino "<<fichaDestino <<std::endl;
-
   //  TableroMovido->turnoN = !TableroMovido->turnoN;
 
   //  std::cout << "!!!!APLICAMOVIMIENTTTTT!!" << std::endl;
-
 
     if (miTablero.evaluaJaque())
     {
@@ -951,14 +946,10 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
         miTablero.casillasInt[casDestino] = fichaNueva;
         miTablero.casillasInt[casOrigen] = fichavieja;
 
-
         return false;
     }
     else
     {
-
-
-
         TableroMovido = new ModeloTablero(miTablero);
 
         TableroMovido->jugada[0] = casOrigen;
@@ -976,8 +967,6 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
 
        miTablero.vectorMov.push_back(TableroMovido);
     //   std::cout << "!!!!TABLERO AÑADIDO!" << std::endl;
-
-
 
         return true;
     }

@@ -9,8 +9,6 @@ public:
     VistaAjedrez(ModeloVista* modeloV);
     ~VistaAjedrez(void);
 
-
-
 protected:
     // OIS::KeyListener
     bool keyPressed( const OIS::KeyEvent &arg );
@@ -22,17 +20,7 @@ protected:
 
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-
 private:
-
-
-
-    bool salir();
-
-    bool iniciaVentana();
-
-    bool mueveCamara(float frecuencia);
-
   //  CEGUI::Window *ventanaJaque;
 
  //   ModeloVista* modeloVista;

@@ -10,7 +10,7 @@ public:
     ~FichaTorre(void);
     FichaTorre(std::string nombre);
 
-protected:
+
 
 private:  
 

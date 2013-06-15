@@ -1,7 +1,5 @@
 #include "../../headers/ModeloVista/JugadorHumano.h"
 
-
-
 JugadorHumano::JugadorHumano(EscenaAjedrez* miEscena, Modelo* modelo) :
     Jugador(miEscena, modelo)
   
@@ -11,8 +9,6 @@ JugadorHumano::JugadorHumano(EscenaAjedrez* miEscena, Modelo* modelo) :
 JugadorHumano::~JugadorHumano()
 { 
 }
-
-
 
 bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
 {
@@ -61,7 +57,6 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
                 escena->muestraVentanaEmergente("Jaque");
             }
         }
-
     }
     else return false;
 

@@ -8,12 +8,14 @@ ModeloVista::ModeloVista():
   ,  numJugadores(0)
   , modelo(0)
   , JugadorActivo(0)
+  ,dificultad(0)
+  , modoJuego(0)
+  ,resolucion("800 x 600")
 
 {
-    resolucion = "800 x 600";
+
 }
 
-//-------------------------------------------------------------------------------------
 ModeloVista::~ModeloVista(void)
 {
     for (int i=0; i<jugadores.size();i++)
@@ -22,8 +24,6 @@ ModeloVista::~ModeloVista(void)
         jugadores.at(i) = NULL;
     }
     jugadores.clear();
-
-    // if (mInputMan) delete mInputMan;
 }
 
 bool ModeloVista::getApagar()
@@ -50,52 +50,32 @@ void ModeloVista::setNumPantalla(int pantalla)
 
 bool ModeloVista::generaJugadores()
 {
-    creaJugador(true, true);
-
-    if (getNumPantalla() == 1)
-    {
-        creaJugador(false, true);
-    }else
-    {
-        creaJugador(false, false);
-    }
-}
-
-//tal vez sea mejor una factoria de jugadores
-void ModeloVista::creaJugador(bool blancas, bool humano)
-{
-    int num = numJugadores;
+    jugadores.push_back(new JugadorHumano(escena, modelo));
 
     //HAY QUE CAMBIAR LO DE MODELOTABKERO PORQUE LOS JUGADORES ESTAN EN UN VECTOR Y ESE ES EL PROBLEMA
-    if (humano)
+    if (getNumPantalla() == 1)
     {
         std::cout << "CREA UN JUGADOR HUMANO" << std::endl;
-
         jugadores.push_back(new JugadorHumano(escena, modelo));
     }
     else
     {
         std::cout << "CREA UN JUGADOR ARTIFICIAL" << std::endl;
-
         jugadores.push_back(new JugadorArtificial(escena, modelo));
     }
 
-    if (blancas)
+    if (JugadorActivo == NULL)
     {
-        jugadores.at(num)->jugadorNegras = 0;
-        JugadorActivo = jugadores.at(num);
-    }
-    else
-    {
-        jugadores.at(num)->jugadorNegras = 1;
-    }
+        JugadorActivo = jugadores.at(0);
+      //  jugadores.at(num)->jugadorNegras = 0;
+  }
     numJugadores++;
 }
 
 
-bool ModeloVista::creaModeloTablero()
+bool ModeloVista::creaEscenaYModelo()
 {
-
+    escena->createScene();
 
     if (modelo->tableroModelo != NULL)
     {
@@ -105,17 +85,13 @@ bool ModeloVista::creaModeloTablero()
     }
 }
 
-bool ModeloVista::botonIzquierdo()
+bool ModeloVista::botonDerecho()
 {
 
     if(modelo->tableroModelo->jugada[1] > 0)
         aplicaCambio();
 
-    if (!JugadorActivo->esHumano())
-    {
-        static_cast<JugadorArtificial*>(JugadorActivo)->mueveIA();
-        botonIzquierdo();
-    }
+
 }
 
 int* ModeloVista::traduceTablero()
@@ -173,7 +149,6 @@ bool ModeloVista::seleccionaFichaEnPosicion(CEGUI::Vector2 pos)
 {    
     Tablero* tablero = escena->getTablero();
 
-
     tablero->fichaSeleccionada = false;
 
     if (tablero->getNodoCasillaSeleccionada() != NULL)
@@ -187,7 +162,6 @@ bool ModeloVista::seleccionaFichaEnPosicion(CEGUI::Vector2 pos)
 
     if (casilla != NULL && !casilla->sinHijos())
     {
-
         Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
         if ((tablero->getTurnoNegras()
              && ficha->esNegra)
@@ -206,9 +180,6 @@ bool ModeloVista::seleccionaFichaEnPosicion(CEGUI::Vector2 pos)
 bool ModeloVista::aplicaCambio()
 {
     Tablero* tablero = escena->getTablero();
-
-
-    std::cout << "APLICA YA EL MOVIMIENTO DEFINITIVO" << std::endl;
 
     if (tablero->getNodoCasillaSobrevolada() != NULL)
         tablero->getNodoCasillaSobrevolada()->apagaCasilla();
@@ -253,6 +224,8 @@ bool ModeloVista::aplicaCambio()
 
         if (resultado == 4)
         {//JAQUE AL REY
+            std::cout << "!!!!!!!!!DEVUELVE JAQUEKA! " << std::endl;
+
             escena->muestraVentanaEmergente("Jaque");
         }
         //   tablero->actualizaTablero();
@@ -271,18 +244,14 @@ bool ModeloVista::aplicaCambio()
 
         tablero->turnoNegras = !tablero->turnoNegras;
 
-        modelo->tableroModelo->turnoN = !modelo->tableroModelo->turnoN;
 
-        //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
-        for(int i=0; i<144;i++)
-        {
-            //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
-            if (modelo->tableroModelo->casillasInt[i] != 0 && modelo->tableroModelo->casillasInt[i] != 99)
-            {
-                modelo->tableroModelo->casillasInt[i] = -modelo->tableroModelo->casillasInt[i];
-            }
-        }
         JugadorActivo = jugadores.at(tablero->getTurnoNegras());
+
+        if (!JugadorActivo->esHumano())
+        {
+            static_cast<JugadorArtificial*>(JugadorActivo)->mueveIA();
+            aplicaCambio();
+        }
 
         return true;
     }

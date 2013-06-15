@@ -3,12 +3,8 @@
 
 #include "ObjetoOgre.h"
 
-enum ColorFicha
-{
-    Blanco,
-    Negro
-};
 
+/*
 struct FichaPrueba{
     Ogre::String Tipo;
     Ogre::Entity* entFicha;
@@ -21,6 +17,7 @@ struct ListaPosiciones{
     ListaPosiciones* anterior;
     int posicion[2];
 };
+*/
 
 class Ficha : public ObjetoOgre
 {
@@ -36,21 +33,21 @@ public:
 protected:
     Ficha(std::string nombre, int tipo);
 private: 
-    virtual bool setCasilla(int fila, int col);
-    bool salto;
-    bool Selected;
+   // virtual bool setCasilla(int fila, int col);
+   // bool salto;
+  //  bool Selected;
     //PARA EVALUAR:
-    bool Moved;
-    short PieceActionValue;
-    short AttackedValue;
-    short DefendedValue;
-    short valorFicha;
+  //  bool Moved;
+ //   short PieceActionValue;
+  //  short AttackedValue;
+ //   short DefendedValue;
+ //   short valorFicha;
    //  Stack<byte> ValidMoves; // lista de movimientos válidos
-    bool muerta;
-    int casilla[2];
+   // bool muerta;
+    //int casilla[2];
 
 
-    ObjetoOgre* objetoOgreAsociado;
+    //ObjetoOgre* objetoOgreAsociado;
 };
 
 #endif

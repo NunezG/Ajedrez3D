@@ -12,8 +12,6 @@ ModeloTablero::ModeloTablero() :
     jugada = new int[2];
     jugada[0] = -1;
     jugada[1] = -1;
-
-    //vectorMov.clear();
 }
 
 ModeloTablero::ModeloTablero( const ModeloTablero& original ):
@@ -25,8 +23,6 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
     alPaso(-1)
   , nodoInicial(false)
 {
-
-
     // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
     casillasInt = new int[144];
     jugada = new int[2];
@@ -42,38 +38,26 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original ):
         }
         else
         {
-
             casillasInt[i] = original.casillasInt[i];
-
-
         }
     }
 }
 
 ModeloTablero::~ModeloTablero()
 {
-
     if (!vectorMov.empty())
     {
-
-
         for(int i = 0; i < vectorMov.size(); i++)
         {
             if (vectorMov.at(i) != NULL)
             {
-
-
                 delete vectorMov.at(i);
-
                 vectorMov.at(i) = NULL;
             }
         }
-
         //  numeroHijos=0;
         vectorMov.clear();
-
     }
-
 }
 
 bool ModeloTablero::evaluaJaque()
@@ -86,7 +70,6 @@ bool ModeloTablero::evaluaJaque()
     int fichaAlfil = -3;
     int fichaCaballo = -2;
     int fichaTorre = -4;
-
 
     for (int i=0; i<144;i++)
     {
@@ -134,18 +117,13 @@ bool ModeloTablero::evaluaJaque()
                 if(i==1 && ficha == fichaRey)
                     return true;
 
-
-
                 //REINA                             //TORRE
                 if(ficha == fichaReina || ficha == fichaTorre)
                     return true;
 
-
                 //ficha en medio
-
                 break;
             }
-
         }
 
         //E
@@ -164,9 +142,6 @@ bool ModeloTablero::evaluaJaque()
                 //REINA                             //TORRE
                 if(ficha == fichaReina || ficha == fichaTorre)
                     return true;
-
-
-                //ficha en medio
 
                 break;
             }

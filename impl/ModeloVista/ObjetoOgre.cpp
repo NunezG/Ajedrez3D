@@ -63,7 +63,6 @@ void ObjetoOgre::rota(int grados)
     nodoEscena->yaw(Ogre::Degree(grados));
 }
 
-
 ObjetoOgre* ObjetoOgre::getHijo(int numero)
 {
     return vectorHijos.at(numero);
@@ -82,26 +81,12 @@ ObjetoOgre* ObjetoOgre::getHijo(std::string posicion)
     return NULL;
 }
 
-bool ObjetoOgre::eliminaHijo(ObjetoOgre* hijo)
-{
-    getNodoOgre()->removeChild(hijo->getNodoOgre());
-
-    for(int i=0;i<vectorHijos.size();i++){
-        ObjetoOgre* obj = vectorHijos.at(i);
-        if (obj->getNombre() == hijo->getNombre()) vectorHijos.erase(vectorHijos.begin()+i);
-    }
-}
-
 bool ObjetoOgre::eliminaHijo(int hijo)
 {
     getNodoOgre()->removeChild(hijo);
     vectorHijos.erase(vectorHijos.begin()+hijo);
 }
 
-int ObjetoOgre::numeroHijos()
-{
-    return  vectorHijos.size();
-}
 
 bool ObjetoOgre::sinHijos()
 {
@@ -112,23 +97,6 @@ bool ObjetoOgre::agregaHijo(ObjetoOgre* objetoHijo)
 {
     vectorHijos.push_back(objetoHijo);
     if (nodoEscena != NULL) nodoEscena->addChild(objetoHijo->getNodoOgre());
-}
-
-bool ObjetoOgre::setEntidad(Ogre::Entity* ent)
-{
-    entidad = ent;
-    return true;
-}
-
-Ogre::Entity* ObjetoOgre::getEntidad()
-{
-    return entidad;
-}
-
-bool ObjetoOgre::setNodoOgre(Ogre::SceneNode* nodo)
-{
-    nodoEscena = nodo;
-    return true;
 }
 
 Ogre::SceneNode* ObjetoOgre::getNodoOgre()

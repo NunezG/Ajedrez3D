@@ -75,14 +75,12 @@ bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
     mSceneMgr->getRootSceneNode()->addChild(getNodoOgre());
     creaCasillas();
 
-
     creaVasallos();
     creaNobleza();
     creaPeones();
 
 
 }
-
 
 void Tablero::creaCasillas()
 {
@@ -95,9 +93,8 @@ void Tablero::creaCasillas()
 
     for (int i = 0; i < 64; ++i)
     {
-
         saux.str("");
-        saux  << Ogre::StringConverter::toString( contFila + 1 )<<  columnas[contColumna];
+        saux  << Ogre::StringConverter::toString( contFila + 1 ) << columnas[contColumna];
 
         objeto = new Casilla(saux.str());
         objeto->creaModelo3D(mSceneMgr, "Casilla", CASILLA);
@@ -112,18 +109,17 @@ void Tablero::creaCasillas()
             objeto->cambiaMaterial("MaterialCasillaNegra");
         }
         objeto->setPosicion(contFila, contColumna);
-        objeto->trasladarAPunto();
+        objeto->trasladar(-10*contFila,-10*contColumna);
         agregaHijo(objeto);
 
         if (contColumna == COL_H)
         {
             contFila++;
             contColumna = COL_A;
-
-        }else contColumna = enColummas(static_cast<int>(contColumna)+1);
+        }
+        else contColumna = enColummas(static_cast<int>(contColumna)+1);
     }
 }
-
 
 void Tablero::creaVasallos()
 {
@@ -365,7 +361,6 @@ void Tablero::actualizaTablero()
                 }
             }
             setAlPaso(-1);
-
 
             if( dif == 2)
                 setAlPaso(24+(casillaDestinoTemp->getPosicion().Fila*12) +  casillaDestinoTemp->getPosicion().Columna+2);

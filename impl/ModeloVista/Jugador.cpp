@@ -1,7 +1,7 @@
 #include "../../headers/ModeloVista/Jugador.h"
 
 Jugador::Jugador(EscenaAjedrez* miEscena, Modelo* modelo) :
-    jugadorNegras(false),
+    //jugadorNegras(false),
     nombre(""),
     // miTablero(0)
     //tableroModelo(modeloTablero)
@@ -22,13 +22,8 @@ Jugador::~Jugador()
 bool Jugador::casillaSobrevolada(const std::string nombreCasilla)
 {
     //  std::cout << "auto1: " << nombreCasilla<< std::endl;
-
     Casilla* casillaSobrevolada = static_cast<Casilla*>(escena->getTablero()->getHijo(nombreCasilla));
-
-    //   std::cout << "auto222" << std::endl;
-
     Casilla* casillaSobreAnterior = escena->getTablero()->getNodoCasillaSobrevolada();
-
     //   std::cout << "CasillaSobrevolada: "<<   casillaSobrevolada->getNombre()  << std::endl;
 
     //devulve true si ha cambiado de casilla
@@ -48,7 +43,6 @@ bool Jugador::casillaSobrevolada(const std::string nombreCasilla)
 
         return true;
     }
-
     return false;
 }
 
@@ -65,30 +59,39 @@ void Jugador::setNombre( std::string unNombre)
 
 int Jugador::aplicaSeleccion()
 {
-    modelo->mueveTablero();
+    modelo->mueveTablero();  
+    modelo->tableroModelo->turnoN = !modelo->tableroModelo->turnoN;
 
-    std::cout << "cambiatur 6"<< modelo->tableroModelo->turnoN<<std::endl;
+    //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
+    for(int i=0; i<144;i++)
+    {
+        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
+        if (modelo->tableroModelo->casillasInt[i] != 0 && modelo->tableroModelo->casillasInt[i] != 99)
+        {
+            modelo->tableroModelo->casillasInt[i] = -modelo->tableroModelo->casillasInt[i];
+        }
+    }
+    modelo->tableroModelo->jugada[0] = -1;
+    modelo->tableroModelo->jugada[1] = -1;
+
     // tablero->cambiaTurno();
     //    if(tablero->turnoN) tablero->casillasInt = Movimientos::normalizaTablero(tablero->casillasInt);
-
-    //CAMBIA DE TURNO
-    ModeloTablero* turnoSiguiente = new ModeloTablero(*modelo->tableroModelo);
+  //  ModeloTablero* turnoSiguiente = new ModeloTablero(*modelo->tableroModelo);
     bool Jaque = false;
 
     //   if (turnoNegras)tablero = Calculos::normalizaTablero(tablero);
-    std::cout << "cambiatur 7 "<< turnoSiguiente->turnoN<<std::endl;
-
-    if (turnoSiguiente->evaluaJaque())
+    if (modelo->tableroModelo->evaluaJaque())
     {//JAQUE AL REY
         std::cout << "!!!!HA EVALUADO JAQUE PARA EL ENEMIGO AL MOVER FICHA" << std::endl;
         Jaque = true;
     }
+
     std::cout << "!!!!!!pasa! " << std::endl;
 
     //MIRA TODOS LOS MOVIMIENTOS POSIBLES DEL TURNO CONTRARIO
-    if (Movimientos::pruebaJaqueMate(turnoSiguiente))
+    if (Movimientos::pruebaJaqueMate(modelo->tableroModelo))
     {
-        delete turnoSiguiente;
+      //  delete turnoSiguiente;
         std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS PARA EL TURNO SIGUIENTE(JAQUE MATE O AHOGADO)!!!: " << std::endl;
 
         //SE EVALUA EL JAQUE Y SI EL REY NO ESTA EN JAQUE ES QUE ES AHOGADO
@@ -104,12 +107,14 @@ int Jugador::aplicaSeleccion()
             std::cout << "!!!!!!!!!DEVUELVE REY AHOGADO! " << std::endl;
             return 3;
         }
-
-    }else
+    }
+    else
     {
-        delete turnoSiguiente;
+      //  delete turnoSiguiente;
         if (Jaque)
         {//Jaque asecas
+            std::cout << "!!!!!!!!!DEVUELVE JAQUE! " << std::endl;
+
             return 4;
         }
         else
@@ -119,10 +124,7 @@ int Jugador::aplicaSeleccion()
             return 1;
         }
     }
-
     return 0;
-
-    std::cout << "FIN cambiatur 4 "<< std::endl;
 }
 
 void Jugador::promocionaPeon()
@@ -133,7 +135,7 @@ void Jugador::promocionaPeon()
 
     if(!casilla->sinHijos())
     {
-        //PROMOCIONA PEON
+        //MIRA SI PROMOCIONA PEON
         Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
 
         if(ficha->tipo_Ficha == 1

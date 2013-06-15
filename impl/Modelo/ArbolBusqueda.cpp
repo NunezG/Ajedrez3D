@@ -47,7 +47,6 @@ short ArbolBusqueda::CalculatePieceActionValue(int pieceType)
 
 int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int depthleft )
 {
-
     // std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
     //  std::cout << "!!!!!!!!!!!!!!!!!!NIIVEL: "<< depthleft<< std::endl;
 
@@ -56,21 +55,15 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
         //   std::cout << "EVALUA LA HEURISTICA "<< std::endl;
         //CALCULA LA HEURISTICA
         int ev = evaluaTablero(table->casillasInt, table->turnoN);
-
         // table->Score = ev;
-
-        // if (ev != 0)std::cout << "EVALUACION DEVUELVE: "<< table->Score<< std::endl;
-
-
+        // if (ev != 0)std::cout << "EVALUACION DEVUELVE: "<< table->Score<< std::endl
         //   std::cout << "ENCUENTRA UN NODO TERMINAL: "<< table->Score<< std::endl;
-
         //////////////////////////////se puede hacer delete table aqui???????????????????
         //  std::cout << "!!!!!borra en nodo final"<< std::endl;
 
         //   delete  table;
         // table = NULL;
         //std::cout << "!!!!!fin"<< std::endl;
-
         return ev;
     }
 
@@ -80,10 +73,7 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
 
     while (rama > 0 && !betaBreak)
     {
-
         Movimientos::generaMovimientos(table,tipoFicha(rama));
-
-
         //  std::cout << "!!!!!!!!!!!!!!!!!!TAMAÑO VECTOR DE TABLEROS HIJO: "<< table->vectorMov->size()<< std::endl;
 
         if (rama == 7 && table->vectorMov.size() == 0)
@@ -99,9 +89,7 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
             {
                 score = -alphaBeta(table->vectorMov.at(i), -beta,-alpha, depthleft - 1 );
                 //  std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
-
                 //  std::cout << "!!!!!!!!!!!!!FOR"<< std::endl;
-
 
                 if( score >= beta )
                 {
@@ -113,8 +101,6 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                     //problema: se borran los del primer nivel
                     //  delete table;
                     // table = NULL;
-
-
                     delete table->vectorMov.at(i);
                     table->vectorMov.at(i) = NULL;
 
@@ -126,58 +112,35 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                     //   std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
                     // table->Score = score;
                     //LE PASA EL MOVIMIENTO A SU PADRE SOLO SI EL PADRE ES EL INICIAL
-
-
                     //      std::cout << "!!nodo inicial"<< std::endl;
-
-
                     if (table->nodoInicial)
-                    {
-
+                    {//RELLENA LA JUGADA DEL NODO INICIAL
                         table->jugada[0] = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada[0];
                         table->jugada[1] = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada[1];
-
                     }
-
-
-
                     // jugada = new int[2];
-
-
                     //  std::cout << "!!!!!!!!!!!!!!!!!! actualiza JUGADA en nodo INCIAL: " << std::endl;
-
                     //      std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa ORIGEN: "<< table->jugada[0]  << std::endl;
-
                     //   std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa DESTINO: "<< table->jugada[1]   << std::endl;
-
-
                     // std::cout << "!!!!!!!!!!!!!!!!!! FIN actualiza alfa: "<< std::endl;
 
                     alpha = score; // alpha acts like max in MiniMax
                 }
             } //else  std::cout << "!!BETA BREAAAAK "  << std::endl;
 
-
             //problema: se borran los del primer nivel
-
             // std::cout << "!!FINFOR "  << std::endl;
-
 
             delete table->vectorMov.at(i);
             table->vectorMov.at(i) = NULL;
-
         }
         rama--;
-
 
         for(int i = 0; i < table->vectorMov.size(); i++)
         {
             if (table->vectorMov.at(i) != NULL)
             {
-
-
                 delete table->vectorMov.at(i);
-
                 table->vectorMov.at(i) = NULL;
             }
         }
@@ -186,11 +149,8 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
         table->vectorMov.clear();
     }
     //  std::cout << "!!RETURN "  << std::endl;
-
-
     //  delete table;
     //  table = NULL;
-
     //table->vectorMov.clear();
     if (!betaBreak)
     return alpha;

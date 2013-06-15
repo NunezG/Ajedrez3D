@@ -16,21 +16,23 @@ public:
     int getNumPantalla();
     bool getApagar();
 
-
-    bool botonIzquierdo();
+    bool botonDerecho();
     bool seleccionaFichaEnPosicion(CEGUI::Vector2 pos);
     bool generaJugadores();
-    bool creaModeloTablero();
+    bool creaEscenaYModelo();
 
     Jugador* JugadorActivo;
     EscenaAjedrez* escena;
     Modelo* modelo;
     std::string resolucion;
+    int dificultad;
+    int modoJuego;
+
+
+
 
 private:   
-
     int* traduceTablero();
-    void creaJugador(bool blancas, bool humano);
     bool aplicaCambio();
 
     std::vector<Jugador*> jugadores;

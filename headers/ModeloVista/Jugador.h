@@ -17,7 +17,7 @@ public:
     virtual bool esHumano() = 0;
     int aplicaSeleccion();
     void promocionaPeon();
-    bool jugadorNegras;
+  //  bool jugadorNegras;
 
 protected:
     Jugador(EscenaAjedrez* miEscena, Modelo* modelo);

@@ -9,7 +9,6 @@
 #define BLANCAS 1 << 2  // Mascara para objetos de tipo 2
 #define TABLERO 1 << 3
 
-
 class ObjetoOgre
 {
 public:
@@ -25,32 +24,12 @@ public:
     void trasladar(int x, int z);
     ObjetoOgre* getHijo(int numero);
     ObjetoOgre* getHijo(std::string posicion);
-
     std::string getNombre();
 
 protected:
-
-
     ObjetoOgre(std::string nombre);
 
-
-
 private:
-
-
-
-
-    virtual bool setEntidad(Ogre::Entity* ent);
-    virtual Ogre::Entity* getEntidad();
-    virtual bool setNodoOgre(Ogre::SceneNode* nodo);
-
-    bool eliminaHijo(ObjetoOgre* hijo);
-
-
-    int numeroHijos();
-
-
-
     Ogre::uint32 tipoObjeto;
     std::vector<ObjetoOgre*> vectorHijos;
     std::string nombreObjeto;

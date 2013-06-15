@@ -32,34 +32,7 @@ void JugadorArtificial::mueveIA()
     }
 }
 
-
-
-bool JugadorArtificial::casillaSobrevolada(const std::string nombreCasilla)
-{
-
-    std::cout << "CASILLA SOBREVOLADA EN JUGADOR ARTIFICIAL" << std::endl;
-
-
-    Jugador::casillaSobrevolada(nombreCasilla);
-
-
-
-
-}
-
-
-
-
-//añade Tablero como parametro y asi se puede integrar al modelo??
-void JugadorArtificial::calculaMovimiento()
-{
-
-}
-
 bool JugadorArtificial::esHumano()
 {
     return false;
 }
-
-
-
