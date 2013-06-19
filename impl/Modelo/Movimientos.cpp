@@ -107,7 +107,7 @@ bool Movimientos::pruebaJaqueMate(ModeloTablero* miTablero)
     //  std::cout << "generamov"<< std::endl;
 }
 
-bool Movimientos::mueveFicha(ModeloTablero* miTablero, bool testJaque, int casilla, tipoFicha tipo)
+bool Movimientos::mueveFicha(ModeloTablero* miTablero, const int casilla, bool testJaque, tipoFicha tipo)
 {
     bool fichamovida = false;
 

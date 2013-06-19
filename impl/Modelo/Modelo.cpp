@@ -21,7 +21,7 @@ Modelo* Modelo::getSingletonPtr()
     return miModeloPtr;
 }
 
-int Modelo::agregaJugada(int inicio, int fin)
+void Modelo::agregaJugada(int inicio, int fin)
 {
     tableroModelo->jugada[0] = inicio;
     tableroModelo->jugada[1] = fin;

@@ -14,7 +14,7 @@ protected:
 
 private:
     static bool aplicaMovimiento(ModeloTablero& miTablero,const int casOrigen,const int casDestino);
-    static bool mueveFicha(ModeloTablero* miTablero, bool testJaque, int casilla, tipoFicha tipo);
+    static bool mueveFicha(ModeloTablero* miTablero, const int casilla,bool testJaque, tipoFicha tipo);
     static bool mueveTorre(ModeloTablero* miTablero, const int casilla, bool testJaque);
     static bool mueveAlfil(ModeloTablero* miTablero, const int casilla, bool testJaque);
     static bool mueveCaballo(ModeloTablero* miTablero,const int casilla, bool testJaque);

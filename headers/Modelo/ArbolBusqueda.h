@@ -11,7 +11,7 @@ public:
 
 private:
     static short CalculatePieceActionValue(int pieceType);
-    static int evaluaTablero(const int casillasInt[144], bool turnoN);
+    static int evaluaTablero(const int casillasInt[144]);
     static short valorFicha(const tipoFicha tipo);
 };
 

@@ -1,6 +1,5 @@
 #include "../../headers/ModeloVista/ModeloVista.h"
 
-//-------------------------------------------------------------------------------------
 ModeloVista::ModeloVista():
     mPantalla(0)
   , escena(0)
@@ -8,12 +7,10 @@ ModeloVista::ModeloVista():
   ,  numJugadores(0)
   , modelo(0)
   , JugadorActivo(0)
-  ,dificultad(0)
+  , dificultad(0)
   , modoJuego(0)
   ,resolucion("800 x 600")
-
 {
-
 }
 
 ModeloVista::~ModeloVista(void)
@@ -33,9 +30,7 @@ bool ModeloVista::getApagar()
 
 void ModeloVista::setApagar(bool apaga)
 {
-
     mShutDown = apaga;
-
 }
 
 int ModeloVista::getNumPantalla()
@@ -48,7 +43,7 @@ void ModeloVista::setNumPantalla(int pantalla)
     mPantalla = pantalla;
 }
 
-bool ModeloVista::generaJugadores()
+void ModeloVista::generaJugadores()
 {
     jugadores.push_back(new JugadorHumano(escena, modelo));
 
@@ -73,7 +68,7 @@ bool ModeloVista::generaJugadores()
 }
 
 
-bool ModeloVista::creaEscenaYModelo()
+void ModeloVista::creaEscenaYModelo()
 {
     escena->createScene();
 
@@ -85,14 +80,6 @@ bool ModeloVista::creaEscenaYModelo()
     }
 }
 
-bool ModeloVista::botonDerecho()
-{
-
-    if(modelo->tableroModelo->jugada[1] > 0)
-        aplicaCambio();
-
-
-}
 
 int* ModeloVista::traduceTablero()
 {
@@ -145,79 +132,12 @@ int* ModeloVista::traduceTablero()
     return casillasInt;
 }
 
-bool ModeloVista::seleccionaFichaEnPosicion(CEGUI::Vector2 pos)
-{    
-    Tablero* tablero = escena->getTablero();
-
-    tablero->fichaSeleccionada = false;
-
-    if (tablero->getNodoCasillaSeleccionada() != NULL)
-    {  // Si habia alguno seleccionado...
-        Ficha* ficha = static_cast<Ficha*>(tablero->getNodoCasillaSeleccionada()->getHijo(0));
-        ficha->getNodoOgre()->showBoundingBox(false);
-        tablero->setNodoCasillaSeleccionada(-1);
-    }
-
-    Casilla* casilla = static_cast<Casilla*>(tablero->getHijo(escena->encuentraCasillaSobrevolada(pos)));
-
-    if (casilla != NULL && !casilla->sinHijos())
-    {
-        Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
-        if ((tablero->getTurnoNegras()
-             && ficha->esNegra)
-                || (!tablero->getTurnoNegras()
-                    && !ficha->esNegra))
-        {
-            tablero->setNodoCasillaSeleccionada(casilla);
-            ficha->getNodoOgre()->showBoundingBox(true);
-            tablero->fichaSeleccionada = true;
-            return true;
-        }
-    }
-    return false;
-}
 
 bool ModeloVista::aplicaCambio()
 {
-    Tablero* tablero = escena->getTablero();
-
-    if (tablero->getNodoCasillaSobrevolada() != NULL)
-        tablero->getNodoCasillaSobrevolada()->apagaCasilla();
-
-    escena->apagaVentanaEmergente();
-    tablero->fichaSeleccionada = false;
-
-    int filaSel;
-    int colSel;
-    int filaNueva;
-    int colNueva;
-
-    std::cout << "tableroModelo->jugada[0] " << modelo->tableroModelo->jugada[0]<< std::endl;
-    std::cout << "tableroModelo->jugada[1] " << modelo->tableroModelo->jugada[1]<< std::endl;
-
-    filaSel = (modelo->tableroModelo->jugada[0]/12)-2;
-    colSel = (modelo->tableroModelo->jugada[0]%12)-2;
-    filaNueva = (modelo->tableroModelo->jugada[1]/12)-2;
-    colNueva = (modelo->tableroModelo->jugada[1]%12)-2;
 
     //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA
     int resultado = JugadorActivo->aplicaSeleccion();
-
-    if (tablero->getNodoCasillaSeleccionada() == NULL)
-    {    //JUGADOR ARTIFICIAL
-
-        // std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
-        // std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
-        std::cout << "SELECT 1 FILA: "<< (filaSel*8)+colSel <<std::endl;
-
-        tablero->setNodoCasillaSeleccionada((filaSel * 8) + colSel);
-
-        std::cout << "nombre: "<< tablero->getNodoCasillaSeleccionada()->getNombre()<<std::endl;
-
-        tablero->setNodoCasillaSobrevolada((filaNueva * 8) + colNueva);
-    }
-
-    tablero->actualizaTablero();
 
     if (resultado == 1 || resultado == 4)
     {//FICHA MOVIDA
@@ -231,25 +151,28 @@ bool ModeloVista::aplicaCambio()
         //   tablero->actualizaTablero();
 
         if (static_cast<Jugador*>(jugadores[0])->esHumano() && static_cast<Jugador*>(jugadores[1])->esHumano())
-            tablero->rotacionCamara = Ogre::Real(180.0f);
+            escena->getTablero()->rotacionCamara = Ogre::Real(180.0f);
 
         //COMPRUEBA JAQUE MATE
+        std::cout << "!!!!!promociona! " << std::endl;
 
         JugadorActivo->promocionaPeon();
 
-        tablero->setNodoCasillaSobrevolada(-1);
-        tablero->setNodoCasillaSeleccionada(-1);
+        escena->getTablero()->setNodoCasillaSobrevolada(-1);
+        escena->getTablero()->setNodoCasillaSeleccionada(-1);
 
         std::cout << "fin cambia "<< std::endl;
 
-        tablero->turnoNegras = !tablero->turnoNegras;
+        escena->getTablero()->turnoNegras = !escena->getTablero()->turnoNegras;
 
 
-        JugadorActivo = jugadores.at(tablero->getTurnoNegras());
+        JugadorActivo = jugadores.at(escena->getTablero()->getTurnoNegras());
 
         if (!JugadorActivo->esHumano())
         {
             static_cast<JugadorArtificial*>(JugadorActivo)->mueveIA();
+            std::cout << "aplica cambio IA "<< std::endl;
+
             aplicaCambio();
         }
 

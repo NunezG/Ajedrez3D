@@ -23,10 +23,10 @@ public:
     void setModoCamara(bool modo);
     bool getModoCamara();
     void noMueveCamara();
-    bool vaIzquierda();
-    bool vaDerecha();
-    void mueveCamaraIzquierda();
-    void mueveCamaraDerecha();
+    bool getCamaraIzquierda();
+    bool getCamaraDerecha();
+    void setCamaraIzquierda();
+    void setCamaraDerecha();
 
     std::string encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
 
@@ -40,13 +40,13 @@ public:
     void muestraVentanaEmergente(std::string nombreLayout);
 
     Ogre::SceneManager* mSceneMgr;
-private:
-    Ogre::RaySceneQueryResult& executeRay(int posx, int posy, char mascara);
+    bool modoVS;
 
+private:
     CEGUI::Window *ventanaEmergente;
     Ogre::RenderWindow* mWindow;
-    bool mGoingLeft;
-    bool mGoingRight;
+    bool camaraIzquierda;
+    bool camaraDerecha;
     bool modoCamara;
     Ogre::SceneNode* mTarget;
     Ogre::Camera* mCamera;

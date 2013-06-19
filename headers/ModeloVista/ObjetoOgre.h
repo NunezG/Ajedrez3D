@@ -14,9 +14,9 @@ class ObjetoOgre
 public:
     ~ObjetoOgre(void);
 
-    virtual Ogre::SceneNode* getNodoOgre();
-    bool eliminaHijo(int hijo);
-    bool creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombre, Ogre::uint32 mask);
+    Ogre::SceneNode* getNodoOgre();
+    void eliminaHijo(int hijo);
+    void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
     bool agregaHijo(ObjetoOgre* objetoHijo);
     bool sinHijos();
     void cambiaMaterial(std::string material);

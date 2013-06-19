@@ -7,10 +7,11 @@ EscenaAjedrez::EscenaAjedrez() :
  // , mTopSpeed(150)
  // ,   mRaySceneQuery(0)
   //, mOrbiting(false)
-  , mGoingLeft(false)
-  , mGoingRight(false)
+  , camaraDerecha(false)
+  , camaraIzquierda(false)
  // , columnas("ABCDEFGH")
   , ventanaEmergente(0)
+  , modoVS(0)
 {
     tablero = new Tablero();
     mSceneMgr = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
@@ -32,6 +33,8 @@ Tablero* EscenaAjedrez::getTablero()
 
 void EscenaAjedrez::createScene()
 {
+    std::cout   << "   creaESCENA" << std::endl;
+
     tablero->creaTableroYCasillas(mSceneMgr);
 
 //CREA LA ILUMINACIÓN
@@ -62,6 +65,7 @@ void EscenaAjedrez::createScene()
     // light->setSpotlightFalloff(1.0f);
     light->setCastShadows(true);
 
+    std::cout   << "   fincreaESCENA" << std::endl;
 
 }
 
@@ -90,6 +94,8 @@ void EscenaAjedrez::rotacionCamara(Ogre::Degree angulo)
 
 void EscenaAjedrez::createCamera(void)
 {
+    std::cout   << "   cacacamara" << std::endl;
+
     // Create the camera
     mCamera = mSceneMgr->createCamera("PlayerCam");
 
@@ -138,60 +144,30 @@ void EscenaAjedrez::createViewports(Ogre::RenderWindow* window)
                 Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 
-Ogre::RaySceneQueryResult& EscenaAjedrez::executeRay(int posx, int posy, char mascara)
-{   
-    mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
-    Ogre::uint32 mask;
-
-    switch (mascara)
-    {
-
-    case 'C':
-        mask = CASILLA;
-        break;
-
-    default:
-        mask = TABLERO;
-
-        break;
-    }
-
-    Ogre::Ray rayMouse = mCamera->getCameraToViewportRay
-            (posx/float(mWindow->getWidth()), posy/float(mWindow->getHeight()));
-
-    mRaySceneQuery->setRay(rayMouse);
-    mRaySceneQuery->setSortByDistance(true);
-    mRaySceneQuery->setQueryMask(mask);
-
-    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
-
-    return result;
-}
-
-bool EscenaAjedrez::vaIzquierda()
+bool EscenaAjedrez::getCamaraIzquierda()
 {
-    return mGoingLeft;
+    return camaraIzquierda;
 }
 
-bool EscenaAjedrez::vaDerecha(){
-    return mGoingRight;
+bool EscenaAjedrez::getCamaraDerecha(){
+    return camaraDerecha;
 }
 
-void EscenaAjedrez::mueveCamaraIzquierda()
+void EscenaAjedrez::setCamaraIzquierda()
 {
-    mGoingLeft = true;
+    camaraIzquierda = true;
 }
 
-void EscenaAjedrez::mueveCamaraDerecha()
+void EscenaAjedrez::setCamaraDerecha()
 {
-    mGoingRight = true;
+    camaraDerecha = true;
 }
 
 void EscenaAjedrez::noMueveCamara()
 {
-    mGoingRight = false;
-    mGoingLeft = false;
+    camaraIzquierda = false;
+    camaraDerecha = false;
 }
 
 void EscenaAjedrez::setModoCamara(bool modo)
@@ -206,12 +182,29 @@ bool EscenaAjedrez::getModoCamara()
 
 std::string EscenaAjedrez::encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
 {
-        Ogre::RaySceneQueryResult &result = executeRay(mCursorPosition.d_x, mCursorPosition.d_y, 'C');
+    std::cout   << "   encuentra" << std::endl;
+
+
+    Ogre::uint32 mask = CASILLA;
+    std::cout   << "   encuentra2" << std::endl;
+
+    Ogre::Ray rayMouse = mCamera->getCameraToViewportRay
+            (mCursorPosition.d_x/float(mWindow->getWidth()), mCursorPosition.d_y/float(mWindow->getHeight()));
+    std::cout   << "   encuentra3" << std::endl;
+
+    mRaySceneQuery->setRay(rayMouse);
+    mRaySceneQuery->setSortByDistance(true);
+    mRaySceneQuery->setQueryMask(mask);
+
+    Ogre::RaySceneQueryResult &result = mRaySceneQuery->execute();
+
+       // Ogre::RaySceneQueryResult &result = executeRay(, , 'C');
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
 
         if (it != result.end())
         {
+
             Ogre::SceneNode* nodoSobrevolado = it->movable->getParentSceneNode();
             return nodoSobrevolado->getName();
         }

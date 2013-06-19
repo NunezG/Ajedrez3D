@@ -54,7 +54,7 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
     {
         //   std::cout << "EVALUA LA HEURISTICA "<< std::endl;
         //CALCULA LA HEURISTICA
-        int ev = evaluaTablero(table->casillasInt, table->turnoN);
+        int ev = evaluaTablero(table->casillasInt);
         // table->Score = ev;
         // if (ev != 0)std::cout << "EVALUACION DEVUELVE: "<< table->Score<< std::endl
         //   std::cout << "ENCUENTRA UN NODO TERMINAL: "<< table->Score<< std::endl;
@@ -157,7 +157,7 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
     else return score;
 }
 
-int ArbolBusqueda::evaluaTablero(const int casillasInt[144], bool turnoN)
+int ArbolBusqueda::evaluaTablero(const int casillasInt[144])
 {
     int suma = 0;
     //   BlackCheck = false;

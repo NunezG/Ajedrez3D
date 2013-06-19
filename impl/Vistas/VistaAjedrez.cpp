@@ -43,12 +43,12 @@ bool VistaAjedrez::keyPressed( const OIS::KeyEvent &arg )
     
     if (arg.key == OIS::KC_A || arg.key == OIS::KC_LEFT)
     {
-        escenaAjedrez->mueveCamaraIzquierda();
+        escenaAjedrez->setCamaraIzquierda();
         //  escenaAjedrez->mueveCamaraIzquierda();
         //   mCamera->moveRelative(Ogre::Vector3(-1,0,0));//yaw(Ogre::Degree(-1.25f));
     }else if (arg.key == OIS::KC_D || arg.key == OIS::KC_RIGHT)
     {
-        escenaAjedrez->mueveCamaraDerecha();
+        escenaAjedrez->setCamaraDerecha();
 
         //  escenaAjedrez->mueveCamaraDerecha();
         
@@ -87,7 +87,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     if (escenaAjedrez->getModoCamara())   // yaw around the target, and pitch locally
     {
         //      std::cout << "camara" << std::endl;
-        escenaAjedrez->rotacionCamara(Ogre::Degree(mCursorPosition.d_x)); // con grados?
+        escenaAjedrez->rotacionCamara(Ogre::Degree(mCursorPosition.d_x));
     }
     else if (arg.state.Z.rel != 0)  // move the camera toward or away from the target
     {
@@ -113,10 +113,10 @@ bool VistaAjedrez::frameRenderingQueued(const Ogre::FrameEvent& evt)
     {
         Tablero* tablero = escenaAjedrez->getTablero();
 
-        if(escenaAjedrez->vaIzquierda())
+        if(escenaAjedrez->getCamaraIzquierda())
             tablero->rotacionCamara = Ogre::Degree(18 * evt.timeSinceLastFrame);
 
-        else if (escenaAjedrez->vaDerecha())
+        else if (escenaAjedrez->getCamaraDerecha())
             tablero->rotacionCamara = Ogre::Degree(18 * -evt.timeSinceLastFrame);
 
         if(tablero->rotacionCamara != Ogre::Degree(0))
@@ -150,8 +150,8 @@ bool VistaAjedrez::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID i
     if (id == OIS::MB_Left)
     {  // Boton izquierdo o derecho -------------
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
-        modeloVista->seleccionaFichaEnPosicion(mCursorPosition);
-        
+        modeloVista->JugadorActivo->botonIzquierdo(mCursorPosition);
+
         // std::cout  << "FILA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Fila <<std::endl;
         //  std::cout  << "COLUMNA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Columna <<std::endl;
     }
@@ -159,8 +159,12 @@ bool VistaAjedrez::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID i
     {
         std::cout << "BOTON DERECHO"<< std::endl;
         
-        modeloVista->botonDerecho();
-        
+        if (modeloVista->JugadorActivo->botonDerecho())
+        {
+            std::cout << "APLICA CAMBIO"<< std::endl;
+
+            modeloVista->aplicaCambio();
+        }
         // escenaAjedrez->tableroModelo->jugada[0] = 24+(escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Columna + 2;
         // escenaAjedrez->tableroModelo->jugada[1] = 24+(escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;
         

@@ -10,6 +10,57 @@ JugadorHumano::~JugadorHumano()
 { 
 }
 
+
+bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
+{
+
+    std::cout   << "   botonIzquierdo" << std::endl;
+
+    Tablero* tablero = escena->getTablero();
+
+    tablero->fichaSeleccionada = false;
+
+    if (tablero->getNodoCasillaSeleccionada() != NULL)
+    {  // Si habia alguno seleccionado...
+        tablero->getNodoCasillaSeleccionada()->apagaCasilla();
+        //Ficha* ficha = static_cast<Ficha*>(tablero->getNodoCasillaSeleccionada()->getHijo(0));
+       // ficha->getNodoOgre()->showBoundingBox(false);
+        tablero->setNodoCasillaSeleccionada(-1);
+    }
+    std::cout   << "   botonIzquierdo222333333" << std::endl;
+    std::cout   << "   botonIzqui" << escena->encuentraCasillaSobrevolada(pos)<<std::endl;
+
+    Casilla* casilla = static_cast<Casilla*>(tablero->getHijo(escena->encuentraCasillaSobrevolada(pos)));
+    std::cout   << "   botonIzquierdo222333333" << std::endl;
+
+    if (casilla != NULL && !casilla->sinHijos())
+    {
+        Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
+        if ((tablero->getTurnoNegras()
+             && ficha->esNegra)
+                || (!tablero->getTurnoNegras()
+                    && !ficha->esNegra))
+        {
+            casilla->iluminaCasilla();
+            tablero->setNodoCasillaSeleccionada(casilla);
+           // ficha->getNodoOgre()->showBoundingBox(true);
+            tablero->fichaSeleccionada = true;
+            return true;
+        }
+    }
+    std::cout   << "   botonIzquierdo00000" << std::endl;
+
+    return false;
+}
+
+bool JugadorHumano::botonDerecho()
+{
+    return (modelo->tableroModelo->jugada[1] > 0);
+}
+
+
+
+
 bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
 {
     if (Jugador::casillaSobrevolada(nombreCasilla))
@@ -44,6 +95,7 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
         {
            // CASILLA AUTORIZADA
             escena->getTablero()->getNodoCasillaSobrevolada()->iluminaCasilla();
+            return true;
         }
         else
         {
@@ -56,6 +108,7 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
                 //JAQUE AL SOBREVOLAR CASILLA
                 escena->muestraVentanaEmergente("Jaque");
             }
+            return false;
         }
     }
     else return false;

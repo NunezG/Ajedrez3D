@@ -39,7 +39,7 @@ void ObjetoOgre::cambiaMaterial(std::string material)
     entidad->setMaterialName(material);
 }
 
-bool ObjetoOgre::creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask)
+void ObjetoOgre::creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask)
 {
     //  entidad = mSceneMgr->createEntity("test12", "Tablero.mesh");
     mSceneMgr = sceneMgr;
@@ -50,7 +50,6 @@ bool ObjetoOgre::creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreM
     entidad = mSceneMgr->createEntity(nombreObjeto, nombreMalla);
     nodoEscena->attachObject(entidad);
     entidad->setQueryFlags(mask);
-
 }
 
 void ObjetoOgre::trasladar(int x, int z)
@@ -81,7 +80,7 @@ ObjetoOgre* ObjetoOgre::getHijo(std::string posicion)
     return NULL;
 }
 
-bool ObjetoOgre::eliminaHijo(int hijo)
+void ObjetoOgre::eliminaHijo(int hijo)
 {
     getNodoOgre()->removeChild(hijo);
     vectorHijos.erase(vectorHijos.begin()+hijo);

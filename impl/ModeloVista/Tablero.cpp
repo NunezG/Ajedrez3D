@@ -67,10 +67,11 @@ void Tablero::setNodoCasillaSobrevolada(int posicion)
 }
 
 
-bool Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
+void Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
 {
     mSceneMgr = sceneMgr;
     creaModelo3D(mSceneMgr, "Tablero", TABLERO);
+
 
     mSceneMgr->getRootSceneNode()->addChild(getNodoOgre());
     creaCasillas();

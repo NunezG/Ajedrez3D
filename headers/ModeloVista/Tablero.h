@@ -41,7 +41,7 @@ public:
     void setNodoCasillaSeleccionada(int posicion);
     void setNodoCasillaSobrevolada(int posicion);
     bool getTurnoNegras();
-    bool creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
+    void creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
     void actualizaTablero();
 
     bool turnoNegras;

@@ -32,7 +32,7 @@ private:
     bool seleccionaNegras(const CEGUI::EventArgs &e);
 
     bool pantallaConfig();
-    CEGUI::Listbox* creaMenuDesplegable(CEGUI::Event::Subscriber evento, Ogre::String nombre,std::vector<std::string*> listaElementos, CEGUI::Listbox* listaReal);
+    void creaMenuDesplegable(CEGUI::Event::Subscriber eventoAlSobrevolar,CEGUI::Event::Subscriber eventoAlPulsar, std::vector<std::string*> listaElementos, CEGUI::Listbox* listaReal);
 
     CEGUI::Window* ventanaConfig;
     CEGUI::Listbox *listaResoluciones;

@@ -198,7 +198,7 @@ int Autorizaciones::autorizaCaballo(ModeloTablero* miTablero)
 
 
 
-        return Movimientos::pruebaCamino(miTablero, miTablero->jugada[1] - miTablero->jugada[0]);
+        return pruebaCamino(miTablero, miTablero->jugada[1] - miTablero->jugada[0]);
 
     }
     else {

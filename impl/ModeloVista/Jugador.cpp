@@ -88,6 +88,52 @@ int Jugador::aplicaSeleccion()
 
     std::cout << "!!!!!!pasa! " << std::endl;
 
+    //ATUALIZA EL TABLERO DE LA VISTA
+    Tablero* tablero = escena->getTablero();
+
+    if (tablero->getNodoCasillaSobrevolada() != NULL)
+        tablero->getNodoCasillaSobrevolada()->apagaCasilla();
+
+    escena->apagaVentanaEmergente();
+    tablero->fichaSeleccionada = false;
+
+    int filaSel;
+    int colSel;
+    int filaNueva;
+    int colNueva;
+
+    std::cout << "tableroModelo->jugada[0] " << modelo->tableroModelo->jugada[0]<< std::endl;
+    std::cout << "tableroModelo->jugada[1] " << modelo->tableroModelo->jugada[1]<< std::endl;
+
+    filaSel = (modelo->tableroModelo->jugada[0]/12)-2;
+    colSel = (modelo->tableroModelo->jugada[0]%12)-2;
+    filaNueva = (modelo->tableroModelo->jugada[1]/12)-2;
+    colNueva = (modelo->tableroModelo->jugada[1]%12)-2;
+
+
+    if (tablero->getNodoCasillaSeleccionada() == NULL)
+    {    //JUGADOR ARTIFICIAL
+
+        // std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
+        // std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
+        std::cout << "SELECT 1 FILA: "<< (filaSel*8)+colSel <<std::endl;
+
+        tablero->setNodoCasillaSeleccionada((filaSel * 8) + colSel);
+
+        std::cout << "nombre: "<< tablero->getNodoCasillaSeleccionada()->getNombre()<<std::endl;
+
+        tablero->setNodoCasillaSobrevolada((filaNueva * 8) + colNueva);
+    }
+
+    tablero->actualizaTablero();
+
+
+
+
+
+
+
+
     //MIRA TODOS LOS MOVIMIENTOS POSIBLES DEL TURNO CONTRARIO
     if (Movimientos::pruebaJaqueMate(modelo->tableroModelo))
     {
@@ -110,6 +156,8 @@ int Jugador::aplicaSeleccion()
     }
     else
     {
+
+
       //  delete turnoSiguiente;
         if (Jaque)
         {//Jaque asecas

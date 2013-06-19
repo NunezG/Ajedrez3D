@@ -14,6 +14,17 @@ JugadorArtificial::~JugadorArtificial()
 }
 
 
+bool JugadorArtificial::botonIzquierdo(CEGUI::Vector2 pos)
+{
+
+}
+
+
+bool JugadorArtificial::botonDerecho()
+{
+
+}
+
 void JugadorArtificial::mueveIA()
 {
     bool result = modelo->construyeArbol();

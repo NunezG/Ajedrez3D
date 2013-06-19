@@ -18,6 +18,9 @@ public:
     int aplicaSeleccion();
     void promocionaPeon();
   //  bool jugadorNegras;
+    virtual bool botonDerecho() = 0;
+    virtual bool botonIzquierdo(CEGUI::Vector2 pos) = 0;
+
 
 protected:
     Jugador(EscenaAjedrez* miEscena, Modelo* modelo);
@@ -25,6 +28,7 @@ protected:
     Modelo* modelo;
    EscenaAjedrez* escena;
 private:
+   //bool aplicaCambio();
     std::string getNombre();
     void setNombre( std::string unNombre);
     std::string nombre;

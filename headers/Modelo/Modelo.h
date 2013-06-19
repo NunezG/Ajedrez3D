@@ -18,7 +18,7 @@ public:
     ModeloTablero* tableroModelo;
 
 private:
-    int agregaJugada(int inicio, int fin);
+    void agregaJugada(int inicio, int fin);
 
     //Singleton;
     Modelo(void);
