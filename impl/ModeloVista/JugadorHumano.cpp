@@ -2,7 +2,6 @@
 
 JugadorHumano::JugadorHumano(EscenaAjedrez* miEscena, Modelo* modelo) :
     Jugador(miEscena, modelo)
-  
 {   
 }
 
@@ -10,22 +9,17 @@ JugadorHumano::~JugadorHumano()
 { 
 }
 
-
 bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
 {
-
     std::cout   << "   botonIzquierdo" << std::endl;
 
     Tablero* tablero = escena->getTablero();
 
-    tablero->fichaSeleccionada = false;
-
-    if (tablero->getNodoCasillaSeleccionada() != NULL)
+    if (tablero->getCasillaSeleccionada() != NULL)
     {  // Si habia alguno seleccionado...
-        tablero->getNodoCasillaSeleccionada()->apagaCasilla();
-        //Ficha* ficha = static_cast<Ficha*>(tablero->getNodoCasillaSeleccionada()->getHijo(0));
-       // ficha->getNodoOgre()->showBoundingBox(false);
-        tablero->setNodoCasillaSeleccionada(-1);
+        //Ficha* ficha = static_cast<Ficha*>(tablero->getCasillaSeleccionada()->getHijo(0));
+        // ficha->getNodoOgre()->showBoundingBox(false);
+        tablero->setCasillaSeleccionada(-1);
     }
     std::cout   << "   botonIzquierdo222333333" << std::endl;
     std::cout   << "   botonIzqui" << escena->encuentraCasillaSobrevolada(pos)<<std::endl;
@@ -41,15 +35,11 @@ bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
                 || (!tablero->getTurnoNegras()
                     && !ficha->esNegra))
         {
-            casilla->iluminaCasilla();
-            tablero->setNodoCasillaSeleccionada(casilla);
-           // ficha->getNodoOgre()->showBoundingBox(true);
-            tablero->fichaSeleccionada = true;
+            tablero->setCasillaSeleccionada(casilla);
+            // ficha->getNodoOgre()->showBoundingBox(true);
             return true;
         }
     }
-    std::cout   << "   botonIzquierdo00000" << std::endl;
-
     return false;
 }
 
@@ -58,14 +48,11 @@ bool JugadorHumano::botonDerecho()
     return (modelo->tableroModelo->jugada[1] > 0);
 }
 
-
-
-
 bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
 {
-    if (Jugador::casillaSobrevolada(nombreCasilla))
+    if (escena->getTablero()->getCasillaSeleccionada() != NULL && Jugador::casillaSobrevolada(nombreCasilla))
     {
-        Casilla* nodoSeleccionado = escena->getTablero()->getNodoCasillaSeleccionada();
+        Casilla* nodoSeleccionado = escena->getTablero()->getCasillaSeleccionada();
         std::cout << "NPMBRE SELECT: "<<  nodoSeleccionado->getNombre() << std::endl;
 
         // if(diferencia.Fila != 0)   diferencia= diferencia;
@@ -83,7 +70,7 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
         std::cout << "juggg seleccionado: " <<nodoSeleccionado->getPosicion().Fila <<" jug2COL: "<<nodoSeleccionado->getPosicion().Columna << std::endl;
 
         modelo->tableroModelo->jugada[0] = 24 + (nodoSeleccionado->getPosicion().Fila * 12) + nodoSeleccionado->getPosicion().Columna + 2;
-        modelo->tableroModelo->jugada[1] = 24 + (escena->getTablero()->getNodoCasillaSobrevolada()->getPosicion().Fila * 12) + escena->getTablero()->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;
+        modelo->tableroModelo->jugada[1] = 24 + (escena->getTablero()->getCasillaSobrevolada()->getPosicion().Fila * 12) + escena->getTablero()->getCasillaSobrevolada()->getPosicion().Columna + 2;
 
         std::cout << "jug12: " <<modelo->tableroModelo->jugada[0] << std::endl;
         std::cout  <<"jug22: "<<modelo->tableroModelo->jugada[1] << std::endl;
@@ -93,8 +80,8 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
 
         if (resultado == 1)
         {
-           // CASILLA AUTORIZADA
-            escena->getTablero()->getNodoCasillaSobrevolada()->iluminaCasilla();
+            // CASILLA AUTORIZADA
+            escena->getTablero()->getCasillaSobrevolada()->iluminaCasilla();
             return true;
         }
         else
@@ -112,7 +99,6 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
         }
     }
     else return false;
-
 }
 
 bool JugadorHumano::esHumano()

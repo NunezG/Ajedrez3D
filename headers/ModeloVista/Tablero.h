@@ -34,15 +34,15 @@ public:
 
     int getAlPaso();
     void setAlPaso(int casilla);
-    Casilla* getNodoCasillaSeleccionada();
-    Casilla* getNodoCasillaSobrevolada();
-    void setNodoCasillaSeleccionada(Casilla* nodo);
-    void setNodoCasillaSobrevolada(Casilla* nodo);
-    void setNodoCasillaSeleccionada(int posicion);
-    void setNodoCasillaSobrevolada(int posicion);
+    Casilla* getCasillaSeleccionada();
+    Casilla* getCasillaSobrevolada();
+    void setCasillaSeleccionada(Casilla* nodo);
+    void setCasillaSobrevolada(Casilla* nodo);
+    void setCasillaSeleccionada(int posicion);
+    void setCasillaSobrevolada(int posicion);
     bool getTurnoNegras();
     void creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
-    void actualizaTablero();
+    void actualizaTablero(posicion posInicial, posicion posFinal);
 
     bool turnoNegras;
     bool fichaSeleccionada;
@@ -57,8 +57,8 @@ private:
 
     Ogre::SceneManager* mSceneMgr;
     int alPaso;
-    Casilla* _selectedNode;
-    Casilla* _nodoNuevo;
+    Casilla* casillaSeleccionada;
+    Casilla* casillaSobrevolada;
 };
 
 #endif

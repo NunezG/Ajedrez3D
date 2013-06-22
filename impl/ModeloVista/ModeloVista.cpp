@@ -135,20 +135,11 @@ int* ModeloVista::traduceTablero()
 
 bool ModeloVista::aplicaCambio()
 {
-
     //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA
     int resultado = JugadorActivo->aplicaSeleccion();
 
-    if (resultado == 1 || resultado == 4)
+    if (resultado == 1)
     {//FICHA MOVIDA
-
-        if (resultado == 4)
-        {//JAQUE AL REY
-            std::cout << "!!!!!!!!!DEVUELVE JAQUEKA! " << std::endl;
-
-            escena->muestraVentanaEmergente("Jaque");
-        }
-        //   tablero->actualizaTablero();
 
         if (static_cast<Jugador*>(jugadores[0])->esHumano() && static_cast<Jugador*>(jugadores[1])->esHumano())
             escena->getTablero()->rotacionCamara = Ogre::Real(180.0f);
@@ -158,8 +149,8 @@ bool ModeloVista::aplicaCambio()
 
         JugadorActivo->promocionaPeon();
 
-        escena->getTablero()->setNodoCasillaSobrevolada(-1);
-        escena->getTablero()->setNodoCasillaSeleccionada(-1);
+        escena->getTablero()->setCasillaSobrevolada(-1);
+        escena->getTablero()->setCasillaSeleccionada(-1);
 
         std::cout << "fin cambia "<< std::endl;
 
@@ -178,15 +169,6 @@ bool ModeloVista::aplicaCambio()
 
         return true;
     }
-    else if (resultado == 2)
-    {//JAQUE MATE
-        escena->muestraVentanaEmergente("JaqueMate");
-    }
-    else if (resultado == 3)
-    {
-        //REY AHOGADO (TABLAS)
-        std::cout << "REY AHOGADO (TABLAS)!!"<< std::endl;
-        escena->muestraVentanaEmergente("Tablas");
-    }
+
     return false;
 }

@@ -14,6 +14,7 @@ public:
 private:
     bool botonIzquierdo(CEGUI::Vector2 pos);
     bool botonDerecho();
+    bool mueveRaton(std::string casilla);
     bool esHumano();
     int dificultad;
 };

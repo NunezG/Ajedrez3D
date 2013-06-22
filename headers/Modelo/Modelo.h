@@ -11,7 +11,7 @@ public:
     //Singleton
     static Modelo* getSingletonPtr();
 
-    void mueveTablero();
+    int mueveTablero();
     int autorizaCasilla(tipoFicha tipo);
     bool construyeArbol();
 

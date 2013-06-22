@@ -22,6 +22,7 @@ public:
     virtual bool botonIzquierdo(CEGUI::Vector2 pos) = 0;
 
 
+
 protected:
     Jugador(EscenaAjedrez* miEscena, Modelo* modelo);
 

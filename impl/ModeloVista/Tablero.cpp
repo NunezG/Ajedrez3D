@@ -2,8 +2,8 @@
 
 Tablero::Tablero() :
     ObjetoOgre("Tablero")
-  ,  _nodoNuevo(0)
-  , _selectedNode(0)
+  ,  casillaSobrevolada(0)
+  , casillaSeleccionada(0)
   , peonesPromocionados(0)
   ,    fichaSeleccionada(false)
   , rotacionCamara(0)
@@ -20,18 +20,15 @@ bool Tablero::getTurnoNegras()
 }
 
 
-Casilla* Tablero::getNodoCasillaSeleccionada()
+Casilla* Tablero::getCasillaSeleccionada()
 {
-    return _selectedNode;
-
+    return casillaSeleccionada;
 }
 
-Casilla* Tablero::getNodoCasillaSobrevolada()
+Casilla* Tablero::getCasillaSobrevolada()
 {
-
-    return _nodoNuevo;
+    return casillaSobrevolada;
 }
-
 
 int Tablero::getAlPaso()
 {
@@ -41,37 +38,43 @@ int Tablero::getAlPaso()
 void Tablero::setAlPaso(int casilla)
 {
     alPaso = casilla;
-
 }
 
-void Tablero::setNodoCasillaSeleccionada(Casilla* nodo)
+void Tablero::setCasillaSeleccionada(Casilla* nodo)
 {
-    _selectedNode = nodo;
-
+    fichaSeleccionada = true;
+    casillaSeleccionada = nodo;
+    casillaSeleccionada->iluminaCasilla();
 }
-void Tablero::setNodoCasillaSobrevolada(Casilla* nodo)
+void Tablero::setCasillaSobrevolada(Casilla* nodo)
 {
-    _nodoNuevo = nodo;
+    casillaSobrevolada = nodo;
 }
 
-void Tablero::setNodoCasillaSeleccionada(int posicion)
+void Tablero::setCasillaSeleccionada(int posicion)
 {
-    if (posicion < 0) _selectedNode = NULL;
-    else _selectedNode = static_cast<Casilla*>(getHijo(posicion));
 
+    if (posicion < 0)
+    {
+        fichaSeleccionada = false;
+        casillaSeleccionada->apagaCasilla();
+        casillaSeleccionada = NULL;
+    }
+    else casillaSeleccionada = static_cast<Casilla*>(getHijo(posicion));
 }
-void Tablero::setNodoCasillaSobrevolada(int posicion)
+void Tablero::setCasillaSobrevolada(int posicion)
 {
-    if (posicion < 0) _nodoNuevo = NULL;
-    else _nodoNuevo = static_cast<Casilla*>(getHijo(posicion));
+    if (posicion < 0)
+    {
+        casillaSobrevolada = NULL;
+    }
+    else casillaSobrevolada = static_cast<Casilla*>(getHijo(posicion));
 }
-
 
 void Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
 {
     mSceneMgr = sceneMgr;
     creaModelo3D(mSceneMgr, "Tablero", TABLERO);
-
 
     mSceneMgr->getRootSceneNode()->addChild(getNodoOgre());
     creaCasillas();
@@ -79,8 +82,6 @@ void Tablero::creaTableroYCasillas(Ogre::SceneManager* sceneMgr)
     creaVasallos();
     creaNobleza();
     creaPeones();
-
-
 }
 
 void Tablero::creaCasillas()
@@ -285,10 +286,33 @@ void Tablero::creaPeones()
     }
 }
 
-void Tablero::actualizaTablero()
+void Tablero::actualizaTablero(posicion posInicial, posicion posFinal)
 {  
-    Casilla* nodoCasillaTemporal = getNodoCasillaSeleccionada();
-    Casilla* casillaDestinoTemp = getNodoCasillaSobrevolada();
+
+
+    if (getCasillaSobrevolada() != NULL)
+        getCasillaSobrevolada()->apagaCasilla();
+
+
+
+    if (getCasillaSeleccionada() == NULL)
+    {    //JUGADOR ARTIFICIAL
+        // std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
+        // std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
+        std::cout << "SELECT 1 FILA: "<< (posInicial.Fila*8)+posInicial.Columna <<std::endl;
+
+        setCasillaSeleccionada((posInicial.Fila * 8) + posInicial.Columna);
+
+        std::cout << "nombre: "<< getCasillaSeleccionada()->getNombre()<<std::endl;
+
+        setCasillaSobrevolada((posFinal.Fila* 8) + posFinal.Columna);
+    }
+
+
+
+
+    Casilla* nodoCasillaTemporal = getCasillaSeleccionada();
+    Casilla* casillaDestinoTemp = getCasillaSobrevolada();
 
     if (!nodoCasillaTemporal->sinHijos())
     {

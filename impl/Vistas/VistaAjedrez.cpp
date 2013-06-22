@@ -84,6 +84,8 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     
     CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
 
+
+
     if (escenaAjedrez->getModoCamara())   // yaw around the target, and pitch locally
     {
         //      std::cout << "camara" << std::endl;
@@ -93,16 +95,16 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
     {
         escenaAjedrez->DistanciaCamara(arg.state.Z.rel);
     }
-    else
-    {
-        if (escenaAjedrez->getTablero()->fichaSeleccionada)
-        {
-            const std::string casilla = escenaAjedrez->encuentraCasillaSobrevolada(mCursorPosition);
-            
-            if (casilla != "")
-                modeloVista->JugadorActivo->casillaSobrevolada(casilla);
-        }
+    else{
+
+        const std::string casilla = escenaAjedrez->encuentraCasillaSobrevolada(mCursorPosition);
+
+        if (casilla != "")
+        modeloVista->JugadorActivo->casillaSobrevolada(casilla);
+
+
     }
+
     return true;
 }
 

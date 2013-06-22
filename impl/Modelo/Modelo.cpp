@@ -108,8 +108,75 @@ bool Modelo::construyeArbol()
     return true;
 }
 
-void Modelo::mueveTablero()
+int Modelo::mueveTablero()
 {
     tableroModelo->casillasInt[tableroModelo->jugada[1]]= tableroModelo->casillasInt[tableroModelo->jugada[0]];
     tableroModelo->casillasInt[tableroModelo->jugada[0]] = 0;
+    tableroModelo->turnoN = !tableroModelo->turnoN;
+
+    //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
+    for(int i=0; i<144;i++)
+    {
+        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
+        if (tableroModelo->casillasInt[i] != 0 && tableroModelo->casillasInt[i] != 99)
+        {
+            tableroModelo->casillasInt[i] = -tableroModelo->casillasInt[i];
+        }
+    }
+    tableroModelo->jugada[0] = -1;
+    tableroModelo->jugada[1] = -1;
+
+
+    // tablero->cambiaTurno();
+    //    if(tablero->turnoN) tablero->casillasInt = Movimientos::normalizaTablero(tablero->casillasInt);
+  //  ModeloTablero* turnoSiguiente = new ModeloTablero(*modelo->tableroModelo);
+    bool Jaque = false;
+
+    //   if (turnoNegras)tablero = Calculos::normalizaTablero(tablero);
+    Jaque = tableroModelo->evaluaJaque();  //JAQUE AL REY
+
+
+    std::cout << "!!!!!!pasa! " << std::endl;
+
+
+    //MIRA TODOS LOS MOVIMIENTOS POSIBLES DEL TURNO CONTRARIO
+    if (Movimientos::pruebaJaqueMate(tableroModelo))
+    {
+      //  delete turnoSiguiente;
+        std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS PARA EL TURNO SIGUIENTE(JAQUE MATE O AHOGADO)!!!: " << std::endl;
+
+        //SE EVALUA EL JAQUE Y SI EL REY NO ESTA EN JAQUE ES QUE ES AHOGADO
+        //EVALUA JAQUE
+        if (Jaque)
+        {            //JAQUE MATE
+            return 3;
+            std::cout << "!!!!!!!!!DEVUELVE JAQUE MATE! " << std::endl;
+        }
+        else
+        { //NO HAY JAQUE, AHOGADO, RESULTADO EN TABLAS
+            std::cout << "!!!!!!!!!DEVUELVE REY AHOGADO! " << std::endl;
+            return 4;
+        }
+    }
+    else
+    {
+      //  delete turnoSiguiente;
+        if (Jaque)
+        {//Jaque asecas
+            std::cout << "!!!!!!!!!DEVUELVE JAQUE! " << std::endl;
+            return 2;
+        }
+        //Mueve
+            return 1;
+
+    }
+    //FINDE PARTIDA
+    return 0;
+
+
+
+
+
+
+
 }
