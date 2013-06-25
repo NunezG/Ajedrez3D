@@ -9,6 +9,23 @@ JugadorHumano::~JugadorHumano()
 { 
 }
 
+int JugadorHumano::aplicaSeleccion()
+{
+
+    Jugador::aplicaSeleccion();
+
+
+
+}
+
+
+bool JugadorHumano::iniciaTurno()
+{
+    return false;
+
+
+}
+
 bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
 {
     std::cout   << "   botonIzquierdo" << std::endl;

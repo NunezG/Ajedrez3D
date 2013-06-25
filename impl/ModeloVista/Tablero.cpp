@@ -286,36 +286,15 @@ void Tablero::creaPeones()
     }
 }
 
-void Tablero::actualizaTablero(posicion posInicial, posicion posFinal)
+void Tablero::actualizaTablero(Ogre::SceneManager* manager)
 {  
-
-
-    if (getCasillaSobrevolada() != NULL)
-        getCasillaSobrevolada()->apagaCasilla();
-
-
-
-    if (getCasillaSeleccionada() == NULL)
-    {    //JUGADOR ARTIFICIAL
-        // std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
-        // std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
-        std::cout << "SELECT 1 FILA: "<< (posInicial.Fila*8)+posInicial.Columna <<std::endl;
-
-        setCasillaSeleccionada((posInicial.Fila * 8) + posInicial.Columna);
-
-        std::cout << "nombre: "<< getCasillaSeleccionada()->getNombre()<<std::endl;
-
-        setCasillaSobrevolada((posFinal.Fila* 8) + posFinal.Columna);
-    }
-
-
-
-
     Casilla* nodoCasillaTemporal = getCasillaSeleccionada();
     Casilla* casillaDestinoTemp = getCasillaSobrevolada();
 
     if (!nodoCasillaTemporal->sinHijos())
     {
+        casillaDestinoTemp->apagaCasilla();
+
         Ficha* ficha =  static_cast<Ficha*>(nodoCasillaTemporal->getHijo(0));
 
         //BORRA FICHA DE LA CASILLA
@@ -334,12 +313,10 @@ void Tablero::actualizaTablero(posicion posInicial, posicion posFinal)
 
         if (ficha->tipo_Ficha == 6)
         {
-
             int difCol = casillaDestinoTemp->getPosicion().Columna - nodoCasillaTemporal->getPosicion().Columna;
             // if (difCol<0 ) difCol = -difCol;
 
             int fila =casillaDestinoTemp->getPosicion().Fila;
-
 
             if (difCol == 2)
             {
@@ -364,6 +341,44 @@ void Tablero::actualizaTablero(posicion posInicial, posicion posFinal)
 
         if (ficha->tipo_Ficha == 1)
         {
+            //MIRA SI PROMOCIONA PEON
+           // Ficha* ficha = static_cast<Ficha*>(getCasillaSobrevolada()->getHijo(0));
+
+            if((!getTurnoNegras()
+                         && getCasillaSobrevolada()->getPosicion().Fila == 7)
+                        || (getTurnoNegras()
+                            && getCasillaSobrevolada()->getPosicion().Fila == 0 ))
+            {
+                getCasillaSobrevolada()->eliminaHijo(0);
+
+                // ficha = tablero->promocionaPeon(ficha);
+                //  Ogre::Entity *entidadFicha;
+
+                std::stringstream saux;
+
+                saux.str("");
+                saux << "ReinaPR_" << peonesPromocionados;
+
+                delete ficha;
+                peonesPromocionados++;
+
+                FichaReina* nodoNuevo =new FichaReina(*ficha, saux.str());
+
+                if (!getTurnoNegras())
+                {
+                    nodoNuevo->creaModelo3D(manager,"Reina",BLANCAS);
+                }
+                else
+                {
+                    nodoNuevo->creaModelo3D(manager,"Reina",NEGRAS);
+                    nodoNuevo->cambiaMaterial("MaterialFichaNegra");
+                }
+                getCasillaSobrevolada()->agregaHijo(nodoNuevo);
+            }
+            //return static_cast<FichaReina*>(nodoNuevo);
+
+
+            //MIRA SI HAY O COME AL PASO
             int dif = casillaDestinoTemp->getPosicion().Fila - nodoCasillaTemporal->getPosicion().Fila;
             int difCol = casillaDestinoTemp->getPosicion().Columna - nodoCasillaTemporal->getPosicion().Columna;
             if (dif < 0 ) dif = -dif;
@@ -393,6 +408,11 @@ void Tablero::actualizaTablero(posicion posInicial, posicion posFinal)
         else setAlPaso(-1);
 
         //DESELECCIONA FICHA Y CASILLA
-        ficha->getNodoOgre()->showBoundingBox(false);
+        //ficha->getNodoOgre()->showBoundingBox(false);
     }
+
+    setCasillaSobrevolada(-1);
+    setCasillaSeleccionada(-1);
+    turnoNegras = !turnoNegras;
 }
+

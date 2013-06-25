@@ -44,19 +44,23 @@ struct ModeloTablero
     ~ModeloTablero();
 
     //constructor de copia
-    ModeloTablero( const ModeloTablero& original);
+    ModeloTablero( const ModeloTablero& original, int casInicia, int casFinal);
     bool evaluaJaque();
 
     std::vector<ModeloTablero*> vectorMov;
+    bool cambiaTurno();
 
-    int* casillasInt;
-    int* jugada;
-    int alPaso;
+    char* casillasInt;
+    unsigned char* jugada;
+    unsigned char alPaso;
     bool turnoN;
     bool nodoInicial;
 
     // Ficha* fichasNegras[16];
     // Ficha* fichasBlancas[16];
+
+    short valorAtaque;
+    short valorDefensivo;
 
 private:
 

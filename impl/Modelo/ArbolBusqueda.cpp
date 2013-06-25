@@ -154,10 +154,10 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
     //table->vectorMov.clear();
     if (!betaBreak)
     return alpha;
-    else return score;
+    else return 0;
 }
 
-int ArbolBusqueda::evaluaTablero(const int casillasInt[144])
+int ArbolBusqueda::evaluaTablero(char casillasInt[144])
 {
     int suma = 0;
     //   BlackCheck = false;

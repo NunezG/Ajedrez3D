@@ -9,38 +9,27 @@ ModeloTablero::ModeloTablero() :
     alPaso(-1),
     nodoInicial(true)
 {
-    jugada = new int[2];
+    jugada = new unsigned char[2];
     jugada[0] = -1;
     jugada[1] = -1;
 }
 
-ModeloTablero::ModeloTablero( const ModeloTablero& original ):
+ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int casFinal ):
     //  numeroHijos(0),
     //Score(0),
     // fichaMovida(""),
     //  vectorMov(NULL),
-    turnoN(!original.turnoN),
     alPaso(-1)
   , nodoInicial(false)
 {
     // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
-    casillasInt = new int[144];
-    jugada = new int[2];
-    jugada[0] = -1;
-    jugada[1] = -1;
+    casillasInt = new char[144];
+    *casillasInt = *original.casillasInt;
+    jugada = new unsigned char[2];
+    jugada[0] = casInicial;
+    jugada[1] = casFinal;
+    cambiaTurno();
 
-    for(int i=0; i<144;i++)
-    {
-        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
-        if (original.casillasInt[i] != 0 && original.casillasInt[i] != 99)
-        {
-            casillasInt[i] = -original.casillasInt[i];
-        }
-        else
-        {
-            casillasInt[i] = original.casillasInt[i];
-        }
-    }
 }
 
 ModeloTablero::~ModeloTablero()
@@ -59,6 +48,30 @@ ModeloTablero::~ModeloTablero()
         vectorMov.clear();
     }
 }
+
+
+bool ModeloTablero::cambiaTurno()
+{
+
+    casillasInt[jugada[1]]= casillasInt[jugada[0]];
+    casillasInt[jugada[0]] = 0;
+    turnoN = !turnoN;
+
+    //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
+    for(int i=0; i<144;i++)
+    {
+        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
+        if (casillasInt[i] != 0 && casillasInt[i] != 99)
+        {
+            casillasInt[i] = -casillasInt[i];
+        }
+    }
+    jugada[0] = -1;
+    jugada[1] = -1;
+
+
+}
+
 
 bool ModeloTablero::evaluaJaque()
 {

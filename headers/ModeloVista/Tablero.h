@@ -42,9 +42,8 @@ public:
     void setCasillaSobrevolada(int posicion);
     bool getTurnoNegras();
     void creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
-    void actualizaTablero(posicion posInicial, posicion posFinal);
+    void actualizaTablero(Ogre::SceneManager* manager);
 
-    bool turnoNegras;
     bool fichaSeleccionada;
     Ogre::Degree rotacionCamara;
     int peonesPromocionados;
@@ -55,6 +54,7 @@ private:
     void creaNobleza();
     void creaVasallos();
 
+    bool turnoNegras;
     Ogre::SceneManager* mSceneMgr;
     int alPaso;
     Casilla* casillaSeleccionada;

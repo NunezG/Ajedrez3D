@@ -15,13 +15,13 @@ public:
     ~Jugador();
     virtual bool casillaSobrevolada(const std::string nombreCasilla);
     virtual bool esHumano() = 0;
-    int aplicaSeleccion();
-    void promocionaPeon();
   //  bool jugadorNegras;
     virtual bool botonDerecho() = 0;
     virtual bool botonIzquierdo(CEGUI::Vector2 pos) = 0;
 
+    int aplicaSeleccion();
 
+   virtual bool iniciaTurno() = 0;
 
 protected:
     Jugador(EscenaAjedrez* miEscena, Modelo* modelo);

@@ -950,10 +950,12 @@ bool Movimientos::aplicaMovimiento(ModeloTablero &miTablero, int casOrigen, int 
     }
     else
     {
-        TableroMovido = new ModeloTablero(miTablero);
+        TableroMovido = new ModeloTablero(miTablero, casOrigen, casDestino);
 
-        TableroMovido->jugada[0] = casOrigen;
-        TableroMovido->jugada[1] = casDestino;
+      //  TableroMovido->jugada[0] = casOrigen;
+       // TableroMovido->jugada[1] = casDestino;
+
+
 
         miTablero.casillasInt[casDestino] = fichaNueva;
         miTablero.casillasInt[casOrigen] = fichavieja;

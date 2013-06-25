@@ -153,18 +153,15 @@ bool VistaAjedrez::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID i
     {  // Boton izquierdo o derecho -------------
         // HAY QUE CAMBIAR ESTO PARA QUE SE HAGA CASI TODO EN ESCENAAJEDREZ
         modeloVista->JugadorActivo->botonIzquierdo(mCursorPosition);
-
         // std::cout  << "FILA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Fila <<std::endl;
         //  std::cout  << "COLUMNA CASILLA SOBRE LA QUE SE HACE CLICK: "<< tablero->getNodoCasillaSeleccionada()->getPosicion().Columna <<std::endl;
     }
     else if (id == OIS::MB_Right)
     {
-        std::cout << "BOTON DERECHO"<< std::endl;
-        
+        std::cout << "BOTON DERECHO"<< std::endl;       
         if (modeloVista->JugadorActivo->botonDerecho())
         {
             std::cout << "APLICA CAMBIO"<< std::endl;
-
             modeloVista->aplicaCambio();
         }
         // escenaAjedrez->tableroModelo->jugada[0] = 24+(escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Columna + 2;
@@ -175,7 +172,6 @@ bool VistaAjedrez::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID i
         escenaAjedrez->setModoCamara(true);
     }
     //  mInputMan->injectMouseDown(arg, id);
-    
     return true;
 }
 

@@ -110,21 +110,9 @@ bool Modelo::construyeArbol()
 
 int Modelo::mueveTablero()
 {
-    tableroModelo->casillasInt[tableroModelo->jugada[1]]= tableroModelo->casillasInt[tableroModelo->jugada[0]];
-    tableroModelo->casillasInt[tableroModelo->jugada[0]] = 0;
-    tableroModelo->turnoN = !tableroModelo->turnoN;
 
-    //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
-    for(int i=0; i<144;i++)
-    {
-        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
-        if (tableroModelo->casillasInt[i] != 0 && tableroModelo->casillasInt[i] != 99)
-        {
-            tableroModelo->casillasInt[i] = -tableroModelo->casillasInt[i];
-        }
-    }
-    tableroModelo->jugada[0] = -1;
-    tableroModelo->jugada[1] = -1;
+    tableroModelo->cambiaTurno();
+
 
 
     // tablero->cambiaTurno();

@@ -1,7 +1,7 @@
 #include "../../headers/ModeloVista/ModeloVista.h"
 
 ModeloVista::ModeloVista():
-    mPantalla(0)
+    numPantalla(0)
   , escena(0)
   , mShutDown(0)
   ,  numJugadores(0)
@@ -35,12 +35,12 @@ void ModeloVista::setApagar(bool apaga)
 
 int ModeloVista::getNumPantalla()
 {
-    return mPantalla;
+    return numPantalla;
 }
 
 void ModeloVista::setNumPantalla(int pantalla)
 {
-    mPantalla = pantalla;
+    numPantalla = pantalla;
 }
 
 void ModeloVista::generaJugadores()
@@ -81,10 +81,10 @@ void ModeloVista::creaEscenaYModelo()
 }
 
 
-int* ModeloVista::traduceTablero()
+char* ModeloVista::traduceTablero()
 {
     int numCasilla = 0;
-    int* casillasInt = new int[144];
+    char* casillasInt = new char[144];
 
     //AÑADE LOS BORDES
     for (int i = 0; i<12; i++)
@@ -133,42 +133,23 @@ int* ModeloVista::traduceTablero()
 }
 
 
-bool ModeloVista::aplicaCambio()
+void ModeloVista::aplicaCambio()
 {
     //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA
     int resultado = JugadorActivo->aplicaSeleccion();
 
     if (resultado == 1)
     {//FICHA MOVIDA
-
-        if (static_cast<Jugador*>(jugadores[0])->esHumano() && static_cast<Jugador*>(jugadores[1])->esHumano())
+        if (getNumPantalla() == 1)
             escena->getTablero()->rotacionCamara = Ogre::Real(180.0f);
 
-        //COMPRUEBA JAQUE MATE
-        std::cout << "!!!!!promociona! " << std::endl;
-
-        JugadorActivo->promocionaPeon();
-
-        escena->getTablero()->setCasillaSobrevolada(-1);
-        escena->getTablero()->setCasillaSeleccionada(-1);
-
-        std::cout << "fin cambia "<< std::endl;
-
-        escena->getTablero()->turnoNegras = !escena->getTablero()->turnoNegras;
-
-
+        //CAMBIA JUGADOR ACTIVO
         JugadorActivo = jugadores.at(escena->getTablero()->getTurnoNegras());
 
-        if (!JugadorActivo->esHumano())
+        if (JugadorActivo->iniciaTurno())
         {
-            static_cast<JugadorArtificial*>(JugadorActivo)->mueveIA();
-            std::cout << "aplica cambio IA "<< std::endl;
-
+            std::cout << "vuelve a aplicar cambio "<< std::endl;
             aplicaCambio();
         }
-
-        return true;
     }
-
-    return false;
 }

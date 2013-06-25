@@ -28,16 +28,16 @@ public:
 
 
 
-    bool aplicaCambio();
+    void aplicaCambio();
 
 private:   
-    int* traduceTablero();
+    char* traduceTablero();
 
     std::vector<Jugador*> jugadores;
     bool pantallaCompleta;
     int numJugadores;
     bool mShutDown;
-    int mPantalla;
+    int numPantalla;
     bool reiniciar;
 };
 
