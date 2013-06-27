@@ -47,8 +47,16 @@ struct ModeloTablero
     ModeloTablero( const ModeloTablero& original, int casInicia, int casFinal);
     bool evaluaJaque();
 
-    std::vector<ModeloTablero*> vectorMov;
+   // std::vector<ModeloTablero*> vectorMov;
     bool cambiaTurno();
+
+    //* movIniciales;
+
+    // unsigned char* test[2];
+
+    std::vector<unsigned char*> vectorJugadas;
+    int jugadaElegida;
+    //std::vector<unsigned char[]> vectorJugadas2;
 
     char* casillasInt;
     unsigned char* jugada;

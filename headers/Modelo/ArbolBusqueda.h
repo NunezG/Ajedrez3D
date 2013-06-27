@@ -6,7 +6,6 @@
 class ArbolBusqueda
 {
 public:
-
     static int alphaBeta(ModeloTablero* table,const int alpha,const int beta,const int depthleft );
 
 private:

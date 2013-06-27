@@ -14,6 +14,7 @@ public:
     static int autorizaCaballo(ModeloTablero* miTablero);
 
 private:
+    static int pruebaCamino(ModeloTablero* miTablero, int salto);
 
 };
 

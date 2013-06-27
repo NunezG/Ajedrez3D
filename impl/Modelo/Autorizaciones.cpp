@@ -179,6 +179,9 @@ int Autorizaciones::autorizaTorre(ModeloTablero* miTablero)
     return 0;
 }
 
+
+
+
 int Autorizaciones::autorizaCaballo(ModeloTablero* miTablero)
 {
     int Dif = miTablero->jugada[1] - miTablero->jugada[0];
@@ -254,3 +257,59 @@ bool Autorizaciones::verificaCamino(ModeloTablero* tablero)
     return true;
 }
 */
+
+int Autorizaciones::pruebaCamino(ModeloTablero* miTablero, int salto)
+{
+    //   int Dif = casillaFinal - casillaInicial;
+
+    int resultado = 0;
+    // int ocupado = false;
+    int nuevaCasilla = miTablero->jugada[0];
+    bool pasa = true;
+
+    while(pasa)
+    {
+        nuevaCasilla = nuevaCasilla+salto;
+        std::cout << "!!!!PRUEBA CAMINO!!!: " << nuevaCasilla  <<std::endl;
+
+        pasa = miTablero->casillasInt[nuevaCasilla] == 0;
+
+
+        if (nuevaCasilla == miTablero->jugada[1])
+        {
+            int fichavieja = miTablero->casillasInt[miTablero->jugada[0]];
+            int fichaNueva = miTablero->casillasInt[nuevaCasilla];
+
+            miTablero->casillasInt[nuevaCasilla] = fichavieja;
+            miTablero->casillasInt[miTablero->jugada[0]] = 0;
+
+            std::cout << "!!!mira si es jaque!" << std::endl;
+
+
+            if (miTablero->evaluaJaque())
+            {
+                std::cout << "!!!!!HA EVALUADO UN JAQUE (DESPUES DE MOVER) !!!" << std::endl;
+                resultado = 2;
+            }
+            else
+                resultado= 1;
+
+            miTablero->casillasInt[nuevaCasilla] = fichaNueva;
+            miTablero->casillasInt[miTablero->jugada[0]] = fichavieja;
+
+
+            std::cout << "!!!retorna resultado: "<<resultado << std::endl;
+
+            return resultado;
+        }
+
+        //  if(miTablero->casillasInt[nuevaCasilla] != 0)
+        // {
+        //   std::cout << "!!!!OCUPADO: " << salto  <<std::endl;
+        //  return false;
+
+        //}
+    }
+
+    return resultado;
+}

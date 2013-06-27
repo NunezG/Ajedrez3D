@@ -34,7 +34,7 @@ mInputManager(0),
     CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
     CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
     CEGUI::SchemeManager::getSingleton().create("VanillaSkin.scheme");
-    CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
+    //CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
     sys = CEGUI::System::getSingletonPtr();
     CEGUI::FontManager::getSingleton().create("DejaVuSans-10.font");
     CEGUI::System::getSingleton().setDefaultMouseCursor("Vanilla-Images", "MouseArrow");

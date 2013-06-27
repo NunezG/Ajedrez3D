@@ -98,14 +98,15 @@ bool Modelo::construyeArbol()
     // resultado = resultado;
 
     std::cout << "RESULTADO DE ALFABETA DESPUES: "<< resultado<< std::endl;
-    std::cout << "NUMERO NODOS TABLERO INICIAL: "<< tableroModelo->vectorMov.size()<< std::endl;
+ //   std::cout << "NUMERO NODOS TABLERO INICIAL: "<< tableroModelo->vectorMov.size()<< std::endl;
 
-    if (tableroModelo->jugada[0] == -1)
+    if (tableroModelo->jugadaElegida != 0)
     {//SIN RESULTADO
         std::cout << "NO HAY TABLEROS EN EL VECTOR POR LO QUE ES UN JAQUE MATE O UN AHOGADO, HABRA QUE DIFERENCIAR"<< std::endl;
-        return false;
+        return true;
     }
-    return true;
+
+    return false;
 }
 
 int Modelo::mueveTablero()
