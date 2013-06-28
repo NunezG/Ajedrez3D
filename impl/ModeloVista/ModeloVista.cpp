@@ -74,17 +74,18 @@ void ModeloVista::creaEscenaYModelo()
 
     if (modelo->tableroModelo != NULL)
     {
-        modelo->tableroModelo->casillasInt = traduceTablero();
+        traduceTablero();
         modelo->tableroModelo->alPaso = escena->getTablero()->getAlPaso();
         modelo->tableroModelo->turnoN = escena->getTablero()->getTurnoNegras();
     }
 }
 
 
-char* ModeloVista::traduceTablero()
+char ModeloVista::traduceTablero()
 {
     int numCasilla = 0;
-    char* casillasInt = new char[144];
+
+   // char* casillasInt = new char[144];
 
     //AÑADE LOS BORDES
     for (int i = 0; i<12; i++)
@@ -96,7 +97,7 @@ char* ModeloVista::traduceTablero()
                     || (i < 2)
                     || (y < 2))
             {
-                casillasInt[(i*12)+y] = 99;
+                modelo->tableroModelo->casillasInt[(i*12)+y] = 99;
 
             }else
             {
@@ -112,33 +113,38 @@ char* ModeloVista::traduceTablero()
                     //ESTO ASEGURA QUE LAS FICHAS CORRESPONDIENTES AL TURNO SEAN POSITIVAS
                     if (ficha->esNegra && !escena->getTablero()->getTurnoNegras() || !ficha->esNegra && escena->getTablero()->getTurnoNegras())
                     {
-                        casillasInt[numeroCasilla] = -ficha->tipo_Ficha;;
+                        modelo->tableroModelo->casillasInt[numeroCasilla] = -ficha->tipo_Ficha;;
                     }
-                    else casillasInt[numeroCasilla] = ficha->tipo_Ficha;
+                    else modelo->tableroModelo->casillasInt[numeroCasilla] = ficha->tipo_Ficha;
 
-                }else casillasInt[numeroCasilla] = 0;
+                }else modelo->tableroModelo->casillasInt[numeroCasilla] = 0;
                 numCasilla++;
             }
         }
+
     }
 
-    std::cout << "traducido" << std::endl;
     for(int i=0; i<12;i++)
     {
-        std::cout  << casillasInt[(i*12)+2]<<"    "<<casillasInt[(i*12)+3]<<"    "<<casillasInt[(i*12)+4]<<"    "<<casillasInt[(i*12)+5]<<"    "<<casillasInt[(i*12)+6]<<"    "<<casillasInt[(i*12)+7] <<"    " <<casillasInt[(i*12)+8]<<"    " << casillasInt[(i*12)+9]<<"    " << std::endl;
+        std::cout << int(modelo->tableroModelo->casillasInt [(i*12)])<<"    "  << int(modelo->tableroModelo->casillasInt [(i*12)+1])<<"    " << int(modelo->tableroModelo->casillasInt [(i*12)+2])<<"    "<<int(modelo->tableroModelo->casillasInt [(i*12)+3])<<"    "<<int(modelo->tableroModelo->casillasInt [(i*12)+4])<<"    "<<int(modelo->tableroModelo->casillasInt [(i*12)+5])<<"    "<<int(modelo->tableroModelo->casillasInt [(i*12)+6])<<"    "<<int(modelo->tableroModelo->casillasInt [(i*12)+7]) <<"    " <<int(modelo->tableroModelo->casillasInt [(i*12)+8])<<"    " << int(modelo->tableroModelo->casillasInt [(i*12)+9])<<"    " << int(modelo->tableroModelo->casillasInt [(i*12)+10])<<"    " << int(modelo->tableroModelo->casillasInt [(i*12)+11])<<"    " << std::endl;
     }
+    std::cout << "traducido" << std::endl;
+
     // Ogre::SceneNode* nodoTemporal = static_cast<Ogre::SceneNode*>( tablero->nodoCasillero->getChildIterator() );
 
-    return casillasInt;
+ //   return casillasInt;
 }
 
 
 void ModeloVista::aplicaCambio()
 {
-    //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA
-    int resultado = JugadorActivo->aplicaSeleccion();
+    std::cout << "aplicacaddfd: "<< JugadorActivo->esHumano()<<std::endl;
 
-    if (resultado == 1)
+    //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA
+    bool resultado = JugadorActivo->aplicaSeleccion();
+    std::cout << "aplicaca 2"<< std::endl;
+
+    if (resultado == true)
     {//FICHA MOVIDA
         if (getNumPantalla() == 1)
             escena->getTablero()->rotacionCamara = Ogre::Real(180.0f);

@@ -10,7 +10,7 @@ class JugadorArtificial : public Jugador
 public:
     ~JugadorArtificial();
     JugadorArtificial(EscenaAjedrez* miEscena, Modelo* modelo);
-    int aplicaSeleccion();
+    bool aplicaSeleccion();
 bool iniciaTurno();
 private:
     bool botonIzquierdo(CEGUI::Vector2 pos);

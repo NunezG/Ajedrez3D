@@ -54,17 +54,22 @@ void Jugador::setNombre( std::string unNombre)
     nombre = unNombre;
 }
 
-int Jugador::aplicaSeleccion()
+bool Jugador::aplicaSeleccion()
 {
+
+    std::cout << "aplicaSeleccion"<< std::endl;
+
     //ATUALIZA EL TABLERO DE LA VISTA
     escena->apagaVentanaEmergente();
+
+    std::cout << "aplicaSeleccion2222"<< std::endl;
 
     escena->getTablero()->actualizaTablero(escena->mSceneMgr);
 
     std::cout << "!!!!!promociona! " << std::endl;
 
     //PROMOCIONA PEÓN
-  //  escena->getTablero()->promocionaPeon(escena->mSceneMgr);
+    //  escena->getTablero()->promocionaPeon(escena->mSceneMgr);
 
 
     //COMPRUEBA JAQUE AL MOVER TABLERO EN MODELO
@@ -73,7 +78,7 @@ int Jugador::aplicaSeleccion()
     {
     case 2:
         escena->muestraVentanaEmergente("Jaque");
-    break;
+        break;
     case 3:
         escena->muestraVentanaEmergente("JaqueMate");
         break;
@@ -81,7 +86,9 @@ int Jugador::aplicaSeleccion()
         escena->muestraVentanaEmergente("Tablas");
         break;
     default:
-        break;
+       return true;
+        //break;
     }
+    return false;
 }
 

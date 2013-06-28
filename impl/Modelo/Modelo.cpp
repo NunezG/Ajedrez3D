@@ -85,19 +85,27 @@ int Modelo::autorizaCasilla(tipoFicha tipo)
 bool Modelo::construyeArbol()
 {
     std::cout << "CONST ARBOL: "<< tableroModelo->nodoInicial<< std::endl;
-    std::cout << "ORIGEN ANTES: "<< tableroModelo->jugada[0]<< std::endl;
-    std::cout << "DEST ANTES: "<< tableroModelo->jugada[1]<< std::endl;
+    std::cout << "ORIGEN ANTES: "<< int(tableroModelo->jugada[0])<< std::endl;
+    std::cout << "DEST ANTES: "<< int(tableroModelo->jugada[1])<< std::endl;
 
-    int resultado = ArbolBusqueda::alphaBeta(tableroModelo,-70000, 70000, 5);
+
+    for(int i=0; i<12;i++)
+    {
+        std::cout << int(tableroModelo->casillasInt[(i*12)])<<"    "  << int(tableroModelo->casillasInt[(i*12)+1])<<"    " << int(tableroModelo->casillasInt[(i*12)+2])<<"    "<<int(tableroModelo->casillasInt[(i*12)+3])<<"    "<<int(tableroModelo->casillasInt[(i*12)+4])<<"    "<<int(tableroModelo->casillasInt[(i*12)+5])<<"    "<<int(tableroModelo->casillasInt[(i*12)+6])<<"    "<<int(tableroModelo->casillasInt[(i*12)+7]) <<"    " <<int(tableroModelo->casillasInt[(i*12)+8])<<"    " << int(tableroModelo->casillasInt[(i*12)+9])<<"    " << int(tableroModelo->casillasInt[(i*12)+10])<<"    " << int(tableroModelo->casillasInt[(i*12)+11])<<"    " << std::endl;
+    }
+    std::cout << "TABLERO EN ALFABETA" << std::endl;
+
+
+    int resultado = ArbolBusqueda::alphaBeta(tableroModelo,-70000, 70000, 3);
 
     std::cout << "FIN CONST ARBOL"<< std::endl;
-    std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< tableroModelo->jugada[0]<< std::endl;
-    std::cout << "DEST DE ALFABETA!!!!: "<< tableroModelo->jugada[1]<< std::endl;
-    std::cout << "RESULTADO DE ALFABETA ANTES: "<< resultado<< std::endl;
+    std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< int(tableroModelo->jugada[0])<< std::endl;
+    std::cout << "DEST DE ALFABETA!!!!: "<< int(tableroModelo->jugada[1])<< std::endl;
+    std::cout << "RESULTADO DE ALFABETA: "<< resultado<< std::endl;
 
     // resultado = resultado;
 
-    std::cout << "RESULTADO DE ALFABETA DESPUES: "<< resultado<< std::endl;
+   // std::cout << "RESULTADO DE ALFABETA DESPUES: "<< resultado<< std::endl;
  //   std::cout << "NUMERO NODOS TABLERO INICIAL: "<< tableroModelo->vectorMov.size()<< std::endl;
 
     if (tableroModelo->jugadaElegida != 0)

@@ -47,7 +47,7 @@ short ArbolBusqueda::CalculatePieceActionValue(int pieceType)
 
 int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int depthleft )
 {
-    // std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
+   //std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
     //  std::cout << "!!!!!!!!!!!!!!!!!!NIIVEL: "<< depthleft<< std::endl;
 
     if( depthleft == 0)
@@ -63,7 +63,7 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
 
         //   delete  table;
         // table = NULL;
-        //std::cout << "!!!!!fin"<< std::endl;
+      //  std::cout << "!!!!!fin"<< std::endl;
         return ev;
     }
 
@@ -71,30 +71,59 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
     int score;
    // bool betaBreak = false;
 
+   // for(int i=0; i<12;i++)
+   // {
+    //    std::cout << int(table->casillasInt[(i*12)])<<"    "  << int(table->casillasInt[(i*12)+1])<<"    " << int(table->casillasInt[(i*12)+2])<<"    "<<int(table->casillasInt[(i*12)+3])<<"    "<<int(table->casillasInt[(i*12)+4])<<"    "<<int(table->casillasInt[(i*12)+5])<<"    "<<int(table->casillasInt[(i*12)+6])<<"    "<<int(table->casillasInt[(i*12)+7]) <<"    " <<int(table->casillasInt[(i*12)+8])<<"    " << int(table->casillasInt[(i*12)+9])<<"    " << int(table->casillasInt[(i*12)+10])<<"    " << int(table->casillasInt[(i*12)+11])<<"    " << std::endl;
+  //  }
+   // std::cout << "GENERAMOV " << std::endl;
+
         Movimientos::generaMovimientos(table);
-        //  std::cout << "!!!!!!!!!!!!!!!!!!TAMAÑO VECTOR DE TABLEROS HIJO: "<< table->vectorMov->size()<< std::endl;
+         //std::cout << "!!!!!!!!!!!!!!!!!!TAMAÑO VECTOR DE TABLEROS HIJO: "<< table->vectorJugadas.size()<< std::endl;
 
         if (table->vectorJugadas.size() == 0)
         {
-            // std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
+             //std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
             return 0;
         }
 
-        for (std::vector<unsigned char*>::iterator it = table->vectorJugadas.begin(); it!=table->vectorJugadas.end(); ++it)
+     //   for (std::vector<unsigned char*>::iterator it = table->vectorJugadas.begin(); it!=table->vectorJugadas.end(); it+2)
+      //  {
+       //     std::cout << "tabla"<<  it - table->vectorJugadas.begin() << std::endl;
+
+        //    std::cout << "VALOR ITERADOR: "<< int(*it[0])<< std::endl;
+        //    std::cout << "VALOR ITERADOR: "<< int(*it[1])<< std::endl;
+      //  }
+
+        for (std::vector<unsigned char*>::iterator it = table->vectorJugadas.begin(); it!=table->vectorJugadas.end(); it++)
         {
-            // std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
-            table->jugada[0] = *it[0];
-            table->jugada[1] = *it[1];
+           // std::cout << "forrrrrrrrrr"<< std::endl;
+
+            std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA NUMERO: "<< it - table->vectorJugadas.begin() <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
+
+            // std::cout << "null"<< std::endl;
+
+            unsigned char* jugada = *it;
+
+             //  std::cout << "VALOR ITERADOR: "<< int(jugada[0])<< std::endl;
+               // std::cout << "VALOR ITERADOR: "<< int(jugada[1])<< std::endl;
+            table->jugada[0] = jugada[0];
+            table->jugada[1] = jugada[1];
+           // std::cout << "aplica"<< std::endl;
 
             ModeloTablero* tablero = Movimientos::aplicaMovimiento(*table);
 
-            score = -alphaBeta(tablero, -beta,-alpha, depthleft - 1 );
-                //  std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA NUMERO: "<< i <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
+            if (tablero != NULL)
+            {
+                score = -alphaBeta(tablero, -beta,-alpha, depthleft - 1 );
+               // std::cout << "resultchungo"<< std::endl;
+
+                std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA  SCORE: "<< score<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
                 //  std::cout << "!!!!!!!!!!!!!FOR"<< std::endl;
+               // it++;
 
                 if( score >= beta )
                 {
-                    // std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
+                   //  std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
                     //DEJA DE CALCULAR HEURISTICAS
                     /////////////TAL VEZ se pueda hacer el delete del elemento de vectormov aqui??????
                     //  table->Score = score;
@@ -105,8 +134,8 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                     //delete table->vectorMov.at(i);
                    // table->vectorMov.at(i) = NULL;
 
-                    delete tablero;
-                    tablero = NULL;
+                  //  delete tablero;
+                  //  tablero = NULL;
                    // Movimientos::deshazMovimiento(table);
 
                     return 0;
@@ -114,12 +143,16 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                 }
                 else if( score > alpha )
                 {
-                    //   std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
+
+                  std::cout << "!!si"<< std::endl;
+
+                     std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
                     // table->Score = score;
                     //LE PASA EL MOVIMIENTO A SU PADRE SOLO SI EL PADRE ES EL INICIAL
                     //      std::cout << "!!nodo inicial"<< std::endl;
                     if (table->nodoInicial)
                     {//RELLENA LA JUGADA DEL NODO INICIAL
+                        std::cout << "!!!!!!!!!!!!NODO INICIAL" << std::endl;
                         table->jugadaElegida = it - table->vectorJugadas.begin();
                        // table->jugada[0] = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada[0];
                         //table->jugada[1] = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada[1];
@@ -131,14 +164,23 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                     // std::cout << "!!!!!!!!!!!!!!!!!! FIN actualiza alfa: "<< std::endl;
 
                     alpha = score; // alpha acts like max in MiniMax
+                    std::cout << "fin"<< std::endl;
+
                 }
+                std::cout << "deleterrrrr"<< std::endl;
+
+                   // Movimientos::deshazMovimiento(table);
+                   // delete tablero;
+               // std::cout << "null"<< std::endl;
+
+                    // tablero = NULL;
+            }//else std::cout << "MOVIMIENTO INVALIDO"<< std::endl;
+
              //else  std::cout << "!!BETA BREAAAAK "  << std::endl;
 
             //problema: se borran los del primer nivel
-            // std::cout << "!!FINFOR "  << std::endl;
+           // std::cout << "!!FINFOR "  << std::endl;
 
-               // Movimientos::deshazMovimiento(table);
-                delete tablero;
 
         }
 
@@ -167,6 +209,7 @@ int ArbolBusqueda::evaluaTablero(char casillasInt[144])
     int suma = 0;
     //   BlackCheck = false;
 
+
     //EMPIEZA CONTANDO LAS FICHAS DEL TABLERO Y HACIENDO UNA SUMA SIMPLE...
 
     for (int i = 2; i<10;i++)
@@ -193,6 +236,8 @@ int ArbolBusqueda::evaluaTablero(char casillasInt[144])
         }
 
     }
+
+
     //if(!turnoN)
     //{
     //SI EL NODO TERMINAL ES TURNO BLANCAS SE INVIERTE LA SUMA, ASI LA SUMA POSITIVA ES LA DE LAS NEGRAS

@@ -31,7 +31,7 @@ public:
     void aplicaCambio();
 
 private:   
-    char* traduceTablero();
+    char traduceTablero();
 
     std::vector<Jugador*> jugadores;
     bool pantallaCompleta;

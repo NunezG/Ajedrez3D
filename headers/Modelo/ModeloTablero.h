@@ -58,7 +58,7 @@ struct ModeloTablero
     int jugadaElegida;
     //std::vector<unsigned char[]> vectorJugadas2;
 
-    char* casillasInt;
+    char casillasInt[144];
     unsigned char* jugada;
     unsigned char alPaso;
     bool turnoN;

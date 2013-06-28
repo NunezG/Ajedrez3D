@@ -33,13 +33,24 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
    //         table->vectorMov.at(i) = NULL;
 //        }
 //    }
-         std::cout << "!!VECTOR JUGADAS AL COPIAR: "<<vectorJugadas.size() << std::endl;
+    std::cout << "copia " <<std::endl;
+   // std::cout << "!!VECTOR JUGADAS AL COPIAR: "<<vectorJugadas.empty() << std::endl;
+
+      //   std::cout << "!!VECTOR JUGADAS AL COPIAR: "<<vectorJugadas.size() << std::endl;
 
 
    // vectorJugadas.clear();
     // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
-    casillasInt = new char[144];
-    *casillasInt = *original.casillasInt;
+    //casillasInt = new char[144];
+
+         //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
+         for(int i=0; i<144;i++)
+         {
+
+                 casillasInt[i] = original.casillasInt[i];
+
+         }
+
     jugada = new unsigned char[2];
     jugada[0] = -1;
     jugada[1] = -1;
@@ -50,6 +61,7 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
 
 ModeloTablero::~ModeloTablero()
 {
+    //std::cout << "deletein"<< std::endl;
 
     if (!vectorJugadas.empty())
     {
@@ -64,6 +76,11 @@ ModeloTablero::~ModeloTablero()
         //  numeroHijos=0;
         vectorJugadas.clear();
     }
+
+    delete jugada;
+    jugada = NULL;
+    //std::cout << "deleteout"<< std::endl;
+
 }
 
 
@@ -75,7 +92,7 @@ bool ModeloTablero::cambiaTurno()
     turnoN = !turnoN;
 
     //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
-    for(int i=0; i<144;i++)
+    for(int i=26; i<121;i++)
     {
         //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
         if (casillasInt[i] != 0 && casillasInt[i] != 99)
@@ -85,10 +102,7 @@ bool ModeloTablero::cambiaTurno()
     }
     jugada[0] = -1;
     jugada[1] = -1;
-
-
 }
-
 
 bool ModeloTablero::evaluaJaque()
 {

@@ -9,10 +9,10 @@ JugadorHumano::~JugadorHumano()
 { 
 }
 
-int JugadorHumano::aplicaSeleccion()
+bool JugadorHumano::aplicaSeleccion()
 {
 
-    Jugador::aplicaSeleccion();
+    return Jugador::aplicaSeleccion();
 
 
 
@@ -21,6 +21,8 @@ int JugadorHumano::aplicaSeleccion()
 
 bool JugadorHumano::iniciaTurno()
 {
+    std::cout << "INICIATURNO HUMANO"<< std::endl;
+
     return false;
 
 
@@ -42,7 +44,6 @@ bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
     std::cout   << "   botonIzqui" << escena->encuentraCasillaSobrevolada(pos)<<std::endl;
 
     Casilla* casilla = static_cast<Casilla*>(tablero->getHijo(escena->encuentraCasillaSobrevolada(pos)));
-    std::cout   << "   botonIzquierdo222333333" << std::endl;
 
     if (casilla != NULL && !casilla->sinHijos())
     {
@@ -52,6 +53,7 @@ bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
                 || (!tablero->getTurnoNegras()
                     && !ficha->esNegra))
         {
+            std::cout   << "   setCasillaSeleccionada: "<<ficha->getNombre() << std::endl;
             tablero->setCasillaSeleccionada(casilla);
             // ficha->getNodoOgre()->showBoundingBox(true);
             return true;

@@ -10,7 +10,7 @@ class JugadorHumano : public Jugador
 public:
     ~JugadorHumano();
     JugadorHumano(EscenaAjedrez* miEscena, Modelo* modelo);
-    int aplicaSeleccion();
+    bool aplicaSeleccion();
 bool iniciaTurno();
 private:  
     bool esHumano();

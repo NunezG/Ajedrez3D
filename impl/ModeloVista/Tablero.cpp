@@ -42,6 +42,8 @@ void Tablero::setAlPaso(int casilla)
 
 void Tablero::setCasillaSeleccionada(Casilla* nodo)
 {
+      std::cout << "!! setCasillaSeleccionada"<< std::endl;
+
     fichaSeleccionada = true;
     casillaSeleccionada = nodo;
     casillaSeleccionada->iluminaCasilla();
@@ -54,6 +56,8 @@ void Tablero::setCasillaSobrevolada(Casilla* nodo)
 void Tablero::setCasillaSeleccionada(int posicion)
 {
 
+    std::cout << "!! setCasillaSeleccionada222"<< std::endl;
+
     if (posicion < 0)
     {
         fichaSeleccionada = false;
@@ -64,6 +68,8 @@ void Tablero::setCasillaSeleccionada(int posicion)
 }
 void Tablero::setCasillaSobrevolada(int posicion)
 {
+    std::cout << "!! setCasillaSobrevolada"<< std::endl;
+
     if (posicion < 0)
     {
         casillaSobrevolada = NULL;
@@ -288,12 +294,19 @@ void Tablero::creaPeones()
 
 void Tablero::actualizaTablero(Ogre::SceneManager* manager)
 {  
+     std::cout << "actualizaTablero"<< std::endl;
+
     Casilla* nodoCasillaTemporal = getCasillaSeleccionada();
     Casilla* casillaDestinoTemp = getCasillaSobrevolada();
+  //  std::cout << "actualizaTablero 1 "<< nodoCasillaTemporal!=NULL<<std::endl;
+    std::cout << "actualizaTablero 1 "<< nodoCasillaTemporal->getNombre()<<std::endl;
 
     if (!nodoCasillaTemporal->sinHijos())
     {
+        std::cout << "actualizaTablero 1sss"<< std::endl;
+
         casillaDestinoTemp->apagaCasilla();
+        std::cout << "actualizaTablero 122"<< std::endl;
 
         Ficha* ficha =  static_cast<Ficha*>(nodoCasillaTemporal->getHijo(0));
 
@@ -308,6 +321,7 @@ void Tablero::actualizaTablero(Ogre::SceneManager* manager)
             delete ficha;
             ficha = NULL;
         }
+        std::cout << "actualizaTablero 1wrrer"<< std::endl;
 
         casillaDestinoTemp->agregaHijo(ficha);
 
@@ -338,6 +352,7 @@ void Tablero::actualizaTablero(Ogre::SceneManager* manager)
                 casillaTorre->agregaHijo(fichaTorre);
             }
         }
+        std::cout << "actualizaTablero 1wer"<< std::endl;
 
         if (ficha->tipo_Ficha == 1)
         {
@@ -406,10 +421,12 @@ void Tablero::actualizaTablero(Ogre::SceneManager* manager)
                 setAlPaso(24+(casillaDestinoTemp->getPosicion().Fila*12) +  casillaDestinoTemp->getPosicion().Columna+2);
         }
         else setAlPaso(-1);
+        std::cout << "actualiwrwrerzaTablero 1"<< std::endl;
 
         //DESELECCIONA FICHA Y CASILLA
         //ficha->getNodoOgre()->showBoundingBox(false);
     }
+    std::cout << "actualizaTablerowwwww 1"<< std::endl;
 
     setCasillaSobrevolada(-1);
     setCasillaSeleccionada(-1);

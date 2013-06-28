@@ -19,6 +19,7 @@ bool JugadorArtificial::botonDerecho()
 
 bool JugadorArtificial::iniciaTurno()
 {
+    std::cout << "INICIATURNO ARTIFICIAL"<< std::endl;
 
     bool result = modelo->construyeArbol();
 
@@ -27,7 +28,7 @@ bool JugadorArtificial::iniciaTurno()
         // activaMovimiento();
 
         std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;
-        std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< modelo->tableroModelo->jugada[0] <<   " Y 2 "<< modelo->tableroModelo->jugada[1]<< std::endl;
+        std::cout  << "ALFABETA HA DEVUELTO EL MOVIMIENTO 1: "<< int(modelo->tableroModelo->jugada[0]) <<   " Y 2 "<< int(modelo->tableroModelo->jugada[1])<< std::endl;
 
     }else
     {
@@ -38,15 +39,18 @@ bool JugadorArtificial::iniciaTurno()
 }
 
 
-int JugadorArtificial::aplicaSeleccion()
+bool JugadorArtificial::aplicaSeleccion()
 {
+
     posicion inicial;
     posicion final;
+    std::cout << "!!!!!!!!!aplicaSeleccionL" << std::endl;
 
     inicial.Fila = (modelo->tableroModelo->jugada[0]/12)-2;
     inicial.Columna = (modelo->tableroModelo->jugada[0]%12)-2;
     final.Fila = (modelo->tableroModelo->jugada[1]/12)-2;
     final.Columna = (modelo->tableroModelo->jugada[1]%12)-2;
+    std::cout << "!!!!!!!!!aplicaSeleccionLwwww" << std::endl;
 
     std::cout << "tableroModelo->jugada[0] " << modelo->tableroModelo->jugada[0]<< std::endl;
     std::cout << "tableroModelo->jugada[1] " << modelo->tableroModelo->jugada[1]<< std::endl;
@@ -55,8 +59,9 @@ int JugadorArtificial::aplicaSeleccion()
     std::cout << "SELECT 1 FILA: "<< (inicial.Fila*8)+inicial.Columna <<std::endl;
     escena->getTablero()->setCasillaSeleccionada((inicial.Fila * 8) + inicial.Columna);
     escena->getTablero()->setCasillaSobrevolada((final.Fila* 8) + final.Columna);
+    std::cout << "!!!!!!!!!aplicaSeleccionLwwwwwwwww" << std::endl;
 
-    Jugador::aplicaSeleccion();
+    return Jugador::aplicaSeleccion();
 }
 
 

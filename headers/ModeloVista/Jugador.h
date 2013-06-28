@@ -19,7 +19,7 @@ public:
     virtual bool botonDerecho() = 0;
     virtual bool botonIzquierdo(CEGUI::Vector2 pos) = 0;
 
-    int aplicaSeleccion();
+    virtual bool aplicaSeleccion();
 
    virtual bool iniciaTurno() = 0;
 
