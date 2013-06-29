@@ -28,17 +28,13 @@ int Autorizaciones::autorizaPeon (ModeloTablero* miTablero)
 
     if (Dif == 12 ||
             (Dif== 24
-             && ((miTablero->jugada[0]/12 == 3 && !miTablero->turnoN)
-                 || (miTablero->jugada[0]/12 == 8 && miTablero->turnoN))))
+             && miTablero->jugada[0]/12 == 3))
     {
         //SALTA 2 CASILLAS (ESCAQUES) o PASA UNA CASILLA
         if (miTablero->casillasInt[miTablero->jugada[1]] != 0)
             return 0;
         else
         {
-            if (miTablero->turnoN)
-                return pruebaCamino(miTablero, -12);
-            else
                 return pruebaCamino(miTablero, 12);
         }
     }
@@ -127,8 +123,7 @@ int Autorizaciones::autorizaRey(ModeloTablero* miTablero)
         return pruebaCamino(miTablero, Dif);
     else{
         //ENROQUE
-        if ( Dif/12 == 0 && ((!miTablero->turnoN && destino/12 == 2) ||
-                             (miTablero->turnoN &&  destino/12 == 9)))
+        if ( Dif/12 == 0 && destino/12 == 2)
         {
             if(Dif == 2
                     && miTablero->casillasInt[destino+1] == Torre)

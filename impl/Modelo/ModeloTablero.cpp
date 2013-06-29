@@ -21,10 +21,11 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
     //Score(0),
     // fichaMovida(""),
     //  vectorMov(NULL),
+    turnoN(original.turnoN),
+
     alPaso(-1)
   , nodoInicial(false)
 {
-
     //for(int i = 0; i < table->vectorMov.size(); i++)
    // {
    //     if (table->vectorMov.at(i) != NULL)
@@ -43,20 +44,26 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
     // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
     //casillasInt = new char[144];
 
-         //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
-         for(int i=0; i<144;i++)
-         {
+    //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
+    for(int i=0; i<144;i++)
+    {
+        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
+        if (original.casillasInt[i] != 99)
+        {
+            casillasInt[i] = -original.casillasInt[143-i];
+        } else casillasInt[i] = original.casillasInt[i];
+    }
 
-                 casillasInt[i] = original.casillasInt[i];
-
-         }
-
+    for(int i=0; i<12;i++)
+    {
+        std::cout << int(casillasInt [(i*12)])<<"    "  << int(casillasInt [(i*12)+1])<<"    " << int(casillasInt [(i*12)+2])<<"    "<<int(casillasInt [(i*12)+3])<<"    "<<int(casillasInt [(i*12)+4])<<"    "<<int(casillasInt [(i*12)+5])<<"    "<<int(casillasInt [(i*12)+6])<<"    "<<int(casillasInt [(i*12)+7]) <<"    " <<int(casillasInt [(i*12)+8])<<"    " << int(casillasInt [(i*12)+9])<<"    " << int(casillasInt [(i*12)+10])<<"    " << int(casillasInt [(i*12)+11])<<"    " << std::endl;
+    }
+    std::cout << "traducido en ModeloTablero" << std::endl;
     jugada = new unsigned char[2];
     jugada[0] = -1;
     jugada[1] = -1;
 
     cambiaTurno();
-
 }
 
 ModeloTablero::~ModeloTablero()
@@ -86,20 +93,17 @@ ModeloTablero::~ModeloTablero()
 
 bool ModeloTablero::cambiaTurno()
 {
+    std::cout << "cambiaTurno  " <<std::endl;
 
-    casillasInt[jugada[1]]= casillasInt[jugada[0]];
+    casillasInt[jugadaElegida]= casillasInt[jugada[0]];
     casillasInt[jugada[0]] = 0;
+    std::cout << "turnoN ant " <<turnoN <<std::endl;
+
     turnoN = !turnoN;
 
-    //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
-    for(int i=26; i<121;i++)
-    {
-        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
-        if (casillasInt[i] != 0 && casillasInt[i] != 99)
-        {
-            casillasInt[i] = -casillasInt[i];
-        }
-    }
+    std::cout << "turnoN desp " <<turnoN <<std::endl;
+
+    jugadaElegida = -1;
     jugada[0] = -1;
     jugada[1] = -1;
 }
@@ -224,7 +228,7 @@ bool ModeloTablero::evaluaJaque()
             if(ficha != 0)
             {
                 //REY                               //PEON NEGRO
-                if(i==1 && (ficha == fichaRey || (!turnoN && ficha == fichaPeon)))
+                if(i==1 && (ficha == fichaRey || ficha == fichaPeon))
                     return true;
 
                 //REINA                             //ALFIL
@@ -244,7 +248,7 @@ bool ModeloTablero::evaluaJaque()
             if(ficha != 0)
             {
                 //REY                               //PEON NEGRO
-                if(i==1 && (ficha == fichaRey || (!turnoN && ficha ==fichaPeon)))
+                if(i==1 && (ficha == fichaRey || ficha ==fichaPeon))
                     return true;
 
                 //REINA                             //ALFIL
@@ -265,8 +269,8 @@ bool ModeloTablero::evaluaJaque()
 
             if(ficha != 0)
             {
-                //REY                               //PEON BLANCO
-                if(i==1 && (ficha == fichaRey || (turnoN && ficha ==fichaPeon)))
+                //REY
+                if(i==1 && (ficha == fichaRey))
                     return true;
 
                 //REINA                             //ALFIL
@@ -285,8 +289,8 @@ bool ModeloTablero::evaluaJaque()
 
             if(ficha != 0)
             {
-                //REY                               //PEON BLANCO
-                if(i==1 && (ficha == fichaRey || (turnoN && ficha ==fichaPeon)))
+                //REY
+                if(i==1 && (ficha == fichaRey))
                     return true;
 
                 //REINA                             //ALFIL

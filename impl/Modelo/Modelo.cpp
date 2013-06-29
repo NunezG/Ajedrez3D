@@ -98,6 +98,15 @@ bool Modelo::construyeArbol()
 
     int resultado = ArbolBusqueda::alphaBeta(tableroModelo,-70000, 70000, 3);
 
+
+    if (tableroModelo->turnoN)
+    {//INVIERTE
+        std::cout << "TURNO MEGRAS EN ALFABETA" << std::endl;
+
+        tableroModelo->jugadaElegida = 144-tableroModelo->jugadaElegida;
+    }
+
+
     std::cout << "FIN CONST ARBOL"<< std::endl;
     std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< int(tableroModelo->jugada[0])<< std::endl;
     std::cout << "DEST DE ALFABETA!!!!: "<< int(tableroModelo->jugada[1])<< std::endl;
@@ -119,6 +128,31 @@ bool Modelo::construyeArbol()
 
 int Modelo::mueveTablero()
 {
+
+
+    char casillasTemp[144];
+
+    //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
+    for(int i=0; i<144;i++)
+    {
+        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
+        if (tableroModelo->casillasInt[i] != 99)
+        {
+            casillasTemp[i] = -tableroModelo->casillasInt[143-i];
+
+        } else casillasTemp[i] = 99;
+
+
+    }
+    for(int i=0; i<144;i++)
+    {
+        if (casillasTemp != 0)
+        {
+            tableroModelo->casillasInt[i] = casillasTemp[i];
+        }
+    }
+
+
 
     tableroModelo->cambiaTurno();
 

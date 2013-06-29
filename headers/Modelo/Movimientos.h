@@ -17,13 +17,13 @@ private:
 
     static ModeloTablero* nuevoMovimiento(ModeloTablero *miTablero);
 
-    static bool mueveFicha(ModeloTablero* miTablero,bool testJaque, char tipo);
+    static bool mueveFicha(ModeloTablero* miTablero, char tipo);
     static bool mueveTorre(ModeloTablero* miTablero);
-    static bool mueveAlfil(ModeloTablero* miTablero, bool testJaque);
-    static bool mueveCaballo(ModeloTablero* miTablero, bool testJaque);
-    static bool mueveReina(ModeloTablero* miTablero, bool testJaque);
-    static bool muevePeon(ModeloTablero* miTablero, bool testJaque);
-    static bool mueveRey(ModeloTablero* miTablero, bool testJaque);
+    static bool mueveAlfil(ModeloTablero* miTablero);
+    static bool mueveCaballo(ModeloTablero* miTablero);
+    static bool mueveReina(ModeloTablero* miTablero);
+    static bool muevePeon(ModeloTablero* miTablero);
+    static bool mueveRey(ModeloTablero* miTablero);
 };
 
 #endif

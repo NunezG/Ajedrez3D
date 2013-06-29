@@ -25,6 +25,7 @@ bool JugadorArtificial::iniciaTurno()
 
     if (result == true && modelo->tableroModelo->jugada[0] != -1)
     {
+
         // activaMovimiento();
 
         std::cout  << "HA ENCONTRADO UN RESULTADO Y MUEVE " << std::endl;

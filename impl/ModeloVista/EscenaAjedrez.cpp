@@ -182,15 +182,12 @@ bool EscenaAjedrez::getModoCamara()
 
 std::string EscenaAjedrez::encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
 {
-    std::cout   << "   encuentra" << std::endl;
 
 
     Ogre::uint32 mask = CASILLA;
-    std::cout   << "   encuentra2" << std::endl;
 
     Ogre::Ray rayMouse = mCamera->getCameraToViewportRay
             (mCursorPosition.d_x/float(mWindow->getWidth()), mCursorPosition.d_y/float(mWindow->getHeight()));
-    std::cout   << "   encuentra3" << std::endl;
 
     mRaySceneQuery->setRay(rayMouse);
     mRaySceneQuery->setSortByDistance(true);

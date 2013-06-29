@@ -153,7 +153,7 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                     if (table->nodoInicial)
                     {//RELLENA LA JUGADA DEL NODO INICIAL
                         std::cout << "!!!!!!!!!!!!NODO INICIAL" << std::endl;
-                        table->jugadaElegida = it - table->vectorJugadas.begin();
+                        table->jugadaElegida = jugada[1];
                        // table->jugada[0] = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada[0];
                         //table->jugada[1] = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada[1];
                     }
