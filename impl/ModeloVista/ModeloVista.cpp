@@ -158,4 +158,6 @@ void ModeloVista::aplicaCambio()
             aplicaCambio();
         }
     }
+    std::cout << "cambio aplicado "<< std::endl;
+
 }

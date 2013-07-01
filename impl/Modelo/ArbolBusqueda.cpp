@@ -50,6 +50,7 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
    //std::cout << "!!!!!!!!!!!!!!!!!!INICIO ALFA-BETA NIVEL: "<<depthleft << " ALFA: "<<alpha << " BETA: "<<beta <<std::endl;
     //  std::cout << "!!!!!!!!!!!!!!!!!!NIIVEL: "<< depthleft<< std::endl;
 
+
     if( depthleft == 0)
     {
         //   std::cout << "EVALUA LA HEURISTICA "<< std::endl;
@@ -94,6 +95,8 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
         //    std::cout << "VALOR ITERADOR: "<< int(*it[1])<< std::endl;
       //  }
 
+        unsigned char jugadaElegida[2];
+
         for (std::vector<unsigned char*>::iterator it = table->vectorJugadas.begin(); it!=table->vectorJugadas.end(); it++)
         {
            // std::cout << "forrrrrrrrrr"<< std::endl;
@@ -117,13 +120,13 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                 score = -alphaBeta(tablero, -beta,-alpha, depthleft - 1 );
                // std::cout << "resultchungo"<< std::endl;
 
-                std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA  SCORE: "<< score<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << std::endl;
+                std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA  SCORE: "<< score<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << " NIVEL:" << depthleft<< std::endl;
                 //  std::cout << "!!!!!!!!!!!!!FOR"<< std::endl;
                // it++;
 
                 if( score >= beta )
                 {
-                   //  std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
+                    std::cout << "!!!!!!!!!!!!!!!!!! fail hard beta-cutoff SCORE: "<< score <<" BETA: " << beta << std::endl;
                     //DEJA DE CALCULAR HEURISTICAS
                     /////////////TAL VEZ se pueda hacer el delete del elemento de vectormov aqui??????
                     //  table->Score = score;
@@ -143,7 +146,6 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                 }
                 else if( score > alpha )
                 {
-
                   std::cout << "!!si"<< std::endl;
 
                      std::cout << "!!!!!!!!!!!!!!!!!! actualiza alfa: "<< score <<" ALFA: " << alpha << std::endl;
@@ -152,8 +154,9 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
                     //      std::cout << "!!nodo inicial"<< std::endl;
                     if (table->nodoInicial)
                     {//RELLENA LA JUGADA DEL NODO INICIAL
-                        std::cout << "!!!!!!!!!!!!NODO INICIAL" << std::endl;
-                        table->jugadaElegida = jugada[1];
+                        std::cout << "!!!!!!!!!!!!NODO INICIAL " << int(jugada[0])<< " JUGADA: "  << int(jugada[1]) << std::endl;
+                        Modelo::getSingletonPtr()->jugadaElegida[0] = jugada[0];
+                        Modelo::getSingletonPtr()->jugadaElegida[1] = jugada[1];
                        // table->jugada[0] = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada[0];
                         //table->jugada[1] = static_cast<ModeloTablero*>(table->vectorMov.at(i))->jugada[1];
                     }

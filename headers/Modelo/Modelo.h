@@ -13,9 +13,9 @@ public:
 
     int mueveTablero();
     int autorizaCasilla(tipoFicha tipo);
-    bool construyeArbol();
 
     ModeloTablero* tableroModelo;
+    unsigned char jugadaElegida[2];
 
 private:
     void agregaJugada(int inicio, int fin);

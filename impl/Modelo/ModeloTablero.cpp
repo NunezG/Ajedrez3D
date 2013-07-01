@@ -9,9 +9,9 @@ ModeloTablero::ModeloTablero() :
     alPaso(-1),
     nodoInicial(true)
 {
-    jugada = new unsigned char[2];
-    jugada[0] = -1;
-    jugada[1] = -1;
+   // jugada = new unsigned char[2];
+    jugada[0] = 0;
+    jugada[1] = 0;
 
 
 }
@@ -21,9 +21,8 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
     //Score(0),
     // fichaMovida(""),
     //  vectorMov(NULL),
-    turnoN(original.turnoN),
-
-    alPaso(-1)
+    turnoN(original.turnoN)
+    , alPaso(-1)
   , nodoInicial(false)
 {
     //for(int i = 0; i < table->vectorMov.size(); i++)
@@ -54,14 +53,10 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
         } else casillasInt[i] = original.casillasInt[i];
     }
 
-    for(int i=0; i<12;i++)
-    {
-        std::cout << int(casillasInt [(i*12)])<<"    "  << int(casillasInt [(i*12)+1])<<"    " << int(casillasInt [(i*12)+2])<<"    "<<int(casillasInt [(i*12)+3])<<"    "<<int(casillasInt [(i*12)+4])<<"    "<<int(casillasInt [(i*12)+5])<<"    "<<int(casillasInt [(i*12)+6])<<"    "<<int(casillasInt [(i*12)+7]) <<"    " <<int(casillasInt [(i*12)+8])<<"    " << int(casillasInt [(i*12)+9])<<"    " << int(casillasInt [(i*12)+10])<<"    " << int(casillasInt [(i*12)+11])<<"    " << std::endl;
-    }
-    std::cout << "traducido en ModeloTablero" << std::endl;
-    jugada = new unsigned char[2];
-    jugada[0] = -1;
-    jugada[1] = -1;
+
+   // jugada = new unsigned char[2];
+    jugada[0] = 0;
+    jugada[1] = 0;
 
     cambiaTurno();
 }
@@ -84,8 +79,8 @@ ModeloTablero::~ModeloTablero()
         vectorJugadas.clear();
     }
 
-    delete jugada;
-    jugada = NULL;
+    //delete jugada;
+    //jugada = NULL;
     //std::cout << "deleteout"<< std::endl;
 
 }
@@ -94,8 +89,13 @@ ModeloTablero::~ModeloTablero()
 bool ModeloTablero::cambiaTurno()
 {
     std::cout << "cambiaTurno  " <<std::endl;
+   // std::cout << "jugadaElegida  " << jugadaElegida << std::endl;
+    std::cout << "jugada[0]  " << int(jugada[0]) << std::endl;
+    std::cout << "jugada[1]  " << int(jugada[1]) << std::endl;
 
-    casillasInt[jugadaElegida]= casillasInt[jugada[0]];
+    //std::cout << "casillasInt  " << int(casillasInt) << std::endl;
+
+    casillasInt[jugada[1]]= casillasInt[jugada[0]];
     casillasInt[jugada[0]] = 0;
     std::cout << "turnoN ant " <<turnoN <<std::endl;
 
@@ -103,7 +103,15 @@ bool ModeloTablero::cambiaTurno()
 
     std::cout << "turnoN desp " <<turnoN <<std::endl;
 
-    jugadaElegida = -1;
+
+
+    for (int i= 0; i < vectorJugadas.size(); i++)
+    {
+
+      delete vectorJugadas.at(i);
+    }
+    vectorJugadas.clear();
+    //jugadaElegida = -1;
     jugada[0] = -1;
     jugada[1] = -1;
 }

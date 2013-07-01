@@ -30,6 +30,8 @@ int Autorizaciones::autorizaPeon (ModeloTablero* miTablero)
             (Dif== 24
              && miTablero->jugada[0]/12 == 3))
     {
+        std::cout << "!!!!ALTA 2 CASILLAS (ESCAQUES) o PASA UNA CASILLA!!!!!!!" << std::endl;
+
         //SALTA 2 CASILLAS (ESCAQUES) o PASA UNA CASILLA
         if (miTablero->casillasInt[miTablero->jugada[1]] != 0)
             return 0;

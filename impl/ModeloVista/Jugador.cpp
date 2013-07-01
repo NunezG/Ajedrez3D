@@ -56,7 +56,6 @@ void Jugador::setNombre( std::string unNombre)
 
 bool Jugador::aplicaSeleccion()
 {
-
     std::cout << "aplicaSeleccion"<< std::endl;
 
     //ATUALIZA EL TABLERO DE LA VISTA
@@ -64,16 +63,31 @@ bool Jugador::aplicaSeleccion()
 
     std::cout << "aplicaSeleccion2222"<< std::endl;
 
-    escena->getTablero()->actualizaTablero(escena->mSceneMgr);
+    int resultado = modelo->mueveTablero();
+
+    if (!modelo->tableroModelo->turnoN)
+    {//INVIERTE
+        std::cout << "TURNO MEGRAS EN ALFABETA" << std::endl;
+        std::cout << "ORIG DE ALFABETA ANTES DE REVERTIR!!!!: "<< int( modelo->jugadaElegida[0])<< std::endl;
+        std::cout << "DEST DE ALFABETA ANTES DE REVERTIR!!!!: "<< int( modelo->jugadaElegida[1])<< std::endl;
+
+        modelo->jugadaElegida[0] = 143- modelo->jugadaElegida[0];
+       modelo->jugadaElegida[1] = 143- modelo->jugadaElegida[1];
+        // escena->tablero->setCasillaSeleccionada(escena->tablero->getCasillaSeleccionada());
+    }
+
+    escena->getTablero()->actualizaTablero(escena->mSceneMgr, modelo->jugadaElegida);
 
     std::cout << "!!!!!promociona! " << std::endl;
 
     //PROMOCIONA PEÓN
     //  escena->getTablero()->promocionaPeon(escena->mSceneMgr);
 
-
     //COMPRUEBA JAQUE AL MOVER TABLERO EN MODELO
-    int resultado = modelo->mueveTablero();
+
+    modelo->jugadaElegida[0] = 0;
+    modelo->jugadaElegida[1] = 0;
+
     switch (resultado)
     {
     case 2:
@@ -86,9 +100,8 @@ bool Jugador::aplicaSeleccion()
         escena->muestraVentanaEmergente("Tablas");
         break;
     default:
-       return true;
+        return true;
         //break;
     }
     return false;
 }
-

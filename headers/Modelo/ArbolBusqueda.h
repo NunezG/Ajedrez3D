@@ -1,7 +1,7 @@
 #ifndef __ArbolBusqueda_
 #define __ArbolBusqueda_
 
-#include "../Modelo/Movimientos.h"
+#include "../Modelo/Modelo.h"
 
 class ArbolBusqueda
 {

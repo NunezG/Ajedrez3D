@@ -12,6 +12,8 @@ public:
     JugadorArtificial(EscenaAjedrez* miEscena, Modelo* modelo);
     bool aplicaSeleccion();
 bool iniciaTurno();
+bool construyeArbol();
+
 private:
     bool botonIzquierdo(CEGUI::Vector2 pos);
     bool botonDerecho();

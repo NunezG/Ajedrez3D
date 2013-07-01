@@ -56,7 +56,7 @@ void Tablero::setCasillaSobrevolada(Casilla* nodo)
 void Tablero::setCasillaSeleccionada(int posicion)
 {
 
-    std::cout << "!! setCasillaSeleccionada222"<< std::endl;
+    std::cout << "!! setCasillaSeleccionada "<< posicion<< std::endl;
 
     if (posicion < 0)
     {
@@ -68,7 +68,7 @@ void Tablero::setCasillaSeleccionada(int posicion)
 }
 void Tablero::setCasillaSobrevolada(int posicion)
 {
-    std::cout << "!! setCasillaSobrevolada"<< std::endl;
+    std::cout << "!! setCasillaSobrevolada "<< posicion<<std::endl;
 
     if (posicion < 0)
     {
@@ -292,14 +292,42 @@ void Tablero::creaPeones()
     }
 }
 
-void Tablero::actualizaTablero(Ogre::SceneManager* manager)
+void Tablero::actualizaTablero(Ogre::SceneManager* manager, unsigned char jugadaElegida[2])
 {  
      std::cout << "actualizaTablero"<< std::endl;
+
+
+
+     posicion inicial;
+     posicion final;
+     std::cout << "!!!!!!!!!aplicaSeleccionL" << std::endl;
+
+     inicial.Fila = (jugadaElegida[0]/12)-2;
+     inicial.Columna = (jugadaElegida[0]%12)-2;
+     final.Fila = (jugadaElegida[1]/12)-2;
+     final.Columna = (jugadaElegida[1]%12)-2;
+     std::cout << "!!!!!!!!!aplicaSeleccionL2" << std::endl;
+
+     std::cout << "tableroModelo->jugada[0] " << int(jugadaElegida[0]) << std::endl;
+     std::cout << "tableroModelo->jugadaElegida " << int(jugadaElegida[1])<< std::endl;
+     // std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
+     // std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
+     std::cout << "SELECT 1 FILA: "<< inicial.Fila <<std::endl;
+     std::cout << "SELECT 1 COL: "<< inicial.Columna <<std::endl;
+
+     std::cout << "FINAL 1 FILA: "<< final.Fila <<std::endl;
+     std::cout << "FINAL 1 COL: "<< final.Columna <<std::endl;
+
+     setCasillaSeleccionada((inicial.Fila * 8) + inicial.Columna);
+     setCasillaSobrevolada((final.Fila* 8) + final.Columna);
+     std::cout << "!!!!!!!!!aplicaSeleccionL3" << std::endl;
+
 
     Casilla* nodoCasillaTemporal = getCasillaSeleccionada();
     Casilla* casillaDestinoTemp = getCasillaSobrevolada();
   //  std::cout << "actualizaTablero 1 "<< nodoCasillaTemporal!=NULL<<std::endl;
     std::cout << "actualizaTablero 1 "<< nodoCasillaTemporal->getNombre()<<std::endl;
+    std::cout << "actualizaTablero 11 "<< casillaDestinoTemp->getNombre()<<std::endl;
 
     if (!nodoCasillaTemporal->sinHijos())
     {

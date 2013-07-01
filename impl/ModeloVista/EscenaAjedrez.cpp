@@ -7,6 +7,7 @@ EscenaAjedrez::EscenaAjedrez() :
  // , mTopSpeed(150)
  // ,   mRaySceneQuery(0)
   //, mOrbiting(false)
+  ,modoCamara(false)
   , camaraDerecha(false)
   , camaraIzquierda(false)
  // , columnas("ABCDEFGH")

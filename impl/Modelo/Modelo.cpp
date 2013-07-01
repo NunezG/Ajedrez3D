@@ -8,6 +8,8 @@ Modelo::Modelo()
 {   
     //mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "MIMANAGERDEESCENA");
     tableroModelo = new ModeloTablero();
+    jugadaElegida[0] = 0;
+    jugadaElegida[1] = 0;
 }
 
 Modelo::~Modelo()
@@ -82,67 +84,39 @@ int Modelo::autorizaCasilla(tipoFicha tipo)
     else return 0;
 }
 
-bool Modelo::construyeArbol()
-{
-    std::cout << "CONST ARBOL: "<< tableroModelo->nodoInicial<< std::endl;
-    std::cout << "ORIGEN ANTES: "<< int(tableroModelo->jugada[0])<< std::endl;
-    std::cout << "DEST ANTES: "<< int(tableroModelo->jugada[1])<< std::endl;
-
-
-    for(int i=0; i<12;i++)
-    {
-        std::cout << int(tableroModelo->casillasInt[(i*12)])<<"    "  << int(tableroModelo->casillasInt[(i*12)+1])<<"    " << int(tableroModelo->casillasInt[(i*12)+2])<<"    "<<int(tableroModelo->casillasInt[(i*12)+3])<<"    "<<int(tableroModelo->casillasInt[(i*12)+4])<<"    "<<int(tableroModelo->casillasInt[(i*12)+5])<<"    "<<int(tableroModelo->casillasInt[(i*12)+6])<<"    "<<int(tableroModelo->casillasInt[(i*12)+7]) <<"    " <<int(tableroModelo->casillasInt[(i*12)+8])<<"    " << int(tableroModelo->casillasInt[(i*12)+9])<<"    " << int(tableroModelo->casillasInt[(i*12)+10])<<"    " << int(tableroModelo->casillasInt[(i*12)+11])<<"    " << std::endl;
-    }
-    std::cout << "TABLERO EN ALFABETA" << std::endl;
-
-
-    int resultado = ArbolBusqueda::alphaBeta(tableroModelo,-70000, 70000, 3);
-
-
-    if (tableroModelo->turnoN)
-    {//INVIERTE
-        std::cout << "TURNO MEGRAS EN ALFABETA" << std::endl;
-
-        tableroModelo->jugadaElegida = 144-tableroModelo->jugadaElegida;
-    }
-
-
-    std::cout << "FIN CONST ARBOL"<< std::endl;
-    std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< int(tableroModelo->jugada[0])<< std::endl;
-    std::cout << "DEST DE ALFABETA!!!!: "<< int(tableroModelo->jugada[1])<< std::endl;
-    std::cout << "RESULTADO DE ALFABETA: "<< resultado<< std::endl;
-
-    // resultado = resultado;
-
-   // std::cout << "RESULTADO DE ALFABETA DESPUES: "<< resultado<< std::endl;
- //   std::cout << "NUMERO NODOS TABLERO INICIAL: "<< tableroModelo->vectorMov.size()<< std::endl;
-
-    if (tableroModelo->jugadaElegida != 0)
-    {//SIN RESULTADO
-        std::cout << "NO HAY TABLEROS EN EL VECTOR POR LO QUE ES UN JAQUE MATE O UN AHOGADO, HABRA QUE DIFERENCIAR"<< std::endl;
-        return true;
-    }
-
-    return false;
-}
-
 int Modelo::mueveTablero()
 {
-
-
     char casillasTemp[144];
+
+
+
+
+    std::cout << "jugadaElegida[0]  " << int(jugadaElegida[0]) <<std::endl;
+    std::cout << "jugadaElegida[1]  " << int(jugadaElegida[1]) <<std::endl;
+
+
+    tableroModelo->jugada[0] = jugadaElegida[0];
+    tableroModelo->jugada[1] = jugadaElegida[1];
+
+    tableroModelo->cambiaTurno();
+
+
+
+
+    //tableroModelo->jugada[0] = 143-jugadaElegida[0];
+    //tableroModelo->jugada[1] = 143-jugadaElegida[1];
+
 
     //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
     for(int i=0; i<144;i++)
     {
-        //NORMALIZA EL TABLERO, CAMBIA EL SIGNO DE LAS FICHAS
-        if (tableroModelo->casillasInt[i] != 99)
-        {
-            casillasTemp[i] = -tableroModelo->casillasInt[143-i];
+            //INVIERTE EL SIGNO DE LAS FICHAS Y LA POSICION DE LA FILA
+            if (tableroModelo->casillasInt[i] != 99)
+            {
+                casillasTemp[i] = -tableroModelo->casillasInt[143-i];
 
-        } else casillasTemp[i] = 99;
-
-
+            }
+            else casillasTemp[i] = 99;
     }
     for(int i=0; i<144;i++)
     {
@@ -154,9 +128,13 @@ int Modelo::mueveTablero()
 
 
 
-    tableroModelo->cambiaTurno();
+    for(int i=0; i<12;i++)
+    {
+        std::cout << int(tableroModelo->casillasInt [(i*12)])<<"    "  << int(tableroModelo->casillasInt [(i*12)+1])<<"    " << int(tableroModelo->casillasInt [(i*12)+2])<<"    "<<int(tableroModelo->casillasInt [(i*12)+3])<<"    "<<int(tableroModelo->casillasInt [(i*12)+4])<<"    "<<int(tableroModelo->casillasInt [(i*12)+5])<<"    "<<int(tableroModelo->casillasInt [(i*12)+6])<<"    "<<int(tableroModelo->casillasInt [(i*12)+7]) <<"    " <<int(tableroModelo->casillasInt [(i*12)+8])<<"    " << int(tableroModelo->casillasInt [(i*12)+9])<<"    " << int(tableroModelo->casillasInt [(i*12)+10])<<"    " << int(tableroModelo->casillasInt [(i*12)+11])<<"    " << std::endl;
+    }
+    std::cout << "traducido AL CAMBIAR DE TURNO" << std::endl;
 
-
+    std::cout << "!!!!!!pasa111! " << std::endl;
 
     // tablero->cambiaTurno();
     //    if(tablero->turnoN) tablero->casillasInt = Movimientos::normalizaTablero(tablero->casillasInt);
@@ -168,7 +146,6 @@ int Modelo::mueveTablero()
 
 
     std::cout << "!!!!!!pasa! " << std::endl;
-
 
     //MIRA TODOS LOS MOVIMIENTOS POSIBLES DEL TURNO CONTRARIO
     if (Movimientos::pruebaJaqueMate(tableroModelo))
@@ -199,15 +176,7 @@ int Modelo::mueveTablero()
         }
         //Mueve
             return 1;
-
     }
     //FINDE PARTIDA
     return 0;
-
-
-
-
-
-
-
 }
