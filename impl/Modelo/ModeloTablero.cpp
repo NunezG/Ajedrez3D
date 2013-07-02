@@ -8,6 +8,7 @@ ModeloTablero::ModeloTablero() :
     turnoN(false),
     alPaso(0),
     nodoInicial(true)
+  ,valorAtaque(0)
 {
     // jugada = new unsigned char[2];
     jugada[0] = 0;
@@ -24,6 +25,8 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
     turnoN(original.turnoN)
   , alPaso(original.alPaso)
   , nodoInicial(false)
+  ,valorAtaque(0)
+
 {
     jugada[0] = original.jugada[0];
     jugada[1] = original.jugada[1];
@@ -35,7 +38,7 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
     //         table->vectorMov.at(i) = NULL;
     //        }
     //    }
-    std::cout << "copia sin cambiar de turno" <<std::endl;
+    // std::cout << "copia sin cambiar de turno" <<std::endl;
     // std::cout << "!!VECTOR JUGADAS AL COPIAR: "<<vectorJugadas.empty() << std::endl;
 
     //   std::cout << "!!VECTOR JUGADAS AL COPIAR: "<<vectorJugadas.size() << std::endl;
@@ -109,8 +112,19 @@ bool ModeloTablero::cambiaTurno()
         }
     }
 
-    std::cout << "jugada[0]  " << int(jugada[0]) << std::endl;
-    std::cout << "jugada[1]  " << int(jugada[1]) << std::endl;
+    //cuanto menor sea el valor, mejor
+    if (casillasInt[jugada[1]] == 0) valorAtaque = 0;
+    else valorAtaque = casillasInt[jugada[0]] + casillasInt[jugada[1]];
+
+    // PARA valorAmenaza y defensivo habra que examinar todos los posibles movimientos futuros de la ficha....
+    // bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo) ????????????????
+
+
+
+
+
+    //std::cout << "jugada[0]  " << int(jugada[0]) << std::endl;
+    // std::cout << "jugada[1]  " << int(jugada[1]) << std::endl;
 
     // MUEVE
     casillasInt[jugada[1]]= casillasInt[jugada[0]];
@@ -126,17 +140,79 @@ bool ModeloTablero::cambiaTurno()
         //miTablero.casillasInt[casOrigen] = fichavieja;
         // return NULL;
 
-        std::cout << "cambiaTurno  " <<std::endl;
+        // std::cout << "cambiaTurno  " <<std::endl;
         // std::cout << "jugadaElegida  " << jugadaElegida << std::endl;
 
 
         //std::cout << "casillasInt  " << int(casillasInt) << std::endl;
 
-        std::cout << "turnoN ant " <<turnoN <<std::endl;
+        //std::cout << "turnoN ant " <<turnoN <<std::endl;
+
+
+
+        /*
+
+        for (int i= 0; i < vectorJugadas.size(); i++)
+        {
+            delete vectorJugadas.at(i);
+        }
+        vectorJugadas.clear();
+
+        Movimientos::mueveFicha(this, casillasInt[jugada[1]]);
+
+        for (std::vector<unsigned char*>::iterator it = vectorJugadas.begin(); it!=vectorJugadas.end(); it++)
+        {
+            // std::cout << "forrrrrrrrrr"<< std::endl;
+
+            // std::cout << "!!!!!!!!!!!!!!!!!!SE AVENTURA EN LA TABLA NUMERO: "<< it - table->vectorJugadas.begin() <<" NIVEL: "<< depthleft<< " ALFA: "<<  alpha<<  " BETA: "<<  beta <<std::endl;
+
+            // std::cout << "null"<< std::endl;
+
+            unsigned char* juga = *it;
+
+            //  std::cout << "VALOR ITERADOR: "<< int(jugada[0])<< std::endl;
+            // std::cout << "VALOR ITERADOR: "<< int(jugada[1])<< std::endl;
+            jugada[0] = juga[0];
+            jugada[1] = juga[1];
+            // std::cout << "aplica"<< std::endl;
+
+            ModeloTablero* tablero = Movimientos::aplicaMovimiento(*this);
+            if (tablero !=NULL)
+            {
+                //SI LA FICHA COMIDA
+               casillasInt[jugada[1]]
+
+
+            }
+
+
+
+
+
+        }
+
+
+        for (int i= 0; i < vectorJugadas.size(); i++)
+        {
+            delete vectorJugadas.at(i);
+        }
+        vectorJugadas.clear();
+       */
+
+
+
+
+
+
+
+
+
+
+
 
         turnoN = !turnoN;
 
-        std::cout << "turnoN desp " <<turnoN <<std::endl;
+        //std::cout << "turnoN desp " <<turnoN <<std::endl;
 
         char casillasTemp[144];
         //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
@@ -158,12 +234,6 @@ bool ModeloTablero::cambiaTurno()
             }
         }
 
-        for (int i= 0; i < vectorJugadas.size(); i++)
-        {
-
-            delete vectorJugadas.at(i);
-        }
-        vectorJugadas.clear();
         //jugadaElegida = -1;
         jugada[0] = 0;
         jugada[1] = 0;

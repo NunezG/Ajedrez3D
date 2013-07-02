@@ -9,7 +9,12 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
     //BUSCA EN EL TABLERO LAS FICHAS Y SEGUN SU TIPO VA GENERANDO LOS MOVIMIENTOS
 
-    //  std::cout << "!!!!!!!!!!!!!!!!!!BORRA VECTOR PREVIO "<<std::endl;
+    //HAY QUE ORDENAR LA LISTA
+
+
+
+
+
 
     /*
     int rey = 6;
@@ -32,26 +37,36 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
     //CADA VEZ QUE ENCUENTRA UNA FICHA DEVUELVE SUS MOVIMIENTOS Y ANTES DE BUSCAR OTRA SE BORRAN, ASI SE AHORRA MEMORIA
 
-    for (int i = 26; i< 118;i++)
+
+    for (int y= 1; y<7; y++)
     {
-        //std::cout << "FOR  DE GENERA MOOVV "<< i << std::endl;
-        //  int casilla = (i*12)+y;
-        char valorCasilla = miTablero->casillasInt[i];
-        // std::cout << "VALOR"<< int(valorCasilla) << std::endl;
-
-        if (valorCasilla != 99 && miTablero->casillasInt[i] > 0)
+        for (int i = 26; i< 118;i++)
         {
-            // std::cout << "!!!ENCUENTRA FICHA EN: " <<  i << " CON LA FICHA: "<<int(miTablero->casillasInt[i])<< "DEVERDAD: "<< miTablero->casillasInt[i]<<std::endl;
-            // std::cout << "!!!TRADUCIDO: FILA: " <<  ((i/12)-2) + 1 << " Y COLUMNA: " << ((i%12)-2) + 1<< std::endl;
-            miTablero->jugada[0] = i;
-            fichamovida = mueveFicha(miTablero, tipoFicha(valorCasilla));
-        }
-        //     std::cout << "!!!ENCUENTRA FICHA EN: " <<  i << " DE TIPO "<< tipo <<std::endl;
-        //    std::cout << "!!!mueve ficha: " <<  i << " DE TIPO " << tipo <<std::endl;
-        //    if (testJaque) return false;
+            //  int casilla = (i*12)+y;
+            char valorCasilla = miTablero->casillasInt[i];
+            // std::cout << "VALOR"<< int(valorCasilla) << std::endl;
 
-        // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
+            if (valorCasilla == y)
+            {
+               // std::cout << "FOR  DE GENERA MOOVV "<< i<<" FICHA: " << y<<std::endl;
+
+                // std::cout << "!!!ENCUENTRA FICHA EN: " <<  i << " CON LA FICHA: "<<int(miTablero->casillasInt[i])<< "DEVERDAD: "<< miTablero->casillasInt[i]<<std::endl;
+                // std::cout << "!!!TRADUCIDO: FILA: " <<  ((i/12)-2) + 1 << " Y COLUMNA: " << ((i%12)-2) + 1<< std::endl;
+                miTablero->jugada[0] = i;
+                bool resultado = mueveFicha(miTablero, tipoFicha(valorCasilla));
+                if (fichamovida == false) fichamovida = resultado;
+            }
+            //     std::cout << "!!!ENCUENTRA FICHA EN: " <<  i << " DE TIPO "<< tipo <<std::endl;
+            //    std::cout << "!!!mueve ficha: " <<  i << " DE TIPO " << tipo <<std::endl;
+            //    if (testJaque) return false;
+
+            // std::cout << "miTablero->casillasInt[(i*8)+y]:" << (i*12)+y<<" "<<miTablero->casillasInt[(i*12)+y]<<std::endl;
+        }
+
     }
+
+
+
 
     // std::cout << "!!!!!!!!RETORNO!!!!!!!!   " <<std::endl;
     // std::cout << "!!!!!JAQUE MATE O AHOGADO AL FINAL DE MOVIMIENTOS!!!   " <<std::endl;
@@ -322,14 +337,14 @@ bool Movimientos::mueveAlfil(ModeloTablero* miTablero)
     recorreCasillas(miTablero, +11);
 }
 
-bool Movimientos::recorreCasillas(ModeloTablero* miTablero, unsigned char salto)
+int Movimientos::recorreCasillas(ModeloTablero* miTablero, unsigned char salto)
 
 {
     unsigned char nuevaCasilla = miTablero->jugada[0]+salto;
     // pasa = true;
     while(miTablero->casillasInt[nuevaCasilla] <= 0)
     {
-     //  std::cout << "AGREGA CASILLA "<< int(nuevaCasilla)<< std::endl;
+        //  std::cout << "AGREGA CASILLA "<< int(nuevaCasilla)<< std::endl;
 
         miTablero->jugada[1] = nuevaCasilla;
         nuevoMovimiento(miTablero);
@@ -490,18 +505,18 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
     // std::cout << "aplicamovivi 1" <<std::endl;
 
     //COME AL PASO
-   // if (miTablero.casillasInt[casOrigen] == 1 && miTablero.alPaso == casDestino-12)
-   // {
-   //     miTablero.casillasInt[miTablero.alPaso] = 0;
-  //  }
+    // if (miTablero.casillasInt[casOrigen] == 1 && miTablero.alPaso == casDestino-12)
+    // {
+    //     miTablero.casillasInt[miTablero.alPaso] = 0;
+    //  }
 
- // int fichavieja = miTablero.casillasInt[casOrigen];
-  //  int fichaNueva = miTablero.casillasInt[casDestino];
+    // int fichavieja = miTablero.casillasInt[casOrigen];
+    //  int fichaNueva = miTablero.casillasInt[casDestino];
     // std::cout << "aplicamovivi 2" <<std::endl;
 
     //APLICA EL MOVIMIENTO
-  //  miTablero.casillasInt[casDestino] = fichavieja;
-   // miTablero.casillasInt[casOrigen] = 0;
+    //  miTablero.casillasInt[casDestino] = fichavieja;
+    // miTablero.casillasInt[casOrigen] = 0;
     // std::cout << "aplicamovivi 3" <<std::endl;
     //    std::cout << "casOrigen "<<casOrigen <<std::endl;
     //  std::cout << "casDestino "<<casDestino <<std::endl;
@@ -512,44 +527,44 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
     //  std::cout << "!!!!APLICAMOVIMIENTTTTT!!" << std::endl;
 
 
-        std::cout << "aplicamoviviqqqq " <<std::endl;
-        TableroMovido = new ModeloTablero(miTablero, casOrigen, casDestino);
-        std::cout << "aplicamoviviqqqqsdsdsdscsdsd " <<std::endl;
-        //  TableroMovido->jugada[0] = casOrigen;
-        // TableroMovido->jugada[1] = casDestino;
+    //  std::cout << "aplicamoviviqqqq " <<std::endl;
+    TableroMovido = new ModeloTablero(miTablero, casOrigen, casDestino);
+    // std::cout << "aplicamoviviqqqqsdsdsdscsdsd " <<std::endl;
+    //  TableroMovido->jugada[0] = casOrigen;
+    // TableroMovido->jugada[1] = casDestino;
 
 
-       if (TableroMovido->turnoN == miTablero.turnoN)
-       {
-            //std::cout << "!!!!!HA EVALUADO UN JAQUE EN EL ARBOL (DESPUES DE MOVER) !!!" << std::endl;
-            delete TableroMovido;
-            // miTablero.casillasInt[casDestino] = fichaNueva;
-            //miTablero.casillasInt[casOrigen] = fichavieja;
-            return NULL;
-
-
-       }
-
-        //miTablero.casillasInt[casDestino] = fichaNueva;
-        //  std::cout << "aplicamoviviqqseeerereqq " <<std::endl;
+    if (TableroMovido->turnoN == miTablero.turnoN)
+    {
+        //std::cout << "!!!!!HA EVALUADO UN JAQUE EN EL ARBOL (DESPUES DE MOVER) !!!" << std::endl;
+        delete TableroMovido;
+        // miTablero.casillasInt[casDestino] = fichaNueva;
         //miTablero.casillasInt[casOrigen] = fichavieja;
-        // std::cout << "aplicamovivisfsfse " <<std::endl;
+        return NULL;
 
 
-        //   TableroMovido->turnoN = !miTablero.turnoN;
-        // miTablero.vectorMov.push_back(TableroMovido);
-        //   std::cout << "!!!!TABLERO AÑADIDO!" << std::endl;
-        //return TableroMovido;
+    }
+
+    //miTablero.casillasInt[casDestino] = fichaNueva;
+    //  std::cout << "aplicamoviviqqseeerereqq " <<std::endl;
+    //miTablero.casillasInt[casOrigen] = fichavieja;
+    // std::cout << "aplicamovivisfsfse " <<std::endl;
+
+
+    //   TableroMovido->turnoN = !miTablero.turnoN;
+    // miTablero.vectorMov.push_back(TableroMovido);
+    //   std::cout << "!!!!TABLERO AÑADIDO!" << std::endl;
+    //return TableroMovido;
 
 
     //DESHACE EL MOVIMIENTO
-   // if (miTablero.alPaso != -1 && miTablero.casillasInt[miTablero.alPaso] == 0)
-   // {
-     //   miTablero.casillasInt[miTablero.alPaso] == 1;
+    // if (miTablero.alPaso != -1 && miTablero.casillasInt[miTablero.alPaso] == 0)
+    // {
+    //   miTablero.casillasInt[miTablero.alPaso] == 1;
 
-   // }
- //   miTablero.casillasInt[casDestino] = fichaNueva;
- //   miTablero.casillasInt[casOrigen] = fichavieja;
+    // }
+    //   miTablero.casillasInt[casDestino] = fichaNueva;
+    //   miTablero.casillasInt[casOrigen] = fichavieja;
 
     return TableroMovido;
     // miTablero.numeroHijos++;

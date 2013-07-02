@@ -5,6 +5,7 @@
 #include <vector>       // std::vector
 #include <iostream>
 #include <string>
+//#include "Autorizaciones.h"
 
 /*
 *
@@ -65,9 +66,9 @@ struct ModeloTablero
 
     // Ficha* fichasNegras[16];
     // Ficha* fichasBlancas[16];
-
-    short valorAtaque;
-    short valorDefensivo;
+    short valorAtaque; //ligado al movimiento, la suma de valores de las fichas implicadas
+    short valorAmenaza; //por si amenaza a una pieza enemiga
+    short valorDefensivo; //por si defiende una pieza amiga
 
 private:
 

@@ -11,7 +11,8 @@ public:
     static ModeloTablero* aplicaMovimiento(ModeloTablero& miTablero);
 
 protected:
-    static bool recorreCasillas(ModeloTablero* miTablero, unsigned char salto);
+    //0: para nada encontrado, 1: para ficha amiga encontrada, 2: para ficha enemiga encontrada
+    static int recorreCasillas(ModeloTablero* miTablero, unsigned char salto);
 
 private:
 
