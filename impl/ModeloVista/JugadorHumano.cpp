@@ -94,6 +94,9 @@ bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)
         modelo->tableroModelo->jugada[0] = 24 + (nodoSeleccionado->getPosicion().Fila * 12) + nodoSeleccionado->getPosicion().Columna + 2;
         modelo->tableroModelo->jugada[1] = 24 + (escena->getTablero()->getCasillaSobrevolada()->getPosicion().Fila * 12) + escena->getTablero()->getCasillaSobrevolada()->getPosicion().Columna + 2;
 
+
+
+
         std::cout << "jug12: " << int(modelo->tableroModelo->jugada[0]) << std::endl;
         std::cout  <<"jug22: "<<int(modelo->tableroModelo->jugada[1]) << std::endl;
 

@@ -490,18 +490,18 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
     // std::cout << "aplicamovivi 1" <<std::endl;
 
     //COME AL PASO
-    if (miTablero.casillasInt[casOrigen] == 1 && miTablero.alPaso == casDestino-12)
-    {
-        miTablero.casillasInt[miTablero.alPaso] = 0;
-    }
+   // if (miTablero.casillasInt[casOrigen] == 1 && miTablero.alPaso == casDestino-12)
+   // {
+   //     miTablero.casillasInt[miTablero.alPaso] = 0;
+  //  }
 
-    int fichavieja = miTablero.casillasInt[casOrigen];
-    int fichaNueva = miTablero.casillasInt[casDestino];
+ // int fichavieja = miTablero.casillasInt[casOrigen];
+  //  int fichaNueva = miTablero.casillasInt[casDestino];
     // std::cout << "aplicamovivi 2" <<std::endl;
 
     //APLICA EL MOVIMIENTO
-    miTablero.casillasInt[casDestino] = fichavieja;
-    miTablero.casillasInt[casOrigen] = 0;
+  //  miTablero.casillasInt[casDestino] = fichavieja;
+   // miTablero.casillasInt[casOrigen] = 0;
     // std::cout << "aplicamovivi 3" <<std::endl;
     //    std::cout << "casOrigen "<<casOrigen <<std::endl;
     //  std::cout << "casDestino "<<casDestino <<std::endl;
@@ -511,16 +511,6 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
 
     //  std::cout << "!!!!APLICAMOVIMIENTTTTT!!" << std::endl;
 
-    if (miTablero.evaluaJaque())
-    {
-        //std::cout << "!!!!!HA EVALUADO UN JAQUE EN EL ARBOL (DESPUES DE MOVER) !!!" << std::endl;
-        // delete TableroMovido;
-        // miTablero.casillasInt[casDestino] = fichaNueva;
-        //miTablero.casillasInt[casOrigen] = fichavieja;
-        // return NULL;
-    }
-    else
-    {
 
         std::cout << "aplicamoviviqqqq " <<std::endl;
         TableroMovido = new ModeloTablero(miTablero, casOrigen, casDestino);
@@ -528,29 +518,21 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
         //  TableroMovido->jugada[0] = casOrigen;
         // TableroMovido->jugada[1] = casDestino;
 
-        //PEON
-        if (miTablero.casillasInt[casOrigen] == 1)
-        {
-            //int filaPromocion = 9;
 
-            //PROMOCION A REINA
-            if ((casDestino)/12 == 9)
-            {
-                // std::cout << "!!!!!!PROMOCION A REINA DEL PEON!!!!!" << std::endl;
-                TableroMovido->casillasInt[143-casDestino] = 5;
-            }
+       if (TableroMovido->turnoN == miTablero.turnoN)
+       {
+            //std::cout << "!!!!!HA EVALUADO UN JAQUE EN EL ARBOL (DESPUES DE MOVER) !!!" << std::endl;
+            delete TableroMovido;
+            // miTablero.casillasInt[casDestino] = fichaNueva;
+            //miTablero.casillasInt[casOrigen] = fichavieja;
+            return NULL;
 
-            //DOBLE SALTO (SE PUEDE CAPTURAR AL PASO)
-            else if (casDestino + casOrigen  == 24)
-            {
-                TableroMovido->alPaso = 143-casDestino;
-                // std::cout << "!!!!!!!!!DOBLE SALTO EN IA!!!!!!:" <<TableroMovido->alPaso <<std::endl;
-            }
-        }
 
-        miTablero.casillasInt[casDestino] = fichaNueva;
+       }
+
+        //miTablero.casillasInt[casDestino] = fichaNueva;
         //  std::cout << "aplicamoviviqqseeerereqq " <<std::endl;
-        miTablero.casillasInt[casOrigen] = fichavieja;
+        //miTablero.casillasInt[casOrigen] = fichavieja;
         // std::cout << "aplicamovivisfsfse " <<std::endl;
 
 
@@ -558,16 +540,16 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
         // miTablero.vectorMov.push_back(TableroMovido);
         //   std::cout << "!!!!TABLERO AÑADIDO!" << std::endl;
         //return TableroMovido;
-    }
+
 
     //DESHACE EL MOVIMIENTO
-    if (miTablero.alPaso != -1 && miTablero.casillasInt[miTablero.alPaso] == 0)
-    {
-        miTablero.casillasInt[miTablero.alPaso] == 1;
+   // if (miTablero.alPaso != -1 && miTablero.casillasInt[miTablero.alPaso] == 0)
+   // {
+     //   miTablero.casillasInt[miTablero.alPaso] == 1;
 
-    }
-    miTablero.casillasInt[casDestino] = fichaNueva;
-    miTablero.casillasInt[casOrigen] = fichavieja;
+   // }
+ //   miTablero.casillasInt[casDestino] = fichaNueva;
+ //   miTablero.casillasInt[casOrigen] = fichavieja;
 
     return TableroMovido;
     // miTablero.numeroHijos++;

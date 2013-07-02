@@ -92,16 +92,14 @@ bool Jugador::aplicaSeleccion()
     {
     case 2:
         escena->muestraVentanaEmergente("Jaque");
-        break;
+        return true;
     case 3:
         escena->muestraVentanaEmergente("JaqueMate");
-        break;
+        return false;
     case 4:
         escena->muestraVentanaEmergente("Tablas");
-        break;
-    default:
+        return false;
+    default: //MOVIMIENTO NORMAL
         return true;
-        //break;
-    }
-    return false;
+    }  
 }

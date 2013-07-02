@@ -40,10 +40,18 @@ int Modelo::autorizaCasilla(tipoFicha tipo)
     //std::cout << "!!!CASILLA SOBREVOLADA!!!!!!!!" << tableroModelo->jugada[1] << std::endl;
     //std::cout << "!!!FICHA EN LA CASILLA SOBREVOLADA!!!!!!!!" << tableroModelo->casillasInt[tableroModelo->jugada[1]] << std::endl;
 
+    if (tableroModelo->turnoN)
+    {
+        tableroModelo->jugada[0] = 143-tableroModelo->jugada[0];
+        tableroModelo->jugada[1] = 143-tableroModelo->jugada[1];
+
+    }
+
     //MIRA SI ES COMESTIBLE (FICHA ENEMIGA)
 
     if(tableroModelo->casillasInt[tableroModelo->jugada[1]] <= 0)
     {
+
         switch (tipo)
         {
         case Rey: //REY SELECCIONADO
@@ -80,53 +88,27 @@ int Modelo::autorizaCasilla(tipoFicha tipo)
             return 0;
             break;
         }
+       // if (tableroModelo->evaluaJaque())
+      //  {  //JAQUE AL REY
+
+
+      //  }
     }
     else return 0;
 }
 
 int Modelo::mueveTablero()
 {
-    char casillasTemp[144];
-
-
-
-
     std::cout << "jugadaElegida[0]  " << int(jugadaElegida[0]) <<std::endl;
     std::cout << "jugadaElegida[1]  " << int(jugadaElegida[1]) <<std::endl;
-
 
     tableroModelo->jugada[0] = jugadaElegida[0];
     tableroModelo->jugada[1] = jugadaElegida[1];
 
     tableroModelo->cambiaTurno();
 
-
-
-
     //tableroModelo->jugada[0] = 143-jugadaElegida[0];
     //tableroModelo->jugada[1] = 143-jugadaElegida[1];
-
-
-    //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
-    for(int i=0; i<144;i++)
-    {
-            //INVIERTE EL SIGNO DE LAS FICHAS Y LA POSICION DE LA FILA
-            if (tableroModelo->casillasInt[i] != 99)
-            {
-                casillasTemp[i] = -tableroModelo->casillasInt[143-i];
-
-            }
-            else casillasTemp[i] = 99;
-    }
-    for(int i=0; i<144;i++)
-    {
-        if (casillasTemp != 0)
-        {
-            tableroModelo->casillasInt[i] = casillasTemp[i];
-        }
-    }
-
-
 
     for(int i=0; i<12;i++)
     {
@@ -143,7 +125,6 @@ int Modelo::mueveTablero()
 
     //   if (turnoNegras)tablero = Calculos::normalizaTablero(tablero);
     Jaque = tableroModelo->evaluaJaque();  //JAQUE AL REY
-
 
     std::cout << "!!!!!!pasa! " << std::endl;
 
