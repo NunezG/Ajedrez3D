@@ -10,7 +10,7 @@ public:
 
 private:
     static short CalculatePieceActionValue(int pieceType);
-    static int evaluaTablero(char casillasInt[144], int valorAtaque);
+    static int evaluaTablero(ModeloTablero* tablero);
     static short valorFicha(const tipoFicha tipo);
 };
 

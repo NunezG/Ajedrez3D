@@ -53,7 +53,7 @@ bool JugadorArtificial::construyeArbol()
     std::cout << "TABLERO EN ALFABETA" << std::endl;
 
 
-    int resultado = ArbolBusqueda::alphaBeta(modelo->tableroModelo,-70000, 70000, 5);
+    int resultado = ArbolBusqueda::alphaBeta(modelo->tableroModelo,-70000, 70000, 3);
 
 
 

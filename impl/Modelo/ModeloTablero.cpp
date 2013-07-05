@@ -9,6 +9,7 @@ ModeloTablero::ModeloTablero() :
     alPaso(0),
     nodoInicial(true)
   ,valorAtaque(0)
+  , valorDefensivo(0)
 {
     // jugada = new unsigned char[2];
     jugada[0] = 0;
@@ -26,6 +27,8 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
   , alPaso(original.alPaso)
   , nodoInicial(false)
   ,valorAtaque(0)
+  , valorDefensivo(0)
+ // ,casillasProtegidas(original.casillasProtegidas)
 
 {
     jugada[0] = original.jugada[0];
@@ -54,13 +57,74 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
 
 
 
+
+    //cuanto menor sea el valor, mejor
+    if (casillasInt[jugada[1]] == 0) valorAtaque = 0;
+    else valorAtaque = casillasInt[jugada[0]] + casillasInt[jugada[1]];
+
+    // PARA valorAmenaza y defensivo habra que examinar todos los posibles movimientos futuros de la ficha....
+    // bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo) ????????????????
+   //   std::cout << "!!FICHA A MOVER:!"<<int(casillasInt[jugada[0]]) << std::endl;
+    //  std::cout << "!!FICHA A MOVER:!"<<int(jugada[0]) << std::endl;
+
+    //std::cout << "!!FICHA A COMER:!"<<int(casillasInt[jugada[1]]) << std::endl;
+    //std::cout << "!!casillasProtegidas:!"<<int(casillasProtegidas[casillasInt[jugada[0]]]) << std::endl;
+
+    //  if (casillasInt[jugada[1]] > 0)
+    // {
+    std::vector<unsigned char*> temp = original.casillasProtegidas;
+    for (std::vector<unsigned char*>::iterator it = temp.begin(); it!=temp.end(); it++)
+    {
+        unsigned char* jugada = *it;
+
+       // std::cout << "for "<< int(*it[0]) <<std::endl;
+        if (jugada[0] == jugada[0])
+        {
+
+
+         //   std::cout << "if"<< int(*it[1])<<std::endl;
+
+            if (jugada[1] > casillasInt[jugada[0]])
+            {
+                //   [i];
+            //      std::cout << "aplica"<< std::endl;
+                valorDefensivo = valorDefensivo + 10;
+            }
+            else if (jugada[1] < casillasInt[jugada[0]])
+            {
+                //   [i];
+               //   std::cout << "aplica2"<< std::endl;
+                valorDefensivo = valorDefensivo - 10;
+            }
+            // std::cout << "titi"<< std::endl;
+
+        }
+
+
+
+    }
+
+
+
+
+    //  }
+
+
+
+
+
+
+
+
+
+
     cambiaTurno();
     // jugada = new unsigned char[2];
 }
 
 ModeloTablero::~ModeloTablero()
 {
-    //std::cout << "deletein"<< std::endl;
+    std::cout << "deletein"<< std::endl;
 
     if (!vectorJugadas.empty())
     {
@@ -76,9 +140,24 @@ ModeloTablero::~ModeloTablero()
         vectorJugadas.clear();
     }
 
+    std::cout << "deletemedio"<< std::endl;
+
+    if (!casillasProtegidas.empty())
+    {
+        for(int i = 0; i < casillasProtegidas.size(); i++)
+        {
+            if (casillasProtegidas.at(i) != NULL)
+            {
+                delete casillasProtegidas.at(i);
+                casillasProtegidas.at(i) = NULL;
+            }
+        }
+        //  numeroHijos=0;
+        casillasProtegidas.clear();
+    }
     //delete jugada;
     //jugada = NULL;
-    //std::cout << "deleteout"<< std::endl;
+    std::cout << "deleteout"<< std::endl;
 
 }
 
@@ -111,17 +190,10 @@ bool ModeloTablero::cambiaTurno()
             // std::cout << "!!!!!!!!!DOBLE SALTO EN IA!!!!!!:" <<TableroMovido->alPaso <<std::endl;
         }
     }
-
-    //cuanto menor sea el valor, mejor
-    if (casillasInt[jugada[1]] == 0) valorAtaque = 0;
-    else valorAtaque = casillasInt[jugada[0]] + casillasInt[jugada[1]];
-
-    // PARA valorAmenaza y defensivo habra que examinar todos los posibles movimientos futuros de la ficha....
-    // bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo) ????????????????
+   // std::cout << "!!ELNU222222!" << std::endl;
 
 
-
-
+  //  std::cout << "fin"<< std::endl;
 
     //std::cout << "jugada[0]  " << int(jugada[0]) << std::endl;
     // std::cout << "jugada[1]  " << int(jugada[1]) << std::endl;
@@ -129,7 +201,7 @@ bool ModeloTablero::cambiaTurno()
     // MUEVE
     casillasInt[jugada[1]]= casillasInt[jugada[0]];
     casillasInt[jugada[0]] = 0;
-
+    //  std::cout << "evalua"<< std::endl;
 
     //EVALUA JAQUE PARA EL TURNO PADRE, (SI HAY JAQUE SERÁ ELIMINADO)
     if (!evaluaJaque())
@@ -139,19 +211,12 @@ bool ModeloTablero::cambiaTurno()
         // miTablero.casillasInt[casDestino] = fichaNueva;
         //miTablero.casillasInt[casOrigen] = fichavieja;
         // return NULL;
-
         // std::cout << "cambiaTurno  " <<std::endl;
         // std::cout << "jugadaElegida  " << jugadaElegida << std::endl;
-
-
         //std::cout << "casillasInt  " << int(casillasInt) << std::endl;
-
         //std::cout << "turnoN ant " <<turnoN <<std::endl;
 
-
-
         /*
-
         for (int i= 0; i < vectorJugadas.size(); i++)
         {
             delete vectorJugadas.at(i);
@@ -181,34 +246,14 @@ bool ModeloTablero::cambiaTurno()
             {
                 //SI LA FICHA COMIDA
                casillasInt[jugada[1]]
-
-
             }
-
-
-
-
-
         }
-
-
         for (int i= 0; i < vectorJugadas.size(); i++)
         {
             delete vectorJugadas.at(i);
         }
         vectorJugadas.clear();
        */
-
-
-
-
-
-
-
-
-
-
-
 
         turnoN = !turnoN;
 
@@ -237,6 +282,8 @@ bool ModeloTablero::cambiaTurno()
         //jugadaElegida = -1;
         jugada[0] = 0;
         jugada[1] = 0;
+        //    std::cout << "FIN"<< std::endl;
+
     }
 }
 

@@ -58,6 +58,11 @@ struct ModeloTablero
     std::vector<unsigned char*> vectorJugadas;
     //std::vector<unsigned char[]> vectorJugadas2;
 
+    int numCasillasProtegidas;
+
+
+    //HACER EN LISTA O VECTOR PARA QUE HAYA TAMAÑO??
+    std::vector<unsigned char*> casillasProtegidas;
     char casillasInt[144];
     unsigned char jugada[2];
     unsigned char alPaso;

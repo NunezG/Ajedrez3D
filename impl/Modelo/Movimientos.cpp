@@ -1,7 +1,5 @@
 #include "../../headers/Modelo/Movimientos.h"
 
-
-
 bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
 {
     // ModeloTablero nuevoTablero;
@@ -11,11 +9,6 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
     //HAY QUE ORDENAR LA LISTA
 
-
-
-
-
-
     /*
     int rey = 6;
     int reina = 5;
@@ -24,19 +17,16 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
     int caballo = 2;
     int peon = 1;
 */
-
     //for(int i=0; i<12;i++)
     //  {
     //    std::cout << int(miTablero->casillasInt[(i*12)])<<"    "  << int(miTablero->casillasInt[(i*12)+1])<<"    " << int(miTablero->casillasInt[(i*12)+2])<<"    "<<int(miTablero->casillasInt[(i*12)+3])<<"    "<<int(miTablero->casillasInt[(i*12)+4])<<"    "<<int(miTablero->casillasInt[(i*12)+5])<<"    "<<int(miTablero->casillasInt[(i*12)+6])<<"    "<<int(miTablero->casillasInt[(i*12)+7]) <<"    " <<int(miTablero->casillasInt[(i*12)+8])<<"    " << int(miTablero->casillasInt[(i*12)+9])<<"    " << int(miTablero->casillasInt[(i*12)+10])<<"    " << int(miTablero->casillasInt[(i*12)+11])<<"    " << std::endl;
     // }
     //  std::cout << "TABLERO EN MOVVII" << std::endl;
-
-
-
     bool fichamovida = false;
 
     //CADA VEZ QUE ENCUENTRA UNA FICHA DEVUELVE SUS MOVIMIENTOS Y ANTES DE BUSCAR OTRA SE BORRAN, ASI SE AHORRA MEMORIA
 
+ //   std::cout << "!!!!generaMovimientos "<<std::endl;
 
     for (int y= 1; y<7; y++)
     {
@@ -48,7 +38,7 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
             if (valorCasilla == y)
             {
-               // std::cout << "FOR  DE GENERA MOOVV "<< i<<" FICHA: " << y<<std::endl;
+                // std::cout << "FOR  DE GENERA MOOVV "<< i<<" FICHA: " << y<<std::endl;
 
                 // std::cout << "!!!ENCUENTRA FICHA EN: " <<  i << " CON LA FICHA: "<<int(miTablero->casillasInt[i])<< "DEVERDAD: "<< miTablero->casillasInt[i]<<std::endl;
                 // std::cout << "!!!TRADUCIDO: FILA: " <<  ((i/12)-2) + 1 << " Y COLUMNA: " << ((i%12)-2) + 1<< std::endl;
@@ -64,9 +54,7 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
         }
 
     }
-
-
-
+ //   std::cout << "!!!!FINGENERACION "<<std::endl;
 
     // std::cout << "!!!!!!!!RETORNO!!!!!!!!   " <<std::endl;
     // std::cout << "!!!!!JAQUE MATE O AHOGADO AL FINAL DE MOVIMIENTOS!!!   " <<std::endl;
@@ -125,10 +113,10 @@ bool Movimientos::pruebaJaqueMate(ModeloTablero* miTablero)
     //  std::cout << "generamov"<< std::endl;
 }
 
-bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
+int Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
 {
 
-    bool fichamovida = false;
+    // bool fichamovida = false;
 
     switch (tipo)
     {
@@ -136,7 +124,7 @@ bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
         //ENCUENTRA REY
         //  std::cout << "!!!!!!!!!REY!!!!!!!!   " <<std::endl;
 
-        fichamovida = mueveRey(miTablero);
+        return mueveRey(miTablero);
 
         break;
 
@@ -145,7 +133,7 @@ bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
 
         //ENCUENTRA REINA
 
-        fichamovida = mueveReina(miTablero);
+        return mueveReina(miTablero);
 
         //  std::cout << "!!!!!!!!!HA MOVIDO LA REINA!!!!!!!!!!   " <<std::endl;
 
@@ -155,7 +143,7 @@ bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
         // std::cout << "!!!!!!!!!TORRE!!!!!!!!!   " <<std::endl;
         //ENCUENTRA TORRE
 
-        fichamovida = mueveTorre(miTablero);
+        return mueveTorre(miTablero);
 
         // std::cout << "!!!!!!!!!HA MOVIDO LA TORRE!!!!!!!!!!   " <<std::endl;
 
@@ -165,7 +153,7 @@ bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
         //std::cout << "!!!!!!!!!ALFIL!!!!!!!!   " testJaque<<std::endl;
         //ENCUENTRA ALFIL
 
-        fichamovida = mueveAlfil(miTablero);
+        return mueveAlfil(miTablero);
 
         //   std::cout << "!!!!!!!!!HA MOVIDO EL ALFIL!!!!!!!!!!   " <<std::endl;
 
@@ -175,7 +163,7 @@ bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
 
         //  std::cout << "!!!!!!!!!CABALLO!!!!!!!!!!   " <<std::endl;
         //ENCUENTRA CABALLO
-        fichamovida = mueveCaballo(miTablero);
+        return mueveCaballo(miTablero);
 
         // std::cout << "!!!!!!!!!HA MOVIDO EL CABALLO!!!!!!!!!!   " <<std::endl;
 
@@ -185,7 +173,7 @@ bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
         //  std::cout << "!!!!!!!!!!!!!!!!!!PEON!!!!!!!!!!!!!!!!!! "<< std::endl;
         //ENCUENTRA PEON
 
-        fichamovida = muevePeon(miTablero);
+        return muevePeon(miTablero);
 
         //  std::cout << "!!!!!!!!!HA MOVIDO EL PEON!!!!!!!!!!   " <<std::endl;
 
@@ -197,7 +185,7 @@ bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo)
 }
 
 //HABRA QUE REALIZAR TODOS LOS MOVIMIENTOS CON LA TABLA ACTUAL Y PONERLOS EN UN ARBOL? HACERLO RECURSIVO?
-bool Movimientos::mueveReina(ModeloTablero* miTablero)
+int Movimientos::mueveReina(ModeloTablero* miTablero)
 {
     bool torre = mueveTorre(miTablero);
     bool alfil = mueveAlfil(miTablero);
@@ -212,14 +200,15 @@ bool Movimientos::mueveReina(ModeloTablero* miTablero)
 
 }
 
-bool Movimientos::muevePeon(ModeloTablero* miTablero)
+int Movimientos::muevePeon(ModeloTablero* miTablero)
 {
+
     unsigned char casilla  = miTablero->jugada[0];
     unsigned char nuevaCasilla = casilla+12;
     int casillaCome = casilla+11;
     int casillaComeSec = casilla+13;
     int salto = casilla+24;
-    int filaPeon = 3;
+    // int filaPeon = 3;
     //int filaPromocion = 9;
     //   std::cout << "!!!!!!!!!!!MIRA EN: "<<nuevaCasilla << std::endl;
     //std::cout << "!!!!!!!!!!!ENCUENTRA: "<<TableroMovido->casillasInt[nuevaCasilla] << std::endl;
@@ -227,38 +216,60 @@ bool Movimientos::muevePeon(ModeloTablero* miTablero)
     //MOVIMIENTO NORMAL
     if(miTablero->casillasInt[nuevaCasilla] == 0)
     {
-        miTablero->jugada[0] = casilla;
+       // miTablero->jugada[0] = casilla;
         miTablero->jugada[1] = nuevaCasilla;
         nuevoMovimiento(miTablero);
     }
 
     //DOBLE SALTO
-    if(casilla/12 == filaPeon && miTablero->casillasInt[salto] == 0)
+    if(casilla/12 == 3 && miTablero->casillasInt[nuevaCasilla] == 0 && miTablero->casillasInt[salto] == 0)
     {
-        miTablero->jugada[0] = casilla;
+      // miTablero->jugada[0] = casilla;
         miTablero->jugada[1] = salto;
         nuevoMovimiento(miTablero);
     }
 
+    int numProtegidas = 0;
+
     //COME ENEMIGA
     if (miTablero->casillasInt[casillaCome] < 0)
     {
-        miTablero->jugada[0] = casilla;
+       // miTablero->jugada[0] = casilla;
         miTablero->jugada[1] = casillaCome;
         nuevoMovimiento(miTablero);
         //miTablero->casillasInt[casilla] = 1;
+    }
+    else if (miTablero->casillasInt[casillaCome] > 0)
+    {
+          //std::cout << "COME ENEMIGA: "<< int(miTablero->jugada[0])<<std::endl;
+          unsigned char* protege = new unsigned char[2];
+          protege[0] = miTablero->jugada[0];
+          protege[1] = miTablero->casillasInt[casillaCome];
+      //    miTablero->casillasProtegidas =
+        miTablero->casillasProtegidas.push_back(protege);
+        numProtegidas++;
+
     }
 
     //COME ENEMIGA 2
     if (miTablero->casillasInt[casillaComeSec] < 0)
     {
         //  std::cout << "NEGRAS COME 2"<< std::endl;
-        miTablero->jugada[0] = casilla;
+       // miTablero->jugada[0] = casilla;
         miTablero->jugada[1] = casillaComeSec;
         nuevoMovimiento(miTablero);
         // miTablero->casillasInt[casilla] = 1;
 
+    }else if (miTablero->casillasInt[casillaComeSec] > 0)
+    {
+        unsigned char* protege = new unsigned char[2];
+        protege[0] = miTablero->jugada[0];
+        protege[1] = miTablero->casillasInt[casillaComeSec];
+    //    miTablero->casillasProtegidas =
+      miTablero->casillasProtegidas.push_back(protege);
+        numProtegidas++;
     }
+
     //COME AL PASO PEON ENEMIGO (DERECHA)
     if(miTablero->alPaso == casilla+1 && miTablero->casillasInt[casillaCome] == 0)
     {
@@ -273,7 +284,7 @@ bool Movimientos::muevePeon(ModeloTablero* miTablero)
             miTablero->casillasInt[miTablero->alPaso] = 0;
             //casillas[1] = 0;
 
-            miTablero->jugada[0] = casilla;
+          //  miTablero->jugada[0] = casilla;
             miTablero->jugada[1] = casillaCome;
             nuevoMovimiento(miTablero);
 
@@ -295,13 +306,14 @@ bool Movimientos::muevePeon(ModeloTablero* miTablero)
             miTablero->casillasInt[miTablero->alPaso] = 0;
             //casillas[1] = 0;
 
-            miTablero->jugada[0] = casilla;
+          //  miTablero->jugada[0] = casilla;
             miTablero->jugada[1] = casillaComeSec;
             nuevoMovimiento(miTablero);
 
             miTablero->casillasInt[miTablero->alPaso] = -1;
         }
     }
+
 
     // if (testJaque) return false;
     // std::cout << "!!!!FIN!!!!!!!!!!!!!!!: "  <<std::endl;
@@ -313,8 +325,9 @@ bool Movimientos::muevePeon(ModeloTablero* miTablero)
     //  }
 }
 
-bool Movimientos::mueveTorre(ModeloTablero* miTablero)
+int Movimientos::mueveTorre(ModeloTablero* miTablero)
 {
+
     //mueve a todas las casillas posibles
     //mira si esta ocupada
     recorreCasillas(miTablero, -1);
@@ -324,9 +337,10 @@ bool Movimientos::mueveTorre(ModeloTablero* miTablero)
     recorreCasillas(miTablero, -12);
 
     recorreCasillas(miTablero, +12);
+
 }
 
-bool Movimientos::mueveAlfil(ModeloTablero* miTablero)
+int Movimientos::mueveAlfil(ModeloTablero* miTablero)
 {
     recorreCasillas(miTablero, -13);
 
@@ -338,71 +352,74 @@ bool Movimientos::mueveAlfil(ModeloTablero* miTablero)
 }
 
 int Movimientos::recorreCasillas(ModeloTablero* miTablero, unsigned char salto)
-
 {
     unsigned char nuevaCasilla = miTablero->jugada[0]+salto;
     // pasa = true;
-    while(miTablero->casillasInt[nuevaCasilla] <= 0)
+    while(miTablero->casillasInt[nuevaCasilla] == 0)
     {
         //  std::cout << "AGREGA CASILLA "<< int(nuevaCasilla)<< std::endl;
-
         miTablero->jugada[1] = nuevaCasilla;
         nuevoMovimiento(miTablero);
-        if(miTablero->casillasInt[nuevaCasilla] != 0)
-        {
-            break;
-        }
         nuevaCasilla = nuevaCasilla+salto;
-
     }
-    return true;
+
+    if(miTablero->casillasInt[nuevaCasilla] < 0)
+    {     //encuentra ficha  enemiga
+        miTablero->jugada[1] = nuevaCasilla;
+        nuevoMovimiento(miTablero);
+        return 1;
+    }
+    else if(miTablero->casillasInt[nuevaCasilla] == 99)
+    {     //llega al final del tablero (99)
+        return 0;
+    }
+    //NO PONER NEGATIVO?? HACER EN LISTA O VECTOR PARA QUE HAYA TAMAÑO??
+    //encuentra ficha  amiga
+    miTablero->jugada[1] = nuevaCasilla;
+
+    unsigned char* protege = new unsigned char[2];
+    protege[0] = miTablero->jugada[0];
+    protege[1] = miTablero->casillasInt[nuevaCasilla];
+//    miTablero->casillasProtegidas =
+  miTablero->casillasProtegidas.push_back(protege);
+
+  // miTablero->numCasillasProtegidas++;
+    return 2;
 }
 
-bool Movimientos::mueveCaballo(ModeloTablero* miTablero)
+int Movimientos::mueveCaballo(ModeloTablero* miTablero)
 {
-    unsigned char casilla  = miTablero->jugada[0] ;
-
-    miTablero->jugada[1] = casilla-25;
-    nuevoMovimiento(miTablero);
+    unsigned char casilla  = miTablero->jugada[0];
 
 
-    miTablero->jugada[1] = casilla-23;
-    nuevoMovimiento(miTablero);
+    char movimientos[8] = {-25, 25, -23, 23, -14, 14, -10, 10};
 
+    for (int i = 0; i < 8; i++)
+    {
+        if (miTablero->casillasInt[casilla+movimientos[i]] <= 0)
+        {
+            miTablero->jugada[1] = casilla+movimientos[i];
+            nuevoMovimiento(miTablero);
+        }else if (miTablero->casillasInt[casilla+movimientos[i]] > 0)
+        {
+            unsigned char* protege = new unsigned char[2];
+            protege[0] = miTablero->jugada[0];
+            protege[1] = miTablero->casillasInt[casilla+movimientos[i]];
+        //    miTablero->casillasProtegidas =
+          miTablero->casillasProtegidas.push_back(protege);
 
-    miTablero->jugada[1] = casilla+25;
-    nuevoMovimiento(miTablero);
-
-
-    miTablero->jugada[1] = casilla+23;
-    nuevoMovimiento(miTablero);
-
-
-    miTablero->jugada[1] = casilla-10;
-    nuevoMovimiento(miTablero);
-
-
-    miTablero->jugada[1] = casilla-14;
-    nuevoMovimiento(miTablero);
-
-
-    miTablero->jugada[1] = casilla+10;
-    nuevoMovimiento(miTablero);
-
-
-    miTablero->jugada[1] = casilla+14;
-    nuevoMovimiento(miTablero);
-
+        }
+    }
 
     // else return true;
 }
 
-bool Movimientos::mueveRey(ModeloTablero* miTablero)
+int Movimientos::mueveRey(ModeloTablero* miTablero)
 {
     unsigned char casilla  = miTablero->jugada[0] ;
 
     // std::cout << "MUEVE REY"<< miTablero->turnoN<< std::endl;
-    // unsigned char nuevaCasilla;
+    // unsigned char nuevaCasilla;blero->casillasProtegidas[miTablero->casill
     //   bool pasa = false;
     char filaRey = 2;
 
@@ -419,7 +436,6 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero)
             miTablero->jugada[1]  = casilla+2;
 
             nuevoMovimiento(miTablero);
-
 
             miTablero->casillasInt[casilla+3] = 4;
             miTablero->casillasInt[casilla+1] = 0;
@@ -442,51 +458,38 @@ bool Movimientos::mueveRey(ModeloTablero* miTablero)
         }
     }
 
-    //IZQUIERDA
-    miTablero->jugada[1] = casilla-1;
-    nuevoMovimiento(miTablero);
+    char movimientos[8] = {-1, 1, -12, 12, -13, 13, -11, 11};
 
-    //DERECHA
-    miTablero->jugada[1] = casilla+1;
-    nuevoMovimiento(miTablero);
+    for (int i = 0; i < 8; i++)
+    {
+        if (miTablero->casillasInt[casilla+movimientos[i]] <= 0)
+        {
+            miTablero->jugada[1] = casilla+movimientos[i];
+            nuevoMovimiento(miTablero);
+        }else if (miTablero->casillasInt[casilla+movimientos[i]] > 0)
+        {
+            unsigned char* protege = new unsigned char[2];
+            protege[0] = miTablero->jugada[0];
+            protege[1] = miTablero->casillasInt[casilla+movimientos[i]];
+        //    miTablero->casillasProtegidas =
+          miTablero->casillasProtegidas.push_back(protege);
 
-    //ATRAS
-    miTablero->jugada[1] = casilla-12;
-    nuevoMovimiento(miTablero);
+            //miTablero->casillasProtegidas[miTablero->casillasInt[miTablero->jugada[0]]][miTablero->casillasInt[casilla+movimientos[i]]] = miTablero->casillasInt[casilla+movimientos[i]];
 
-    //ADELANTE
-    miTablero->jugada[1] = casilla+12;
-    nuevoMovimiento(miTablero);
-
-    //NE
-    miTablero->jugada[1] = casilla+13;
-    nuevoMovimiento(miTablero);
-
-    //NO
-    miTablero->jugada[1] = casilla+11;
-    nuevoMovimiento(miTablero);
-
-    //SO
-    miTablero->jugada[1] = casilla-13;
-    nuevoMovimiento(miTablero);
-
-    //SE
-    miTablero->jugada[1] = casilla-11;
-    nuevoMovimiento(miTablero);
-
+        }
+    }
 }
 
 ModeloTablero* Movimientos::nuevoMovimiento(ModeloTablero *miTablero)
 {
-    if (miTablero->casillasInt[miTablero->jugada[1]] <= 0)
-    {
-        // std::cout << "AGREGADO "<< int(miTablero->jugada[0])<<" /  "<<int(miTablero->jugada[1])<< std::endl;
 
-        unsigned char* jugada = new unsigned char[2];
-        jugada[0] = miTablero->jugada[0];
-        jugada[1] = miTablero->jugada[1];
-        miTablero->vectorJugadas.push_back(jugada);
-    }
+    // std::cout << "AGREGADO "<< int(miTablero->jugada[0])<<" /  "<<int(miTablero->jugada[1])<< std::endl;
+
+    unsigned char* jugada = new unsigned char[2];
+    jugada[0] = miTablero->jugada[0];
+    jugada[1] = miTablero->jugada[1];
+    miTablero->vectorJugadas.push_back(jugada);
+
 }
 
 ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
@@ -524,7 +527,7 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
     // std::cout << "fichaDestino "<<fichaDestino <<std::endl;
     //  TableroMovido->turnoN = !TableroMovido->turnoN;
 
-    //  std::cout << "!!!!APLICAMOVIMIENTTTTT!!" << std::endl;
+    // std::cout << "!!!!APLICAMOVIMIE11111!" << std::endl;
 
 
     //  std::cout << "aplicamoviviqqqq " <<std::endl;
@@ -533,6 +536,7 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
     //  TableroMovido->jugada[0] = casOrigen;
     // TableroMovido->jugada[1] = casDestino;
 
+  // std::cout << "!!!!APLICAMOVIMIENTTTTT!!" << std::endl;
 
     if (TableroMovido->turnoN == miTablero.turnoN)
     {
@@ -556,6 +560,7 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
     //   std::cout << "!!!!TABLERO AÑADIDO!" << std::endl;
     //return TableroMovido;
 
+    //std::cout << "!!!!return TableroMovido;!!" << std::endl;
 
     //DESHACE EL MOVIMIENTO
     // if (miTablero.alPaso != -1 && miTablero.casillasInt[miTablero.alPaso] == 0)
@@ -565,7 +570,6 @@ ModeloTablero* Movimientos::aplicaMovimiento(ModeloTablero &miTablero)
     // }
     //   miTablero.casillasInt[casDestino] = fichaNueva;
     //   miTablero.casillasInt[casOrigen] = fichavieja;
-
     return TableroMovido;
     // miTablero.numeroHijos++;
     //REVIERTE EL MOVIMIENTO
