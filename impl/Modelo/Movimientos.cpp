@@ -28,7 +28,7 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
 
  //   std::cout << "!!!!generaMovimientos "<<std::endl;
 
-    for (int y= 1; y<7; y++)
+    for (int y= 1; y<2; y++)
     {
         for (int i = 26; i< 118;i++)
         {

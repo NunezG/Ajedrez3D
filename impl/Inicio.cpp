@@ -17,7 +17,11 @@ int main(int argc, char *argv[])
 {
     try
     {
-        Ventana* punteroVentana= new Ventana();
+            std::ofstream out("/home/guillermo/Documentos/OOOOout.txt");
+    std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+   // freopen
+
+    Ventana* punteroVentana= new Ventana();
         punteroVentana->go();
 
         delete punteroVentana;

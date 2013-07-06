@@ -28,7 +28,7 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
   , nodoInicial(false)
   ,valorAtaque(0)
   , valorDefensivo(0)
- // ,casillasProtegidas(original.casillasProtegidas)
+  // ,casillasProtegidas(original.casillasProtegidas)
 
 {
     jugada[0] = original.jugada[0];
@@ -64,7 +64,7 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
 
     // PARA valorAmenaza y defensivo habra que examinar todos los posibles movimientos futuros de la ficha....
     // bool Movimientos::mueveFicha(ModeloTablero* miTablero, char tipo) ????????????????
-   //   std::cout << "!!FICHA A MOVER:!"<<int(casillasInt[jugada[0]]) << std::endl;
+    //   std::cout << "!!FICHA A MOVER:!"<<int(casillasInt[jugada[0]]) << std::endl;
     //  std::cout << "!!FICHA A MOVER:!"<<int(jugada[0]) << std::endl;
 
     //std::cout << "!!FICHA A COMER:!"<<int(casillasInt[jugada[1]]) << std::endl;
@@ -77,23 +77,23 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
     {
         unsigned char* jugada = *it;
 
-       // std::cout << "for "<< int(*it[0]) <<std::endl;
+        // std::cout << "for "<< int(*it[0]) <<std::endl;
         if (jugada[0] == jugada[0])
         {
 
 
-         //   std::cout << "if"<< int(*it[1])<<std::endl;
+            //   std::cout << "if"<< int(*it[1])<<std::endl;
 
             if (jugada[1] > casillasInt[jugada[0]])
             {
                 //   [i];
-            //      std::cout << "aplica"<< std::endl;
+                //      std::cout << "aplica"<< std::endl;
                 valorDefensivo = valorDefensivo + 10;
             }
             else if (jugada[1] < casillasInt[jugada[0]])
             {
                 //   [i];
-               //   std::cout << "aplica2"<< std::endl;
+                //   std::cout << "aplica2"<< std::endl;
                 valorDefensivo = valorDefensivo - 10;
             }
             // std::cout << "titi"<< std::endl;
@@ -163,7 +163,7 @@ ModeloTablero::~ModeloTablero()
 
 
 bool ModeloTablero::cambiaTurno()
-{ 
+{
     //PEON
     if (casillasInt[jugada[0]] == 1)
     {
@@ -190,10 +190,10 @@ bool ModeloTablero::cambiaTurno()
             // std::cout << "!!!!!!!!!DOBLE SALTO EN IA!!!!!!:" <<TableroMovido->alPaso <<std::endl;
         }
     }
-   // std::cout << "!!ELNU222222!" << std::endl;
+    // std::cout << "!!ELNU222222!" << std::endl;
 
 
-  //  std::cout << "fin"<< std::endl;
+    //  std::cout << "fin"<< std::endl;
 
     //std::cout << "jugada[0]  " << int(jugada[0]) << std::endl;
     // std::cout << "jugada[1]  " << int(jugada[1]) << std::endl;
@@ -258,26 +258,50 @@ bool ModeloTablero::cambiaTurno()
         turnoN = !turnoN;
 
         //std::cout << "turnoN desp " <<turnoN <<std::endl;
+        std::cout << "TABLERO ANTES DE CAMBIO DE TURNO" << std::endl;
 
+        std::cout << "TABLERO EN CAMBIO DE TURNO" << std::endl;
+
+        for(int i=0; i<12;i++)
+        {
+            std::cout << int(casillasInt[(i*12)])<<"    "  << int(casillasInt[(i*12)+1])<<"    " << int(casillasInt[(i*12)+2])<<"    "<<int(casillasInt[(i*12)+3])<<"    "<<int(casillasInt[(i*12)+4])<<"    "<<int(casillasInt[(i*12)+5])<<"    "<<int(casillasInt[(i*12)+6])<<"    "<<int(casillasInt[(i*12)+7]) <<"    " <<int(casillasInt[(i*12)+8])<<"    " << int(casillasInt[(i*12)+9])<<"    " << int(casillasInt[(i*12)+10])<<"    " << int(casillasInt[(i*12)+11])<<"    " << std::endl;
+        }
         char casillasTemp[144];
         //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
-        for(int i=0; i<144;i++)
+        for(int y=0; y<12;y++)
         {
-            //INVIERTE EL SIGNO DE LAS FICHAS Y LA POSICION DE LA FILA
-            if (casillasInt[i] != 99)
+            for(int i=0; i<12;i = i++)
             {
-                casillasTemp[i] = -casillasInt[143-i];
+                //INVIERTE EL SIGNO DE LAS FICHAS Y LA POSICION DE LA FILA
+                if (casillasInt[(i*12)+y] != 99)
+                {
+                    casillasTemp[((11-i)*12)+y] = -casillasInt[(i*12)+y];
 
+                }
+                else casillasTemp[(i*12)+y] = 99;
             }
-            else casillasTemp[i] = 99;
+
         }
+
+        std::cout << "TABLERO AAL OPIAR" << std::endl;
+
         for(int i=0; i<144;i++)
         {
-            if (casillasTemp != 0)
-            {
-                casillasInt[i] = casillasTemp[i];
-            }
+            casillasInt[i] = casillasTemp[i];
         }
+
+
+
+        std::cout << "TABLERO EN CAMBIO DE TURNO" << std::endl;
+
+        for(int i=0; i<12;i++)
+        {
+            std::cout << int(casillasInt[(i*12)])<<"    "  << int(casillasInt[(i*12)+1])<<"    " << int(casillasInt[(i*12)+2])<<"    "<<int(casillasInt[(i*12)+3])<<"    "<<int(casillasInt[(i*12)+4])<<"    "<<int(casillasInt[(i*12)+5])<<"    "<<int(casillasInt[(i*12)+6])<<"    "<<int(casillasInt[(i*12)+7]) <<"    " <<int(casillasInt[(i*12)+8])<<"    " << int(casillasInt[(i*12)+9])<<"    " << int(casillasInt[(i*12)+10])<<"    " << int(casillasInt[(i*12)+11])<<"    " << std::endl;
+        }
+
+
+
+
 
         //jugadaElegida = -1;
         jugada[0] = 0;
