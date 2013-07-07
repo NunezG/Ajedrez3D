@@ -29,6 +29,8 @@ public:
     void creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla, Ogre::uint32 mask);
     int tipo_Ficha;
     bool esNegra;
+    void apaga();
+    void ilumina();
 
 protected:
     Ficha(std::string nombre, int tipo);

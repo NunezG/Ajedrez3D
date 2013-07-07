@@ -124,7 +124,7 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
 
 ModeloTablero::~ModeloTablero()
 {
-    std::cout << "deletein"<< std::endl;
+   // std::cout << "deletein"<< std::endl;
 
     if (!vectorJugadas.empty())
     {
@@ -140,7 +140,7 @@ ModeloTablero::~ModeloTablero()
         vectorJugadas.clear();
     }
 
-    std::cout << "deletemedio"<< std::endl;
+   // std::cout << "deletemedio"<< std::endl;
 
     if (!casillasProtegidas.empty())
     {
@@ -157,7 +157,7 @@ ModeloTablero::~ModeloTablero()
     }
     //delete jugada;
     //jugada = NULL;
-    std::cout << "deleteout"<< std::endl;
+   // std::cout << "deleteout"<< std::endl;
 
 }
 
@@ -184,7 +184,7 @@ bool ModeloTablero::cambiaTurno()
         }
 
         //DOBLE SALTO (LO MARCA PARA CAPTURAR AL PASO)
-        else if (jugada[1] + jugada[0]  == 24)
+        else if (jugada[1] - jugada[0]  == 24)
         {
             alPaso = 143-jugada[1];
             // std::cout << "!!!!!!!!!DOBLE SALTO EN IA!!!!!!:" <<TableroMovido->alPaso <<std::endl;
@@ -197,6 +197,14 @@ bool ModeloTablero::cambiaTurno()
 
     //std::cout << "jugada[0]  " << int(jugada[0]) << std::endl;
     // std::cout << "jugada[1]  " << int(jugada[1]) << std::endl;
+
+   // std::cout << "TABLERO ANTES DE CAMBIO DE TURNO" << std::endl;
+
+    //for(int i=12; i>0;i--)
+    //{
+      //  std::cout << int(casillasInt[(i*12)-12])<<"    "  << int(143-casillasInt[(i*12)-11])<<"    " << int(casillasInt[(i*12)-10])<<"    "<<int(casillasInt[(i*12)-9])<<"    "<<int(casillasInt[(i*12)-8])<<"    "<<int(casillasInt[(i*12)-7])<<"    "<<int(casillasInt[(i*12)-6])<<"    "<<int(casillasInt[(i*12)-5]) <<"    " <<int(casillasInt[(i*12)-4])<<"    " << int(casillasInt[(i*12)-3])<<"    " << int(casillasInt[(i*12)-1])<<"    " << int(casillasInt[(i*12)-1])<<"    " << std::endl;
+    //}
+
 
     // MUEVE
     casillasInt[jugada[1]]= casillasInt[jugada[0]];
@@ -258,14 +266,7 @@ bool ModeloTablero::cambiaTurno()
         turnoN = !turnoN;
 
         //std::cout << "turnoN desp " <<turnoN <<std::endl;
-        std::cout << "TABLERO ANTES DE CAMBIO DE TURNO" << std::endl;
 
-        std::cout << "TABLERO EN CAMBIO DE TURNO" << std::endl;
-
-        for(int i=0; i<12;i++)
-        {
-            std::cout << int(casillasInt[(i*12)])<<"    "  << int(casillasInt[(i*12)+1])<<"    " << int(casillasInt[(i*12)+2])<<"    "<<int(casillasInt[(i*12)+3])<<"    "<<int(casillasInt[(i*12)+4])<<"    "<<int(casillasInt[(i*12)+5])<<"    "<<int(casillasInt[(i*12)+6])<<"    "<<int(casillasInt[(i*12)+7]) <<"    " <<int(casillasInt[(i*12)+8])<<"    " << int(casillasInt[(i*12)+9])<<"    " << int(casillasInt[(i*12)+10])<<"    " << int(casillasInt[(i*12)+11])<<"    " << std::endl;
-        }
         char casillasTemp[144];
         //NORMALIZA EL TABLERO PARA EL CAMBIO DE TURNO
         for(int y=0; y<12;y++)
@@ -275,7 +276,7 @@ bool ModeloTablero::cambiaTurno()
                 //INVIERTE EL SIGNO DE LAS FICHAS Y LA POSICION DE LA FILA
                 if (casillasInt[(i*12)+y] != 99)
                 {
-                    casillasTemp[((11-i)*12)+y] = -casillasInt[(i*12)+y];
+                    casillasTemp[((11-i)*12)+11-y] = -casillasInt[(i*12)+y];
 
                 }
                 else casillasTemp[(i*12)+y] = 99;
@@ -283,7 +284,7 @@ bool ModeloTablero::cambiaTurno()
 
         }
 
-        std::cout << "TABLERO AAL OPIAR" << std::endl;
+      //  std::cout << "TABLERO AAL OPIAR" << std::endl;
 
         for(int i=0; i<144;i++)
         {
@@ -292,12 +293,12 @@ bool ModeloTablero::cambiaTurno()
 
 
 
-        std::cout << "TABLERO EN CAMBIO DE TURNO" << std::endl;
+      //  std::cout << "TABLERO EN CAMBIO DE TURNO" << std::endl;
 
-        for(int i=0; i<12;i++)
-        {
-            std::cout << int(casillasInt[(i*12)])<<"    "  << int(casillasInt[(i*12)+1])<<"    " << int(casillasInt[(i*12)+2])<<"    "<<int(casillasInt[(i*12)+3])<<"    "<<int(casillasInt[(i*12)+4])<<"    "<<int(casillasInt[(i*12)+5])<<"    "<<int(casillasInt[(i*12)+6])<<"    "<<int(casillasInt[(i*12)+7]) <<"    " <<int(casillasInt[(i*12)+8])<<"    " << int(casillasInt[(i*12)+9])<<"    " << int(casillasInt[(i*12)+10])<<"    " << int(casillasInt[(i*12)+11])<<"    " << std::endl;
-        }
+        //for(int i=12; i>0;i--)
+        //{
+          //  std::cout << int(casillasInt[(i*12)-12])<<"    "  << int(143-casillasInt[(i*12)-11])<<"    " << int(casillasInt[(i*12)-10])<<"    "<<int(casillasInt[(i*12)-9])<<"    "<<int(casillasInt[(i*12)-8])<<"    "<<int(casillasInt[(i*12)-7])<<"    "<<int(casillasInt[(i*12)-6])<<"    "<<int(casillasInt[(i*12)-5]) <<"    " <<int(casillasInt[(i*12)-4])<<"    " << int(casillasInt[(i*12)-3])<<"    " << int(casillasInt[(i*12)-1])<<"    " << int(casillasInt[(i*12)-1])<<"    " << std::endl;
+        //}
 
 
 

@@ -42,7 +42,7 @@ public:
     void setCasillaSobrevolada(int posicion);
     bool getTurnoNegras();
     void creaTableroYCasillas(Ogre::SceneManager* sceneMgr);
-    void actualizaTablero(Ogre::SceneManager* manager, unsigned char jugadaElegida[2]);
+    void actualizaTablero(Ogre::SceneManager* manager);
 
     bool fichaSeleccionada;
     Ogre::Degree rotacionCamara;

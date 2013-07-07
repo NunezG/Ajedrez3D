@@ -42,11 +42,24 @@ void Tablero::setAlPaso(int casilla)
 
 void Tablero::setCasillaSeleccionada(Casilla* nodo)
 {
-      std::cout << "!! setCasillaSeleccionada"<< std::endl;
+    std::cout << "!! setCasillaSeleccionada"<< std::endl;
+
+    if (casillaSeleccionada != 0)
+    {
+        Ficha* ficha = static_cast<Ficha*>(casillaSeleccionada->getHijo(0));
+        std::cout << "!! setCasillaSe "<< ficha->getNombre()<< std::endl;
+        ficha->apaga();
+        // casillaSeleccionada->apagaCasilla();
+        //          casillaSeleccionada = 0;
+    }
+
+
 
     fichaSeleccionada = true;
     casillaSeleccionada = nodo;
-    casillaSeleccionada->iluminaCasilla();
+    Ficha* ficha = static_cast<Ficha*>(nodo->getHijo(0));
+    ficha->ilumina();
+
 }
 void Tablero::setCasillaSobrevolada(Casilla* nodo)
 {
@@ -55,24 +68,32 @@ void Tablero::setCasillaSobrevolada(Casilla* nodo)
 
 void Tablero::setCasillaSeleccionada(int posicion)
 {
-
     std::cout << "!! setCasillaSeleccionada "<< posicion<< std::endl;
 
     if (posicion < 0)
     {
         fichaSeleccionada = false;
-        casillaSeleccionada->apagaCasilla();
-        casillaSeleccionada = NULL;
+        Ficha* ficha = static_cast<Ficha*>(casillaSeleccionada->getHijo(0));
+        std::cout << "!! setCasillaSe "<< ficha->getNombre()<< std::endl;
+        ficha->apaga();
+        // casillaSeleccionada->apagaCasilla();
+        casillaSeleccionada = 0;
     }
     else casillaSeleccionada = static_cast<Casilla*>(getHijo(posicion));
+    /*
+    fichaSeleccionada = true;
+    Ficha* ficha = static_cast<Ficha*>(casilla->getHijo(0));
+    ficha->ilumina();
+*/
 }
+
 void Tablero::setCasillaSobrevolada(int posicion)
 {
     std::cout << "!! setCasillaSobrevolada "<< posicion<<std::endl;
 
     if (posicion < 0)
     {
-        casillaSobrevolada = NULL;
+        casillaSobrevolada = 0;
     }
     else casillaSobrevolada = static_cast<Casilla*>(getHijo(posicion));
 }
@@ -292,40 +313,17 @@ void Tablero::creaPeones()
     }
 }
 
-void Tablero::actualizaTablero(Ogre::SceneManager* manager, unsigned char jugadaElegida[2])
+void Tablero::actualizaTablero(Ogre::SceneManager* manager)
 {  
-     std::cout << "actualizaTablero"<< std::endl;
-
-
-
-     posicion inicial;
-     posicion final;
-     std::cout << "!!!!!!!!!aplicaSeleccionL" << std::endl;
-
-     inicial.Fila = (jugadaElegida[0]/12)-2;
-     inicial.Columna = (jugadaElegida[0]%12)-2;
-     final.Fila = (jugadaElegida[1]/12)-2;
-     final.Columna = (jugadaElegida[1]%12)-2;
-     std::cout << "!!!!!!!!!aplicaSeleccionL2" << std::endl;
-
-     std::cout << "tableroModelo->jugada[0] " << int(jugadaElegida[0]) << std::endl;
-     std::cout << "tableroModelo->jugadaElegida " << int(jugadaElegida[1])<< std::endl;
-     // std::cout << "tableroModelo->jugada[0] en escenaajedrez al aplicar: "<< tableroModelo->jugada[0] << " tableroModelo->jugada[0]/12: "<< tableroModelo->jugada[0]/12 << " tableroModelo->jugada[0]%12 " << tableroModelo->jugada[0]%12 << std::endl;
-     // std::cout << "tableroModelo->jugada[1]en escenaajedrez al aplicar: "<< tableroModelo->jugada[1] << " tableroModelo->jugada[1]/12: "<< tableroModelo->jugada[1]/12 << " tableroModelo->jugada[1]%12 " << tableroModelo->jugada[1]%12 << std::endl;
-     std::cout << "SELECT 1 FILA: "<< inicial.Fila <<std::endl;
-     std::cout << "SELECT 1 COL: "<< inicial.Columna <<std::endl;
-
-     std::cout << "FINAL 1 FILA: "<< final.Fila <<std::endl;
-     std::cout << "FINAL 1 COL: "<< final.Columna <<std::endl;
-
-     setCasillaSeleccionada((inicial.Fila * 8) + inicial.Columna);
-     setCasillaSobrevolada((final.Fila* 8) + final.Columna);
-     std::cout << "!!!!!!!!!aplicaSeleccionL3" << std::endl;
-
+    std::cout << "actualizaTablero"<< std::endl;
 
     Casilla* nodoCasillaTemporal = getCasillaSeleccionada();
     Casilla* casillaDestinoTemp = getCasillaSobrevolada();
-  //  std::cout << "actualizaTablero 1 "<< nodoCasillaTemporal!=NULL<<std::endl;
+
+    setCasillaSobrevolada(-1);
+    setCasillaSeleccionada(-1);
+
+    //  std::cout << "actualizaTablero 1 "<< nodoCasillaTemporal!=NULL<<std::endl;
     std::cout << "actualizaTablero 1 "<< nodoCasillaTemporal->getNombre()<<std::endl;
     std::cout << "actualizaTablero 11 "<< casillaDestinoTemp->getNombre()<<std::endl;
 
@@ -385,14 +383,14 @@ void Tablero::actualizaTablero(Ogre::SceneManager* manager, unsigned char jugada
         if (ficha->tipo_Ficha == 1)
         {
             //MIRA SI PROMOCIONA PEON
-           // Ficha* ficha = static_cast<Ficha*>(getCasillaSobrevolada()->getHijo(0));
+            // Ficha* ficha = static_cast<Ficha*>(getCasillaSobrevolada()->getHijo(0));
 
             if((!getTurnoNegras()
-                         && getCasillaSobrevolada()->getPosicion().Fila == 7)
-                        || (getTurnoNegras()
-                            && getCasillaSobrevolada()->getPosicion().Fila == 0 ))
+                && casillaDestinoTemp->getPosicion().Fila == 7)
+                    || (getTurnoNegras()
+                        && casillaDestinoTemp->getPosicion().Fila == 0 ))
             {
-                getCasillaSobrevolada()->eliminaHijo(0);
+                casillaDestinoTemp->eliminaHijo(0);
 
                 // ficha = tablero->promocionaPeon(ficha);
                 //  Ogre::Entity *entidadFicha;
@@ -416,7 +414,7 @@ void Tablero::actualizaTablero(Ogre::SceneManager* manager, unsigned char jugada
                     nodoNuevo->creaModelo3D(manager,"Reina",NEGRAS);
                     nodoNuevo->cambiaMaterial("MaterialFichaNegra");
                 }
-                getCasillaSobrevolada()->agregaHijo(nodoNuevo);
+                casillaDestinoTemp->agregaHijo(nodoNuevo);
             }
             //return static_cast<FichaReina*>(nodoNuevo);
 
@@ -456,8 +454,7 @@ void Tablero::actualizaTablero(Ogre::SceneManager* manager, unsigned char jugada
     }
     std::cout << "actualizaTablerowwwww 1"<< std::endl;
 
-    setCasillaSobrevolada(-1);
-    setCasillaSeleccionada(-1);
+
     turnoNegras = !turnoNegras;
 }
 

@@ -27,7 +27,7 @@ bool Jugador::casillaSobrevolada(const std::string nombreCasilla)
     //devulve true si ha cambiado de casilla
     if (!casillaSobreAnterior || casillaSobrevolada->getNombre() != casillaSobreAnterior-> getNombre())
     {
-        if (casillaSobreAnterior)
+        if (casillaSobreAnterior )
         {
             //     std::cout << "CasillaSobrevolada ANTERIOR: "<<   casillaSobreAnterior->getNombre()  << std::endl;
             escena->apagaVentanaEmergente();
@@ -65,8 +65,8 @@ bool Jugador::aplicaSeleccion()
 
     int resultado = modelo->mueveTablero();
 
-    if (!modelo->tableroModelo->turnoN)
-    {//INVIERTE
+ /*    if (!modelo->tableroModelo->turnoN)
+  {//INVIERTE
         std::cout << "TURNO MEGRAS EN ALFABETA" << std::endl;
         std::cout << "ORIG DE ALFABETA ANTES DE REVERTIR!!!!: "<< int( modelo->jugadaElegida[0])<< std::endl;
         std::cout << "DEST DE ALFABETA ANTES DE REVERTIR!!!!: "<< int( modelo->jugadaElegida[1])<< std::endl;
@@ -75,8 +75,8 @@ bool Jugador::aplicaSeleccion()
        modelo->jugadaElegida[1] = 143- modelo->jugadaElegida[1];
         // escena->tablero->setCasillaSeleccionada(escena->tablero->getCasillaSeleccionada());
     }
-
-    escena->getTablero()->actualizaTablero(escena->mSceneMgr, modelo->jugadaElegida);
+*/
+    escena->getTablero()->actualizaTablero(escena->mSceneMgr);
 
     std::cout << "!!!!!promociona! " << std::endl;
 

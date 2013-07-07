@@ -109,12 +109,13 @@ int Modelo::mueveTablero()
 
     //tableroModelo->jugada[0] = 143-jugadaElegida[0];
     //tableroModelo->jugada[1] = 143-jugadaElegida[1];
+    std::cout << "traducido AL CAMBIAR DE TURNO DE VERDAD" << std::endl;
 
-    for(int i=0; i<12;i++)
+    for(int i=12; i>0;i--)
     {
-        std::cout << int(tableroModelo->casillasInt [(i*12)])<<"    "  << int(tableroModelo->casillasInt [(i*12)+1])<<"    " << int(tableroModelo->casillasInt [(i*12)+2])<<"    "<<int(tableroModelo->casillasInt [(i*12)+3])<<"    "<<int(tableroModelo->casillasInt [(i*12)+4])<<"    "<<int(tableroModelo->casillasInt [(i*12)+5])<<"    "<<int(tableroModelo->casillasInt [(i*12)+6])<<"    "<<int(tableroModelo->casillasInt [(i*12)+7]) <<"    " <<int(tableroModelo->casillasInt [(i*12)+8])<<"    " << int(tableroModelo->casillasInt [(i*12)+9])<<"    " << int(tableroModelo->casillasInt [(i*12)+10])<<"    " << int(tableroModelo->casillasInt [(i*12)+11])<<"    " << std::endl;
+        std::cout << int(tableroModelo->casillasInt[(i*12)-12])<<"    "  << int(143-tableroModelo->casillasInt[(i*12)-11])<<"    " << int(tableroModelo->casillasInt[(i*12)-10])<<"    "<<int(tableroModelo->casillasInt[(i*12)-9])<<"    "<<int(tableroModelo->casillasInt[(i*12)-8])<<"    "<<int(tableroModelo->casillasInt[(i*12)-7])<<"    "<<int(tableroModelo->casillasInt[(i*12)-6])<<"    "<<int(tableroModelo->casillasInt[(i*12)-5]) <<"    " <<int(tableroModelo->casillasInt[(i*12)-4])<<"    " << int(tableroModelo->casillasInt[(i*12)-3])<<"    " << int(tableroModelo->casillasInt[(i*12)-1])<<"    " << int(tableroModelo->casillasInt[(i*12)-1])<<"    " << std::endl;
     }
-    std::cout << "traducido AL CAMBIAR DE TURNO" << std::endl;
+
 
     std::cout << "!!!!!!pasa111! " << std::endl;
 

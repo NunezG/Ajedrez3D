@@ -37,12 +37,12 @@ bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
 
     Tablero* tablero = escena->getTablero();
 
-    if (tablero->getCasillaSeleccionada() != NULL)
-    {  // Si habia alguno seleccionado...
+ //   if (tablero->getCasillaSeleccionada() != NULL)
+   // {  // Si habia alguno seleccionado...
         //Ficha* ficha = static_cast<Ficha*>(tablero->getCasillaSeleccionada()->getHijo(0));
         // ficha->getNodoOgre()->showBoundingBox(false);
-        tablero->setCasillaSeleccionada(-1);
-    }
+   //     tablero->setCasillaSeleccionada(-1);
+ //   }
     std::cout   << "   botonIzquierdo222333333" << std::endl;
     std::cout   << "   botonIzqui" << escena->encuentraCasillaSobrevolada(pos)<<std::endl;
 
@@ -58,6 +58,7 @@ bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
         {
             std::cout   << "   setCasillaSeleccionada: "<<ficha->getNombre() << std::endl;
             tablero->setCasillaSeleccionada(casilla);
+
             // ficha->getNodoOgre()->showBoundingBox(true);
             return true;
         }
@@ -67,7 +68,9 @@ bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
 
 bool JugadorHumano::botonDerecho()
 {
-    return (escena->getTablero()->getCasillaSobrevolada() != NULL);
+    std::cout   << "   botonDerecho " <<int(modelo->jugadaElegida[1]) <<std::endl;
+
+    return (modelo->jugadaElegida[1] != modelo->jugadaElegida[0]);
 }
 
 bool JugadorHumano::casillaSobrevolada(const std::string nombreCasilla)

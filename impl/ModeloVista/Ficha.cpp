@@ -30,3 +30,26 @@ void Ficha::creaModelo3D(Ogre::SceneManager* sceneMgr, Ogre::String nombreMalla,
 
    ObjetoOgre::creaModelo3D(sceneMgr, nombreMalla, mask);
 }
+
+void Ficha::apaga()
+{
+    std::cout << "!! apaga "<< std::endl;
+
+   // getNodoOgre()->showBoundingBox(false);
+    if (!esNegra)
+    {
+        cambiaMaterial("MaterialFichaBlanca");
+    }
+    else cambiaMaterial("MaterialFichaNegra");
+}
+
+void Ficha::ilumina()
+{
+   // getNodoOgre()->showBoundingBox(true);
+
+    if (esNegra)
+    {
+        cambiaMaterial("MaterialFichaNegraIluminada");
+    }
+    else cambiaMaterial("MaterialFichaBlancaIluminada");
+}

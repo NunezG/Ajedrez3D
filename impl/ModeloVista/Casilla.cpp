@@ -24,7 +24,7 @@ void Casilla::setPosicion(int posFila, int posCol)
 
 void Casilla::apagaCasilla()
 {
-    getNodoOgre()->showBoundingBox(false);
+  //  getNodoOgre()->showBoundingBox(false);
     if (!esNegra)
     {
         cambiaMaterial("MaterialCasillaBlanca");
@@ -34,7 +34,7 @@ void Casilla::apagaCasilla()
 
 void Casilla::iluminaCasilla()
 { 
-    getNodoOgre()->showBoundingBox(true);
+ //   getNodoOgre()->showBoundingBox(true);
 
     if (esNegra)
     {
