@@ -58,9 +58,9 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
     //std::sort (miTablero->vectorJugadas.begin(), miTablero->vectorJugadas.end(), myfunction);
 
 
-   // std::cout << "!!!!!!!!!!!!!!JUGADAS BUENAS!: " << miTablero->vectorJugadas.size()<<std::endl;
-   // std::cout << "!!!!!!!!!!!!!!JUGADAS NEUTRAS!: " << miTablero->vectorJugadasNormales.size()<<std::endl;
-   // std::cout << "!!!!!!!!!!!!!!JUGADAS MALAS!: " << miTablero->vectorJugadasPeores.size()<<std::endl;
+    std::cout << "!!!!!!!!!!!!!!JUGADAS BUENAS!: " << miTablero->vectorJugadas.size()<<std::endl;
+    std::cout << "!!!!!!!!!!!!!!JUGADAS NEUTRAS!: " << miTablero->vectorJugadasNormales.size()<<std::endl;
+    std::cout << "!!!!!!!!!!!!!!JUGADAS MALAS!: " << miTablero->vectorJugadasPeores.size()<<std::endl;
 
 
 
@@ -559,11 +559,21 @@ ModeloTablero* Movimientos::nuevoMovimiento(ModeloTablero *miTablero)
     if (miTablero->casillasInt[jugada[1]] != 0 && valorAtaque != 0)
     {
        // std::cout << "!!!!!!!!!!!!!valorAtaque!: " << valorAtaque<<std::endl;
-            //if (valorAtaque > 5)  std::cout << "!!!!!!!HAY UN PROBLEMA!: "<<int(miTablero->casillasInt[jugada[0]]) << " / "<<int(miTablero->casillasInt[jugada[1]])<< " / "<< int(jugada[0]) << " / "<< int(jugada[1]) <<std::endl;
+           // if (valorAtaque > 5)  std::cout << "!!!!!!!HAY UN PROBLEMA!: "<<int(miTablero->casillasInt[jugada[0]]) << " / "<<int(miTablero->casillasInt[jugada[1]])<< " / "<< int(jugada[0]) << " / "<< int(jugada[1]) <<std::endl;
 
-        if (valorAtaque < 0)  miTablero->vectorJugadas.push_back(jugada);
+        if (valorAtaque < 0){
 
-        else if (valorAtaque > 0) miTablero->vectorJugadasPeores.push_back(jugada);
+            miTablero->vectorJugadas.push_back(jugada);
+            std::cout << "!!!!!!JUGAA BUENA!: "<<int(miTablero->casillasInt[jugada[0]]) << " / "<<int(miTablero->casillasInt[jugada[1]])<< " / "<< int(jugada[0]) << " / "<< int(jugada[1]) <<std::endl;
+
+
+        }
+
+        else if (valorAtaque > 0) {
+            miTablero->vectorJugadasPeores.push_back(jugada);
+            std::cout << "!!!!!!JUGAA MALA!: "<<int(miTablero->casillasInt[jugada[0]]) << " / "<<int(miTablero->casillasInt[jugada[1]])<< " / "<< int(jugada[0]) << " / "<< int(jugada[1]) <<std::endl;
+
+        }
     }else miTablero->vectorJugadasNormales.push_back(jugada);
     
 }

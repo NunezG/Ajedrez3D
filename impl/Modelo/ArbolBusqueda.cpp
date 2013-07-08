@@ -131,7 +131,8 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
 
             score = -alphaBeta(tablero, -beta,-alpha, depthleft - 1 );
           //  std::cout << "resultchungo"<< std::endl;
-
+            delete tablero;
+            tablero = NULL;
             // std::cout << "!!!!!!!!!!!!!!!!!!SALE DE LA AVENTURA EN LA TABLA  SCORE: "<< score<< " ALFA: "<<  alpha<<  " BETA: "<<  beta << " NIVEL:" << depthleft<< std::endl;
             //  std::cout << "!!!!!!!!!!!!!FOR"<< std::endl;
             // it++;
@@ -151,11 +152,10 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
 
               //  delete [] jugada;
 
-                if (table->nodoInicial)
-                {
-                  delete tablero;
-                 // tablero = NULL;
-                }
+               //if (table->nodoInicial)
+              //  {
+
+               // }
                 // Movimientos::deshazMovimiento(table);
                 return beta;
                 //  fail hard beta-cutoff
@@ -204,11 +204,11 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
 
       //  delete [] jugada;
 
-        if (table->nodoInicial)
-        {
-          delete tablero;
-         // tablero = NULL;
-        }
+       // if (table->nodoInicial)
+        //{
+       //   delete tablero;
+        //  tablero = NULL;
+       // }
 
     }
 
@@ -262,21 +262,30 @@ int ArbolBusqueda::evaluaTablero(ModeloTablero* tablero)
         }
     }
 
-//NO TIENE SENTIDO AÑADIR ALGO TAN COSTOSO A CADA MOVIMIENTO SI SOLO SE VA A EVALUAR AL FINAL, PRUEBA CON MUEVEFICHA O SI NO USALO PARA ORDENAR MAS LA LISTA
 
-    if (tablero->valorAtaque > 0)
-    {// si es mayor que 0 es que el valor del atacante es mayor
+   // if (tablero->valorAtaque > 0)
+   // {// si es mayor que 0 es que el valor del atacante es mayor
+      //  std::cout << "LA FICHA ES MAYOR "  <<   std::endl;
 
-        suma = suma - (tablero->valorAtaque * 20);
+    //    suma = suma - (tablero->valorAtaque * 200);
 
-    }else if (tablero->valorAtaque < 0)
-    {
-        suma = suma + (tablero->valorAtaque * 20);
-    }
+   // }else if (tablero->valorAtaque < 0)
+   // {
+       // std::cout << "LA FICHA ES MENOR " <<   std::endl;
+       // suma = suma + (tablero->valorAtaque * 200);
+    //}
+
+
+    //NO TIENE SENTIDO AÑADIR ALGO TAN COSTOSO A CADA MOVIMIENTO SI SOLO SE VA A EVALUAR AL FINAL, PRUEBA CON MUEVEFICHA O SI NO USALO PARA ORDENAR MAS LA LISTA
 
     if (tablero->valorDefensivo != 0)
     {
-        suma = suma + (tablero->valorDefensivo);
+
+        //EL VALOR DEFENSIVO DEPENDE DE LAS QUE PROTEGIA EN EL TABLERO PADRE Y SE SUPONE QUE SE PIERDE SI SE MUEVE
+
+
+        std::cout << "VALOR DEFENSIVO: "  << tablero->valorDefensivo  <<std::endl;
+        suma = suma - (tablero->valorDefensivo);
 
     }
 
@@ -301,10 +310,10 @@ int ArbolBusqueda::evaluaTablero(ModeloTablero* tablero)
 
     //}
 
-    std::cout << "tablero->valorDefensivo " << tablero->valorDefensivo   <<std::endl;
+  //  std::cout << "tablero->valorDefensivo " << tablero->valorDefensivo   <<std::endl;
 
-   if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma   <<std::endl;
-   else std::cout << "ESTE TABLERO TIENE VALOR 0 "    <<std::endl;
+   //if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma   <<std::endl;
+  // else std::cout << "ESTE TABLERO TIENE VALOR 0 "    <<std::endl;
 
 
     return suma;

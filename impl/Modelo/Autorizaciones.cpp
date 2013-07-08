@@ -267,7 +267,7 @@ int Autorizaciones::pruebaCamino(ModeloTablero* miTablero, int salto)
     while(pasa)
     {
         nuevaCasilla = nuevaCasilla+salto;
-        std::cout << "!!!!PRUEBA CAMINO!!!: " << nuevaCasilla  <<std::endl;
+       // std::cout << "!!!!PRUEBA CAMINO!!!: " << nuevaCasilla  <<std::endl;
 
         pasa = miTablero->casillasInt[nuevaCasilla] == 0;
 
@@ -280,12 +280,12 @@ int Autorizaciones::pruebaCamino(ModeloTablero* miTablero, int salto)
             miTablero->casillasInt[nuevaCasilla] = fichavieja;
             miTablero->casillasInt[miTablero->jugada[0]] = 0;
 
-            std::cout << "!!!mira si es jaque!" << std::endl;
+           // std::cout << "!!!mira si es jaque!" << std::endl;
 
 
             if (miTablero->evaluaJaque())
             {
-                std::cout << "!!!!!HA EVALUADO UN JAQUE (DESPUES DE MOVER) !!!" << std::endl;
+                std::cout << "!!!!!HA EVALUADO UN JAQUE DESPUES DE MOVER (AL PROBAR CAMINO) !!!" << std::endl;
                 resultado = 2;
             }
             else
@@ -295,7 +295,7 @@ int Autorizaciones::pruebaCamino(ModeloTablero* miTablero, int salto)
             miTablero->casillasInt[miTablero->jugada[0]] = fichavieja;
 
 
-            std::cout << "!!!retorna resultado: "<<resultado << std::endl;
+          //  std::cout << "!!!retorna resultado: "<<resultado << std::endl;
 
             return resultado;
         }

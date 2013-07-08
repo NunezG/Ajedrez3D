@@ -35,7 +35,7 @@ bool JugadorArtificial::iniciaTurno()
         std::cout << int(modelo->tableroModelo->casillasInt[(i*12)-12])<<"    "  << int(modelo->tableroModelo->casillasInt[(i*12)-11])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)-10])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-9])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-8])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-7])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-6])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-5]) <<"    " <<int(modelo->tableroModelo->casillasInt[(i*12)-4])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)-3])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)-1])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)-1])<<"    " << std::endl;
     }
 
-    int resultado = ArbolBusqueda::alphaBeta(modelo->tableroModelo,-70000, 70000, 5);
+    int resultado = ArbolBusqueda::alphaBeta(modelo->tableroModelo,-70000, 70000, 3);
 
     std::cout << "FIN CONST ARBOL"<< std::endl;
     std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< int(modelo->jugadaElegida[0])<< std::endl;
