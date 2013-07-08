@@ -75,30 +75,42 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
 
     //  if (casillasInt[jugada[1]] > 0)
     // {
+
+    std::cout << "TURNO NEGRAS (JUSTO ANTES DE CAMBIAR): "<< turnoN<<std::endl;
+
+    std::cout << "NUMERO DE CASILLAS PROTEGIDAS: "<< original.casillasProtegidas.size()<<std::endl;
+
+    std::cout << "CON FICHA INICIAL: "<< int(casillasInt[jugada[0]]) <<std::endl;
+    std::cout << "EN CASILLA: "<< int(jugada[0]) <<std::endl;
+
+
+
+
+    //EN REALIDAD SE ESTAN VIENDO LAS CASILLAS PROTEGIDAS ANTES DE MOVER???? SI ES ASI, CUANTAS MAS CASILLAS PROTEGIA ANTES, PEOR ES EL MOVIMIENTO DESPUES
     std::vector<unsigned char*> temp = original.casillasProtegidas;
     for (std::vector<unsigned char*>::iterator it = temp.begin(); it!=temp.end(); it++)
     {
-        unsigned char* jugada = *it;
+        unsigned char* protegida = *it;
 
         // std::cout << "for "<< int(*it[0]) <<std::endl;
-        if (jugada[0] == jugada[0])
+        if (protegida[0] == jugada[0])
         {
+            int dif = protegida[1] - casillasInt[protegida[0]];
 
+              std::cout << "dif: "<< dif<<std::endl;
 
-            //   std::cout << "if"<< int(*it[1])<<std::endl;
-
-            if (jugada[1] > casillasInt[jugada[0]])
+            if (dif != 0)
             {
                 //   [i];
-                //      std::cout << "aplica"<< std::endl;
-                valorDefensivo = valorDefensivo + 10;
+                valorDefensivo = valorDefensivo - (4 * dif);
+                std::cout << "aplica"<< valorDefensivo<<  " PARA CASILLA "<< int(protegida[0]) <<" QUE PROTEGE: " << int(protegida[1]) <<std::endl;
             }
-            else if (jugada[1] < casillasInt[jugada[0]])
-            {
+           // else if (dif < 0)
+         //   {
                 //   [i];
-                //   std::cout << "aplica2"<< std::endl;
-                valorDefensivo = valorDefensivo - 10;
-            }
+              //    std::cout << "aplica2"<< std::endl;
+               // valorDefensivo = valorDefensivo - (4 * dif);
+          //  }
             // std::cout << "titi"<< std::endl;
 
         }
@@ -127,7 +139,6 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
 
 ModeloTablero::~ModeloTablero()
 {
-  std::cout << "deletein"<< std::endl;
 
     if (!vectorJugadas.empty())
     {
@@ -188,7 +199,7 @@ bool ModeloTablero::cambiaTurno()
         if ((jugada[1])/12 == 9)
         {
             // std::cout << "!!!!!!PROMOCION A REINA DEL PEON!!!!!" << std::endl;
-            casillasInt[143-jugada[1]] = 5;
+            casillasInt[jugada[1]] = 5;
         }
 
         //DOBLE SALTO (LO MARCA PARA CAPTURAR AL PASO)
@@ -199,7 +210,7 @@ bool ModeloTablero::cambiaTurno()
         }
     }
 
-    //ENROQUE (HAY QUE MEJORARLO)!!!!!!!!!!
+    //ENROQUE!!!!!!!!!!
 
     if (casillasInt[jugada[0]] == 6)
     {
@@ -335,12 +346,12 @@ bool ModeloTablero::cambiaTurno()
 
 
 
-      //  std::cout << "TABLERO EN CAMBIO DE TURNO" << std::endl;
+  //    std::cout << "TABLERO EN CAMBIO DE TURNO" << std::endl;
 
-        //for(int i=12; i>0;i--)
-        //{
-          //  std::cout << int(casillasInt[(i*12)-12])<<"    "  << int(143-casillasInt[(i*12)-11])<<"    " << int(casillasInt[(i*12)-10])<<"    "<<int(casillasInt[(i*12)-9])<<"    "<<int(casillasInt[(i*12)-8])<<"    "<<int(casillasInt[(i*12)-7])<<"    "<<int(casillasInt[(i*12)-6])<<"    "<<int(casillasInt[(i*12)-5]) <<"    " <<int(casillasInt[(i*12)-4])<<"    " << int(casillasInt[(i*12)-3])<<"    " << int(casillasInt[(i*12)-1])<<"    " << int(casillasInt[(i*12)-1])<<"    " << std::endl;
-        //}
+     //   for(int i=12; i>0;i--)
+     //  {
+        //   std::cout << int(casillasInt[(i*12)-12])<<"    "  << int(casillasInt[(i*12)-11])<<"    " << int(casillasInt[(i*12)-10])<<"    "<<int(casillasInt[(i*12)-9])<<"    "<<int(casillasInt[(i*12)-8])<<"    "<<int(casillasInt[(i*12)-7])<<"    "<<int(casillasInt[(i*12)-6])<<"    "<<int(casillasInt[(i*12)-5]) <<"    " <<int(casillasInt[(i*12)-4])<<"    " << int(casillasInt[(i*12)-3])<<"    " << int(casillasInt[(i*12)-1])<<"    " << int(casillasInt[(i*12)-1])<<"    " << std::endl;
+      // }
 
 
 

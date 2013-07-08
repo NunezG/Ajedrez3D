@@ -262,7 +262,7 @@ int ArbolBusqueda::evaluaTablero(ModeloTablero* tablero)
         }
     }
 
-
+//NO TIENE SENTIDO AÑADIR ALGO TAN COSTOSO A CADA MOVIMIENTO SI SOLO SE VA A EVALUAR AL FINAL, PRUEBA CON MUEVEFICHA O SI NO USALO PARA ORDENAR MAS LA LISTA
 
     if (tablero->valorAtaque > 0)
     {// si es mayor que 0 es que el valor del atacante es mayor
@@ -276,7 +276,7 @@ int ArbolBusqueda::evaluaTablero(ModeloTablero* tablero)
 
     if (tablero->valorDefensivo != 0)
     {
-        suma = suma - (tablero->valorDefensivo);
+        suma = suma + (tablero->valorDefensivo);
 
     }
 
@@ -301,8 +301,10 @@ int ArbolBusqueda::evaluaTablero(ModeloTablero* tablero)
 
     //}
 
-   // if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma   <<std::endl;
-    //std::cout << "ESTE TABLERO TIENE VALOR 0 "    <<std::endl;
+    std::cout << "tablero->valorDefensivo " << tablero->valorDefensivo   <<std::endl;
+
+   if(suma!=0)std::cout << "ESTE TABLERO TIENE VALOR DISTINTO DE 0 Y HA ACUMULADO UN VALOR DE: " << suma   <<std::endl;
+   else std::cout << "ESTE TABLERO TIENE VALOR 0 "    <<std::endl;
 
 
     return suma;

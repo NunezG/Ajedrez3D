@@ -113,7 +113,7 @@ int Modelo::mueveTablero()
 
     for(int i=12; i>0;i--)
     {
-        std::cout << int(tableroModelo->casillasInt[(i*12)-12])<<"    "  << int(143-tableroModelo->casillasInt[(i*12)-11])<<"    " << int(tableroModelo->casillasInt[(i*12)-10])<<"    "<<int(tableroModelo->casillasInt[(i*12)-9])<<"    "<<int(tableroModelo->casillasInt[(i*12)-8])<<"    "<<int(tableroModelo->casillasInt[(i*12)-7])<<"    "<<int(tableroModelo->casillasInt[(i*12)-6])<<"    "<<int(tableroModelo->casillasInt[(i*12)-5]) <<"    " <<int(tableroModelo->casillasInt[(i*12)-4])<<"    " << int(tableroModelo->casillasInt[(i*12)-3])<<"    " << int(tableroModelo->casillasInt[(i*12)-1])<<"    " << int(tableroModelo->casillasInt[(i*12)-1])<<"    " << std::endl;
+        std::cout << int(tableroModelo->casillasInt[(i*12)-12])<<"    "  << int(tableroModelo->casillasInt[(i*12)-11])<<"    " << int(tableroModelo->casillasInt[(i*12)-10])<<"    "<<int(tableroModelo->casillasInt[(i*12)-9])<<"    "<<int(tableroModelo->casillasInt[(i*12)-8])<<"    "<<int(tableroModelo->casillasInt[(i*12)-7])<<"    "<<int(tableroModelo->casillasInt[(i*12)-6])<<"    "<<int(tableroModelo->casillasInt[(i*12)-5]) <<"    " <<int(tableroModelo->casillasInt[(i*12)-4])<<"    " << int(tableroModelo->casillasInt[(i*12)-3])<<"    " << int(tableroModelo->casillasInt[(i*12)-1])<<"    " << int(tableroModelo->casillasInt[(i*12)-1])<<"    " << std::endl;
     }
 
 

@@ -30,12 +30,12 @@ bool JugadorArtificial::iniciaTurno()
     std::cout << "TABLERO EN ALFABETA vectorJugadas: " << modelo->tableroModelo->vectorJugadas.size()<<std::endl;
     std::cout << "TABLERO EN ALFABETA casillasProtegidas: " << modelo->tableroModelo->casillasProtegidas.size()<<std::endl;
 
-    for(int i=0; i<12;i++)
+    for(int i=12; i>0;i--)
     {
-        std::cout << int(modelo->tableroModelo->casillasInt[(i*12)])<<"    "  << int(modelo->tableroModelo->casillasInt[(i*12)+1])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)+2])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+3])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+4])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+5])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+6])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+7]) <<"    " <<int(modelo->tableroModelo->casillasInt[(i*12)+8])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)+9])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)+10])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)+11])<<"    " << std::endl;
+        std::cout << int(modelo->tableroModelo->casillasInt[(i*12)-12])<<"    "  << int(modelo->tableroModelo->casillasInt[(i*12)-11])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)-10])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-9])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-8])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-7])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-6])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)-5]) <<"    " <<int(modelo->tableroModelo->casillasInt[(i*12)-4])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)-3])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)-1])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)-1])<<"    " << std::endl;
     }
 
-    int resultado = ArbolBusqueda::alphaBeta(modelo->tableroModelo,-70000, 70000, 4);
+    int resultado = ArbolBusqueda::alphaBeta(modelo->tableroModelo,-70000, 70000, 5);
 
     std::cout << "FIN CONST ARBOL"<< std::endl;
     std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< int(modelo->jugadaElegida[0])<< std::endl;

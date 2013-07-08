@@ -138,6 +138,9 @@ char ModeloVista::traduceTablero()
 
 void ModeloVista::aplicaCambio()
 {
+
+    //AL PROMOCIONAR NO SALE BIEN EN TABLEROMODELO
+
     std::cout << "aplicacaddfd: "<< JugadorActivo->esHumano()<<std::endl;
 
     //MUEVE FICHA Y A LA VEZ COMPRUEBA EL FIN DE PARTIDA O SI EL JUGADOR CONTRARIO ESTA EN JAQUE JUSTO DESPUES DE MOVER FICHA

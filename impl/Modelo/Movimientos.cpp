@@ -58,9 +58,9 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
     //std::sort (miTablero->vectorJugadas.begin(), miTablero->vectorJugadas.end(), myfunction);
 
 
-    std::cout << "!!!!!!!!!!!!!!JUGADAS BUENAS!: " << miTablero->vectorJugadas.size()<<std::endl;
-    std::cout << "!!!!!!!!!!!!!!JUGADAS NEUTRAS!: " << miTablero->vectorJugadasNormales.size()<<std::endl;
-    std::cout << "!!!!!!!!!!!!!!JUGADAS MALAS!: " << miTablero->vectorJugadasPeores.size()<<std::endl;
+   // std::cout << "!!!!!!!!!!!!!!JUGADAS BUENAS!: " << miTablero->vectorJugadas.size()<<std::endl;
+   // std::cout << "!!!!!!!!!!!!!!JUGADAS NEUTRAS!: " << miTablero->vectorJugadasNormales.size()<<std::endl;
+   // std::cout << "!!!!!!!!!!!!!!JUGADAS MALAS!: " << miTablero->vectorJugadasPeores.size()<<std::endl;
 
 
 
@@ -69,7 +69,7 @@ bool Movimientos::generaMovimientos(ModeloTablero* miTablero)
     miTablero->vectorJugadas.insert( miTablero->vectorJugadas.end(), miTablero->vectorJugadasPeores.begin(), miTablero->vectorJugadasPeores.end() );
 
 
-    std::cout << "!!!!!!!!!!!!!!JUGADAS FINALES!: " << miTablero->vectorJugadas.size()<<std::endl;
+   // std::cout << "!!!!!!!!!!!!!!JUGADAS FINALES!: " << miTablero->vectorJugadas.size()<<std::endl;
 
 
 
@@ -537,13 +537,14 @@ int Movimientos::mueveRey(ModeloTablero* miTablero)
 ModeloTablero* Movimientos::nuevoMovimiento(ModeloTablero *miTablero)
 {
 
-
-
-
     // miTablero->vectorJugadas.sort();
 
-    if (miTablero->jugada[0] == 99 || miTablero->jugada[1] == 99  ) std::cout << "VA A AGREGAR UN MOVIMIENTO CON ALGUNA CASILLA EN 99, OBVIAMENTE NO DEBERIA "<< std::endl;
-    
+    if (miTablero->casillasInt[miTablero->jugada[0]] == 99 || miTablero->casillasInt[miTablero->jugada[1]] == 99  ){
+        std::cout << "VA A AGREGAR UN MOVIMIENTO CON ALGUNA CASILLA EN 99, OBVIAMENTE NO DEBERIA, ORIGEN: "<<int(miTablero->jugada[0])<<"  DESTINO: "<< int(miTablero->jugada[1])<<std::endl;
+
+
+        std::cout << "VA "<< int(miTablero->casillasInt[miTablero->jugada[0]])  <<" / "<< int(miTablero->casillasInt[miTablero->jugada[0]]) <<std::endl;
+    }
     unsigned char* jugada = new unsigned char[2];
     jugada[0] = miTablero->jugada[0];
     jugada[1] = miTablero->jugada[1];
@@ -557,7 +558,7 @@ ModeloTablero* Movimientos::nuevoMovimiento(ModeloTablero *miTablero)
     //cuanto menor sea el valor, mejor
     if (miTablero->casillasInt[jugada[1]] != 0 && valorAtaque != 0)
     {
-        std::cout << "!!!!!!!!!!!!!valorAtaque!: " << valorAtaque<<std::endl;
+       // std::cout << "!!!!!!!!!!!!!valorAtaque!: " << valorAtaque<<std::endl;
             //if (valorAtaque > 5)  std::cout << "!!!!!!!HAY UN PROBLEMA!: "<<int(miTablero->casillasInt[jugada[0]]) << " / "<<int(miTablero->casillasInt[jugada[1]])<< " / "<< int(jugada[0]) << " / "<< int(jugada[1]) <<std::endl;
 
         if (valorAtaque < 0)  miTablero->vectorJugadas.push_back(jugada);
