@@ -2,7 +2,9 @@
 #define __ModeloTablero_
 
 #include <algorithm>    // std::for_each
-#include <vector>       // std::vector
+#include <deque>       // std::deque
+#include <vector>       // std::list
+
 #include <iostream>
 #include <string>
 //#include "Autorizaciones.h"
@@ -25,6 +27,7 @@
 -5 = (enemiga) Reina
 -6 = (enemiga) Rey
 */
+
 
 enum tipoFicha
 {
@@ -56,10 +59,12 @@ struct ModeloTablero
     // unsigned char* test[2];
 
     std::vector<unsigned char*> vectorJugadas;
+    std::vector<unsigned char*> vectorJugadasPeores;
+    std::vector<unsigned char*> vectorJugadasNormales;
+
     //std::vector<unsigned char[]> vectorJugadas2;
 
     int numCasillasProtegidas;
-
 
     //HACER EN LISTA O VECTOR PARA QUE HAYA TAMAÑO??
     std::vector<unsigned char*> casillasProtegidas;

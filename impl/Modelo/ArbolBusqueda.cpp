@@ -77,13 +77,24 @@ int ArbolBusqueda::alphaBeta(ModeloTablero* table,int alpha,int beta,const int d
     // std::cout << "GENERAMOV " << std::endl;
 
     Movimientos::generaMovimientos(table);
+
+
+
+
+
     //std::cout << "!!!!!!!!!!!!!!!!!!TAMAÑO VECTOR DE TABLEROS HIJO: "<< table->vectorJugadas.size()<< std::endl;
 
-    if (table->vectorJugadas.size() == 0)
+    if (table->vectorJugadas.empty())
     {
         std::cout << "!!!!!!!!!!!!!!!!!!NO QUEDAN MOVIMIENTOS (JAQUE MATE O AHOGADO)!!!: " << std::endl;
         return 0;
     }
+
+
+
+
+
+
 
     //   for (std::vector<unsigned char*>::iterator it = table->vectorJugadas.begin(); it!=table->vectorJugadas.end(); it+2)
     //  {

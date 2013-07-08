@@ -28,6 +28,7 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
   , nodoInicial(false)
   ,valorAtaque(0)
   , valorDefensivo(0)
+ //,casillasInt(original.casillasInt.begin(), original.casillasInt.end())
   // ,casillasProtegidas(original.casillasProtegidas)
 
 {
@@ -49,6 +50,8 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
     // vectorJugadas.clear();
     // std::cout << "turnoN al copiar: "<<turnoN<<" Original: "<<original.turnoN << std::endl;
     //casillasInt = new char[144];
+
+ //   casillasInt.
 
     for(int i=0; i<144;i++)
     {
@@ -124,18 +127,23 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
 
 ModeloTablero::~ModeloTablero()
 {
-   // std::cout << "deletein"<< std::endl;
+  std::cout << "deletein"<< std::endl;
 
     if (!vectorJugadas.empty())
     {
-        for(int i = 0; i < vectorJugadas.size(); i++)
+
+        for (std::vector<unsigned char*>::iterator it = vectorJugadas.begin(); it!=vectorJugadas.end(); it++)
         {
-            if (vectorJugadas.at(i) != NULL)
-            {
-                delete vectorJugadas.at(i);
-                vectorJugadas.at(i) = NULL;
-            }
+           // std::cout << "deletetetetein"<< std::endl;
+
+            unsigned char* jugada = *it;
+            delete jugada;
+            jugada = NULL;
+          //  std::cout << "deleteitet"<< std::endl;
+
         }
+
+
         //  numeroHijos=0;
         vectorJugadas.clear();
     }
@@ -190,6 +198,40 @@ bool ModeloTablero::cambiaTurno()
             // std::cout << "!!!!!!!!!DOBLE SALTO EN IA!!!!!!:" <<TableroMovido->alPaso <<std::endl;
         }
     }
+
+    //ENROQUE (HAY QUE MEJORARLO)!!!!!!!!!!
+
+    if (casillasInt[jugada[0]] == 6)
+    {
+        int dif = jugada[1] - jugada[0];
+        // if (difCol<0 ) difCol = -difCol;
+
+        //int fila =casillaDestinoTemp->getPosicion().Fila;
+
+        if (dif == 2 || dif == -2)
+        {
+            char pos;
+
+            if (dif > 0)
+            pos = 1;
+            else pos = -1;
+
+           // char fichaTorre = casillasInt[jugada[1] + 1];
+           // Casilla* casillaTorre = static_cast<Casilla*>(getHijo((fila*8)+7));
+           // Ficha* fichaTorre = static_cast<Ficha*>(casillaTorre->getHijo(0));
+            if (casillasInt[jugada[1] + pos] == 4)
+            casillasInt[jugada[1] + pos] = 0;
+            else casillasInt[jugada[1] + dif] = 0;
+
+            casillasInt[jugada[1] - pos] = 4;
+
+        }
+
+
+    }
+
+
+
     // std::cout << "!!ELNU222222!" << std::endl;
 
 

@@ -76,6 +76,10 @@ bool Jugador::aplicaSeleccion()
         // escena->tablero->setCasillaSeleccionada(escena->tablero->getCasillaSeleccionada());
     }
 */
+
+    std::cout << "!!ACTAUALIZA TABLERO! " << std::endl;
+
+
     escena->getTablero()->actualizaTablero(escena->mSceneMgr);
 
     std::cout << "!!!!!promociona! " << std::endl;
@@ -87,19 +91,28 @@ bool Jugador::aplicaSeleccion()
 
     modelo->jugadaElegida[0] = 0;
     modelo->jugadaElegida[1] = 0;
+    std::cout << "!!!!!promociona222! " << std::endl;
 
     switch (resultado)
     {
     case 2:
+        std::cout << "!!!!!Jaque! " << std::endl;
+
         escena->muestraVentanaEmergente("Jaque");
         return true;
     case 3:
+        std::cout << "!!!!!JaqueMate! " << std::endl;
+
         escena->muestraVentanaEmergente("JaqueMate");
         return false;
     case 4:
+        std::cout << "!!!!!Tablas! " << std::endl;
+
         escena->muestraVentanaEmergente("Tablas");
         return false;
     default: //MOVIMIENTO NORMAL
+        std::cout << "!!!!!MUEVE! " << std::endl;
+
         return true;
     }  
 }

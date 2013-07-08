@@ -19,7 +19,7 @@ bool JugadorArtificial::botonDerecho()
 
 bool JugadorArtificial::iniciaTurno()
 {
-    std::cout << "INICIATURNO HUMANO"<< std::endl;
+    std::cout << "INICIATURNO ARTIFICIAL"<< std::endl;
 
     std::cout << "CONST ARBOL: "<< modelo->tableroModelo->nodoInicial<< std::endl;
     std::cout << "ORIGEN ANTES: "<< int(modelo->tableroModelo->jugada[0])<< std::endl;
@@ -35,7 +35,7 @@ bool JugadorArtificial::iniciaTurno()
         std::cout << int(modelo->tableroModelo->casillasInt[(i*12)])<<"    "  << int(modelo->tableroModelo->casillasInt[(i*12)+1])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)+2])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+3])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+4])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+5])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+6])<<"    "<<int(modelo->tableroModelo->casillasInt[(i*12)+7]) <<"    " <<int(modelo->tableroModelo->casillasInt[(i*12)+8])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)+9])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)+10])<<"    " << int(modelo->tableroModelo->casillasInt[(i*12)+11])<<"    " << std::endl;
     }
 
-    int resultado = ArbolBusqueda::alphaBeta(modelo->tableroModelo,-70000, 70000, 2);
+    int resultado = ArbolBusqueda::alphaBeta(modelo->tableroModelo,-70000, 70000, 4);
 
     std::cout << "FIN CONST ARBOL"<< std::endl;
     std::cout << "ORIGEN DESPUES DE ALFABETA!!!!: "<< int(modelo->jugadaElegida[0])<< std::endl;

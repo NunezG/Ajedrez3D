@@ -163,6 +163,8 @@ bool VistaAjedrez::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID i
         {
             std::cout << "APLICA CAMBIO"<< std::endl;
             modeloVista->aplicaCambio();
+            std::cout << "CAMBIO APLICADO, SIGUE JUGANDO"<< std::endl;
+
         }
         // escenaAjedrez->tableroModelo->jugada[0] = 24+(escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSeleccionada()->getPosicion().Columna + 2;
         // escenaAjedrez->tableroModelo->jugada[1] = 24+(escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Fila*12)+escenaAjedrez->tablero->getNodoCasillaSobrevolada()->getPosicion().Columna + 2;

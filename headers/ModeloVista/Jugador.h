@@ -1,7 +1,7 @@
 #ifndef __Jugador_
 #define __Jugador_
 #include <algorithm>    // std::for_each
-#include <vector>       // std::vector
+//#include <deque>       // std::vector
 #include <iostream>
 #include <string>
 

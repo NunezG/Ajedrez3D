@@ -156,9 +156,13 @@ int Modelo::mueveTablero()
             std::cout << "!!!!!!!!!DEVUELVE JAQUE! " << std::endl;
             return 2;
         }
+        std::cout << "!!!MUEVE CORRECTAMENTE! " << std::endl;
+
         //Mueve
             return 1;
     }
     //FINDE PARTIDA
+    std::cout << "!!!!!!FIN DE PARTIDA! " << std::endl;
+
     return 0;
 }

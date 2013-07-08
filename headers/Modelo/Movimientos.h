@@ -15,6 +15,7 @@ protected:
     static int recorreCasillas(ModeloTablero* miTablero, unsigned char salto);
 
 private:
+    bool myfunction (unsigned char* primeraJugada, unsigned char* segundaJugada);
 
     static ModeloTablero* nuevoMovimiento(ModeloTablero *miTablero);
 
