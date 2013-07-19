@@ -105,10 +105,11 @@ ModeloTablero::ModeloTablero( const ModeloTablero& original, int casInicial, int
 
             // std::cout << "dif: "<< dif<<std::endl;
 
-            if (dif != 0)
+            //SOLO SI LA PROTEGIDA ES MAYOR QUE LA PRIMERA
+            if (dif > 0)
             {
                 //   [i];
-                valorDefensivo = valorDefensivo + (2 * dif);
+                valorDefensivo = valorDefensivo + (3 * dif);
                 if (dif < 0) std::cout << " LA DIFERENCIA ES NEGATIVA agrega "<< dif<<  " PARA CASILLA "<< int(protegida[0]) <<" QUE PROTEGE (esto es el valor de la ficha): " << int(protegida[1]) <<std::endl;
             }
             // else if (dif < 0)
@@ -276,7 +277,7 @@ bool ModeloTablero::cambiaTurno()
     //EVALUA JAQUE PARA EL TURNO PADRE, (SI HAY JAQUE SERÁ ELIMINADO)
     if (!evaluaJaque())
     {
-        //std::cout << "!!!!!HA EVALUADO UN JAQUE EN EL ARBOL (DESPUES DE MOVER) !!!" << std::endl;
+       std::cout << "!!!!!HA EVALUADO QUE NO HAY JAQUE EN EL ARBOL (DESPUES DE MOVER) !!!" << std::endl;
         // delete TableroMovido;
         // miTablero.casillasInt[casDestino] = fichaNueva;
         //miTablero.casillasInt[casOrigen] = fichavieja;

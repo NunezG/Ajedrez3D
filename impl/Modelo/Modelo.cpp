@@ -156,7 +156,7 @@ int Modelo::mueveTablero()
             std::cout << "!!!!!!!!!DEVUELVE JAQUE! " << std::endl;
             return 2;
         }
-        std::cout << "!!!MUEVE CORRECTAMENTE! " << std::endl;
+        std::cout << "!!! DEVUELVE MUEVE CORRECTAMENTE! " << std::endl;
 
         //Mueve
             return 1;

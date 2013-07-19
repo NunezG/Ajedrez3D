@@ -204,7 +204,8 @@ int Autorizaciones::autorizaCaballo(ModeloTablero* miTablero)
     else {
         std::cout << "!!faaaaaaaial!" <<std::endl;
 
-        return 0;}
+        return 0;
+    }
 }
 
 /*
