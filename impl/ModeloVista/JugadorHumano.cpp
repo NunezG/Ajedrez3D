@@ -31,7 +31,7 @@ bool JugadorHumano::iniciaTurno()
 
 }
 
-bool JugadorHumano::botonIzquierdo(CEGUI::Vector2 pos)
+bool JugadorHumano::botonIzquierdo(CEGUI::Vector2<float> pos)
 {
     std::cout   << "   botonIzquierdo" << std::endl;
 

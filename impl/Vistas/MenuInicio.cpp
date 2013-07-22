@@ -10,23 +10,31 @@ MenuInicio::MenuInicio(ModeloVista* modeloV) :
 
 MenuInicio::~MenuInicio(void)
 {
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    wmgr.getWindow("MenuInicio/VentanaMenu")->setVisible(false);
-    wmgr.getWindow("MenuInicio")->setVisible(false);
-    wmgr.destroyWindow("MenuInicio/VentanaMenu");
-    wmgr.destroyWindow("MenuInicio");
+    //¿¿¿BORRA MEJOR CON EL PUNTERO ventanaEmergente???
+
+          //CEGUI::Window*CEGUI = CEGUI::WindowManager::getSingleton();
+    CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->getChild("MenuInicio")->getChild("VentanaMenu")->setVisible(false);
+      CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->getChild("MenuInicio")->setVisible(false);
+      CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->getChild("MenuInicio")->destroyChild("VentanaMenu");
+      CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->destroyChild("MenuInicio");
 }
 
 bool MenuInicio::pantallaInicio()
 {
-    CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuInicioAjedrezCEED.layout");
-    //ENLAZA LOS BOTONES
-    newWindow->getChild("MenuInicio/VentanaMenu")->getChild("MenuInicio/VentanaMenu/Salir")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonSalir, this));
-    newWindow->getChild("MenuInicio/VentanaMenu")->getChild("MenuInicio/VentanaMenu/UnJugador")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonJuegoSolo, this));
-    newWindow->getChild("MenuInicio/VentanaMenu")->getChild("MenuInicio/VentanaMenu/DosJugadores")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonJuegoTurnos, this));
-    newWindow->getChild("MenuInicio/VentanaMenu")->getChild("MenuInicio/VentanaMenu/Configura")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonConfig, this));
-    CEGUI::System::getSingleton().getGUISheet()->addChildWindow(newWindow);
+    //CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->layou
 
+    CEGUI::Window *newWindow = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicioAjedrezCEED.layout");
+    //ENLAZA LOS BOTONES
+    newWindow->getChild("VentanaMenu")->getChild("Salir")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonSalir, this));
+    newWindow->getChild("VentanaMenu")->getChild("UnJugador")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonJuegoSolo, this));
+    newWindow->getChild("VentanaMenu")->getChild("DosJugadores")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonJuegoTurnos, this));
+    newWindow->getChild("VentanaMenu")->getChild("Configura")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonConfig, this));
+
+
+    newWindow->getChild("VentanaMenu")->setMouseCursor("Vanilla-Images/MouseArrow");
+     newWindow->setMouseCursor("Vanilla-Images/MouseArrow");
+
+    CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(newWindow);
     return true;
 }
 
@@ -39,36 +47,37 @@ bool MenuInicio::pantallaConfig()
     }
     else
     {
-        ventanaConfig = CEGUI::WindowManager::getSingleton().loadWindowLayout("ConfiguraAjedrezCEED.layout");
-        CEGUI::System::getSingleton().getGUISheet()->addChildWindow(ventanaConfig);
-        listaResoluciones = static_cast<CEGUI::Listbox*>(ventanaConfig->getChild("Configuracion/VentanaConf")->getChild("Configuracion/VentanaConf/ListaResol"));
-        listaDificultades = static_cast<CEGUI::Listbox*>(ventanaConfig->getChild("Configuracion/VentanaConf")->getChild("Configuracion/VentanaConf/ListaDific"));
-        listaBlancas = static_cast<CEGUI::Listbox*>(ventanaConfig->getChild("Configuracion/VentanaConf")->getChild("Configuracion/VentanaConf/Jugadores")->getChild("Configuracion/VentanaConf/Jugadores/ListaJugadorBlancas"));
-        listaNegras = static_cast<CEGUI::Listbox*>(ventanaConfig->getChild("Configuracion/VentanaConf")->getChild("Configuracion/VentanaConf/Jugadores")->getChild("Configuracion/VentanaConf/Jugadores/ListaJugadorNegras"));
-        ventanaConfig->getChild("Configuracion/VentanaConf")->getChild("Configuracion/VentanaConf/BotonAceptar")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonAplicarCambios, this));
-        ventanaConfig->getChild("Configuracion/VentanaConf")->getChild("Configuracion/VentanaConf/BotonCancelar")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonVolver, this));
-    }
-    std::vector<std::string*>  listaElementos;
+        ventanaConfig = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("ConfiguraAjedrezCEED.layout");
 
-    listaElementos.push_back(new std::string("240 x 480"));
-    listaElementos.push_back(new std::string("800 x 600"));
-    listaElementos.push_back(new std::string("1024 x 768"));
-    listaElementos.push_back(new std::string("1200 x 1024"));
-    listaElementos.push_back(new std::string("1600 x 1024"));
-    listaElementos.push_back(new std::string("1920 x 1080"));
-    creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaResoluciones, this), CEGUI::Event::Subscriber(&MenuInicio::seleccionaResolucion, this), listaElementos ,listaResoluciones);
+        CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(ventanaConfig);
+        listaResoluciones = static_cast<CEGUI::Listbox*>(ventanaConfig->getChild("VentanaConf")->getChild("ListaResol"));
+        listaDificultades = static_cast<CEGUI::Listbox*>(ventanaConfig->getChild("VentanaConf")->getChild("ListaDific"));
+        listaBlancas = static_cast<CEGUI::Listbox*>(ventanaConfig->getChild("VentanaConf")->getChild("Jugadores")->getChild("ListaJugadorBlancas"));
+        listaNegras = static_cast<CEGUI::Listbox*>(ventanaConfig->getChild("VentanaConf")->getChild("Jugadores")->getChild("ListaJugadorNegras"));
+        ventanaConfig->getChild("VentanaConf")->getChild("BotonAceptar")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonAplicarCambios, this));
+        ventanaConfig->getChild("VentanaConf")->getChild("BotonCancelar")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MenuInicio::botonVolver, this));
+     }
+    std::vector<std::string>  listaElementos;
 
-    listaElementos.clear();
-    listaElementos.push_back(new std::string("Facil"));
-    listaElementos.push_back(new std::string("Media"));
-    listaElementos.push_back(new std::string("Dificil"));
-    creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaDificultad, this), CEGUI::Event::Subscriber(&MenuInicio::seleccionaDificultad, this), listaElementos ,listaDificultades);
+    listaElementos.push_back(std::string("240 x 480"));
+    listaElementos.push_back(std::string("800 x 600"));
+    listaElementos.push_back(std::string("1024 x 768"));
+    listaElementos.push_back(std::string("1200 x 1024"));
+    listaElementos.push_back(std::string("1600 x 1024"));
+    listaElementos.push_back(std::string("1920 x 1080"));
+    creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaResoluciones, this), CEGUI::Event::Subscriber(&MenuInicio::seleccionaResolucion, this), listaElementos ,listaResoluciones, modeloVista->resolucion);
 
     listaElementos.clear();
-    listaElementos.push_back(new std::string("Humano"));
-    listaElementos.push_back(new std::string("Maquina"));
-    creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaBlancas, this),CEGUI::Event::Subscriber(&MenuInicio::seleccionaBlancas, this), listaElementos ,listaBlancas);
-    creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaNegras, this), CEGUI::Event::Subscriber(&MenuInicio::seleccionaNegras, this), listaElementos ,listaNegras);
+    listaElementos.push_back(std::string("Facil"));
+    listaElementos.push_back(std::string("Media"));
+    listaElementos.push_back(std::string("Dificil"));
+    creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaDificultad, this), CEGUI::Event::Subscriber(&MenuInicio::seleccionaDificultad, this), listaElementos ,listaDificultades, listaElementos.at(modeloVista->dificultad) );
+
+    listaElementos.clear();
+    listaElementos.push_back(std::string("Humano"));
+    listaElementos.push_back(std::string("Maquina"));
+    creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaBlancas, this),CEGUI::Event::Subscriber(&MenuInicio::seleccionaBlancas, this), listaElementos ,listaBlancas, listaElementos.at(0));
+    creaMenuDesplegable(CEGUI::Event::Subscriber(&MenuInicio::sobrevuelaListaNegras, this), CEGUI::Event::Subscriber(&MenuInicio::seleccionaNegras, this), listaElementos ,listaNegras, listaElementos.at(0));
 
     return true;
 }
@@ -111,21 +120,57 @@ bool MenuInicio::botonVolver(const CEGUI::EventArgs &e)
 
 bool MenuInicio::botonAplicarCambios(const CEGUI::EventArgs &e)
 {
-    for(int i=0; i<listaResoluciones->getItemCount(); i++)
-    {
-        CEGUI::ListboxItem* item = static_cast<CEGUI::ListboxItem*>(listaResoluciones->getListboxItemFromIndex(i));
+    //for(int i=0; i<listaResoluciones->getItemCount(); i++)
+  //  {
+        //CEGUI::ListboxItem* item = static_cast<CEGUI::ListboxItem*>(listaResoluciones->getListboxItemFromIndex(i));
 
         //  std::cout  << "item: " <<item->getText() <<std::endl;
 
         // If the item is selected then it maintains its selected colour
-        if(item->isSelected()){
+      //  if(item->isSelected())
+
+    //    {
             // std::cout  << "SE HA APLICADO Y SELECCIONADO LA RESOLUCION ("<< item->getText() <<  ")" << std::endl;
 
+   CEGUI::ListboxItem* item =  listaResoluciones->getFirstSelectedItem();
+
+    if(item!= NULL)
+    {
             modeloVista->resolucion = item->getText().c_str();
-            //  renderSystem->setConfigOption("Video Mode", modelo->resolucion);
-        }
     }
-    ventanaConfig->getChild("Configuracion/VentanaConf")->getChild("Configuracion/VentanaConf/Jugadores")->getChild("Configuracion/VentanaConf/Jugadores/EditNegras")->getText().c_str();
+            //  renderSystem->setConfigOption("Video Mode", modelo->resolucion);
+        //}
+    //}
+
+    item =  listaDificultades->getFirstSelectedItem();
+
+     if(item!= NULL)
+     {
+
+             modeloVista->dificultad = item->getID();
+     }
+
+    // modeloVista->jugadores[0]
+
+     item =  listaBlancas->getFirstSelectedItem();
+     int modoJuego = 0;
+
+      if(item!= NULL)
+      {
+             modoJuego = item->getID();
+      }
+
+      item =  listaNegras->getFirstSelectedItem();
+
+       if(item!= NULL)
+       {
+           if (item->getID() == 1)
+               modeloVista->modoJuego = 2 + item->getID();
+           else modeloVista->modoJuego = modoJuego;
+       }
+
+
+    ventanaConfig->getChild("VentanaConf")->getChild("Jugadores")->getChild("EditNegras")->getText().c_str();
 
     ventanaConfig->hide();
     mWindow->setVisible(false);
@@ -147,23 +192,23 @@ bool MenuInicio::sobrevuelaLista(CEGUI::Listbox *lista)
         // If the item is selected then it maintains its selected colour
         if(!item->isSelected())
         {
-            item->setTextColours(CEGUI::colour(1.0, 1.0, 1.0, 1.0));
+            item->setTextColours(CEGUI::Colour(1.0, 1.0, 1.0, 1.0));
         }
     }
     //  listaResoluciones->handleUpdatedItemData();
 
     CEGUI::Window &win = *ventanaConfig;
 
-    CEGUI::Point   mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
-    CEGUI::Vector2 mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
-                                 CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
+    CEGUI::Vector2<float> mousePos = CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getPosition();
+    CEGUI::Vector2<float> mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
+                                    CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
 
     CEGUI::ListboxTextItem* detectedItem = static_cast<CEGUI::ListboxTextItem*>(lista->getItemAtPoint(mousePosLocal));
 
     // The colour is updated only if the detected item is not selected
     if(detectedItem )
     {
-        detectedItem->setTextColours(CEGUI::colour(0.0, 1.0, 0.0, 1.0));
+        detectedItem->setTextColours(CEGUI::Colour(0.0, 1.0, 0.0, 1.0));
     }
 
     lista->handleUpdatedItemData();
@@ -224,9 +269,10 @@ bool MenuInicio::seleccionaElementoLista(CEGUI::Listbox *lista)
 {
     CEGUI::Window &win = *ventanaConfig;
 
-    CEGUI::Point   mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
-    CEGUI::Vector2 mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
-                                 CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
+    CEGUI::Vector2<float>   mousePos = CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getPosition();
+       CEGUI::Vector2<float> mousePosLocal(CEGUI::CoordConverter::screenToWindowX(win,mousePos.d_x),
+                                    CEGUI::CoordConverter::screenToWindowY(win,mousePos.d_y));
+
     CEGUI::ListboxTextItem* detectedItem = static_cast<CEGUI::ListboxTextItem*>(lista->getItemAtPoint(mousePosLocal));
 
     // The colour is updated only if the detected item is not selected
@@ -239,9 +285,9 @@ bool MenuInicio::seleccionaElementoLista(CEGUI::Listbox *lista)
     return true;
 }
 
-void MenuInicio::creaMenuDesplegable(CEGUI::Event::Subscriber eventoAlSobrevolar,CEGUI::Event::Subscriber eventoAlPulsar, std::vector<std::string*> listaElementos, CEGUI::Listbox* lista)
+void MenuInicio::creaMenuDesplegable(CEGUI::Event::Subscriber eventoAlSobrevolar,CEGUI::Event::Subscriber eventoAlPulsar, std::vector<std::string> listaElementos, CEGUI::Listbox* lista, std::string preSeleccionado)
 {
-    CEGUI::colour col;
+    CEGUI::Colour col;
 
     col.setBlue(100.0f);
     col.setGreen(50.0f);
@@ -252,17 +298,18 @@ void MenuInicio::creaMenuDesplegable(CEGUI::Event::Subscriber eventoAlSobrevolar
 
     for (int i = 0; i < listaElementos.size(); i++)
     {
-        std::string texto = *listaElementos.at(i);
+        std::string texto = listaElementos.at(i);
         elementoLista= new CEGUI::ListboxTextItem(texto);
 
         //elementoLista->setSelectionColours(col );
 
-        if (texto == modeloVista->resolucion)
+        if (texto == preSeleccionado)
         {
-            elementoLista->setTextColours(CEGUI::colour(0.0, 1.0, 0.0, 1.0));
+            elementoLista->setTextColours(CEGUI::Colour(0.0, 1.0, 0.0, 1.0));
             elementoLista->setSelected(true);
         }
 
+        elementoLista->setID(i);
         lista->addItem(elementoLista);
         lista->handleUpdatedItemData();
     }

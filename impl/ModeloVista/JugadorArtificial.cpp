@@ -9,7 +9,7 @@ JugadorArtificial::~JugadorArtificial()
 {
 }
 
-bool JugadorArtificial::botonIzquierdo(CEGUI::Vector2 pos)
+bool JugadorArtificial::botonIzquierdo(CEGUI::Vector2<float> pos)
 {  
 }
 

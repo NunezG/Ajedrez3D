@@ -16,7 +16,7 @@ private:
     bool esHumano();
    bool casillaSobrevolada(const std::string nombreCasilla);
 
-   bool botonIzquierdo(CEGUI::Vector2 pos);
+   bool botonIzquierdo(CEGUI::Vector2<float> pos);
    bool botonDerecho();
 
 

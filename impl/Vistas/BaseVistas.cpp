@@ -1,7 +1,7 @@
 #include "../../headers/Vistas/BaseVistas.h"
 
 BaseVistas::BaseVistas(ModeloVista* modeloV, std::string label):
-mInputManager(0),
+    mInputManager(0),
     mMouse(0),
     mKeyboard(0)
   , sys(0)
@@ -12,7 +12,7 @@ mInputManager(0),
     mRoot =new Ogre::Root("plugins.cfg");
     configuraGraficos("OpenGL");
     mWindow = mRoot->initialise(true,label);
-
+    
     //INICIA OIS
     OIS::ParamList pl;
     size_t windowHnd = 0;
@@ -24,25 +24,52 @@ mInputManager(0),
     mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
     mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
     //Set initial mouse clipping size
-    windowResized();
+
+
+
 
     //INICIA CEGUI
     CEGUI::OgreRenderer& myRenderer = CEGUI::OgreRenderer::bootstrapSystem(*mWindow);
     CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-    CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+    //  CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
     CEGUI::Font::setDefaultResourceGroup("Fonts");
     CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
     CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
-    CEGUI::SchemeManager::getSingleton().create("VanillaSkin.scheme");
-    //CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
+    CEGUI::SchemeManager::getSingleton().createFromFile("VanillaSkin.scheme");
     sys = CEGUI::System::getSingletonPtr();
-    CEGUI::FontManager::getSingleton().create("DejaVuSans-10.font");
-    CEGUI::System::getSingleton().setDefaultMouseCursor("Vanilla-Images", "MouseArrow");
-    CEGUI::MouseCursor::getSingleton().setImage(sys->getDefaultMouseCursor());
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+    CEGUI::FontManager::getSingleton().createFromFile("DejaVuSans-10.font");
+
+   // sys->getDefaultGUIContext().getMouseCursor().se
+
+          //  getMouseCursor().setDefaultImage(sheet->getMouseCursor());
+
+
+
+    // CEGUI::MouseCursor::getSingleton().setImage(sys->getDefaultMouseCursor());
+
+
+    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
     CEGUI::Window *sheet= wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
-    sys->setGUISheet(sheet);
-    sys->renderGUI();
+    // sys->setGUISheet(sheet);
+    sys->getDefaultGUIContext().setRootWindow( sheet );
+    //CEGUI::System::getSingleton().getDefaultGUIContext.getrgetRenderer();
+
+//sys->getDefaultGUIContext().
+    sheet->setMouseCursor("Vanilla-Images/MouseArrow");
+
+
+  // CEGUI::System::getSingleton().getDefaultGUIContext().setDefault
+   // CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage("Vanilla-Images/MouseArrow");
+
+   // CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getImage()-
+
+
+   sys->getDefaultGUIContext().getMouseCursor().setImage(sheet->getMouseCursor());
+
+    windowResized();
+
+    //sys->renderGUI();
+    sys->getRenderer()->beginRendering();
 }
 
 BaseVistas::~BaseVistas()
@@ -57,12 +84,12 @@ BaseVistas::~BaseVistas()
         mKeyboard = 0;
         mInputManager = 0;
     }
-
+    
     CEGUI::OgreRenderer::destroySystem();
-
+    
     if (mRoot )
     {
-       mRoot->removeFrameListener(this);
+        mRoot->removeFrameListener(this);
         //mRoot->destroySceneManager(modelo->escenaAjedrez->mSceneMgr);
         //  modelo->escenaAjedrez->destruyeTablero();
         //  mRoot->destroySceneManager(mSceneMgr);
@@ -91,9 +118,9 @@ void BaseVistas::windowResized()
     unsigned int width, height, depth;
     int left, top;
     mWindow->getMetrics(width, height, depth, left, top);
-
+    
     const OIS::MouseState &ms = mMouse->getMouseState();
-
+    
     ms.width = width;
     ms.height = height;
 }
@@ -121,18 +148,18 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
                         archName, typeName, secName);
         }
     }
-
+    
     //CONFIGUREOPENGL
     Ogre::RenderSystem *renderSystem;
     bool ok = false;
-
+    
     Ogre::RenderSystemList renderers =
             Ogre::Root::getSingleton().getAvailableRenderers();
-
+    
     // See if the list is empty (no renderers available)
     if(renderers.empty())
-        return false; 
-
+        return false;
+    
     for(Ogre::RenderSystemList::iterator it = renderers.begin();
         it != renderers.end(); it++)
     {
@@ -151,40 +178,56 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
     }
     Ogre::Root::getSingleton().setRenderSystem(renderSystem);
     // Manually set some configuration options (optional)
-
+    
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
         it != renderSystem->getConfigOptions().end(); it++)
     {
         std::pair<const std::basic_string<char>,Ogre::ConfigOption> CO = *it;
     }
-
+    
     renderSystem->setConfigOption("Full Screen", "No");
     renderSystem->setConfigOption("Video Mode", modeloVista->resolucion);
-
+    
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
         it != renderSystem->getConfigOptions().end(); it++)
     {
         std::pair<const std::basic_string<char>,Ogre::ConfigOption> CO = *it;
     }
-
+    
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     return true;
 }
 
 bool BaseVistas::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    sys->injectMouseButtonDown(convertButton(id));
+    CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+
+
+
+
+    context.injectMouseButtonDown(CEGUI::MouseButton(id));
+    //  sys->injectMouseButtonDown(convertButton(id));
+    return true;
 }
 
 bool BaseVistas::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-  sys->injectMouseButtonUp(convertButton(id));
+    CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+
+    CEGUI::MouseButton(buttonID);
+
+
+    context.injectMouseButtonUp(CEGUI::MouseButton(id));
+    // sys->injectMouseButtonUp(convertButton(id));
+    return true;
 }
 
 bool BaseVistas::keyPressed( const OIS::KeyEvent &evt )
 {
-    sys->injectKeyDown(evt.key);
-    sys->injectChar(evt.text);
+    CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+
+    context.injectKeyDown(CEGUI::Key::Scan(evt.key));
+    context.injectChar(evt.text);
 
     if (evt.key == OIS::KC_ESCAPE)// Pulsa Esc
     {
@@ -195,16 +238,33 @@ bool BaseVistas::keyPressed( const OIS::KeyEvent &evt )
     {
         // mWindow->writeContentsToTimestampedFile("screenshot", ".jpg");
     }
+    return true;
 }
 
 bool BaseVistas::keyReleased( const OIS::KeyEvent &arg )
 {
-    sys->injectKeyUp(arg.key);
+    CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+
+        context.injectKeyUp(CEGUI::Key::Scan(arg.key));
+        return true;
 }
 
 bool BaseVistas::mouseMoved( const OIS::MouseEvent &evt )
 {
-    sys->injectMouseMove(evt.state.X.rel, evt.state.Y.rel);
+
+
+
+    CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+
+      std::cout  << "X REL: " <<evt.state.X.rel <<std::endl;
+      std::cout  << "Y REL: " <<evt.state.Y.rel << std::endl;
+
+
+     context.injectMouseMove(evt.state.X.rel, evt.state.Y.rel) ;
+
+
+        return true;
+
 }
 
 CEGUI::MouseButton BaseVistas::convertButton(OIS::MouseButtonID buttonID)
@@ -213,13 +273,13 @@ CEGUI::MouseButton BaseVistas::convertButton(OIS::MouseButtonID buttonID)
     {
     case OIS::MB_Left:
         return CEGUI::LeftButton;
-
+        
     case OIS::MB_Right:
         return CEGUI::RightButton;
-
+        
     case OIS::MB_Middle:
         return CEGUI::MiddleButton;
-
+        
     default:
         return CEGUI::LeftButton;
     }
@@ -227,14 +287,17 @@ CEGUI::MouseButton BaseVistas::convertButton(OIS::MouseButtonID buttonID)
 
 bool BaseVistas::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    if(mWindow->isClosed() || !mWindow->isVisible())    
+    if(mWindow->isClosed() || !mWindow->isVisible())
         return false;
+    
+   sys->injectTimePulse(evt.timeSinceLastFrame);
+     sys->getDefaultGUIContext().injectTimePulse(evt.timeSinceLastFrame);
 
-    sys->injectTimePulse(evt.timeSinceLastFrame);
 
+    // sys->getDefaultGUIContext().updateWindowContainingMouse();
     //Need to capture/update each device
     mKeyboard->capture();
     mMouse->capture();
-
+    
     return true;
 }

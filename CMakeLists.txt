@@ -105,15 +105,15 @@ endif()
 message("llama a FINDCEGUI.")
 find_package(CEGUI REQUIRED)
 message("ACABA FINDÇCEGUI.")
-if(NOT CEGUI_FOUND)
-message(SEND_ERROR "Failed to find CEGUI.")
-endif()
+#if(NOT CEGUI_FOUND)
+#message(SEND_ERROR "Failed to find CEGUI.")
+#endif()
 message("INICIA CEGUIOGRE.")
 find_package(CEGUIOGRE REQUIRED)
 message("ACABA CEGUIOGRE.")
-if(NOT CEGUIOGRE_FOUND)
-message("Failed to find CEGUIOGRE.")
-endif()
+#if(NOT CEGUIOGRE_FOUND)
+#message("Failed to find CEGUIOGRE.")
+#endif()
 
 # FIN NUEVA SECCIÓN
 
@@ -218,7 +218,7 @@ include_directories( ${OIS_INCLUDE_DIRS}
 	${OGRE_SAMPLES_INCLUDEPATH}
 	#NUEVA SECCIÓN
         ${CEGUI_INCLUDE_DIRS}
-        ${CEGUIOGRE_INCLUDE_DIRS}
+${CEGUIOGRE_INCLUDE_DIRS}
 	# FIN NUEVA SECCIÓN
 )
  
@@ -242,7 +242,9 @@ if(WIN32 AND NOT MINGW)
 endif(WIN32 AND NOT MINGW)
 
 if(MINGW OR UNIX)
-	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/dist/bin)
+    message("SET EXECUTABLE")
+    message( ${PROJECT_BINARY_DIR})
+    set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/dist/bin)
 endif(MINGW OR UNIX)
  
 if(WIN32)
@@ -252,19 +254,19 @@ if(WIN32)
 		CONFIGURATIONS All)
  
 	install(DIRECTORY ${CMAKE_SOURCE_DIR}/dist/Media
-		DESTINATION ./
+                DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
 		CONFIGURATIONS Release RelWithDebInfo Debug
 	)
  
 	install(FILES ${CMAKE_SOURCE_DIR}/dist/bin/plugins.cfg
 		${CMAKE_SOURCE_DIR}/dist/bin/resources.cfg
-		DESTINATION bin
+                DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/dist/bin
 		CONFIGURATIONS Release RelWithDebInfo
 	)
  
 	install(FILES ${CMAKE_SOURCE_DIR}/dist/bin/plugins_d.cfg
 		${CMAKE_SOURCE_DIR}/dist/bin/resources_d.cfg
-		DESTINATION bin
+                DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/dist/bin       #bin
 		CONFIGURATIONS Debug
 	)
  
@@ -274,7 +276,7 @@ if(WIN32)
 		${OGRE_PLUGIN_DIR_REL}/RenderSystem_Direct3D9.dll
 		${OGRE_PLUGIN_DIR_REL}/RenderSystem_GL.dll
 		${OGRE_PLUGIN_DIR_REL}/libOIS.dll
-		DESTINATION bin
+                DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/dist/bin #bin
 		CONFIGURATIONS Release RelWithDebInfo
 	)
  
@@ -282,7 +284,7 @@ if(WIN32)
 		${OGRE_PLUGIN_DIR_DBG}/RenderSystem_Direct3D9_d.dll
 		${OGRE_PLUGIN_DIR_DBG}/RenderSystem_GL_d.dll
 		${OGRE_PLUGIN_DIR_DBG}/libOIS_d.dll
-		DESTINATION bin
+                DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/dist/bin
 		CONFIGURATIONS Debug
 	)
  

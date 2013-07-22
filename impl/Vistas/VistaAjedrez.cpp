@@ -82,8 +82,7 @@ bool VistaAjedrez::mouseMoved( const OIS::MouseEvent &arg )
 {  
     BaseVistas::mouseMoved(arg);
     
-    CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
-
+    CEGUI::Vector2<float> mCursorPosition=sys->getDefaultGUIContext().getMouseCursor().getPosition();
 
 
     if (escenaAjedrez->getModoCamara())   // yaw around the target, and pitch locally
@@ -145,8 +144,7 @@ bool VistaAjedrez::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID i
 {  
     BaseVistas::mousePressed(arg, id);
     
-    CEGUI::Vector2 mCursorPosition=CEGUI::MouseCursor::getSingleton().getPosition();
-    
+    CEGUI::Vector2<float> mCursorPosition=sys->getDefaultGUIContext().getMouseCursor().getPosition();
     //int posx = arg.state.X.abs;   // Posicion del puntero
     //int posy = arg.state.Y.abs;   //  en pixeles.
     if (id == OIS::MB_Left)

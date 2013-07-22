@@ -6,14 +6,14 @@
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 
-//#include <CEGUI/CEGUISystem.h>
-//#include <CEGUI/CEGUIWindow.h>
-//#include <CEGUI/CEGUIMinizipResourceProvider.h>
-//#include <CEGUI/CEGUIEventSet.h>
-//#include <CEGUI/CEGUI.h>
-//#include <CEGUI/RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
+//#include <CEGUI-CEGUIUI/CEGUISystem.h>
+//#include <CEGUI-CEGUIUI/CEGUIWindow.h>
+//#include <CEGUI-CEGUIUI/CEGUIMinizipResourceProvider.h>
+//#include <CEGUI-CEGUIUI/CEGUIEventSet.h>
+//#include <CEGUI-CEGUIUI/CEGUI.h>
+//#include <CEGUI/RendererModulesCEGUIGL/CEGUIOpenGLRenderer.h>
 #include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+#include <CEGUI/RendererModules/Ogre/Renderer.h>
 
 #include "../ModeloVista/EscenaAjedrez.h"
 #include "../ModeloVista/ModeloVista.h"
@@ -46,6 +46,7 @@ protected:
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     ModeloVista* modeloVista;
+    CEGUI::System* sys;
 
 private:
     void windowResized();
@@ -55,7 +56,6 @@ private:
 
     OIS::InputManager* mInputManager;
     CEGUI::OgreRenderer* renderer;
-    CEGUI::System* sys;
 
 };
 

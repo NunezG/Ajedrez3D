@@ -7,10 +7,10 @@
 #include <OgreRenderWindow.h>
 #include <OgreRoot.h>
 
-#include <CEGUI/CEGUIVector.h>
-#include <CEGUI/CEGUIWindowManager.h>
-#include <CEGUI/CEGUIWindow.h>
-#include <CEGUI/CEGUISystem.h>
+#include <CEGUI/Vector.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI/Window.h>
+#include <CEGUI/System.h>
 
 #include "Tablero.h"
 
@@ -28,7 +28,7 @@ public:
     void setCamaraIzquierda();
     void setCamaraDerecha();
 
-    std::string encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition);
+    std::string encuentraCasillaSobrevolada(CEGUI::Vector2<float> mCursorPosition);
 
     void DistanciaCamara(int distanciaRelativa);
     void rotacionCamara(Ogre::Degree angulo);

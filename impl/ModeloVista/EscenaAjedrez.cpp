@@ -181,7 +181,7 @@ bool EscenaAjedrez::getModoCamara()
    return modoCamara;
 }
 
-std::string EscenaAjedrez::encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPosition)
+std::string EscenaAjedrez::encuentraCasillaSobrevolada(CEGUI::Vector2<float> mCursorPosition)
 {
 
 
@@ -212,15 +212,19 @@ std::string EscenaAjedrez::encuentraCasillaSobrevolada(CEGUI::Vector2 mCursorPos
 
 void EscenaAjedrez::muestraVentanaEmergente(std::string nombreLayout)
 {
-    if (!CEGUI::WindowManager::getSingleton().isWindowPresent(nombreLayout))
-    {
-        ventanaEmergente = CEGUI::WindowManager::getSingleton().loadWindowLayout(nombreLayout+"CEED.layout");
-        //  newWindow->setSize( CEGUI::UVector2( CEGUI::UDim( 1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
+    //CEGUI::WindowManager::getSingleton().isAlive(nombreLayout);
 
-        CEGUI::System::getSingleton().getGUISheet()->addChildWindow(ventanaEmergente);
+    if (!CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->isChild(nombreLayout))
+    {
+        ventanaEmergente = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(nombreLayout+"CEED.layout");
+        //  newWindow->setSize( CEGUI::UVCEGUI2( CEGUI::UCEGUI1.0f, 0 ), CEGUI::UDim( 1.0f, 0 ) ) );
+
+    //	CEGUI::GUIContext::
+
+        CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(ventanaEmergente);
     }else
     {
-        ventanaEmergente = CEGUI::WindowManager::getSingleton().getWindow(nombreLayout);
+        ventanaEmergente = CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->getChild(nombreLayout);
         ventanaEmergente->setVisible(true);
     }
 }
@@ -228,11 +232,11 @@ void EscenaAjedrez::muestraVentanaEmergente(std::string nombreLayout)
 void EscenaAjedrez::apagaVentanaEmergente()
 {
     //CEGUI::System::getSingleton().getGUISheet()->cleanupChildren();
-    if (ventanaEmergente != NULL && ventanaEmergente->isVisible())
-    {
-         std::cout << "apagaavisos dentro"<< std::endl;
-        ventanaEmergente->setVisible(false);
-        CEGUI::WindowManager::getSingleton().destroyWindow(ventanaEmergente->getName());
-        ventanaEmergente = NULL;
-    }
+     if (ventanaEmergente != NULL && ventanaEmergente->isVisible())
+     {
+          std::cout << "apagaavisos dentro"<< std::endl;
+         ventanaEmergente->setVisible(false);
+         CEGUI::WindowManager::getSingleton().destroyWindow(ventanaEmergente);
+         ventanaEmergente = NULL;
+     }
 }
