@@ -15,7 +15,7 @@ EscenaAjedrez::EscenaAjedrez() :
   , modoVS(0)
 {
     tablero = new Tablero();
-    mSceneMgr = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC, "MANAGER");
+    mSceneMgr = Ogre::Root::getSingletonPtr()->createSceneManager("OctreeSceneManager", "Manager de escena");
     mRaySceneQuery = mSceneMgr->createRayQuery(Ogre::Ray());
 
 }

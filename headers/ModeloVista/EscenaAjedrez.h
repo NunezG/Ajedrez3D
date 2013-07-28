@@ -2,6 +2,7 @@
 #define __EscenaAjedrez_
 
 #include <OgreCamera.h>
+
 #include <OgreLogManager.h>
 #include <OgreViewport.h>
 #include <OgreRenderWindow.h>

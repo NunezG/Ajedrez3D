@@ -8,11 +8,106 @@ BaseVistas::BaseVistas(ModeloVista* modeloV, std::string label):
   , modeloVista(modeloV)
   , mRoot(0)
 {  
+
+    std::cout   << "  INICIA OGRE " << std::endl;
+
+
     //INICIA OGRE
-    mRoot =new Ogre::Root("plugins.cfg");
+    // construct Ogre::Root : no plugins filename, no config filename, using a custom log filename
+    mRoot = new Ogre::Root("", "", "LowLevelOgre.log");
+    // mRoot =new Ogre::Root("plugins.cfg");
+    std::cout   << "  INICIA OGRE2222 " << std::endl;
+
+    // (esto reemplaza plugins.cfg)
+    // A list of required plugins
+    Ogre::StringVector required_plugins;
+    required_plugins.push_back("GL RenderSystem");
+    required_plugins.push_back("Octree & Terrain Scene Manager");
+
+
+    std::cout   << "  INICIA OGRE 333" << std::endl;
+
+
+    // List of plugins to load
+    Ogre::StringVector plugins_toLoad;
+    plugins_toLoad.push_back("RenderSystem_GL");
+    plugins_toLoad.push_back("Plugin_OctreeSceneManager");
+
+
+    std::cout   << "  INICIA OGRE444 " << std::endl;
+Ogre::String PluginFolder = ("/usr/local/lib/OGRE/");
+
+    // Load the OpenGL RenderSystem and the Octree SceneManager plugins
+    for (Ogre::StringVector::iterator j = plugins_toLoad.begin(); j != plugins_toLoad.end(); j++)
+    {
+        std::cout   << " HAYPLUGIN: " << *j  << std::endl;
+
+#ifdef _DEBUG
+        std::cout   << "  INICIA OGREDEBUG" << std::endl;
+
+        mRoot->loadPlugin(PluginFolder + *j + Ogre::String("_d"));
+#else
+        std::cout   << "  INICIA OGRE NODEBI" << std::endl;
+
+        mRoot->loadPlugin(PluginFolder + *j);
+#endif;
+    }
+    std::cout   << "  INICIA OGRE 555" << std::endl;
+
+    // Check if the required plugins are installed and ready for use
+    // If not: exit the application
+    Ogre::Root::PluginInstanceList ip = mRoot->getInstalledPlugins();
+    for (Ogre::StringVector::iterator j = required_plugins.begin(); j != required_plugins.end(); j++)
+    {
+        bool found = false;
+        // try to find the required plugin in the current installed plugins
+        for (Ogre::Root::PluginInstanceList::iterator k = ip.begin(); k != ip.end(); k++)
+        {
+            if ((*k)->getName() == *j)
+            {
+                found = true;
+                break;
+            }
+        }
+      //  if (!found)  // return false because a required plugin is not available
+      //  {
+      //      return false;
+      //  }
+    }
+
+    std::cout   << "  INICIA OGRE 666" << std::endl;
+
+    // Esto reemplaza resources.cfg
+    //-------------------------------------------------------------------------------------
+    // setup resources
+    // Only add the minimally required resource locations to load up the Ogre head mesh
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/materials/programs", "FileSystem", "General");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/materials/scripts", "FileSystem", "General");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/materials/textures", "FileSystem", "General");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/models", "FileSystem", "General");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/schemes", "FileSystem", "Schemes");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/imagesets", "FileSystem", "Imagesets");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/fonts", "FileSystem", "Fonts");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/layouts", "FileSystem", "Layouts");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../media/looknfeel", "FileSystem", "LookNFeel");
+
+
+
+    std::cout   << "  CONFIGURAGRAFICOS " << std::endl;
+
     configuraGraficos("OpenGL");
+
+    std::cout   << " FIN CONFIGURAGRAFICOS " << std::endl;
+
     mWindow = mRoot->initialise(true,label);
     
+
+
+
+    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+
+
     //INICIA OIS
     OIS::ParamList pl;
     size_t windowHnd = 0;
@@ -39,9 +134,9 @@ BaseVistas::BaseVistas(ModeloVista* modeloV, std::string label):
     sys = CEGUI::System::getSingletonPtr();
     CEGUI::FontManager::getSingleton().createFromFile("DejaVuSans-10.font");
 
-   // sys->getDefaultGUIContext().getMouseCursor().se
+    // sys->getDefaultGUIContext().getMouseCursor().se
 
-          //  getMouseCursor().setDefaultImage(sheet->getMouseCursor());
+    //  getMouseCursor().setDefaultImage(sheet->getMouseCursor());
 
 
 
@@ -54,17 +149,17 @@ BaseVistas::BaseVistas(ModeloVista* modeloV, std::string label):
     sys->getDefaultGUIContext().setRootWindow( sheet );
     //CEGUI::System::getSingleton().getDefaultGUIContext.getrgetRenderer();
 
-//sys->getDefaultGUIContext().
+    //sys->getDefaultGUIContext().
     sheet->setMouseCursor("Vanilla-Images/MouseArrow");
 
 
-  // CEGUI::System::getSingleton().getDefaultGUIContext().setDefault
-   // CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage("Vanilla-Images/MouseArrow");
+    // CEGUI::System::getSingleton().getDefaultGUIContext().setDefault
+    // CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setImage("Vanilla-Images/MouseArrow");
 
-   // CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getImage()-
+    // CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getImage()-
 
 
-   sys->getDefaultGUIContext().getMouseCursor().setImage(sheet->getMouseCursor());
+    sys->getDefaultGUIContext().getMouseCursor().setImage(sheet->getMouseCursor());
 
     windowResized();
 
@@ -130,6 +225,8 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
 {
     //SETUP RESOURCES
     // Load resource paths from config file
+
+    /*
     Ogre::ConfigFile cf;
     cf.load("resources.cfg");
     // Go through all sections & settings in the file
@@ -149,12 +246,15 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
         }
     }
     
+
+
+    */
     //CONFIGUREOPENGL
     Ogre::RenderSystem *renderSystem;
     bool ok = false;
     
     Ogre::RenderSystemList renderers =
-            Ogre::Root::getSingleton().getAvailableRenderers();
+            mRoot->getAvailableRenderers();
     
     // See if the list is empty (no renderers available)
     if(renderers.empty())
@@ -175,26 +275,49 @@ bool BaseVistas::configuraGraficos(const char *desiredRenderer)
         // We still don't have a renderer; pick
         // up the first one from the list
         renderSystem = *renderers.begin();
+        std::cout   << "   RENDERER POR DEFECTO: "<<renderSystem->getName() << std::endl;
     }
-    Ogre::Root::getSingleton().setRenderSystem(renderSystem);
+   /*
+    ALTERNATIVA, TEL VEZ ES MEJOR (MAS COMPRENSIBLE)
+    //-------------------------------------------------------------------------------------
+        // configure
+        // Grab the OpenGL RenderSystem, or exit
+        Ogre::RenderSystem* renderSystem = mRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
+        if(!(renderSystem->getName() == "OpenGL Rendering Subsystem"))
+        {
+            return false; //No RenderSystem found
+        }
+
+        */
+
+    //EN PRIÇNCIPIO NO HACE FALTA ESTA LINEA
+
+
+
     // Manually set some configuration options (optional)
-    
+ /*
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
         it != renderSystem->getConfigOptions().end(); it++)
     {
         std::pair<const std::basic_string<char>,Ogre::ConfigOption> CO = *it;
     }
-    
+   */
+    renderSystem->setConfigOption("VSync", "No");
     renderSystem->setConfigOption("Full Screen", "No");
     renderSystem->setConfigOption("Video Mode", modeloVista->resolucion);
-    
+
+    /*
     for(Ogre::ConfigOptionMap::iterator it = renderSystem->getConfigOptions().begin();
         it != renderSystem->getConfigOptions().end(); it++)
     {
         std::pair<const std::basic_string<char>,Ogre::ConfigOption> CO = *it;
     }
+    */
     
-    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+    mRoot->setRenderSystem(renderSystem);
+
+
+
     return true;
 }
 
@@ -245,8 +368,8 @@ bool BaseVistas::keyReleased( const OIS::KeyEvent &arg )
 {
     CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
 
-        context.injectKeyUp(CEGUI::Key::Scan(arg.key));
-        return true;
+    context.injectKeyUp(CEGUI::Key::Scan(arg.key));
+    return true;
 }
 
 bool BaseVistas::mouseMoved( const OIS::MouseEvent &evt )
@@ -256,14 +379,14 @@ bool BaseVistas::mouseMoved( const OIS::MouseEvent &evt )
 
     CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
 
-      std::cout  << "X REL: " <<evt.state.X.rel <<std::endl;
-      std::cout  << "Y REL: " <<evt.state.Y.rel << std::endl;
+    std::cout  << "X REL: " <<evt.state.X.rel <<std::endl;
+    std::cout  << "Y REL: " <<evt.state.Y.rel << std::endl;
 
 
-     context.injectMouseMove(evt.state.X.rel, evt.state.Y.rel) ;
+    context.injectMouseMove(evt.state.X.rel, evt.state.Y.rel) ;
 
 
-        return true;
+    return true;
 
 }
 
@@ -290,8 +413,8 @@ bool BaseVistas::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(mWindow->isClosed() || !mWindow->isVisible())
         return false;
     
-   sys->injectTimePulse(evt.timeSinceLastFrame);
-     sys->getDefaultGUIContext().injectTimePulse(evt.timeSinceLastFrame);
+    sys->injectTimePulse(evt.timeSinceLastFrame);
+    sys->getDefaultGUIContext().injectTimePulse(evt.timeSinceLastFrame);
 
 
     // sys->getDefaultGUIContext().updateWindowContainingMouse();

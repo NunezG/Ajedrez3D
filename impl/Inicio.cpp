@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
             std::ofstream out("/home/guillermo/Documentos/OOOOout.txt");
     std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
    // freopen
+    std::cout   << "  INICIA " << std::endl;
 
     Ventana* punteroVentana= new Ventana();
         punteroVentana->go();

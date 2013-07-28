@@ -13,14 +13,32 @@
 //#include <CEGUI-CEGUIUI/CEGUI.h>
 //#include <CEGUI/RendererModulesCEGUIGL/CEGUIOpenGLRenderer.h>
 #include <CEGUI/CEGUI.h>
+#include <CEGUI/XMLParserModules/Expat/XMLParser.h>
+#include <CEGUI/FreeTypeFont.h>
+
+
+
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 
 #include "../ModeloVista/EscenaAjedrez.h"
 #include "../ModeloVista/ModeloVista.h"
 
-#include <OgreRoot.h>
 #include <OgreConfigFile.h>
+#include <OgrePlugin.h>
+#include <OgreRoot.h>
 
+//#include <OgreWindowEventUtilities.h>
+
+
+
+#include <OgreLogManager.h>
+#include <OgreViewport.h>
+#include <OgreEntity.h>
+#include <OgreWindowEventUtilities.h>
+#include <OgrePlugin.h>
+
+
+#include <X11/Xlib.h>
 
 class BaseVistas: public OIS::KeyListener, public OIS::MouseListener, public Ogre::FrameListener
 {
